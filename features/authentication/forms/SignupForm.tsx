@@ -17,6 +17,7 @@ import {
 
 export const SignupForm = () => {
   const { control, handleSubmit } = useForm<SignUpFormValues>({
+    resolver: zodResolver(signUpSchema),
     defaultValues: signUpDefaultValues,
   });
 

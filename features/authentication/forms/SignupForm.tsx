@@ -1,6 +1,7 @@
 "use client";
 
 import { useTransition } from "react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -20,6 +21,8 @@ import {
 import { toast } from "sonner";
 
 export const SignupForm = () => {
+  const router = useRouter();
+
   const [isPending, startTransition] = useTransition();
 
   const { control, handleSubmit, setError } = useForm<SignUpFormValues>({
@@ -28,11 +31,9 @@ export const SignupForm = () => {
   });
 
   const onSubmit = (data: SignUpFormValues) => {
-    console.count("SIGNUP_SUBMIT");
-
     startTransition(async () => {
       const result = await signUpAction(data);
-      console.log(result);
+
       if (!result.success) {
         if (result.fieldErrors) {
           Object.entries(result.fieldErrors).forEach(([field, errors]) => {
@@ -45,7 +46,15 @@ export const SignupForm = () => {
         toast.error(result.error || "Something went wrong!");
         return;
       }
-      toast.success(result.message || "Account created successfully!");
+
+      if (result.requiresEmailConfirmation) {
+        router.push(
+          `/auth/check-email?email=${encodeURIComponent(data.email)}`,
+        );
+        return;
+      }
+
+      router.push("/");
     });
   };
 

@@ -1,10 +1,8 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { signUpSchema, type SignUpFormValues } from "../schemas/auth.schema";
-import { z } from "zod";
+import { success, z } from "zod";
 
 export async function signUpAction(data: SignUpFormValues) {
   const validationData = signUpSchema.safeParse(data);
@@ -39,14 +37,15 @@ export async function signUpAction(data: SignUpFormValues) {
     };
   }
 
-  if (authData.user && !authData.user.email_confirmed_at) {
+  if (!authData.user?.email_confirmed_at) {
     return {
       success: true,
-      message: "Please check your email to confirm your account.",
       requiresEmailConfirmation: true,
     };
   }
 
-  revalidatePath("/");
-  redirect("/");
+  return {
+    success: true,
+    requiresEmailConfirmation: false,
+  };
 }

@@ -28,6 +28,7 @@ import {
   EyeOff,
   Key,
   RefreshCcw,
+  MailCheck,
 } from "lucide-react";
 
 export const AppIcons = {
@@ -64,4 +65,5 @@ export const AppIcons = {
   LockIcon: Lock,
   EyeIcon: Eye,
   EyeOffIcon: EyeOff,
+  MailCheckIcon: MailCheck,
 };

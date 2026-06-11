@@ -1,5 +1,6 @@
 "use client";
 
+import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -9,20 +10,43 @@ import { FormInput } from "@/components/inputs/FormInput";
 import { FormPasswordInput } from "@/components/inputs/FormPasswordInput";
 import { LoadingButton } from "@/components/LoadingButton";
 
+import { signUpAction } from "../actions/signUp.action";
+
 import {
   signUpSchema,
   signUpDefaultValues,
   type SignUpFormValues,
 } from "@/features/authentication/schemas/auth.schema";
+import { toast } from "sonner";
 
 export const SignupForm = () => {
-  const { control, handleSubmit } = useForm<SignUpFormValues>({
+  const [isPending, startTransition] = useTransition();
+
+  const { control, handleSubmit, setError } = useForm<SignUpFormValues>({
     resolver: zodResolver(signUpSchema),
     defaultValues: signUpDefaultValues,
   });
 
   const onSubmit = (data: SignUpFormValues) => {
-    console.log(data);
+    console.count("SIGNUP_SUBMIT");
+
+    startTransition(async () => {
+      const result = await signUpAction(data);
+      console.log(result);
+      if (!result.success) {
+        if (result.fieldErrors) {
+          Object.entries(result.fieldErrors).forEach(([field, errors]) => {
+            setError(field as keyof SignUpFormValues, {
+              type: "server",
+              message: errors?.[0],
+            });
+          });
+        }
+        toast.error(result.error || "Something went wrong!");
+        return;
+      }
+      toast.success(result.message || "Account created successfully!");
+    });
   };
 
   return (
@@ -60,7 +84,9 @@ export const SignupForm = () => {
         />
       </FieldGroup>
 
-      <LoadingButton className="w-full">Create account</LoadingButton>
+      <LoadingButton className="w-full" isLoading={isPending}>
+        Create account
+      </LoadingButton>
     </form>
   );
 };

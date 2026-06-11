@@ -22,6 +22,7 @@ const LoadingButton = React.forwardRef<HTMLButtonElement, LoadingButtonProps>(
         ref={ref}
         {...props}
         className={cn("cursor-pointer", className)}
+        disabled={isLoading}
       >
         {isLoading && <Spinner data-icon="inline-start" />}
         {children}

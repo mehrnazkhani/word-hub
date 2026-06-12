@@ -2,9 +2,9 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { signUpSchema, type SignUpFormValues } from "../schemas/auth.schema";
-import { success, z } from "zod";
+import { z } from "zod";
 
-export async function signUpAction(data: SignUpFormValues) {
+export const signUpAction = async (data: SignUpFormValues) => {
   const validationData = signUpSchema.safeParse(data);
   if (!validationData.success) {
     const flattened = z.flattenError(validationData.error);
@@ -48,4 +48,4 @@ export async function signUpAction(data: SignUpFormValues) {
     success: true,
     requiresEmailConfirmation: false,
   };
-}
+};

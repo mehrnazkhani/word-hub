@@ -1,9 +1,9 @@
 "use client";
 
-import { useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
 
 import { AppIcons } from "@/components/icons";
 import { FieldGroup } from "@/components/ui/field";
@@ -12,50 +12,43 @@ import { FormPasswordInput } from "@/components/inputs/FormPasswordInput";
 import { LoadingButton } from "@/components/LoadingButton";
 
 import { signUpAction } from "../actions/signUp.action";
+import { ROUTES } from "@/constants/routes";
 
 import {
   signUpSchema,
   signUpDefaultValues,
   type SignUpFormValues,
 } from "@/features/authentication/schemas/auth.schema";
-import { toast } from "sonner";
+import { applyServerErrors } from "../lib/applyServerErrors";
 
 export const SignupForm = () => {
   const router = useRouter();
 
-  const [isPending, startTransition] = useTransition();
-
-  const { control, handleSubmit, setError } = useForm<SignUpFormValues>({
+  const {
+    control,
+    handleSubmit,
+    setError,
+    formState: { isSubmitting },
+  } = useForm<SignUpFormValues>({
     resolver: zodResolver(signUpSchema),
     defaultValues: signUpDefaultValues,
   });
 
-  const onSubmit = (data: SignUpFormValues) => {
-    startTransition(async () => {
-      const result = await signUpAction(data);
+  const onSubmit = async (data: SignUpFormValues) => {
+    const result = await signUpAction(data);
 
-      if (!result.success) {
-        if (result.fieldErrors) {
-          Object.entries(result.fieldErrors).forEach(([field, errors]) => {
-            setError(field as keyof SignUpFormValues, {
-              type: "server",
-              message: errors?.[0],
-            });
-          });
-        }
-        toast.error(result.error || "Something went wrong!");
-        return;
-      }
+    if (!result.success) {
+      applyServerErrors(setError, result.fieldErrors);
+      toast.error(result.error || "Something went wrong!");
+      return;
+    }
 
-      if (result.requiresEmailConfirmation) {
-        router.push(
-          `/auth/check-email?email=${encodeURIComponent(data.email)}`,
-        );
-        return;
-      }
+    if (result.requiresEmailConfirmation) {
+      router.push(ROUTES.CHECK_EMAIL(data.email));
+      return;
+    }
 
-      router.push("/");
-    });
+    router.push(ROUTES.HOME);
   };
 
   return (
@@ -93,7 +86,7 @@ export const SignupForm = () => {
         />
       </FieldGroup>
 
-      <LoadingButton className="w-full" isLoading={isPending}>
+      <LoadingButton className="w-full" isLoading={isSubmitting}>
         Create account
       </LoadingButton>
     </form>

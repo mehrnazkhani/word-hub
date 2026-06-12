@@ -1,26 +1,62 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
 
 import { AppIcons } from "@/components/icons";
-import { FieldGroup } from "@/components/ui/field";
+import { FieldGroup, FieldError, Field } from "@/components/ui/field";
 import { FormInput } from "@/components/inputs/FormInput";
 import { FormPasswordInput } from "@/components/inputs/FormPasswordInput";
 import { LoadingButton } from "@/components/LoadingButton";
+import { signInAction } from "../actions/signIn.action";
+import { ROUTES } from "@/constants/routes";
 
 import {
+  signInSchema,
   signInDefaultValues,
   type SignInFormValues,
 } from "@/features/authentication/schemas/auth.schema";
+import { applyServerErrors } from "../lib/applyServerErrors";
 
 export const SignInForm = () => {
-  const { control, handleSubmit } = useForm<SignInFormValues>({
+  const router = useRouter();
+
+  const {
+    control,
+    handleSubmit,
+    setError,
+    formState: { errors, isSubmitting },
+  } = useForm<SignInFormValues>({
+    resolver: zodResolver(signInSchema),
     defaultValues: signInDefaultValues,
   });
 
-  const onSubmit = (data: SignInFormValues) => {
-    console.log(data);
+  const onSubmit = async (data: SignInFormValues) => {
+    const result = await signInAction(data);
+
+    if (!result.success) {
+      applyServerErrors(setError, result.fieldErrors);
+
+      if (result.error) {
+        setError("root", {
+          type: "server",
+          message: result.error,
+        });
+      }
+
+      if (result.requiresEmailConfirmation) {
+        router.push(ROUTES.CHECK_EMAIL(data.email));
+        return;
+      }
+      return;
+    }
+
+    toast.success("Welcome back!");
+    router.push(ROUTES.HOME);
+    router.refresh();
   };
 
   return (
@@ -49,9 +85,17 @@ export const SignInForm = () => {
             Forgot your password?
           </Link>
         </div>
+
+        {errors.root && (
+          <Field>
+            <FieldError>{errors.root.message}</FieldError>
+          </Field>
+        )}
       </FieldGroup>
 
-      <LoadingButton className="w-full">Create account</LoadingButton>
+      <LoadingButton className="w-full" isLoading={isSubmitting}>
+        Sign in
+      </LoadingButton>
     </form>
   );
 };

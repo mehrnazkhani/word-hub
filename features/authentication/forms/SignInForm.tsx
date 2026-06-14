@@ -56,7 +56,6 @@ export const SignInForm = () => {
 
     toast.success("Welcome back!");
     router.push(ROUTES.HOME);
-    router.refresh();
   };
 
   return (

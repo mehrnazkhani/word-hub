@@ -6,7 +6,7 @@ import { AppHeader } from "@/features/header/AppHeader";
 import { AppSidebar } from "@/features/sidebar/AppSidebar";
 import { AppMainContent } from "@/features/main-content/AppMainContent";
 
-export const layout = ({ children }: PropsWithChildren) => {
+const SidebarLayout = ({ children }: PropsWithChildren) => {
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -17,3 +17,5 @@ export const layout = ({ children }: PropsWithChildren) => {
     </SidebarProvider>
   );
 };
+
+export default SidebarLayout;

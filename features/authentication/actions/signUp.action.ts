@@ -1,21 +1,18 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { safeParseInput } from "../lib/safeParseInput";
 import { signUpSchema, type SignUpFormValues } from "../schemas/auth.schema";
-import { z } from "zod";
 
 export const signUpAction = async (data: SignUpFormValues) => {
-  const validationData = signUpSchema.safeParse(data);
-  if (!validationData.success) {
-    const flattened = z.flattenError(validationData.error);
-    return {
-      success: false,
-      error: "Invalid form data",
-      fieldErrors: flattened.fieldErrors,
-    };
-  }
+  const parsed = safeParseInput({
+    schema: signUpSchema,
+    data,
+  });
 
-  const { name, email, password } = validationData.data;
+  if (!parsed.success) return parsed;
+
+  const { name, email, password } = parsed.data;
 
   const supabase = await createClient();
 

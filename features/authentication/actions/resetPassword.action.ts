@@ -1,24 +1,22 @@
 "use server";
 
-import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
+import { safeParseInput } from "../lib/safeParseInput";
+
 import {
   resetPasswordSchema,
   type ResetPasswordFormValues,
 } from "../schemas/auth.schema";
 
 export const resetPasswordAction = async (data: ResetPasswordFormValues) => {
-  const validationData = resetPasswordSchema.safeParse(data);
-  if (!validationData.success) {
-    const flattened = z.flattenError(validationData.error);
-    return {
-      success: false,
-      error: "Invalid form data",
-      fieldErrors: flattened.fieldErrors,
-    };
-  }
+  const parsed = safeParseInput({
+    schema: resetPasswordSchema,
+    data,
+  });
 
-  const { password } = validationData.data;
+  if (!parsed.success) return parsed;
+
+  const { password } = parsed.data;
 
   const supabase = await createClient();
   const { error } = await supabase.auth.updateUser({

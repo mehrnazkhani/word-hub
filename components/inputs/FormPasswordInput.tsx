@@ -1,4 +1,5 @@
 "use client";
+
 import { useState } from "react";
 
 import { Input } from "../ui/input";
@@ -10,6 +11,7 @@ import { InputWrapper } from "./InputWrapper";
 export const FormPasswordInput: FormControlFunc<InputProps> = (props) => {
   const { control, name, label, description, ...inputProps } = props;
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const Icon = showPassword ? AppIcons.EyeIcon : AppIcons.EyeOffIcon;
 
   return (
     <FormBase
@@ -31,11 +33,10 @@ export const FormPasswordInput: FormControlFunc<InputProps> = (props) => {
             className="mr-auto cursor-pointer"
             onClick={() => setShowPassword((prev) => !prev)}
           >
-            {showPassword ? (
-              <AppIcons.EyeIcon size={16} strokeWidth={1} />
-            ) : (
-              <AppIcons.EyeOffIcon size={16} strokeWidth={1} />
-            )}
+            <Icon size={16} strokeWidth={1} />
+            <span className="sr-only">
+              {showPassword ? "Hide password" : "Show password"}
+            </span>
           </button>
         </InputWrapper>
       )}

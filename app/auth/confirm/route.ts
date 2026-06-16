@@ -6,14 +6,11 @@ export async function GET(request: NextRequest) {
 
   const code = searchParams.get("code");
   const next = "/";
-
   const redirectTo = new URL(next, request.url);
 
   if (code) {
     const supabase = await createClient();
-
     const { error } = await supabase.auth.exchangeCodeForSession(code);
-
     if (!error) {
       return NextResponse.redirect(redirectTo);
     }

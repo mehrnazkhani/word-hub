@@ -1,6 +1,6 @@
 "use client";
 
-import { signOutAction } from "./signOut.action";
+import { signOutAction } from "./actions/signOut.action";
 import { LoadingButton } from "@/components/LoadingButton";
 import { useFormStatus } from "react-dom";
 

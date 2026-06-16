@@ -1,5 +1,5 @@
 import { Separator } from "@/components/ui/separator";
-import { SignOutButton } from "@/features/authentication/actions/SignOutButton";
+import { SignOutButton } from "@/features/authentication/SignOutButton";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function Home() {

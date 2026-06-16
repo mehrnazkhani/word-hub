@@ -1,23 +1,51 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 import { FieldGroup } from "@/components/ui/field";
 import { FormPasswordInput } from "@/components/inputs/FormPasswordInput";
 import { LoadingButton } from "@/components/LoadingButton";
 
+import { resetPasswordAction } from "../actions/resetPassword.action";
+import { applyServerErrors } from "../lib/applyServerErrors";
+import { ROUTES } from "@/constants/routes";
+
 import {
+  resetPasswordSchema,
   resetPasswordDefaultValues,
   type ResetPasswordFormValues,
 } from "@/features/authentication/schemas/auth.schema";
 
 export const ResetPasswordForm = () => {
-  const { control, handleSubmit } = useForm<ResetPasswordFormValues>({
+  const router = useRouter();
+
+  const {
+    control,
+    handleSubmit,
+    setError,
+    formState: { errors, isSubmitting },
+  } = useForm<ResetPasswordFormValues>({
+    resolver: zodResolver(resetPasswordSchema),
     defaultValues: resetPasswordDefaultValues,
   });
 
-  const onSubmit = (data: ResetPasswordFormValues) => {
-    console.log(data);
+  const onSubmit = async (data: ResetPasswordFormValues) => {
+    const result = await resetPasswordAction(data);
+
+    if (!result.success) {
+      applyServerErrors(setError, result.fieldErrors);
+
+      setError("root", {
+        type: "server",
+        message: result.error || "Something went wrong!",
+      });
+
+      return;
+    }
+
+    router.push(ROUTES.SIGN_IN);
   };
 
   return (
@@ -38,8 +66,9 @@ export const ResetPasswordForm = () => {
         />
       </FieldGroup>
 
-      <LoadingButton className="w-full">Reset password</LoadingButton>
-      {/* <p>If this email exists, we sent a reset link.</p> */}
+      <LoadingButton className="w-full" isLoading={isSubmitting}>
+        Reset password
+      </LoadingButton>
     </form>
   );
 };

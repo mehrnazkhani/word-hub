@@ -78,7 +78,7 @@ export const SignInForm = () => {
             placeholder="Password"
           />
           <Link
-            href="/auth/forgot-password"
+            href={ROUTES.FORGOT_PASSWORD}
             className="text-app-secondary hover:text-app-primary text-xs transition-colors duration-300"
           >
             Forgot your password?

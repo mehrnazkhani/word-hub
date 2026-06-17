@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 import { AppIcons } from "@/components/icons";
 import { AuthHeader } from "@/features/authentication/AuthHeader";
 import { ResetPasswordForm } from "@/features/authentication/forms/ResetPasswordForm";

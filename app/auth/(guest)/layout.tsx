@@ -6,9 +6,7 @@ import { ROUTES } from "@/constants/routes";
 
 const AuthLayout = async ({ children }: Readonly<PropsWithChildren>) => {
   const supabase = await createClient();
-
   const { data } = await supabase.auth.getClaims();
-
   if (data?.claims?.sub) {
     redirect(ROUTES.HOME);
   }

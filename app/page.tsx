@@ -1,6 +1,7 @@
-import { Separator } from "@/components/ui/separator";
-import { SignOutButton } from "@/features/authentication/SignOutButton";
 import { createClient } from "@/lib/supabase/server";
+
+import DashboardPage from "./(protected)/app/page";
+import { redirect } from "next/navigation";
 
 export default async function Home() {
   const supabase = await createClient();
@@ -10,12 +11,7 @@ export default async function Home() {
   } = await supabase.auth.getUser();
 
   if (user) {
-    return (
-      <div className="flex flex-1 flex-col items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-        <h1>hi {user.user_metadata.full_name}</h1>
-        <SignOutButton />
-      </div>
-    );
+    redirect("/app");
   }
 
   return (

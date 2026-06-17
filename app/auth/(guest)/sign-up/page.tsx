@@ -1,6 +1,6 @@
 import { AppIcons } from "@/components/icons";
 import { Separator } from "@/components/ui/separator";
-import { Providers } from "../../../features/authentication/Providers";
+import { Providers } from "@/features/authentication/Providers";
 import { AuthHeader } from "@/features/authentication/AuthHeader";
 import { SignupForm } from "@/features/authentication/forms/SignupForm";
 import { ROUTES } from "@/constants/routes";

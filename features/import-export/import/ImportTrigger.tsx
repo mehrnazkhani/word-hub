@@ -15,8 +15,8 @@ export const ImportTrigger = () => {
         className="cursor-pointer"
         onClick={() => fileInputRef.current?.click()}
       >
-        <AppIcons.ImportIcon className="text-app-secondary" />
-        <span className="x text-app-primary">Import File</span>
+        <AppIcons.ImportIcon />
+        <span>Import File</span>
       </SidebarMenuButton>
 
       <input

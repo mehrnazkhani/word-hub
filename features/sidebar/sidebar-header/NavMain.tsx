@@ -25,8 +25,8 @@ export const NavMain = () => {
             <SidebarMenuItem key={item.title}>
               <SidebarMenuButton asChild isActive={isActive}>
                 <Link href={item.href} scroll={false} replace>
-                  <item.icon className="text-app-secondary" />
-                  <span className="text-app-primary">{item.title}</span>
+                  <item.icon />
+                  <span>{item.title}</span>
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>

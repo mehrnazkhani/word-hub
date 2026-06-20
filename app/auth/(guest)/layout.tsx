@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { PropsWithChildren } from "react";
 import { createClient } from "@/lib/supabase/server";
-import { ModeToggle } from "@/features/header/mode-toggle/ModeToggle";
+import { ModeToggle } from "@/components/ModeToggle";
 import { ROUTES } from "@/constants/routes";
 
 const AuthLayout = async ({ children }: Readonly<PropsWithChildren>) => {

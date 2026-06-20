@@ -4,15 +4,19 @@ import { ResetPasswordForm } from "@/features/authentication/forms/ResetPassword
 
 const ResetPasswordPage = () => {
   return (
-    <>
-      <AuthHeader
-        icon={AppIcons.RefreshCcwIcon}
-        title="Reset your password"
-        description="Choose a strong password for your account."
-      />
+    <div className="flex min-h-screen items-center justify-center px-4">
+      <div className="w-full max-w-md rounded-md border p-10">
+        <div className="space-y-5">
+          <AuthHeader
+            icon={AppIcons.RefreshCcwIcon}
+            title="Reset your password"
+            description="Choose a strong password for your account."
+          />
 
-      <ResetPasswordForm />
-    </>
+          <ResetPasswordForm />
+        </div>
+      </div>
+    </div>
   );
 };
 

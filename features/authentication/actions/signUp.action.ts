@@ -1,16 +1,24 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
-import { safeParseInput } from "../lib/safeParseInput";
 import { signUpSchema, type SignUpFormValues } from "../schemas/auth.schema";
+import { safeParseInput } from "../lib/safeParseInput";
+import type { SignUpResult } from "../auth.type";
 
-export const signUpAction = async (data: SignUpFormValues) => {
+export const signUpAction = async (
+  data: SignUpFormValues,
+): Promise<SignUpResult> => {
   const parsed = safeParseInput({
     schema: signUpSchema,
     data,
   });
 
-  if (!parsed.success) return parsed;
+  if (!parsed.success) {
+    return {
+      status: "validation_error",
+      fieldErrors: parsed.fieldErrors,
+    };
+  }
 
   const { name, email, password } = parsed.data;
 
@@ -27,22 +35,20 @@ export const signUpAction = async (data: SignUpFormValues) => {
   });
 
   if (error) {
-    console.error("Supabase signup error:", error);
     return {
-      success: false,
-      error: error.message,
+      status: "error",
+      message: error.message,
     };
   }
 
   if (!authData.user?.email_confirmed_at) {
     return {
-      success: true,
-      requiresEmailConfirmation: true,
+      status: "email_confirmation_required",
+      email,
     };
   }
 
   return {
-    success: true,
-    requiresEmailConfirmation: false,
+    status: "success",
   };
 };

@@ -11,7 +11,9 @@ import { FieldGroup, FieldError, Field } from "@/components/ui/field";
 import { FormInput } from "@/components/inputs/FormInput";
 import { FormPasswordInput } from "@/components/inputs/FormPasswordInput";
 import { LoadingButton } from "@/components/LoadingButton";
+
 import { signInAction } from "../actions/signIn.action";
+import { applyServerErrors } from "../lib/applyServerErrors";
 import { ROUTES } from "@/constants/routes";
 
 import {
@@ -19,7 +21,7 @@ import {
   signInDefaultValues,
   type SignInFormValues,
 } from "@/features/authentication/schemas/auth.schema";
-import { applyServerErrors } from "../lib/applyServerErrors";
+import { SignInResult } from "../auth.type";
 
 export const SignInForm = () => {
   const router = useRouter();
@@ -34,28 +36,38 @@ export const SignInForm = () => {
     defaultValues: signInDefaultValues,
   });
 
-  const onSubmit = async (data: SignInFormValues) => {
-    const result = await signInAction(data);
+  const handleResult = (result: SignInResult) => {
+    switch (result.status) {
+      case "validation_error":
+        applyServerErrors(setError, result.fieldErrors);
+        return;
 
-    if (!result.success) {
-      applyServerErrors(setError, result.fieldErrors);
+      case "email_confirmation_required":
+        router.push(ROUTES.CHECK_EMAIL(result.email));
+        return;
 
-      if (result.error) {
+      case "error":
         setError("root", {
           type: "server",
-          message: result.error,
+          message: result.message,
         });
-      }
-
-      if (result.requiresEmailConfirmation) {
-        router.push(ROUTES.CHECK_EMAIL(data.email));
         return;
-      }
-      return;
-    }
 
-    toast.success("Welcome back!");
-    router.push(ROUTES.HOME);
+      case "success":
+        toast.success("Welcome back!");
+        router.push(ROUTES.HOME);
+        return;
+
+      default: {
+        const _exhaustive: never = result;
+        return _exhaustive;
+      }
+    }
+  };
+
+  const onSubmit = async (data: SignInFormValues) => {
+    const result = await signInAction(data);
+    handleResult(result);
   };
 
   return (

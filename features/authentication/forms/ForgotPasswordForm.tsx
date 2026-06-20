@@ -18,6 +18,7 @@ import {
   forgotPasswordDefaultValues,
   type ForgotPasswordFormValues,
 } from "@/features/authentication/schemas/auth.schema";
+import { ForgotPasswordResult } from "../auth.type";
 
 export const ForgotPasswordForm = () => {
   const router = useRouter();
@@ -32,19 +33,36 @@ export const ForgotPasswordForm = () => {
     defaultValues: forgotPasswordDefaultValues,
   });
 
+  const handleResult = (
+    data: ForgotPasswordFormValues,
+    result: ForgotPasswordResult,
+  ) => {
+    switch (result.status) {
+      case "validation_error":
+        applyServerErrors(setError, result.fieldErrors);
+        return;
+
+      case "error":
+        setError("root", {
+          type: "server",
+          message: result.message,
+        });
+        return;
+
+      case "success":
+        router.push(ROUTES.CHECK_EMAIL(data.email));
+        return;
+
+      default: {
+        const _exhaustive: never = result;
+        return _exhaustive;
+      }
+    }
+  };
+
   const onSubmit = async (data: ForgotPasswordFormValues) => {
     const result = await forgotPasswordAction(data);
-
-    if (!result.success) {
-      applyServerErrors(setError, result.fieldErrors);
-
-      setError("root", {
-        type: "server",
-        message: result.error || "Something went wrong.",
-      });
-    }
-
-    router.push(ROUTES.CHECK_EMAIL(data.email));
+    handleResult(data, result);
   };
 
   return (

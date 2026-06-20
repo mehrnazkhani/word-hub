@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
 
 import { FieldGroup } from "@/components/ui/field";
 import { FormPasswordInput } from "@/components/inputs/FormPasswordInput";
@@ -17,6 +18,7 @@ import {
   resetPasswordDefaultValues,
   type ResetPasswordFormValues,
 } from "@/features/authentication/schemas/auth.schema";
+import { ResetPasswordResult } from "../auth.type";
 
 export const ResetPasswordForm = () => {
   const router = useRouter();
@@ -25,27 +27,40 @@ export const ResetPasswordForm = () => {
     control,
     handleSubmit,
     setError,
-    formState: { errors, isSubmitting },
+    formState: { isSubmitting },
   } = useForm<ResetPasswordFormValues>({
     resolver: zodResolver(resetPasswordSchema),
     defaultValues: resetPasswordDefaultValues,
   });
 
+  const handleResult = (result: ResetPasswordResult) => {
+    switch (result.status) {
+      case "validation_error":
+        applyServerErrors(setError, result.fieldErrors);
+        return;
+
+      case "error":
+        setError("root", {
+          type: "server",
+          message: result.message,
+        });
+        return;
+
+      case "success":
+        toast.success("Your password has been reset successfully.");
+        router.push(ROUTES.SIGN_IN);
+        return;
+
+      default: {
+        const _exhaustive: never = result;
+        return _exhaustive;
+      }
+    }
+  };
+
   const onSubmit = async (data: ResetPasswordFormValues) => {
     const result = await resetPasswordAction(data);
-
-    if (!result.success) {
-      applyServerErrors(setError, result.fieldErrors);
-
-      setError("root", {
-        type: "server",
-        message: result.error || "Something went wrong!",
-      });
-
-      return;
-    }
-
-    router.push(ROUTES.SIGN_IN);
+    handleResult(result);
   };
 
   return (
@@ -57,7 +72,6 @@ export const ResetPasswordForm = () => {
           label="New Password"
           placeholder="New Password"
         />
-
         <FormPasswordInput
           control={control}
           name="confirmPassword"

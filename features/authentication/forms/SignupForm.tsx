@@ -12,6 +12,7 @@ import { FormPasswordInput } from "@/components/inputs/FormPasswordInput";
 import { LoadingButton } from "@/components/LoadingButton";
 
 import { signUpAction } from "../actions/signUp.action";
+import { applyServerErrors } from "../lib/applyServerErrors";
 import { ROUTES } from "@/constants/routes";
 
 import {
@@ -19,7 +20,8 @@ import {
   signUpDefaultValues,
   type SignUpFormValues,
 } from "@/features/authentication/schemas/auth.schema";
-import { applyServerErrors } from "../lib/applyServerErrors";
+import { SignUpResult } from "../auth.type";
+import { readSync } from "fs";
 
 export const SignupForm = () => {
   const router = useRouter();
@@ -34,21 +36,35 @@ export const SignupForm = () => {
     defaultValues: signUpDefaultValues,
   });
 
+  const handleResult = (result: SignUpResult) => {
+    switch (result.status) {
+      case "validation_error":
+        applyServerErrors(setError, result.fieldErrors);
+        return;
+
+      case "email_confirmation_required":
+        router.push(ROUTES.CHECK_EMAIL(result.email));
+        return;
+
+      case "error":
+        toast.error(result.message);
+        return;
+
+      case "success":
+        toast.success("Account created successfully!");
+        router.push(ROUTES.HOME);
+        return;
+
+      default: {
+        const exhaustiveCheck: never = result;
+        return exhaustiveCheck;
+      }
+    }
+  };
+
   const onSubmit = async (data: SignUpFormValues) => {
     const result = await signUpAction(data);
-
-    if (!result.success) {
-      applyServerErrors(setError, result.fieldErrors);
-      toast.error(result.error || "Something went wrong!");
-      return;
-    }
-
-    if (result.requiresEmailConfirmation) {
-      router.push(ROUTES.CHECK_EMAIL(data.email));
-      return;
-    }
-
-    router.push(ROUTES.HOME);
+    handleResult(result);
   };
 
   return (
@@ -61,7 +77,6 @@ export const SignupForm = () => {
           placeholder="Name"
           icon={AppIcons.CircleUserRoundIcon}
         />
-
         <FormInput
           control={control}
           name="email"
@@ -70,14 +85,12 @@ export const SignupForm = () => {
           type="email"
           icon={AppIcons.MailIcon}
         />
-
         <FormPasswordInput
           control={control}
           name="password"
           label="Password"
           placeholder="Password"
         />
-
         <FormPasswordInput
           control={control}
           name="confirmPassword"

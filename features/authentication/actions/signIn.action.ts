@@ -1,40 +1,49 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
-import { signInSchema, type SignInFormValues } from "../schemas/auth.schema";
 import { safeParseInput } from "../lib/safeParseInput";
+import { signInSchema, type SignInFormValues } from "../schemas/auth.schema";
+import type { SignInResult } from "../auth.type";
 
-export const signInAction = async (data: SignInFormValues) => {
+export const signInAction = async (
+  data: SignInFormValues,
+): Promise<SignInResult> => {
   const parsed = safeParseInput({
     schema: signInSchema,
     data,
   });
 
-  if (!parsed.success) return parsed;
+  if (!parsed.success) {
+    return {
+      status: "validation_error",
+      fieldErrors: parsed.fieldErrors,
+    };
+  }
 
   const { email, password } = parsed.data;
 
   const supabase = await createClient();
+
   const { error } = await supabase.auth.signInWithPassword({
     email,
     password,
   });
 
   if (error) {
-    if (error?.message.includes("Email not confirmed")) {
+    if (error.message.includes("Email not confirmed")) {
       return {
-        success: false,
-        requiresEmailConfirmation: true,
+        status: "email_confirmation_required",
+        email,
       };
     }
 
     return {
-      success: false,
-      error: "Invalid email or password",
+      status: "error",
+      message: "Invalid email or password",
     };
   }
 
   return {
-    success: true,
+    status: "success",
   };
 };

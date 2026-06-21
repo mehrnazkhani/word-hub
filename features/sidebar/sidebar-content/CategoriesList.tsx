@@ -1,37 +1,35 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { getCategories } from "@/lib/data/getCategories";
 
-type CategoriesListProps = {
-  categories: Awaited<ReturnType<typeof getCategories>>;
-};
+import { useCategoriesStore } from "@/stores/categories.store";
 
-export const CategoriesList = ({ categories }: CategoriesListProps) => {
-  const pathname = usePathname();
+export const CategoriesList = () => {
+  const categories = useCategoriesStore((state) => state.categories);
+  const { categoryId } = useParams<{ categoryId?: string }>();
 
-  const currentId = pathname.startsWith("/app/")
-    ? Number(pathname.split("/")[2])
-    : null;
+  const idFromUrl = Number(categoryId);
 
-  const [activeId, setActiveId] = useState<number | null>(currentId);
+  const [optimisticActiveId, setOptimisticActiveId] = useState<number | null>(
+    Number.isNaN(idFromUrl) ? null : idFromUrl,
+  );
 
   useEffect(() => {
-    setActiveId(currentId);
-  }, [currentId]);
+    setOptimisticActiveId(Number.isNaN(idFromUrl) ? null : idFromUrl);
+  }, [idFromUrl]);
 
   return (
     <SidebarMenu className="text-app-secondary flex-1 overflow-y-auto">
-      {categories?.map((category) => {
-        const isActive = activeId === category.id;
+      {categories.map((category) => {
+        const isActive = optimisticActiveId === category.id;
 
         return (
           <SidebarMenuItem key={category.id}>
@@ -42,9 +40,7 @@ export const CategoriesList = ({ categories }: CategoriesListProps) => {
             >
               <Link
                 href={`/app/${category.id}`}
-                onClick={() => {
-                  setActiveId(category.id);
-                }}
+                onClick={() => setOptimisticActiveId(category.id)}
               >
                 <span className="truncate">{category.name}</span>
               </Link>

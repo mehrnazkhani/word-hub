@@ -1,14 +1,9 @@
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
 
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbList,
-  BreadcrumbPage,
-} from "@/components/ui/breadcrumb";
 import { UserAccount } from "./user-account/UserAccount";
 import { getCurrentUser } from "@/lib/getCurrentUser";
+import { HeaderBreadcrumb } from "./HeaderBreadcrumb";
 
 export const AppHeader = async () => {
   const user = await getCurrentUser();
@@ -21,15 +16,8 @@ export const AppHeader = async () => {
           orientation="vertical"
           className="mr-2 data-[orientation=vertical]:h-4"
         />
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbPage className="line-clamp-1">
-                Project Management & Task Tracking
-              </BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
+
+        <HeaderBreadcrumb />
       </div>
 
       <div className="ml-auto">

@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { CategoryWordList } from "@/features/word/word-list/CategoryWordList";
 import { getCategoryById } from "@/lib/data/getCategoryById";
 import { getWords } from "@/lib/data/getWords";
+import { EmptyUI } from "@/components/EmptyUI";
 
 type Props = {
   params: Promise<{ categoryId: string }>;
@@ -24,11 +25,15 @@ const CategoryIdPage = async ({ params }: Props) => {
 
   const words = await getWords(id);
 
-  return (
-    <div className="mx-auto max-w-3xl px-4 pb-10">
-      <CategoryWordList words={words} />
-    </div>
-  );
+  if (words.length === 0)
+    return (
+      <EmptyUI
+        title="No words yet"
+        description="This category doesn’t have any words yet. Start by adding your first word."
+      />
+    );
+
+  return <CategoryWordList words={words} />;
 };
 
 export default CategoryIdPage;

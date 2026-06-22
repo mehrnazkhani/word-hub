@@ -6,7 +6,7 @@ import {
   SidebarContent as Content,
 } from "@/components/ui/sidebar";
 
-import { CategoriesList } from "./CategoriesList";
+import { CategoriesList } from "../../category/CategoriesList";
 import { SidebarCategoriesSkeleton } from "./SidebarCategoriesSkeleton";
 
 export const SidebarContent = async () => {

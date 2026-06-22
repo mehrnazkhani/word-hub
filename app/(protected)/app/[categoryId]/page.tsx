@@ -17,7 +17,7 @@ const CategoryIdPage = async ({ params }: Props) => {
   // }
 
   return (
-    <div className="px-30">
+    <div className="mx-auto max-w-3xl px-4">
       <CategoryWordList words={words} />
     </div>
   );

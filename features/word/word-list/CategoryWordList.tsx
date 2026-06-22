@@ -2,10 +2,10 @@
 
 import { WordAccordion } from "@/features/word/word-accordion/WordAccordion";
 import { ContextMenu, ContextMenuTrigger } from "@/components/ui/context-menu";
-import type { getWords } from "@/lib/data/getWords";
+import type { getActiveWords } from "@/lib/data/getWords";
 
 type CategoryWordListProps = {
-  words: Awaited<ReturnType<typeof getWords>>;
+  words: Awaited<ReturnType<typeof getActiveWords>>;
 };
 
 export const CategoryWordList = ({ words }: CategoryWordListProps) => {

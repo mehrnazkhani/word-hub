@@ -1,6 +1,8 @@
 export const ROUTES = {
   HOME: "/",
 
+  TRASH: "/app/trash",
+
   AUTH_CONFIRM: "/auth/confirm",
   SIGN_IN: "/auth/sign-in",
   SIGN_UP: "/auth/sign-up",

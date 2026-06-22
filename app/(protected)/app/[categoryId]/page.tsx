@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 
 import { CategoryWordList } from "@/features/word/word-list/CategoryWordList";
 import { getCategoryById } from "@/lib/data/getCategoryById";
-import { getWords } from "@/lib/data/getWords";
+import { getActiveWords } from "@/lib/data/getWords";
 import { EmptyUI } from "@/components/EmptyUI";
 
 type Props = {
@@ -23,7 +23,7 @@ const CategoryIdPage = async ({ params }: Props) => {
     notFound();
   }
 
-  const words = await getWords(id);
+  const words = await getActiveWords(id);
 
   if (words.length === 0)
     return (

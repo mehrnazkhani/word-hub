@@ -1,6 +1,9 @@
 import { createClient } from "../supabase/server";
 
-export const getWords = async (categoryId: number) => {
+const selectFields =
+  "id, antonyms, category_id, created_at, deleted_at, description, part_of_speech, score, source_flag, source_language, synonyms, target_flag, target_language, translation, translation_audio, updated_at, user_audio, word";
+
+export const getActiveWords = async (categoryId: number) => {
   const supabase = await createClient();
 
   const { data, error } = await supabase
@@ -19,4 +22,21 @@ export const getWords = async (categoryId: number) => {
   }
 
   return data;
+};
+
+export const getDeletedWords = async () => {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("words")
+    .select(selectFields)
+    .not("deleted_at", "is", null)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Error fetching deleted words:", error);
+    return [];
+  }
+
+  return data ?? [];
 };

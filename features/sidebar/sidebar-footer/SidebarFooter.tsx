@@ -1,3 +1,6 @@
+import Link from "next/link";
+
+import { AppIcons } from "@/components/icons";
 import {
   SidebarFooter as Footer,
   SidebarMenu,
@@ -5,15 +8,17 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 
-import { AppIcons } from "@/components/icons";
+import { ROUTES } from "@/constants/routes";
 
 export const SidebarFooter = () => {
   return (
     <Footer>
       <SidebarMenu>
         <SidebarMenuItem>
-          <SidebarMenuButton className="cursor-pointer">
-            <AppIcons.TrashIcon /> Trash
+          <SidebarMenuButton asChild className="cursor-pointer">
+            <Link href={ROUTES.TRASH}>
+              <AppIcons.TrashIcon /> Trash
+            </Link>
           </SidebarMenuButton>
         </SidebarMenuItem>
       </SidebarMenu>

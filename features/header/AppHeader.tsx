@@ -9,8 +9,8 @@ export const AppHeader = async () => {
   const user = await getCurrentUser();
 
   return (
-    <header className="flex h-16 shrink-0 items-center gap-2 bg-background px-2">
-      <div className="flex flex-1 items-center gap-2 px-3">
+    <header className="flex h-16 shrink-0 items-center gap-2 bg-background px-5">
+      <div className="flex flex-1 items-center gap-2">
         <SidebarTrigger />
         <Separator
           orientation="vertical"

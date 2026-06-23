@@ -33,7 +33,7 @@ const CategoryIdPage = async ({ params }: Props) => {
       />
     );
 
-  return <CategoryWordList words={words} />;
+  return <CategoryWordList words={words} categoryId={id} />;
 };
 
 export default CategoryIdPage;

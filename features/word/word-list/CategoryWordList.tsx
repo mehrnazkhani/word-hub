@@ -1,21 +1,47 @@
 "use client";
 
 import { WordAccordion } from "@/features/word/word-accordion/WordAccordion";
-import { ContextMenu, ContextMenuTrigger } from "@/components/ui/context-menu";
 import type { getActiveWords } from "@/lib/data/getWords";
+import { WordContextMenu } from "../WordContextMenu";
 
 type CategoryWordListProps = {
   words: Awaited<ReturnType<typeof getActiveWords>>;
+  categoryId?: number;
 };
 
-export const CategoryWordList = ({ words }: CategoryWordListProps) => {
+export const CategoryWordList = ({
+  words,
+  categoryId,
+}: CategoryWordListProps) => {
+  const handleCopy = (wordId: number) => {
+    console.log("Copy word:", wordId);
+  };
+  const handleEdit = (wordId: number) => {
+    console.log("Edit word:", wordId);
+  };
+  const handleMove = (wordId: number, targetCategoryId: number) => {
+    console.log("Move word:", { wordId, targetCategoryId });
+  };
+  const handleDelete = (wordId: number) => {
+    console.log("Delete word:", wordId);
+  };
+
   return (
     <main className="mx-auto max-w-3xl px-4 pb-10">
       <WordAccordion>
         {words &&
           words.map((word) => (
-            <ContextMenu key={word.id}>
-              <ContextMenuTrigger className="[&>div]:border-b last:[&>div]:border-b-0">
+            <WordContextMenu
+              key={word.id}
+              currentCategoryId={Number.isNaN(categoryId) ? null : categoryId}
+              onCopy={() => handleCopy(word.id)}
+              onEdit={() => handleEdit(word.id)}
+              onMove={(targetCategoryId) =>
+                handleMove(word.id, targetCategoryId)
+              }
+              onDelete={() => handleDelete(word.id)}
+            >
+              <div className="[&>div]:border-b last:[&>div]:border-b-0">
                 <WordAccordion.Item value={`item-${word.id}`} word={word}>
                   <WordAccordion.Trigger>
                     <WordAccordion.Trigger.Left>
@@ -37,8 +63,8 @@ export const CategoryWordList = ({ words }: CategoryWordListProps) => {
                     <WordAccordion.Footer.Date />
                   </WordAccordion.Footer>
                 </WordAccordion.Item>
-              </ContextMenuTrigger>
-            </ContextMenu>
+              </div>
+            </WordContextMenu>
           ))}
       </WordAccordion>
     </main>

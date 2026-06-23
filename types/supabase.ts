@@ -166,7 +166,7 @@ export type Database = {
       }
       words: {
         Row: {
-          antonyms: string | null
+          antonyms: string[] | null
           category_id: number | null
           created_at: string
           deleted_at: string | null
@@ -178,7 +178,7 @@ export type Database = {
           score: number
           source_flag: string
           source_language: string
-          synonyms: string | null
+          synonyms: string[] | null
           target_flag: string
           target_language: string
           translation: string
@@ -189,7 +189,7 @@ export type Database = {
           word: string
         }
         Insert: {
-          antonyms?: string | null
+          antonyms?: string[] | null
           category_id?: number | null
           created_at?: string
           deleted_at?: string | null
@@ -201,7 +201,7 @@ export type Database = {
           score?: number
           source_flag: string
           source_language: string
-          synonyms?: string | null
+          synonyms?: string[] | null
           target_flag: string
           target_language: string
           translation: string
@@ -212,7 +212,7 @@ export type Database = {
           word: string
         }
         Update: {
-          antonyms?: string | null
+          antonyms?: string[] | null
           category_id?: number | null
           created_at?: string
           deleted_at?: string | null
@@ -224,7 +224,7 @@ export type Database = {
           score?: number
           source_flag?: string
           source_language?: string
-          synonyms?: string | null
+          synonyms?: string[] | null
           target_flag?: string
           target_language?: string
           translation?: string

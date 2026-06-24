@@ -18,7 +18,7 @@ import {
 
 import type { LucideIcon } from "lucide-react";
 
-type FormControlProps<
+export type FormControlProps<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
   TTransformedValues = TFieldValues,

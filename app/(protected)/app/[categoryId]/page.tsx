@@ -11,6 +11,22 @@ type Props = {
 
 const CategoryIdPage = async ({ params }: Props) => {
   const { categoryId } = await params;
+
+  if (categoryId === "drop") {
+    const words = await getActiveWords(null);
+
+    if (words.length === 0) {
+      return (
+        <EmptyUI
+          title="No words in Drop yet"
+          description="Words without a category will appear here."
+        />
+      );
+    }
+
+    return <CategoryWordList words={words} categoryId="drop" />;
+  }
+
   const id = Number(categoryId);
 
   if (!Number.isSafeInteger(id) || id <= 0) {

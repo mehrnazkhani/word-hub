@@ -6,13 +6,15 @@ import { WordContextMenu } from "../WordContextMenu";
 
 type CategoryWordListProps = {
   words: Awaited<ReturnType<typeof getActiveWords>>;
-  categoryId?: number;
+  categoryId?: number | string;
 };
 
 export const CategoryWordList = ({
   words,
   categoryId,
 }: CategoryWordListProps) => {
+  const isDrop = categoryId === "drop" || categoryId === null;
+
   const handleCopy = (wordId: number) => {
     console.log("Copy word:", wordId);
   };
@@ -33,7 +35,7 @@ export const CategoryWordList = ({
           words.map((word) => (
             <WordContextMenu
               key={word.id}
-              currentCategoryId={Number.isNaN(categoryId) ? null : categoryId}
+              currentCategoryId={isDrop ? null : Number(categoryId)}
               onCopy={() => handleCopy(word.id)}
               onEdit={() => handleEdit(word.id)}
               onMove={(targetCategoryId) =>

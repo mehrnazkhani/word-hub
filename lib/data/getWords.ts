@@ -3,18 +3,23 @@ import { createClient } from "../supabase/server";
 const selectFields =
   "id, antonyms, category_id, created_at, deleted_at, description, part_of_speech, score, source_flag, source_language, synonyms, target_flag, target_language, translation, translation_audio, updated_at, user_audio, word";
 
-export const getActiveWords = async (categoryId: number) => {
+export const getActiveWords = async (categoryId: number | null) => {
   const supabase = await createClient();
 
-  const { data, error } = await supabase
+  let query = supabase
     .from("words")
-    .select(
-      "id, antonyms, category_id, created_at, deleted_at, description, part_of_speech, score, source_flag, source_language, synonyms, target_flag, target_language, translation, translation_audio, updated_at, user_audio, word",
-    )
-    .eq("category_id", categoryId)
+    .select(selectFields)
     .order("created_at", { ascending: false });
 
+  if (categoryId === null) {
+    query = query.is("category_id", null);
+  } else {
+    query = query.eq("category_id", categoryId);
+  }
+
   console.log("fetching words");
+
+  const { data, error } = await query;
 
   if (error) {
     console.error("Error fetching words:", error);

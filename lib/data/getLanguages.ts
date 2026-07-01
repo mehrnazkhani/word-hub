@@ -1,7 +1,7 @@
 import { createClient } from "../supabase/client";
 
 export const getLanguages = async () => {
-  const supabase = await createClient();
+  const supabase = createClient();
 
   const { data, error } = await supabase
     .from("languages")

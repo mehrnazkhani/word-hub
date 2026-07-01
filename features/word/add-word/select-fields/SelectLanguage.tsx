@@ -24,7 +24,7 @@ export const SelectLanguage = ({
         const lang = languages.find((l) => l.value === value);
 
         return lang ? (
-          <span className="flex items-center gap-2">
+          <span className="flex items-center gap-1">
             <span>{lang.flag}</span>
             <span>{lang.value}</span>
           </span>

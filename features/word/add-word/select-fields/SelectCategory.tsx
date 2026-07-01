@@ -7,16 +7,15 @@ export const SelectCategory = () => {
 
   return (
     <FormSelect
-      name="category"
+      name="categoryId"
       label="Select category"
       placeholder="Select Category"
     >
-      {categories &&
-        categories.map((item) => (
-          <SelectItem key={item.id} value={item.name}>
-            {item.name}
-          </SelectItem>
-        ))}
+      {categories?.map((item) => (
+        <SelectItem key={item.id} value={item.id.toString()}>
+          {item.name}
+        </SelectItem>
+      ))}
     </FormSelect>
   );
 };

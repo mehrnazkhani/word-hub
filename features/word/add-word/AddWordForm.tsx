@@ -21,15 +21,22 @@ const AddWordForm = () => {
   const methods = useForm<AddWordFormValues>({
     resolver: zodResolver(addWordSchema),
     defaultValues: addWordFormDefaultValues,
+    mode: "onSubmit",
   });
 
   const {
     handleSubmit,
-    formState: { isSubmitting },
+    formState: { isSubmitting, errors },
   } = methods;
 
-  const onSubmit = (data: AddWordFormValues) => {
-    console.log(data);
+  console.log("Form Errors:", errors);
+
+  const onSubmit = (data: any) => {
+    console.log("✅ Submitted Data:", data);
+  };
+
+  const onError = (errors: any) => {
+    console.log("❌ Validation Errors:", errors);
   };
 
   return (
@@ -66,11 +73,11 @@ const AddWordForm = () => {
           <SelectCategory />
         </div>
 
-        <div className="col-span-2">
+        <div className="col-span-4">
+          <p className="col-span-4 text-xs text-muted-foreground">
+            Enter words separated by commas (e.g. happy, joyful, glad)
+          </p>
           <FormInput name="synonyms" label="Synonyms" placeholder="Synonyms" />
-        </div>
-
-        <div className="col-span-2">
           <FormInput name="antonyms" label="Antonyms" placeholder="Antonyms" />
         </div>
 

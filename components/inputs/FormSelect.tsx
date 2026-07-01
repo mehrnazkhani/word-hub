@@ -18,7 +18,7 @@ type FormSelectProps = {
 export const FormSelect = createFormField<FormSelectProps>(
   ({ onChange, onBlur, ...field }, { children, placeholder, renderValue }) => (
     <Select
-      value={field.value}
+      value={field.value?.toString() || ""}
       onValueChange={onChange}
       disabled={field.disabled}
     >

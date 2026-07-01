@@ -16,6 +16,7 @@ import {
   addWordSchema,
   addWordFormDefaultValues,
 } from "./addWord.schema";
+import { WordFormMoreFields } from "./WordFormMoreFields";
 
 const AddWordForm = () => {
   const methods = useForm<AddWordFormValues>({
@@ -73,21 +74,7 @@ const AddWordForm = () => {
           <SelectCategory />
         </div>
 
-        <div className="col-span-4">
-          <p className="col-span-4 text-xs text-muted-foreground">
-            Enter words separated by commas (e.g. happy, joyful, glad)
-          </p>
-          <FormInput name="synonyms" label="Synonyms" placeholder="Synonyms" />
-          <FormInput name="antonyms" label="Antonyms" placeholder="Antonyms" />
-        </div>
-
-        <div className="col-span-4">
-          <FormTextarea
-            name="description"
-            label="Description"
-            placeholder="Description"
-          />
-        </div>
+        <WordFormMoreFields />
 
         <div className="col-span-4 flex justify-end">
           <LoadingButton variant="ghost" isLoading={isSubmitting}>

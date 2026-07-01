@@ -1,7 +1,7 @@
 "use client";
 
 import { ReactNode } from "react";
-import { FormBase, type FormControlFunc } from "./FormBase";
+import { createFormField } from "./FormBase";
 import {
   Select,
   SelectContent,
@@ -14,25 +14,17 @@ type FormSelectProps = {
   placeholder?: string;
 };
 
-export const FormSelect: FormControlFunc<FormSelectProps> = ({
-  children,
-  placeholder,
-  ...props
-}) => {
-  return (
-    <FormBase {...props}>
-      {({ onChange, onBlur, ...field }) => (
-        <Select {...field} onValueChange={onChange}>
-          <SelectTrigger
-            aria-invalid={field["aria-invalid"]}
-            id={field.id}
-            onBlur={onBlur}
-          >
-            <SelectValue placeholder={placeholder} />
-          </SelectTrigger>
-          <SelectContent>{children}</SelectContent>
-        </Select>
-      )}
-    </FormBase>
-  );
-};
+export const FormSelect = createFormField<FormSelectProps>(
+  ({ onChange, onBlur, ...field }, { children, placeholder }) => (
+    <Select {...field} onValueChange={onChange}>
+      <SelectTrigger
+        id={field.id}
+        onBlur={onBlur}
+        className="w-full cursor-pointer text-xs"
+      >
+        <SelectValue placeholder={placeholder} />
+      </SelectTrigger>
+      <SelectContent>{children}</SelectContent>
+    </Select>
+  ),
+);

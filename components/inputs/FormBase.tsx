@@ -5,6 +5,7 @@ import {
   ControllerProps,
   FieldPath,
   FieldValues,
+  useFormContext,
 } from "react-hook-form";
 
 import { Input } from "../ui/input";
@@ -26,7 +27,7 @@ export type FormControlProps<
   name: TName;
   label: ReactNode;
   description?: ReactNode;
-  control: ControllerProps<TFieldValues, TName, TTransformedValues>["control"];
+  control?: ControllerProps<TFieldValues, TName, TTransformedValues>["control"];
 };
 
 type FormBaseProps<
@@ -58,19 +59,53 @@ export type InputProps = React.ComponentProps<typeof Input> & {
   icon?: LucideIcon;
 };
 
+export function createFormField<ExtraProps extends object = {}>(
+  render: (
+    field: Parameters<Parameters<typeof FormBase>[0]["children"]>[0],
+    extraProps: ExtraProps,
+  ) => ReactNode,
+  options?: { horizontal?: boolean; controlFirst?: boolean },
+): FormControlFunc<ExtraProps> {
+  return function FormField(props) {
+    const { control, name, label, description, ...rest } = props;
+
+    return (
+      <FormBase
+        control={control}
+        name={name}
+        label={label}
+        description={description}
+        horizontal={options?.horizontal}
+        controlFirst={options?.controlFirst}
+      >
+        {(field) => render(field, rest as unknown as ExtraProps)}
+      </FormBase>
+    );
+  };
+}
+
 export function FormBase<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
   TTransformedValues = TFieldValues,
 >({
   children,
-  control,
+  control: controlProp,
   label,
   name,
   description,
   controlFirst,
   horizontal,
 }: FormBaseProps<TFieldValues, TName, TTransformedValues>) {
+  const context = useFormContext<TFieldValues, unknown, TTransformedValues>();
+  const control = controlProp ?? context?.control;
+
+  if (!control) {
+    throw new Error(
+      `FormBase: "control" not found for field "${name}". Either pass it directly or wrap this component in a <FormProvider>.`,
+    );
+  }
+
   return (
     <Controller
       control={control}
@@ -84,7 +119,7 @@ export function FormBase<
             {description && <FieldDescription>{description}</FieldDescription>}
           </>
         );
-        const control = children({
+        const controlElement = children({
           ...field,
           id: field.name,
           "aria-invalid": fieldState.invalid,
@@ -100,7 +135,7 @@ export function FormBase<
           >
             {controlFirst ? (
               <>
-                {control}
+                {controlElement}
                 <FieldContent>
                   {labelElement}
                   {errorElem}
@@ -109,7 +144,7 @@ export function FormBase<
             ) : (
               <>
                 <FieldContent>{labelElement}</FieldContent>
-                {control}
+                {controlElement}
                 {errorElem}
               </>
             )}

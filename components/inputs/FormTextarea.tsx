@@ -1,4 +1,10 @@
 import { Textarea } from "../ui/textarea";
 import { createFormField } from "./FormBase";
 
-export const FormTextarea = createFormField((field) => <Textarea {...field} />);
+type FormTextareaProps = {
+  placeholder?: string;
+};
+
+export const FormTextarea = createFormField<FormTextareaProps>(
+  (field, { placeholder }) => <Textarea {...field} placeholder={placeholder} />,
+);

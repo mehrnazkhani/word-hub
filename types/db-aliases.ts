@@ -11,7 +11,7 @@ type TableUpdate<T extends keyof Database["public"]["Tables"]> =
 
 // =================== Categories ===================
 export type CategoryType = TableRow<"categories">;
-export type InsertCategoryType = TableInsert<"categories">;
+export type InsertCategory = Pick<TableInsert<"categories">, "name">;
 export type UpdateCategoryType = TableUpdate<"categories">;
 
 // =================== Words =========================

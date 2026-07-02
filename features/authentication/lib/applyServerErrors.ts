@@ -11,6 +11,8 @@ export const applyServerErrors = <T extends FieldValues>(
   if (!fieldErrors) return;
 
   Object.entries(fieldErrors).forEach(([field, errors]) => {
+    if (!errors || errors.length === 0) return;
+
     setError(field as Path<T>, {
       type: "server",
       message: errors?.[0],

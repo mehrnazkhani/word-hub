@@ -11,6 +11,8 @@ import {
 } from "./categoryForm.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AppIcons } from "@/components/icons";
+import { createCategoryAction } from "./createCategory.action";
+import { toast } from "sonner";
 
 const CreateCategoryForm = () => {
   const method = useForm<CategoryFormValues>({
@@ -20,10 +22,25 @@ const CreateCategoryForm = () => {
 
   const {
     handleSubmit,
+    reset,
     formState: { isSubmitting },
   } = method;
 
-  const onSubmit = async (data: CategoryFormValues) => {};
+  const onSubmit = async (data: CategoryFormValues) => {
+    try {
+      const result = await createCategoryAction(data);
+
+      if (result) {
+        toast.success("Category created successfully.");
+        reset();
+      }
+    } catch (error: any) {
+      console.error(error);
+      toast.error(
+        error.message || "Failed to crete category. Please try again.",
+      );
+    }
+  };
 
   return (
     <FormProvider {...method}>

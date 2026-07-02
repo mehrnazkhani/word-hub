@@ -36,12 +36,13 @@ const CreateCategoryForm = () => {
     try {
       const result = await createCategory(data);
 
-      if (
-        result &&
-        "status" in result &&
-        result.status === "validation_error"
-      ) {
+      if (result.status === "validation_error") {
         applyServerErrors(setError, result.fieldErrors);
+        return;
+      }
+
+      if (result.status === "limit_error") {
+        toast.error(result.message);
         return;
       }
 

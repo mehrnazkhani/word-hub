@@ -249,6 +249,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      check_category_limit: { Args: { p_user_id: string }; Returns: undefined }
       get_user_top_language_stats: {
         Args: { userid: string }
         Returns: {

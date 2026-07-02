@@ -3,19 +3,23 @@
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+import { toast } from "sonner";
 import { AppIcons } from "@/components/icons";
 import { FormInput } from "@/components/inputs/FormInput";
-import { FormTextarea } from "@/components/inputs/FormTextarea";
 import { SelectLanguage } from "./select-fields/SelectLanguage";
 import { SelectWordType } from "./select-fields/SelectWordType";
 import { SelectCategory } from "./select-fields/SelectCategory";
 import { LoadingButton } from "@/components/LoadingButton";
 
+import { createWordAction } from "@/lib/actions/createWord.action";
+import { mapWordToInsert } from "./utils/mapWordToInsert";
+import { useLanguagesStore } from "@/stores/languages.store";
+
 import {
   type AddWordFormValues,
   addWordSchema,
   addWordFormDefaultValues,
-} from "./addWord.schema";
+} from "./schemas/addWord.schema";
 import { WordFormMoreFields } from "./WordFormMoreFields";
 
 const AddWordForm = () => {
@@ -27,17 +31,33 @@ const AddWordForm = () => {
 
   const {
     handleSubmit,
-    formState: { isSubmitting, errors },
+    reset,
+    formState: { isSubmitting },
   } = methods;
 
-  console.log("Form Errors:", errors);
+  const onSubmit = async (data: AddWordFormValues) => {
+    const languages = useLanguagesStore.getState().languages;
+    if (languages.length === 0) {
+      console.error("Languages not loaded yet");
+      return;
+    }
 
-  const onSubmit = (data: any) => {
-    console.log("✅ Submitted Data:", data);
-  };
+    const mappedData = mapWordToInsert({
+      formData: data,
+      languages,
+    });
 
-  const onError = (errors: any) => {
-    console.log("❌ Validation Errors:", errors);
+    try {
+      const result = await createWordAction(mappedData);
+
+      if (result) {
+        toast.success("Word added successfully.");
+        reset();
+      }
+    } catch (error: any) {
+      console.error(error);
+      toast.error(error.message || "Failed to add word. Please try again.");
+    }
   };
 
   return (

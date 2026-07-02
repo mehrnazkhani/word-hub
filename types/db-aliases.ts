@@ -1,0 +1,29 @@
+import type { Database } from "@/types/supabase";
+
+type TableRow<T extends keyof Database["public"]["Tables"]> =
+  Database["public"]["Tables"][T]["Row"];
+
+type TableInsert<T extends keyof Database["public"]["Tables"]> =
+  Database["public"]["Tables"][T]["Insert"];
+
+type TableUpdate<T extends keyof Database["public"]["Tables"]> =
+  Database["public"]["Tables"][T]["Update"];
+
+// =================== Categories ===================
+export type CategoryType = TableRow<"categories">;
+export type InsertCategoryType = TableInsert<"categories">;
+export type UpdateCategoryType = TableUpdate<"categories">;
+
+// =================== Words =========================
+export type WordType = TableRow<"words">;
+export type WordInsert = Omit<TableInsert<"words">, "user_id">;
+export type UpdateWord = TableUpdate<"words">;
+export type PartOfSpeech = Database["public"]["Enums"]["part_of_speech_enum"];
+
+// =================== Practices ======================
+export type PracticeRecordType = TableRow<"practices">;
+export type InsertPracticeRecordType = TableInsert<"practices">;
+
+// =================== Languages ======================
+export type Language = Pick<TableRow<"languages">, "label" | "value" | "flag">;
+export type InsertLanguageRecordType = TableInsert<"languages">;

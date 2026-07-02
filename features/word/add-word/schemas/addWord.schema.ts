@@ -24,42 +24,58 @@ export const WORD_LIMITS = {
   maxRelatedWords: 3,
 } as const;
 
-const relatedWordsSchema = z
-  .union([z.string(), z.array(z.string())])
-  .transform((val) => {
-    if (Array.isArray(val)) {
-      return val.map((item) => item.trim()).filter(Boolean);
-    }
-    if (typeof val === "string") {
-      return val
-        .split(",")
-        .map((item) => item.trim())
-        .filter(Boolean);
-    }
-    return [];
-  })
-  .pipe(
-    z
-      .array(z.string().trim().min(1, "Each word must not be empty"))
-      .max(
-        WORD_LIMITS.maxRelatedWords,
-        `Maximum ${WORD_LIMITS.maxRelatedWords} related words are allowed`,
-      ),
-  );
+export const splitRelatedWords = (value: string): string[] =>
+  value
+    .split(",")
+    .map((w) => w.trim())
+    .filter((w) => w.length > 0);
+
+const relatedWordsField = (fieldLabel: string) =>
+  z
+    .string()
+    .trim()
+    .superRefine((value, ctx) => {
+      if (!value) return;
+
+      const words = splitRelatedWords(value);
+
+      if (words.length > WORD_LIMITS.maxRelatedWords) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: `You can add up to ${WORD_LIMITS.maxRelatedWords} ${fieldLabel}`,
+        });
+      }
+
+      words.forEach((word, index) => {
+        if (word.length > WORD_LIMITS.relatedWord) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: `"${word}" exceeds ${WORD_LIMITS.relatedWord} characters`,
+            path: [index],
+          });
+        }
+      });
+    });
 
 export const addWordSchema = z.object({
   word: z.string().trim().min(1, "Word is required").max(WORD_LIMITS.word),
+
   translation: z
     .string()
     .trim()
     .min(1, "Translation is required")
     .max(WORD_LIMITS.translation),
+
   sourceLanguage: z.string().min(1, "Source language is required"),
   targetLanguage: z.string().min(1, "Target language is required"),
+
   partOfSpeech: partOfSpeechSchema.nullable().optional(),
+
   categoryId: z.string().nullable().optional(),
-  synonyms: relatedWordsSchema,
-  antonyms: relatedWordsSchema,
+
+  synonyms: relatedWordsField("synonyms"),
+  antonyms: relatedWordsField("antonyms"),
+
   description: z
     .string()
     .trim()
@@ -68,9 +84,7 @@ export const addWordSchema = z.object({
     .optional(),
 });
 
-export type AddWordFormValues = z.input<typeof addWordSchema>;
-
-export type AddWordParsedValues = z.infer<typeof addWordSchema>;
+export type AddWordFormValues = z.infer<typeof addWordSchema>;
 
 export const addWordFormDefaultValues: AddWordFormValues = {
   word: "",

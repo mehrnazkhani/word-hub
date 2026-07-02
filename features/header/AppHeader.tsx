@@ -2,11 +2,11 @@ import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
 
 import { UserAccount } from "./user-account/UserAccount";
-import { getCurrentUser } from "@/lib/getCurrentUser";
+import { getAuthenticatedUser } from "@/lib/supabase/getAuthenticatedUser";
 import { HeaderBreadcrumb } from "./HeaderBreadcrumb";
 
 export const AppHeader = async () => {
-  const user = await getCurrentUser();
+  const user = await getAuthenticatedUser();
 
   return (
     <header className="flex h-16 shrink-0 items-center gap-2 bg-background px-5">

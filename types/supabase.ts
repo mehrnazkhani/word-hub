@@ -176,11 +176,9 @@ export type Database = {
             | Database["public"]["Enums"]["part_of_speech_enum"]
             | null
           score: number
-          source_flag: string
-          source_language: string
+          source_language_id: number
           synonyms: string[] | null
-          target_flag: string
-          target_language: string
+          target_language_id: number
           translation: string
           translation_audio: string | null
           updated_at: string | null
@@ -199,11 +197,9 @@ export type Database = {
             | Database["public"]["Enums"]["part_of_speech_enum"]
             | null
           score?: number
-          source_flag: string
-          source_language: string
+          source_language_id: number
           synonyms?: string[] | null
-          target_flag: string
-          target_language: string
+          target_language_id: number
           translation: string
           translation_audio?: string | null
           updated_at?: string | null
@@ -222,11 +218,9 @@ export type Database = {
             | Database["public"]["Enums"]["part_of_speech_enum"]
             | null
           score?: number
-          source_flag?: string
-          source_language?: string
+          source_language_id?: number
           synonyms?: string[] | null
-          target_flag?: string
-          target_language?: string
+          target_language_id?: number
           translation?: string
           translation_audio?: string | null
           updated_at?: string | null
@@ -240,6 +234,20 @@ export type Database = {
             columns: ["category_id"]
             isOneToOne: false
             referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "words_source_language_id_fkey"
+            columns: ["source_language_id"]
+            isOneToOne: false
+            referencedRelation: "languages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "words_target_language_id_fkey"
+            columns: ["target_language_id"]
+            isOneToOne: false
+            referencedRelation: "languages"
             referencedColumns: ["id"]
           },
         ]

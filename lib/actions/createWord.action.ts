@@ -2,16 +2,16 @@
 
 import { createClient } from "../supabase/server";
 import { getAuthenticatedUser } from "../supabase/getAuthenticatedUser";
+import { wordInsertSchema } from "@/schemas/word/wordInsert.schema";
+import type { AddWordFormValues } from "@/schemas/word/addWord.schema";
 import { safeParseInput } from "@/features/authentication/lib/safeParseInput";
-import { wordInsertSchema } from "@/features/word/add-word/schemas/wordInsert.schema";
-import type { WordInsert } from "@/types/db-aliases";
 
-export const createWordAction = async (insertData: WordInsert) => {
+export const createWordAction = async (formData: AddWordFormValues) => {
   const user = await getAuthenticatedUser();
 
   const parsed = safeParseInput({
     schema: wordInsertSchema,
-    data: insertData,
+    data: formData,
   });
 
   if (!parsed.success) {

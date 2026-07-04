@@ -30,7 +30,7 @@ import {
 const ProfileSettings = dynamic(() => import("./ProfileSettings"), {
   ssr: false,
 });
-const LanguageSettings = dynamic(() => import("./LanguageSettings"), {
+const AddWordFormSettings = dynamic(() => import("./AddWordFormSettings"), {
   ssr: false,
 });
 const CategorySettings = dynamic(() => import("./CategorySettings"), {
@@ -45,13 +45,9 @@ const PrivacySettings = dynamic(() => import("./PrivacySettings"), {
 
 const settingsSections = {
   Profile: ProfileSettings,
-
-  Language: LanguageSettings,
-
+  "Word Form": AddWordFormSettings,
   Practice: PracticeSettings,
-
   Category: CategorySettings,
-
   Privacy: PrivacySettings,
 } as const;
 
@@ -60,13 +56,12 @@ type SettingsSection = keyof typeof settingsSections;
 const data: {
   nav: {
     name: SettingsSection;
-
     icon: typeof Bell;
   }[];
 } = {
   nav: [
     { name: "Profile", icon: Bell },
-    { name: "Language", icon: Menu },
+    { name: "Word Form", icon: Menu },
     { name: "Practice", icon: Home },
     { name: "Category", icon: Paintbrush },
     { name: "Privacy", icon: MessageCircle },
@@ -131,8 +126,8 @@ const SettingsDialog = ({ open, onOpenChange }: SettingsDialogProps) => {
               </div>
             </header>
 
-            <div className="flex flex-1 flex-col items-center justify-center gap-4 overflow-y-auto p-4 pt-0">
-              <div className="w-full rounded-xl bg-muted/50 p-3">
+            <div className="flex flex-col items-center justify-center gap-4 overflow-y-auto p-4 pt-0">
+              <div className="mb-3 w-full rounded-xl bg-muted/50 p-3">
                 <ActiveSettingsComponent />
               </div>
             </div>

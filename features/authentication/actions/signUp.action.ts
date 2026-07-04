@@ -3,6 +3,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { signUpSchema, type SignUpFormValues } from "../schemas/auth.schema";
 import { safeParseInput } from "../lib/safeParseInput";
+import { ROUTES } from "@/constants/routes";
 import type { SignUpResult } from "../auth.type";
 
 export const signUpAction = async (
@@ -31,6 +32,7 @@ export const signUpAction = async (
       data: {
         full_name: name,
       },
+      emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}${ROUTES.AUTH_CONFIRM}`,
     },
   });
 

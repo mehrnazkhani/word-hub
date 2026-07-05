@@ -11,9 +11,10 @@ import {
 } from "@/components/ui/sidebar";
 import { CategoryContextMenu } from "./CategoryContextMenu";
 import { useCategories } from "@/queries/categories/useCategories";
+import { CategorySkeleton } from "./CategorySkeleton";
 
 export const CategoriesList = () => {
-  const { data: categories } = useCategories();
+  const { data: categories, isPending } = useCategories();
   const { categoryId } = useParams<{ categoryId?: string }>();
 
   const [optimisticActiveId, setOptimisticActiveId] = useState<string | null>(
@@ -33,6 +34,10 @@ export const CategoriesList = () => {
   const handleDelete = (categoryId: number) => {
     console.log("Delete category:", categoryId);
   };
+
+  if (isPending) {
+    return <CategorySkeleton />;
+  }
 
   return (
     <SidebarMenu className="text-app-secondary flex-1 overflow-y-auto">

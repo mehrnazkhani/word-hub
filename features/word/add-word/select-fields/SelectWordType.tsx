@@ -1,6 +1,6 @@
-import { FormSelect } from "@/components/inputs/FormSelect";
-import { PARTS_OF_SPEECH } from "../schemas/addWord.schema";
 import { SelectItem } from "@/components/ui/select";
+import { FormSelect } from "@/components/inputs/FormSelect";
+import { PARTS_OF_SPEECH } from "@/schemas/word/word.shared";
 
 export const SelectWordType = () => {
   return (

@@ -1,17 +1,18 @@
 "use client";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
+
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { CategoryContextMenu } from "./CategoryContextMenu";
-import { useCategoriesStore } from "@/stores/categories.store";
+import { useCategories } from "@/queries/categories/useCategories";
 
 export const CategoriesList = () => {
-  const categories = useCategoriesStore((state) => state.categories);
+  const { data: categories } = useCategories();
   const { categoryId } = useParams<{ categoryId?: string }>();
 
   const [optimisticActiveId, setOptimisticActiveId] = useState<string | null>(
@@ -48,33 +49,34 @@ export const CategoriesList = () => {
         </SidebarMenuButton>
       </SidebarMenuItem>
 
-      {categories.map((category) => {
-        const isActive = optimisticActiveId === String(category.id);
+      {categories &&
+        categories.map((category) => {
+          const isActive = optimisticActiveId === String(category.id);
 
-        return (
-          <CategoryContextMenu
-            key={category.id}
-            onRename={() => handleRename(category.id)}
-            onExport={() => handleExport(category.id)}
-            onDelete={() => handleDelete(category.id)}
-          >
-            <SidebarMenuItem>
-              <SidebarMenuButton
-                asChild
-                className="cursor-pointer"
-                isActive={isActive}
-              >
-                <Link
-                  href={`/app/${category.id}`}
-                  onClick={() => setOptimisticActiveId(String(category.id))}
+          return (
+            <CategoryContextMenu
+              key={category.id}
+              onRename={() => handleRename(category.id)}
+              onExport={() => handleExport(category.id)}
+              onDelete={() => handleDelete(category.id)}
+            >
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  asChild
+                  className="cursor-pointer"
+                  isActive={isActive}
                 >
-                  <span className="truncate">{category.name}</span>
-                </Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </CategoryContextMenu>
-        );
-      })}
+                  <Link
+                    href={`/app/${category.id}`}
+                    onClick={() => setOptimisticActiveId(String(category.id))}
+                  >
+                    <span className="truncate">{category.name}</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </CategoryContextMenu>
+          );
+        })}
     </SidebarMenu>
   );
 };

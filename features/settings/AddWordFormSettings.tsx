@@ -9,7 +9,6 @@ import { Separator } from "@/components/ui/separator";
 import { SelectLanguage } from "../word/add-word/select-fields/SelectLanguage";
 import { SelectCategory } from "../word/add-word/select-fields/SelectCategory";
 import { LoadingButton } from "@/components/LoadingButton";
-
 import { useUserSettingsStore } from "@/stores/userSettings.store";
 
 import {
@@ -17,19 +16,16 @@ import {
   type AddWordFormSettingsValues,
 } from "./AddWordFormSettings.schema";
 import { useCategoriesStore } from "@/stores/categories.store";
-import { useLanguagesStore } from "@/stores/languages.store";
 import { findObjectById } from "@/lib/utils/findObjectById";
+import { useLanguages } from "@/queries/languages/useLanguages";
 
 const AddWordFormSettings = () => {
   const settings = useUserSettingsStore((s) => s.settings);
   const isLoading = useUserSettingsStore((s) => s.isLoading);
   const fetchUserSettings = useUserSettingsStore((s) => s.fetchUserSettings);
-  const updateSettingLocally = useUserSettingsStore(
-    (s) => s.updateSettingLocally,
-  );
 
   const categories = useCategoriesStore((s) => s.categories);
-  const languages = useLanguagesStore((s) => s.languages);
+  const { data: languages } = useLanguages();
 
   const sourceLanguageObject = useMemo(
     () => findObjectById(languages, settings?.default_source_lang_id),

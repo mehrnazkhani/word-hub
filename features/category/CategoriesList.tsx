@@ -1,4 +1,5 @@
 "use client";
+
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -26,32 +27,39 @@ export const CategoriesList = () => {
   const handleRename = (categoryId: number) => {
     console.log("Rename category:", categoryId);
   };
-
   const handleExport = (categoryId: number) => {
     console.log("Export category:", categoryId);
   };
-
   const handleDelete = (categoryId: number) => {
     console.log("Delete category:", categoryId);
   };
 
   return (
     <SidebarMenu className="text-app-secondary flex-1 overflow-y-auto">
-      <SidebarMenuItem>
-        <SidebarMenuButton
-          asChild
-          className="cursor-pointer"
-          isActive={optimisticActiveId === "drop"}
-        >
-          <Link href="/app/drop" onClick={() => setOptimisticActiveId("drop")}>
-            <span className="truncate">Drop</span>
-          </Link>
-        </SidebarMenuButton>
-      </SidebarMenuItem>
-
       {categories &&
         categories.map((category) => {
-          const isActive = optimisticActiveId === String(category.id);
+          const isDrop = category.id === null;
+          const activeKey = isDrop ? "Drop" : String(category.id);
+          const isActive = optimisticActiveId === activeKey;
+
+          const menuButton = (
+            <SidebarMenuItem key={activeKey}>
+              <SidebarMenuButton
+                asChild
+                className="cursor-pointer"
+                isActive={isActive}
+              >
+                <Link
+                  href={getCategoryPath(category.id)}
+                  onClick={() => setOptimisticActiveId(String(category.id))}
+                >
+                  <span className="truncate">{category.name}</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          );
+
+          if (isDrop) return menuButton;
 
           return (
             <CategoryContextMenu
@@ -60,23 +68,14 @@ export const CategoriesList = () => {
               onExport={() => handleExport(category.id)}
               onDelete={() => handleDelete(category.id)}
             >
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  asChild
-                  className="cursor-pointer"
-                  isActive={isActive}
-                >
-                  <Link
-                    href={`/app/${category.id}`}
-                    onClick={() => setOptimisticActiveId(String(category.id))}
-                  >
-                    <span className="truncate">{category.name}</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
+              {menuButton}
             </CategoryContextMenu>
           );
         })}
     </SidebarMenu>
   );
 };
+
+export function getCategoryPath(id: number | null) {
+  return id === null ? "/app/drop" : `/app/${id}`;
+}

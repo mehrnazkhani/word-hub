@@ -19,7 +19,7 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useTheme } from "next-themes";
+import { useTheme } from "@wrksz/themes/client";
 
 import type { UserAccountProps } from "./UserAccount";
 import { SignOutConfirm } from "./signout/SignOutConfirm";

@@ -19,8 +19,8 @@ export type Database = {
           created_at: string
           deleted_at: string | null
           id: number
+          is_system: boolean | null
           name: string
-          progress: number
           updated_at: string | null
           user_id: string
         }
@@ -28,8 +28,8 @@ export type Database = {
           created_at?: string
           deleted_at?: string | null
           id?: number
+          is_system?: boolean | null
           name: string
-          progress?: number
           updated_at?: string | null
           user_id: string
         }
@@ -37,8 +37,8 @@ export type Database = {
           created_at?: string
           deleted_at?: string | null
           id?: number
+          is_system?: boolean | null
           name?: string
-          progress?: number
           updated_at?: string | null
           user_id?: string
         }
@@ -50,7 +50,6 @@ export type Database = {
           flag: string | null
           id: number
           label: string
-          user_id: string | null
           value: string
         }
         Insert: {
@@ -58,7 +57,6 @@ export type Database = {
           flag?: string | null
           id?: number
           label: string
-          user_id?: string | null
           value: string
         }
         Update: {
@@ -66,7 +64,6 @@ export type Database = {
           flag?: string | null
           id?: number
           label?: string
-          user_id?: string | null
           value?: string
         }
         Relationships: []

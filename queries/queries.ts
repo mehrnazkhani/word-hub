@@ -1,5 +1,16 @@
-export const categoryKeys = {
-  all: ["categories"] as const,
-  lists: () => [...categoryKeys.all, "list"] as const,
-  //   detail: (id: string) => [...categoryKeys.all, 'detail', id] as const,
+export const queryKeys = {
+  category: {
+    all: ["categories"] as const,
+    user: (userId?: string) => ["categories", "user", userId] as const,
+    byId: (id: string) => ["categories", id] as const,
+  },
+
+  word: {
+    byCategoryId: (categoryId: number, userId: string) =>
+      ["words", categoryId, userId] as const,
+  },
+
+  language: {
+    all: ["languages"] as const,
+  },
 };

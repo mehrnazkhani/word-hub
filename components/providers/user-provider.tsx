@@ -4,7 +4,15 @@ import { createContext, useContext, useState, useEffect } from "react";
 import type { User } from "@supabase/supabase-js";
 import { createClient } from "@/lib/supabase/client";
 
-const UserContext = createContext<User | null>(null);
+type UserContextValue = {
+  user: User | null;
+  isPending: boolean;
+};
+
+const UserContext = createContext<UserContextValue>({
+  user: null,
+  isPending: true,
+});
 
 export const UserProvider = ({
   initialUser,
@@ -14,6 +22,7 @@ export const UserProvider = ({
   children: React.ReactNode;
 }) => {
   const [user, setUser] = useState<User | null>(initialUser);
+  const [isPending, setIsPending] = useState(true);
 
   useEffect(() => {
     const supabase = createClient();
@@ -21,11 +30,16 @@ export const UserProvider = ({
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
+      setIsPending(false);
     });
     return () => subscription.unsubscribe();
   }, []);
 
-  return <UserContext.Provider value={user}>{children}</UserContext.Provider>;
+  return (
+    <UserContext.Provider value={{ user, isPending }}>
+      {children}
+    </UserContext.Provider>
+  );
 };
 
 export function useUser() {

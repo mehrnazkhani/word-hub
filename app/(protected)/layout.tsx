@@ -1,8 +1,13 @@
 import { redirect } from "next/navigation";
 
 import { createClient } from "@/lib/supabase/server";
-import { QueryClient } from "@tanstack/react-query";
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
 import { UserProvider } from "@/components/providers/user-provider";
+import { prefetchLanguages } from "@/queries/languages/prefetchLanguages";
 import { ROUTES } from "@/constants/routes";
 
 const ProtectedLayout = async ({
@@ -22,7 +27,15 @@ const ProtectedLayout = async ({
 
   const queryClient = new QueryClient();
 
-  return <UserProvider initialUser={user}>{children}</UserProvider>;
+  await prefetchLanguages(queryClient, supabase);
+
+  return (
+    <UserProvider initialUser={user}>
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        {children}
+      </HydrationBoundary>
+    </UserProvider>
+  );
 };
 
 export default ProtectedLayout;

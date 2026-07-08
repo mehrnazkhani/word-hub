@@ -1,6 +1,6 @@
 import { SelectItem } from "@/components/ui/select";
 import { FormSelect } from "@/components/inputs/FormSelect";
-import { useCategories } from "@/queries/categories/useCategories";
+import { useUserCategories } from "@/queries/categories/useCategories";
 
 type SelectCategoryProps = {
   name: string;
@@ -13,7 +13,7 @@ export const SelectCategory = ({
   label,
   placeholder,
 }: SelectCategoryProps) => {
-  const { data: categories } = useCategories();
+  const { data: categories } = useUserCategories();
 
   return (
     <FormSelect name={name} label={label} placeholder={placeholder}>

@@ -1,21 +1,13 @@
-import { createClient } from "@/lib/supabase/client";
+import { SupabaseClient } from "@supabase/supabase-js";
+import { Database } from "@/types/supabase";
 
-const selectFields = "id, name";
+type Client = SupabaseClient<Database>;
 
-export const getCategories = async () => {
-  const supabase = createClient();
-
-  const { data, error } = await supabase
+export const getUserCategories = (client: Client, userId: string) => {
+  return client
     .from("categories")
-    .select(selectFields)
-    .order("created_at", { ascending: false });
-
-  console.log("fetching categories");
-
-  if (error) {
-    console.error("Error fetching categories:", error);
-    return [];
-  }
-
-  return data;
+    .select("*")
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false })
+    .throwOnError();
 };

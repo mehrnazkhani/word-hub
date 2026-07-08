@@ -10,11 +10,11 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { CategoryContextMenu } from "./CategoryContextMenu";
-import { useCategories } from "@/queries/categories/useCategories";
+import { useUserCategories } from "@/queries/categories/useCategories";
 import { CategorySkeleton } from "./CategorySkeleton";
 
 export const CategoriesList = () => {
-  const { data: categories, isPending } = useCategories();
+  const { data: categories, isPending } = useUserCategories();
   const { categoryId } = useParams<{ categoryId?: string }>();
 
   const [optimisticActiveId, setOptimisticActiveId] = useState<string | null>(
@@ -43,19 +43,15 @@ export const CategoriesList = () => {
     <SidebarMenu className="text-app-secondary flex-1 overflow-y-auto">
       {categories &&
         categories.map((category) => {
-          const isDrop = category.id === null;
-          const activeKey = isDrop ? "Drop" : String(category.id);
-          const isActive = optimisticActiveId === activeKey;
-
           const menuButton = (
-            <SidebarMenuItem key={activeKey}>
+            <SidebarMenuItem key={category.id}>
               <SidebarMenuButton
                 asChild
                 className="cursor-pointer"
-                isActive={isActive}
+                isActive={optimisticActiveId === String(category.id)}
               >
                 <Link
-                  href={getCategoryPath(category.id)}
+                  href={`/app/${category.id}`}
                   onClick={() => setOptimisticActiveId(String(category.id))}
                 >
                   <span className="truncate">{category.name}</span>
@@ -64,7 +60,7 @@ export const CategoriesList = () => {
             </SidebarMenuItem>
           );
 
-          if (isDrop) return menuButton;
+          if (category.is_system) return menuButton;
 
           return (
             <CategoryContextMenu
@@ -80,7 +76,3 @@ export const CategoriesList = () => {
     </SidebarMenu>
   );
 };
-
-export function getCategoryPath(id: number | null) {
-  return id === null ? "/app/drop" : `/app/${id}`;
-}

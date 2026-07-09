@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/empty";
 import { Spinner } from "@/components/ui/spinner";
 
-const LoadingPage = () => {
+export const WordsLoading = () => {
   return (
     <main className="flex h-full w-full items-center justify-center overflow-hidden p-4">
       <Empty>
@@ -24,5 +24,3 @@ const LoadingPage = () => {
     </main>
   );
 };
-
-export default LoadingPage;

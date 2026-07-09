@@ -15,35 +15,36 @@ import {
 } from "@/components/ui/context-menu";
 
 import { useCategoriesStore } from "@/stores/categories.store";
+import { Word } from "@/types/db-aliases";
 
-type WordContextMenuProps = {
-  children: ReactNode;
+type CategoryWordContextMenuProps = {
+  word: Word;
   currentCategoryId?: number | null;
-  onCopy: () => void;
-  onEdit: () => void;
-  onMove: (categoryId: number) => void;
-  onDelete: () => void;
+  children: ReactNode;
 };
 
-export const WordContextMenu = ({
-  children,
+export const CategoryWordContextMenu = ({
+  word,
   currentCategoryId,
-  onCopy,
-  onEdit,
-  onMove,
-  onDelete,
-}: WordContextMenuProps) => {
+  children,
+}: CategoryWordContextMenuProps) => {
   const categories = useCategoriesStore((state) => state.categories);
 
   return (
     <ContextMenu>
       <ContextMenuTrigger asChild>{children}</ContextMenuTrigger>
       <ContextMenuContent className="p-2">
-        <ContextMenuItem onSelect={onCopy} className="text-xs">
+        <ContextMenuItem
+          onSelect={() => handleCopy(word.id)}
+          className="text-xs"
+        >
           <Copy className="size-3" />
           Copy
         </ContextMenuItem>
-        <ContextMenuItem onSelect={onEdit} className="text-xs">
+        <ContextMenuItem
+          onSelect={() => handleEdit(word.id)}
+          className="text-xs"
+        >
           <Pencil className="size-3" />
           Edit
         </ContextMenuItem>
@@ -59,7 +60,7 @@ export const WordContextMenu = ({
                 <ContextMenuItem
                   key={category.id}
                   disabled={isCurrentCategory}
-                  onSelect={() => onMove(category.id)}
+                  onSelect={() => handleMove(word.id, category.id)}
                   className="text-xs"
                 >
                   <span className="truncate">{category.name}</span>
@@ -72,7 +73,7 @@ export const WordContextMenu = ({
         <ContextMenuSeparator />
         <ContextMenuItem
           variant="destructive"
-          onSelect={onDelete}
+          onSelect={() => handleDelete(word.id)}
           className="text-xs"
         >
           <Trash2 className="size-3" />
@@ -82,3 +83,32 @@ export const WordContextMenu = ({
     </ContextMenu>
   );
 };
+
+const handleCopy = (wordId: number) => {
+  console.log("Copy word:", wordId);
+};
+
+const handleEdit = (wordId: number) => {
+  console.log("Edit word:", wordId);
+};
+
+const handleMove = (wordId: number, targetCategoryId: number) => {
+  console.log("Move word:", { wordId, targetCategoryId });
+};
+
+const handleDelete = (wordId: number) => {
+  console.log("Delete word:", wordId);
+};
+
+// const handleCopy = useCallback((wordId: number) => {
+//   console.log("Copy word:", wordId);
+// }, []);
+// const handleEdit = useCallback((wordId: number) => {
+//   console.log("Edit word:", wordId);
+// }, []);
+// const handleMove = useCallback((wordId: number, targetCategoryId: number) => {
+//   console.log("Move word:", { wordId, targetCategoryId });
+// }, []);
+// const handleDelete = useCallback((wordId: number) => {
+//   console.log("Delete word:", wordId);
+// }, []);

@@ -1,9 +1,15 @@
-import { EmptyUI } from "@/components/EmptyUI";
-import { CategoryWordList } from "@/features/word/word-list/CategoryWordList";
-import { getDeletedWords } from "@/lib/data/getWords";
+"use client";
 
-const TrashPage = async () => {
-  const words = await getDeletedWords();
+import { EmptyUI } from "@/components/EmptyUI";
+import { WordsLoading } from "@/components/WordsLoading";
+import { DeletedWordList } from "@/features/word/word-list/deleted-word/DeletedWordList";
+import { WordListContainer } from "@/features/word/word-list/WordListContainer";
+import { useDeletedWords } from "@/queries/words/useDeletedWords";
+
+const TrashPage = () => {
+  const { data: words = [], isPending } = useDeletedWords();
+
+  if (isPending) return <WordsLoading />;
 
   if (words.length === 0)
     return (
@@ -13,7 +19,11 @@ const TrashPage = async () => {
       />
     );
 
-  return <CategoryWordList words={words} />;
+  return (
+    <WordListContainer>
+      <DeletedWordList words={words} />
+    </WordListContainer>
+  );
 };
 
 export default TrashPage;

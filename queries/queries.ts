@@ -8,6 +8,8 @@ export const queryKeys = {
   word: {
     byCategoryId: (categoryId: number, userId: string) =>
       ["words", categoryId, userId] as const,
+
+    deleted: (userId: string) => ["words", "deleted", userId],
   },
 
   language: {

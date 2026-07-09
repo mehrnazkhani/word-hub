@@ -1,16 +1,14 @@
 import { useWordAccordion } from "../WordAccordionContext";
 import { AppIcons } from "@/components/icons";
 
-const FooterLanguages = () => {
+export const FooterLanguages = () => {
   const { word } = useWordAccordion();
 
   return (
-    <p className="flex items-center gap-1">
-      {word.source_language}
+    <p className="flex items-center gap-1 text-foreground/50">
+      {word.sourceLanguage?.label}
       <AppIcons.MoveRightIcon size={12} />
-      {word.target_language}
+      {word.targetLanguage?.label}
     </p>
   );
 };
-
-export { FooterLanguages };

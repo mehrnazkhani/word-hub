@@ -8,7 +8,7 @@ export const TriggerProgress = () => {
   return (
     <div className="flex items-center gap-2">
       <Progress value={progress} />
-      <span className="text-xs text-app-secondary">{progress}%</span>
+      <span className="text-xs text-foreground/50">{progress}%</span>
     </div>
   );
 };

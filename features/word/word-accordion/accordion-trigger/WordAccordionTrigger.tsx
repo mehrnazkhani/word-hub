@@ -21,7 +21,9 @@ const WordAccordionTriggerRoot = ({
   className,
 }: WordAccordionTriggerRootProps) => {
   return (
-    <AccordionTrigger className={cn("group grid grid-cols-3", className)}>
+    <AccordionTrigger
+      className={cn("group grid grid-cols-3 pb-1.5", className)}
+    >
       {children}
     </AccordionTrigger>
   );

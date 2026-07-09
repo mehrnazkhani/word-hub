@@ -19,7 +19,7 @@ export const WordAccordionItem = ({
   return (
     <AccordionItem
       value={value}
-      className={cn("flex w-full flex-col gap-2.5 p-2.5", className)}
+      className={cn("flex w-full flex-col px-2.5 py-5", className)}
     >
       <WordAccordionProvider word={word}>{children}</WordAccordionProvider>
     </AccordionItem>

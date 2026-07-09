@@ -20,7 +20,7 @@ const WordAccordionFooterRoot = ({
   return (
     <footer
       className={cn(
-        "flex items-center justify-between text-xs text-app-secondary",
+        "flex items-center justify-between pt-1.5 text-xs",
         className,
       )}
     >

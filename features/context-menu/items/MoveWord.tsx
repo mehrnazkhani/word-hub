@@ -9,10 +9,12 @@ import {
 } from "@/components/ui/context-menu";
 import { useUserCategories } from "@/queries/categories/useCategories";
 import { useWordContextMenu } from "../WordContextMenuContext";
+import { useMoveWord } from "@/queries/words/useMoveWord";
 
 export const MoveWord = () => {
   const { data: categories, isPending } = useUserCategories();
   const { word } = useWordContextMenu();
+  const { mutate: moveWord } = useMoveWord();
 
   return (
     <ContextMenuSub>
@@ -28,7 +30,13 @@ export const MoveWord = () => {
               <ContextMenuItem
                 key={category.id}
                 disabled={isCurrentCategory}
-                onSelect={() => handleMove(word.id, category.id)}
+                onSelect={() =>
+                  moveWord({
+                    wordId: word.id,
+                    fromCategoryId: word.category_id,
+                    toCategoryId: category.id,
+                  })
+                }
                 className="text-xs"
               >
                 <span className="truncate">{category.name}</span>
@@ -39,8 +47,4 @@ export const MoveWord = () => {
       </ContextMenuSubContent>
     </ContextMenuSub>
   );
-};
-
-const handleMove = (wordId: number, targetCategoryId: number) => {
-  console.log("Move word:", { wordId, targetCategoryId });
 };

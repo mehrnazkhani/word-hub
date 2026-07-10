@@ -164,7 +164,7 @@ export type Database = {
       words: {
         Row: {
           antonyms: string[] | null
-          category_id: number | null
+          category_id: number
           created_at: string
           deleted_at: string | null
           description: string | null
@@ -185,7 +185,7 @@ export type Database = {
         }
         Insert: {
           antonyms?: string[] | null
-          category_id?: number | null
+          category_id: number
           created_at?: string
           deleted_at?: string | null
           description?: string | null
@@ -206,7 +206,7 @@ export type Database = {
         }
         Update: {
           antonyms?: string[] | null
-          category_id?: number | null
+          category_id?: number
           created_at?: string
           deleted_at?: string | null
           description?: string | null

@@ -48,3 +48,24 @@ export const getDeletedWords = async ({
     .order("created_at", { ascending: false })
     .throwOnError();
 };
+
+type getRecentWordsProps = {
+  client: Client;
+  userId: string;
+  limit?: number;
+};
+
+export const getRecentWords = ({
+  client,
+  userId,
+  limit = 20,
+}: getRecentWordsProps) => {
+  return client
+    .from("words")
+    .select(selectFields)
+    .eq("user_id", userId)
+    .is("deleted_at", null)
+    .order("created_at", { ascending: false })
+    .limit(limit)
+    .throwOnError();
+};

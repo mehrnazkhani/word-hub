@@ -50,10 +50,7 @@ export const CategoryWordList = ({ categoryId }: CategoryWordListProps) => {
             key={word.id}
             word={word}
             renderContextMenu={(children) => (
-              <CategoryWordContextMenu
-                word={word}
-                currentCategoryId={category.id}
-              >
+              <CategoryWordContextMenu word={word}>
                 {children}
               </CategoryWordContextMenu>
             )}

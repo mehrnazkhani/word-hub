@@ -2,6 +2,7 @@ export const ROUTES = {
   HOME: "/",
 
   TRASH: "/app/trash",
+  RECENT: "/app/recent",
 
   AUTH_CONFIRM: "/auth/confirm",
   SIGN_IN: "/auth/sign-in",

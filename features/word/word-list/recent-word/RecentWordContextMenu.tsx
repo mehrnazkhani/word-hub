@@ -1,23 +1,22 @@
-import type { ReactNode } from "react";
-
-import { Word } from "@/types/db-aliases";
 import { WordContextMenu } from "@/features/context-menu/WordContextMenu";
+import type { Word } from "@/types/db-aliases";
 
-type CategoryWordContextMenuProps = {
+type RecentWordContextMenuProps = {
   word: Word;
-  children: ReactNode;
+  children: React.ReactNode;
 };
 
-export const CategoryWordContextMenu = ({
+export const RecentWordContextMenu = ({
   word,
   children,
-}: CategoryWordContextMenuProps) => {
+}: RecentWordContextMenuProps) => {
   return (
     <WordContextMenu word={word}>
-      <WordContextMenu.Trigger asChild>{children}</WordContextMenu.Trigger>
+      <WordContextMenu.Trigger>{children}</WordContextMenu.Trigger>
       <WordContextMenu.Content>
         <WordContextMenu.Copy />
         <WordContextMenu.Edit />
+        <WordContextMenu.ShowInCategory />
         <WordContextMenu.Move />
         <WordContextMenu.Separator />
         <WordContextMenu.Delete />

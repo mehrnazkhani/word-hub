@@ -1,8 +1,11 @@
+"use client";
+
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useUser } from "@/components/providers/user-provider";
-import { moveWordAction, type moveWordActionProps } from "./moveWord.action";
+import { moveWordAction } from "./moveWord.action";
 import { queryKeys } from "../queries";
 import { toast } from "sonner";
+import type { Word } from "@/types/db-aliases";
 
 type WordCache = {
   id: number;
@@ -10,19 +13,22 @@ type WordCache = {
   [key: string]: unknown;
 };
 
+type MoveWordMutationProps = {
+  word: Word;
+  toCategoryId: number;
+};
+
 export const useMoveWord = () => {
   const queryClient = useQueryClient();
   const { user } = useUser();
 
   return useMutation({
-    mutationFn: ({
-      wordId,
-      fromCategoryId,
-      toCategoryId,
-    }: moveWordActionProps) =>
-      moveWordAction({ wordId, fromCategoryId, toCategoryId }),
+    mutationFn: ({ word, toCategoryId }: MoveWordMutationProps) =>
+      moveWordAction({ wordId: word.id, toCategoryId }),
 
-    onMutate: async ({ wordId, fromCategoryId, toCategoryId }) => {
+    onMutate: async ({ word, toCategoryId }) => {
+      const { id: wordId, category_id: fromCategoryId } = word;
+
       await Promise.all([
         queryClient.cancelQueries({
           queryKey: queryKeys.word.byCategoryId(fromCategoryId, user!.id),
@@ -47,32 +53,35 @@ export const useMoveWord = () => {
       queryClient.setQueryData<WordCache[]>(
         queryKeys.word.byCategoryId(toCategoryId, user!.id),
         (old) => {
+          if (!old) return old;
           const word = previousFrom?.find((w) => w.id === wordId);
-          if (!word) return old ?? [];
-          return [...(old ?? []), { ...word, category_id: toCategoryId }];
+          if (!word) return old;
+          return [...old, { ...word, category_id: toCategoryId }];
         },
       );
 
-      toast.success("Word moved successfully", { id: "move-word" });
+      toast.success(`Word ${word.word} moved successfully`, {
+        id: "move-word",
+      });
 
       return { previousFrom, previousTo };
     },
 
-    onSuccess: (result, { fromCategoryId, toCategoryId }) => {
+    onSuccess: (result, { word, toCategoryId }) => {
       if (result.error) throw new Error(result.error);
 
       queryClient.invalidateQueries({
-        queryKey: queryKeys.word.byCategoryId(fromCategoryId, user!.id),
+        queryKey: queryKeys.word.byCategoryId(word.category_id, user!.id),
       });
       queryClient.invalidateQueries({
         queryKey: queryKeys.word.byCategoryId(toCategoryId, user!.id),
       });
     },
 
-    onError: (_, { fromCategoryId, toCategoryId }, context) => {
+    onError: (_, { word, toCategoryId }, context) => {
       if (context?.previousFrom) {
         queryClient.setQueryData(
-          queryKeys.word.byCategoryId(fromCategoryId, user!.id),
+          queryKeys.word.byCategoryId(word.category_id, user!.id),
           context.previousFrom,
         );
       }

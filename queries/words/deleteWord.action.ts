@@ -3,21 +3,17 @@
 import { getAuthenticatedUser } from "@/lib/supabase/getAuthenticatedUser";
 import { createClient } from "@/lib/supabase/server";
 
-type moveWordActionProps = {
+type deleteWordActionProps = {
   wordId: number;
-  toCategoryId: number;
 };
 
-export const moveWordAction = async ({
-  wordId,
-  toCategoryId,
-}: moveWordActionProps) => {
+export const deleteWordAction = async ({ wordId }: deleteWordActionProps) => {
   const supabase = await createClient();
   const user = await getAuthenticatedUser();
 
   const { error } = await supabase
     .from("words")
-    .update({ category_id: toCategoryId })
+    .update({ deleted_at: new Date().toISOString() })
     .eq("id", wordId)
     .eq("user_id", user.id);
 

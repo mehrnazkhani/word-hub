@@ -17,19 +17,14 @@ export const getActiveWords = async ({
   userId,
   categoryId,
 }: GetActiveWordsProps) => {
-  let query = client
+  return client
     .from("words")
     .select(selectFields)
+    .eq("category_id", categoryId)
     .eq("user_id", userId)
-    .order("created_at", { ascending: false });
-
-  if (categoryId === null) {
-    query = query.is("category_id", null);
-  } else {
-    query = query.eq("category_id", categoryId);
-  }
-
-  return query.throwOnError();
+    .is("deleted_at", null)
+    .order("created_at", { ascending: false })
+    .throwOnError();
 };
 
 type GetDeletedWordsProps = {
@@ -45,7 +40,7 @@ export const getDeletedWords = async ({
     .from("words")
     .select(selectFields)
     .not("deleted_at", "is", null)
-    .order("created_at", { ascending: false })
+    .order("deleted_at", { ascending: false })
     .throwOnError();
 };
 

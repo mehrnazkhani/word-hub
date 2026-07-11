@@ -3,21 +3,24 @@
 import { Trash2 } from "lucide-react";
 import { ContextMenuItem } from "@/components/ui/context-menu";
 import { useWordContextMenu } from "../WordContextMenuContext";
+import { usePermanentDeleteWord } from "@/queries/words/usePermanentDeleteWord";
 
 export const PermanentDeleteWord = () => {
   const { word } = useWordContextMenu();
+  const { mutate: permanentDeleteWord } = usePermanentDeleteWord();
+
+  const handlePermanentDelete = () => {
+    permanentDeleteWord({ word });
+  };
 
   return (
     <ContextMenuItem
-      onSelect={() => handlePermanentDelete(word.id)}
+      variant="destructive"
+      onSelect={handlePermanentDelete}
       className="text-sm"
     >
       <Trash2 className="size-3" />
-      Copy
+      Permanent Delete
     </ContextMenuItem>
   );
-};
-
-const handlePermanentDelete = (wordId: number) => {
-  console.log("Permanently delete word:", wordId);
 };

@@ -1,4 +1,6 @@
-import { memo, ReactNode } from "react";
+"use client";
+
+import { memo, ReactNode, useEffect, useRef, useState } from "react";
 import { WordAccordion } from "../word-accordion/WordAccordion";
 import type { Word } from "@/types/db-aliases";
 
@@ -6,12 +8,35 @@ type WordItemProps = {
   word: Word;
   dateType?: "deleted" | "created";
   renderContextMenu: (children: ReactNode) => ReactNode;
+  id?: string;
 };
 
 export const WordItem = memo(
-  ({ word, dateType = "created", renderContextMenu }: WordItemProps) => {
+  ({ word, dateType = "created", renderContextMenu, id }: WordItemProps) => {
+    const ref = useRef<HTMLDivElement>(null);
+    const [highlighted, setHighlighted] = useState(false);
+
+    useEffect(() => {
+      if (!id) return;
+      if (window.location.hash !== `#${id}`) return;
+
+      ref.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+
+      const highlightTimer = setTimeout(() => setHighlighted(true), 500);
+      const removeTimer = setTimeout(() => setHighlighted(false), 2500);
+
+      return () => {
+        clearTimeout(highlightTimer);
+        clearTimeout(removeTimer);
+      };
+    }, [id]);
+
     return renderContextMenu(
-      <div className="[&>div]:border-b last:[&>div]:border-b-0">
+      <div
+        ref={ref}
+        id={id}
+        className={`rounded-md transition-colors duration-500 [&>div]:border-b last:[&>div]:border-b-0 ${highlighted ? "bg-white/5" : ""} `}
+      >
         <WordAccordion.Item value={`item-${word.id}`} word={word}>
           <WordAccordion.Trigger>
             <WordAccordion.Trigger.Left>

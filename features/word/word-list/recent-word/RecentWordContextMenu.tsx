@@ -14,12 +14,7 @@ export const RecentWordContextMenu = ({
     <WordContextMenu word={word}>
       <WordContextMenu.Trigger>{children}</WordContextMenu.Trigger>
       <WordContextMenu.Content>
-        <WordContextMenu.Copy />
-        <WordContextMenu.Edit />
         <WordContextMenu.ShowInCategory />
-        <WordContextMenu.Move />
-        <WordContextMenu.Separator />
-        <WordContextMenu.Delete />
       </WordContextMenu.Content>
     </WordContextMenu>
   );

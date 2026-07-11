@@ -48,6 +48,7 @@ export const CategoryWordList = ({ categoryId }: CategoryWordListProps) => {
         {words.map((word) => (
           <WordItem
             key={word.id}
+            id={`word-${word.id}`}
             word={word}
             renderContextMenu={(children) => (
               <CategoryWordContextMenu word={word}>

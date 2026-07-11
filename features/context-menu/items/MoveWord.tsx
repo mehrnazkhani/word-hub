@@ -32,8 +32,7 @@ export const MoveWord = () => {
                 disabled={isCurrentCategory}
                 onSelect={() =>
                   moveWord({
-                    wordId: word.id,
-                    fromCategoryId: word.category_id,
+                    word: word,
                     toCategoryId: category.id,
                   })
                 }

@@ -173,6 +173,7 @@ export type Database = {
             | Database["public"]["Enums"]["part_of_speech_enum"]
             | null
           score: number
+          search_vector: unknown
           source_language_id: number
           synonyms: string[] | null
           target_language_id: number
@@ -194,6 +195,7 @@ export type Database = {
             | Database["public"]["Enums"]["part_of_speech_enum"]
             | null
           score?: number
+          search_vector?: unknown
           source_language_id: number
           synonyms?: string[] | null
           target_language_id: number
@@ -215,6 +217,7 @@ export type Database = {
             | Database["public"]["Enums"]["part_of_speech_enum"]
             | null
           score?: number
+          search_vector?: unknown
           source_language_id?: number
           synonyms?: string[] | null
           target_language_id?: number

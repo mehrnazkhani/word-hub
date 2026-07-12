@@ -1,9 +1,11 @@
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
 
-import { UserAccount } from "./user-account/UserAccount";
-import { getAuthenticatedUser } from "@/lib/supabase/getAuthenticatedUser";
 import { HeaderBreadcrumb } from "./HeaderBreadcrumb";
+import { UserAccount } from "./user-account/UserAccount";
+import { SearchWord } from "../search-word/SearchWord";
+
+import { getAuthenticatedUser } from "@/lib/supabase/getAuthenticatedUser";
 
 export const AppHeader = async () => {
   const user = await getAuthenticatedUser();
@@ -22,6 +24,7 @@ export const AppHeader = async () => {
 
       <div className="ml-auto">
         <div className="flex items-center gap-2">
+          <SearchWord />
           {user && <UserAccount fullName={user?.user_metadata.full_name} />}
         </div>
       </div>

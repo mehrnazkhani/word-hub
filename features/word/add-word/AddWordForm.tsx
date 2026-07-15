@@ -12,10 +12,12 @@ import { SelectCategory } from "./select-fields/SelectCategory";
 import { WordFormMoreFields } from "./WordFormMoreFields";
 import { LoadingButton } from "@/components/LoadingButton";
 import { createWordAction } from "@/lib/actions/createWord.action";
+import { useAiFillWord } from "@/hooks/use-ai-fill-word";
 
 import { addWordFormDefaultValues } from "@/schemas/word/addWord.defaults";
 import { addWordSchema } from "@/schemas/word/addWord.schema";
 import type { AddWordFormValues } from "@/schemas/word/addWord.schema";
+import { AiFillButton } from "./AiFillButton";
 
 const AddWordForm = () => {
   const methods = useForm<AddWordFormValues>({
@@ -28,6 +30,8 @@ const AddWordForm = () => {
     reset,
     formState: { isSubmitting },
   } = methods;
+
+  const { fillWithAI, isLoading: isAiLoading, stopAI } = useAiFillWord(methods);
 
   const onSubmit = async (data: AddWordFormValues) => {
     try {
@@ -83,7 +87,13 @@ const AddWordForm = () => {
 
         <WordFormMoreFields />
 
-        <div className="col-span-4 flex justify-end">
+        <div className="col-span-4 flex justify-between">
+          <AiFillButton
+            isLoading={isAiLoading}
+            onFill={fillWithAI}
+            onStop={stopAI}
+          />
+
           <LoadingButton variant="ghost" isLoading={isSubmitting}>
             {isSubmitting ? "Saving..." : "Save"}
             <AppIcons.ChevronRightIcon />

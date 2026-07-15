@@ -21,4 +21,5 @@ export const ROUTES = {
 export const API_ROUTES = {
   SEARCH_WORD: (query: string, limit = 15) =>
     `/api/search/word?q=${encodeURIComponent(query)}&limit=${limit}`,
+  ai_FILL_WORD: "/api/ai/fill-word",
 } as const;

@@ -27,7 +27,7 @@ export const SelectLanguage = ({
       label={label}
       placeholder={placeholder}
       renderValue={(value) => {
-        const lang = languages?.find((l) => l.value === value);
+        const lang = languages?.find((l) => String(l.id) === value);
 
         return lang ? (
           <span className="flex items-center gap-1">

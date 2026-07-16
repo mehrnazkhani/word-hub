@@ -3,7 +3,6 @@
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { toast } from "sonner";
 import { AppIcons } from "@/components/icons";
 import { FormInput } from "@/components/inputs/FormInput";
 import { SelectLanguage } from "./select-fields/SelectLanguage";
@@ -11,13 +10,13 @@ import { SelectWordType } from "./select-fields/SelectWordType";
 import { SelectCategory } from "./select-fields/SelectCategory";
 import { WordFormMoreFields } from "./WordFormMoreFields";
 import { LoadingButton } from "@/components/LoadingButton";
-import { createWordAction } from "@/lib/actions/createWord.action";
-import { useAiFillWord } from "@/hooks/use-ai-fill-word";
+import { AiFillButton } from "./AiFillButton";
 
+import { useAiFillWord } from "@/hooks/use-ai-fill-word";
 import { addWordFormDefaultValues } from "@/schemas/word/addWord.defaults";
 import { addWordSchema } from "@/schemas/word/addWord.schema";
 import type { AddWordFormValues } from "@/schemas/word/addWord.schema";
-import { AiFillButton } from "./AiFillButton";
+import { useCreateWord } from "@/queries/words/useCreateWord";
 
 const AddWordForm = () => {
   const methods = useForm<AddWordFormValues>({
@@ -33,18 +32,10 @@ const AddWordForm = () => {
 
   const { fillWithAI, isLoading: isAiLoading, stopAI } = useAiFillWord(methods);
 
-  const onSubmit = async (data: AddWordFormValues) => {
-    try {
-      const result = await createWordAction(data);
+  const { mutateAsync: creteWord } = useCreateWord();
 
-      if (result) {
-        toast.success("Word added successfully.");
-        reset();
-      }
-    } catch (error: any) {
-      console.error(error);
-      toast.error(error.message || "Failed to add word. Please try again.");
-    }
+  const onSubmit = async (data: AddWordFormValues) => {
+    await creteWord(data, { onSuccess: () => reset() });
   };
 
   return (

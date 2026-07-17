@@ -114,6 +114,7 @@ export type Database = {
       }
       user_settings: {
         Row: {
+          ai_fill_fields: Json | null
           created_at: string
           default_category_id: number | null
           default_source_lang_id: number | null
@@ -122,6 +123,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          ai_fill_fields?: Json | null
           created_at?: string
           default_category_id?: number | null
           default_source_lang_id?: number | null
@@ -130,6 +132,7 @@ export type Database = {
           user_id: string
         }
         Update: {
+          ai_fill_fields?: Json | null
           created_at?: string
           default_category_id?: number | null
           default_source_lang_id?: number | null
@@ -168,6 +171,7 @@ export type Database = {
           created_at: string
           deleted_at: string | null
           description: string | null
+          example: string | null
           id: number
           part_of_speech:
             | Database["public"]["Enums"]["part_of_speech_enum"]
@@ -190,6 +194,7 @@ export type Database = {
           created_at?: string
           deleted_at?: string | null
           description?: string | null
+          example?: string | null
           id?: number
           part_of_speech?:
             | Database["public"]["Enums"]["part_of_speech_enum"]
@@ -212,6 +217,7 @@ export type Database = {
           created_at?: string
           deleted_at?: string | null
           description?: string | null
+          example?: string | null
           id?: number
           part_of_speech?:
             | Database["public"]["Enums"]["part_of_speech_enum"]

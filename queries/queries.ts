@@ -12,6 +12,10 @@ export const queryKeys = {
     recent: (userId: string) => ["words", "recent", userId],
   },
 
+  settings: {
+    user: (userId: string) => ["settings", userId],
+  },
+
   language: {
     all: ["languages"] as const,
   },

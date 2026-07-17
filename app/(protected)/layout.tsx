@@ -8,6 +8,7 @@ import {
 } from "@tanstack/react-query";
 import { UserProvider } from "@/components/providers/user-provider";
 import { prefetchLanguages } from "@/queries/languages/prefetchLanguages";
+import { prefetchUserSettings } from "@/queries/user-settings/prefetchUserSettings";
 import { ROUTES } from "@/constants/routes";
 
 const ProtectedLayout = async ({
@@ -27,7 +28,10 @@ const ProtectedLayout = async ({
 
   const queryClient = new QueryClient();
 
-  await prefetchLanguages(queryClient, supabase);
+  await Promise.all([
+    prefetchLanguages(queryClient, supabase),
+    prefetchUserSettings(queryClient, supabase),
+  ]);
 
   return (
     <UserProvider initialUser={user}>

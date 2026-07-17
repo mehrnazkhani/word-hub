@@ -9,7 +9,6 @@ import { Separator } from "@/components/ui/separator";
 import { SelectLanguage } from "../word/add-word/select-fields/SelectLanguage";
 import { SelectCategory } from "../word/add-word/select-fields/SelectCategory";
 import { LoadingButton } from "@/components/LoadingButton";
-import { useUserSettingsStore } from "@/stores/userSettings.store";
 
 import {
   addWordFormSettingsSchema,
@@ -20,10 +19,6 @@ import { findObjectById } from "@/lib/utils/findObjectById";
 import { useLanguages } from "@/queries/languages/useLanguages";
 
 const AddWordFormSettings = () => {
-  const settings = useUserSettingsStore((s) => s.settings);
-  const isLoading = useUserSettingsStore((s) => s.isLoading);
-  const fetchUserSettings = useUserSettingsStore((s) => s.fetchUserSettings);
-
   const categories = useCategoriesStore((s) => s.categories);
   const { data: languages } = useLanguages();
 

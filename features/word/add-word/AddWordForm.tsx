@@ -15,13 +15,27 @@ import { AiFillButton } from "./AiFillButton";
 import { useAiFillWord } from "@/hooks/use-ai-fill-word";
 import { addWordFormDefaultValues } from "@/schemas/word/addWord.defaults";
 import { addWordSchema } from "@/schemas/word/addWord.schema";
-import type { AddWordFormValues } from "@/schemas/word/addWord.schema";
 import { useCreateWord } from "@/queries/words/useCreateWord";
+import { useUserSettings } from "@/queries/user-settings/useUserSettings";
+import type { AddWordFormValues } from "@/schemas/word/addWord.schema";
 
 const AddWordForm = () => {
+  const { data: userSettings } = useUserSettings();
+
   const methods = useForm<AddWordFormValues>({
     resolver: zodResolver(addWordSchema),
-    defaultValues: addWordFormDefaultValues,
+    defaultValues: {
+      ...addWordFormDefaultValues,
+      sourceLanguageId: userSettings?.default_source_lang_id
+        ? String(userSettings.default_source_lang_id)
+        : "",
+      targetLanguageId: userSettings?.default_target_lang_id
+        ? String(userSettings.default_target_lang_id)
+        : "",
+      categoryId: userSettings?.default_category_id
+        ? String(userSettings.default_category_id)
+        : null,
+    },
   });
 
   const {

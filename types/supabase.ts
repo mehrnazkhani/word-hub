@@ -114,7 +114,7 @@ export type Database = {
       }
       user_settings: {
         Row: {
-          ai_fill_fields: Json | null
+          ai_fill_fields: Json
           created_at: string
           default_category_id: number | null
           default_source_lang_id: number | null
@@ -123,7 +123,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
-          ai_fill_fields?: Json | null
+          ai_fill_fields?: Json
           created_at?: string
           default_category_id?: number | null
           default_source_lang_id?: number | null
@@ -132,7 +132,7 @@ export type Database = {
           user_id: string
         }
         Update: {
-          ai_fill_fields?: Json | null
+          ai_fill_fields?: Json
           created_at?: string
           default_category_id?: number | null
           default_source_lang_id?: number | null

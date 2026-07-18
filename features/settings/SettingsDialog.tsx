@@ -33,22 +33,21 @@ const ProfileSettings = dynamic(() => import("./ProfileSettings"), {
 const AddWordFormSettings = dynamic(() => import("./AddWordFormSettings"), {
   ssr: false,
 });
-const CategorySettings = dynamic(() => import("./CategorySettings"), {
-  ssr: false,
-});
-const PracticeSettings = dynamic(() => import("./PracticeSettings"), {
-  ssr: false,
-});
 const PrivacySettings = dynamic(() => import("./PrivacySettings"), {
   ssr: false,
 });
+const AIFillSettingsForm = dynamic(
+  () => import("./ai-fill-settings/AIFillSettings"),
+  {
+    ssr: false,
+  },
+);
 
 const settingsSections = {
   Profile: ProfileSettings,
   "Word Form": AddWordFormSettings,
-  Practice: PracticeSettings,
-  Category: CategorySettings,
   Privacy: PrivacySettings,
+  "Ai Fill": AIFillSettingsForm,
 } as const;
 
 type SettingsSection = keyof typeof settingsSections;
@@ -62,9 +61,8 @@ const data: {
   nav: [
     { name: "Profile", icon: Bell },
     { name: "Word Form", icon: Menu },
-    { name: "Practice", icon: Home },
-    { name: "Category", icon: Paintbrush },
     { name: "Privacy", icon: MessageCircle },
+    { name: "Ai Fill", icon: MessageCircle },
   ],
 };
 
@@ -81,7 +79,7 @@ const SettingsDialog = ({ open, onOpenChange }: SettingsDialogProps) => {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="overflow-hidden p-0 md:max-h-100 md:max-w-175 lg:max-w-150">
+      <DialogContent className="overflow-hidden p-0 md:max-h-110 md:max-w-175 lg:max-w-150">
         <DialogTitle className="sr-only">Settings</DialogTitle>
         <DialogDescription className="sr-only">
           Customize your settings here.
@@ -113,23 +111,23 @@ const SettingsDialog = ({ open, onOpenChange }: SettingsDialogProps) => {
             </SidebarContent>
           </Sidebar>
 
-          <main className="flex h-120 flex-1 flex-col overflow-hidden">
+          <main className="flex h-106 flex-1 flex-col overflow-hidden">
             <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
               <div className="flex items-center gap-2 px-4">
                 <Breadcrumb>
                   <BreadcrumbList>
                     <BreadcrumbItem className="hidden md:block">
-                      <BreadcrumbLink href="#">{activeSection}</BreadcrumbLink>
+                      <BreadcrumbLink href="#">
+                        {activeSection} settings
+                      </BreadcrumbLink>
                     </BreadcrumbItem>
                   </BreadcrumbList>
                 </Breadcrumb>
               </div>
             </header>
 
-            <div className="flex flex-col items-center justify-center gap-4 overflow-y-auto p-4 pt-0">
-              <div className="mb-3 w-full rounded-xl bg-muted/50 p-3">
-                <ActiveSettingsComponent />
-              </div>
+            <div className="mr-3 flex h-full flex-col gap-4 overflow-y-auto rounded-xl bg-muted/50 p-4">
+              <ActiveSettingsComponent />
             </div>
           </main>
         </SidebarProvider>

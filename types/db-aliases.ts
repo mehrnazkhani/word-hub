@@ -32,3 +32,24 @@ export type InsertLanguageRecordType = TableInsert<"languages">;
 
 // =================== PartOfSpeech ======================
 export type PartOfSpeech = DbEnum<"part_of_speech_enum">;
+
+// =================== User Settings ===================
+export type AiFillFields = {
+  translation: boolean;
+  description: boolean;
+  part_of_speech: boolean;
+  example: boolean;
+  antonyms: boolean;
+  synonyms: boolean;
+};
+
+export type UserSettings = Omit<TableRow<"user_settings">, "ai_fill_fields"> & {
+  ai_fill_fields: AiFillFields;
+};
+
+export type UpdateUserSettings = Omit<
+  TableUpdate<"user_settings">,
+  "ai_fill_fields"
+> & {
+  ai_fill_fields?: AiFillFields;
+};

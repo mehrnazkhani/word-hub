@@ -8,7 +8,7 @@ import { FormInput } from "@/components/inputs/FormInput";
 import { SelectLanguage } from "./select-fields/SelectLanguage";
 import { SelectWordType } from "./select-fields/SelectWordType";
 import { SelectCategory } from "./select-fields/SelectCategory";
-import { WordFormMoreFields } from "./WordFormMoreFields";
+import { WordFormAdvanced } from "./WordFormAdvanced";
 import { LoadingButton } from "@/components/LoadingButton";
 import { AiFillButton } from "./AiFillButton";
 
@@ -18,6 +18,7 @@ import { addWordSchema } from "@/schemas/word/addWord.schema";
 import { useCreateWord } from "@/queries/words/useCreateWord";
 import { useUserSettings } from "@/queries/user-settings/useUserSettings";
 import type { AddWordFormValues } from "@/schemas/word/addWord.schema";
+import { Separator } from "@/components/ui/separator";
 
 const AddWordForm = () => {
   const { data: userSettings } = useUserSettings();
@@ -90,7 +91,8 @@ const AddWordForm = () => {
           />
         </div>
 
-        <WordFormMoreFields />
+        {/* <Separator className="col-span-4" /> */}
+        <WordFormAdvanced />
 
         <div className="col-span-4 flex justify-between">
           <AiFillButton

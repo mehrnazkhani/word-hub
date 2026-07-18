@@ -6,5 +6,7 @@ type FormTextareaProps = {
 };
 
 export const FormTextarea = createFormField<FormTextareaProps>(
-  (field, { placeholder }) => <Textarea {...field} placeholder={placeholder} />,
+  (field, { placeholder }) => (
+    <Textarea {...field} placeholder={placeholder} className="resize-none" />
+  ),
 );

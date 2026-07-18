@@ -9,7 +9,7 @@ export const InputWrapper = ({ className, children }: InputWrapperProps) => {
   return (
     <div
       className={cn(
-        "flex items-center border-b border-border transition-colors duration-300 focus-within:border-ring",
+        "flex items-center border-b border-border transition-colors duration-300 focus-within:border-ring has-[*[aria-invalid=true]]:border-destructive",
         className,
       )}
     >

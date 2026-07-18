@@ -27,7 +27,8 @@ export const FormSelect = createFormField<FormSelectProps>(
       <SelectTrigger
         id={field.id}
         onBlur={onBlur}
-        className="w-full cursor-pointer text-xs"
+        aria-invalid={field["aria-invalid"]}
+        className="w-full cursor-pointer text-xs aria-invalid:border-destructive"
       >
         <SelectValue placeholder={placeholder}>
           {field.value && renderValue ? renderValue(field.value) : undefined}

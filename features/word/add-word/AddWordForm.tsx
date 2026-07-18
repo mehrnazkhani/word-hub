@@ -14,11 +14,12 @@ import { AiFillButton } from "./AiFillButton";
 
 import { useAiFillWord } from "@/features/word/add-word/use-ai-fill-word";
 import { addWordFormDefaultValues } from "@/schemas/word/addWord.defaults";
-import { addWordSchema } from "@/schemas/word/addWord.schema";
 import { useCreateWord } from "@/queries/words/useCreateWord";
 import { useUserSettings } from "@/queries/user-settings/useUserSettings";
-import type { AddWordFormValues } from "@/schemas/word/addWord.schema";
-import { Separator } from "@/components/ui/separator";
+import {
+  addWordSchema,
+  type AddWordFormValues,
+} from "@/schemas/word/addWord.schema";
 
 const AddWordForm = () => {
   const { data: userSettings } = useUserSettings();

@@ -48,11 +48,18 @@ export const WordFormAdvanced = () => {
             </p>
           </div>
 
-          <FormTextarea name="example" label="Example" placeholder="Example" />
+          <FormTextarea
+            name="example"
+            label="Example"
+            placeholder="Example"
+            rows={2}
+          />
+
           <FormTextarea
             name="description"
             label="Description"
             placeholder="Description"
+            rows={2}
           />
         </div>
       </CollapsibleContent>

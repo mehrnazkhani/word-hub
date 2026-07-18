@@ -20,6 +20,8 @@ export const addWordSchema = z.object({
     .max(WORD_LIMITS.description)
     .nullable()
     .optional(),
+
+  example: z.string().trim().max(WORD_LIMITS.example).nullable().optional(),
 });
 
 export type AddWordFormValues = z.infer<typeof addWordSchema>;

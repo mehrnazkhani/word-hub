@@ -30,6 +30,7 @@ export const WordFormMoreFields = () => {
         <div className="space-y-4">
           <FormInput name="synonyms" label="Synonyms" placeholder="Synonyms" />
           <FormInput name="antonyms" label="Antonyms" placeholder="Antonyms" />
+          <FormTextarea name="example" label="Example" placeholder="Example" />
           <FormTextarea
             name="description"
             label="Description"

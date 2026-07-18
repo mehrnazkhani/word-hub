@@ -10,4 +10,5 @@ export const addWordFormDefaultValues: AddWordFormValues = {
   synonyms: "",
   antonyms: "",
   description: "",
+  example: "",
 };

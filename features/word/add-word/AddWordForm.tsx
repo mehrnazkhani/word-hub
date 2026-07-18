@@ -12,7 +12,7 @@ import { WordFormMoreFields } from "./WordFormMoreFields";
 import { LoadingButton } from "@/components/LoadingButton";
 import { AiFillButton } from "./AiFillButton";
 
-import { useAiFillWord } from "@/hooks/use-ai-fill-word";
+import { useAiFillWord } from "@/features/word/add-word/use-ai-fill-word";
 import { addWordFormDefaultValues } from "@/schemas/word/addWord.defaults";
 import { addWordSchema } from "@/schemas/word/addWord.schema";
 import { useCreateWord } from "@/queries/words/useCreateWord";

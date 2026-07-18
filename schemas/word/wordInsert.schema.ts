@@ -6,6 +6,7 @@ export const wordInsertSchema = z.object({
   translation: z.string().trim().min(1).max(WORD_LIMITS.translation),
 
   description: z.string().trim().max(WORD_LIMITS.description).nullable(),
+  example: z.string().trim().max(WORD_LIMITS.example),
 
   part_of_speech: z.enum(PARTS_OF_SPEECH).nullable(),
 

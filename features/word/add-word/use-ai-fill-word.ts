@@ -6,13 +6,18 @@ import { toast } from "sonner";
 
 import { AddWordFormValues } from "@/schemas/word/addWord.schema";
 import { useLanguages } from "@/queries/languages/useLanguages";
+import { useUserSettings } from "@/queries/user-settings/useUserSettings";
 import { findObjectById } from "@/lib/utils/findObjectById";
 import { aiFillWord } from "@/lib/api/ai.api";
+import type { AiFillFields } from "@/types/db-aliases";
 
 export function useAiFillWord(form: UseFormReturn<AddWordFormValues>) {
   const [isLoading, setIsLoading] = useState(false);
   const { data: languages = [] } = useLanguages();
+  const { data: userSettings } = useUserSettings();
   const abortControllerRef = useRef<AbortController | null>(null);
+
+  const aiFillFields = (userSettings?.ai_fill_fields ?? {}) as AiFillFields;
 
   const fillWithAI = async () => {
     const word = form.getValues("word");
@@ -39,11 +44,18 @@ export function useAiFillWord(form: UseFormReturn<AddWordFormValues>) {
         abortControllerRef.current.signal,
       );
 
-      if (data.translation) form.setValue("translation", data.translation);
-      if (data.partOfSpeech) form.setValue("partOfSpeech", data.partOfSpeech);
-      if (data.synonyms !== undefined) form.setValue("synonyms", data.synonyms);
-      if (data.antonyms !== undefined) form.setValue("antonyms", data.antonyms);
-      if (data.description) form.setValue("description", data.description);
+      if (aiFillFields.translation && data.translation)
+        form.setValue("translation", data.translation);
+      if (aiFillFields.part_of_speech && data.partOfSpeech)
+        form.setValue("partOfSpeech", data.partOfSpeech);
+      if (aiFillFields.synonyms && data.synonyms !== undefined)
+        form.setValue("synonyms", data.synonyms);
+      if (aiFillFields.antonyms && data.antonyms !== undefined)
+        form.setValue("antonyms", data.antonyms);
+      if (aiFillFields.description && data.description)
+        form.setValue("description", data.description);
+      if (aiFillFields.example && data.example)
+        form.setValue("example", data.example);
     } catch (err: any) {
       if (err.name === "AbortError") return;
       toast.error(err.message || "AI fill failed");

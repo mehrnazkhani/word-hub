@@ -12,6 +12,7 @@ export type AiFillWordResponse = {
   partOfSpeech: AddWordFormValues["partOfSpeech"];
   synonyms: string;
   antonyms: string;
+  example: string;
   description: string | null;
 };
 

@@ -9,6 +9,7 @@ const aiWordSchema = z.object({
   synonyms: z.string(),
   antonyms: z.string(),
   description: z.string().max(WORD_LIMITS.description).nullable(),
+  example: z.string().max(WORD_LIMITS.example).nullable(),
 });
 
 export async function POST(req: Request) {
@@ -39,9 +40,15 @@ export async function POST(req: Request) {
         - partOfSpeech: one of ${PARTS_OF_SPEECH.join(", ")} or null
         - synonyms: comma-separated synonyms in ${sourceLanguage} (max ${WORD_LIMITS.maxRelatedWords} words, each max ${WORD_LIMITS.relatedWord} chars). If none, return empty string.
         - antonyms: comma-separated antonyms in ${sourceLanguage} (max ${WORD_LIMITS.maxRelatedWords} words, each max ${WORD_LIMITS.relatedWord} chars). If none, return empty string.
-        - description: brief description/usage notes in ${targetLanguage} (max ${WORD_LIMITS.description} chars) or null
+        - example: an example sentence using "${word}" in ${sourceLanguage} (max ${WORD_LIMITS.example} chars) or null.
+        - description: brief description/usage notes in ${targetLanguage} (max ${WORD_LIMITS.description} chars) or null.
       `,
     });
+
+    console.log(
+      "[AI Fill Word] output:",
+      JSON.stringify(result.output, null, 2),
+    );
 
     return Response.json(result.output);
   } catch (err: any) {

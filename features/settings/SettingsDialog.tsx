@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 import { useState } from "react";
 
-import { Bell, Home, Menu, MessageCircle, Paintbrush } from "lucide-react";
+import { Bell, Database, Menu, MessageCircle } from "lucide-react";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -36,6 +36,12 @@ const AddWordFormSettings = dynamic(() => import("./AddWordFormSettings"), {
 const PrivacySettings = dynamic(() => import("./PrivacySettings"), {
   ssr: false,
 });
+const DataManagementSettings = dynamic(
+  () => import("./data-settings/DataManagementSettings"),
+  {
+    ssr: false,
+  },
+);
 const AIFillSettingsForm = dynamic(
   () => import("./ai-fill-settings/AIFillSettings"),
   {
@@ -47,6 +53,7 @@ const settingsSections = {
   Profile: ProfileSettings,
   "Word Form": AddWordFormSettings,
   Privacy: PrivacySettings,
+  Data: DataManagementSettings,
   "Ai Fill": AIFillSettingsForm,
 } as const;
 
@@ -62,6 +69,7 @@ const data: {
     { name: "Profile", icon: Bell },
     { name: "Word Form", icon: Menu },
     { name: "Privacy", icon: MessageCircle },
+    { name: "Data", icon: Database },
     { name: "Ai Fill", icon: MessageCircle },
   ],
 };

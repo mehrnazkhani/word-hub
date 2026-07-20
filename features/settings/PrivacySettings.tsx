@@ -1,87 +1,77 @@
-import { AlertTriangle, Trash2, UserX } from "lucide-react";
+"use client";
 
 import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from "@/components/ui/card";
-
+  LockKeyhole,
+  Clock,
+  Calendar,
+  SquarePen,
+  CircleCheck,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { SettingRow } from "./SettingRow";
+
+import { useUser } from "@/components/providers/user-provider";
+import { Badge } from "@/components/ui/badge";
 
 export default function PrivacySettings() {
+  const { user } = useUser();
+  const isVerified = !!user?.email_confirmed_at;
+
   return (
-    <Card className="border-red-500/20 bg-card">
-      <CardHeader>
-        <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-red-500/10">
-            <AlertTriangle className="h-5 w-5 text-red-500" />
-          </div>
+    <div className="space-y-5">
+      <SettingRow
+        icon={{
+          icon: Clock,
+        }}
+        title="Last Sign-in"
+        description={new Date(user?.last_sign_in_at ?? "").toLocaleString(
+          "en-US",
+          {
+            dateStyle: "medium",
+            timeStyle: "short",
+          },
+        )}
+      />
 
-          <div>
-            <CardTitle className="text-red-500">Danger Zone</CardTitle>
+      <Separator />
 
-            <CardDescription className="mt-1">
-              These actions are permanent and cannot be undone.
-            </CardDescription>
-          </div>
-        </div>
-      </CardHeader>
+      <SettingRow
+        icon={{
+          icon: Calendar,
+        }}
+        title="Account Created"
+        description={new Date(user?.created_at ?? "").toLocaleString("en-US", {
+          dateStyle: "medium",
+          timeStyle: "short",
+        })}
+      />
 
-      <CardContent className="space-y-5">
-        {/* Delete Categories */}
+      <Separator />
 
-        <Card className="border-red-500/20 bg-red-500/3">
-          <CardContent className="flex items-center justify-between p-6">
-            <div className="flex gap-4">
-              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-red-500/10">
-                <Trash2 className="h-7 w-7 text-red-500" />
-              </div>
+      <SettingRow
+        icon={{
+          icon: CircleCheck,
+        }}
+        title="Email Verified"
+        description={user?.email ?? ""}
+      >
+        <Badge variant="outline">{isVerified ? "Verified" : ""}</Badge>
+      </SettingRow>
 
-              <div>
-                <h3 className="text-lg font-semibold">Delete All Categories</h3>
+      <Separator />
 
-                <p className="mt-2 max-w-md text-muted-foreground">
-                  Permanently delete every category together with all related
-                  words and data.
-                </p>
-              </div>
-            </div>
-
-            <Button variant="destructive" className="ml-8">
-              <Trash2 className="mr-2 h-4 w-4" />
-              Delete All
-            </Button>
-          </CardContent>
-        </Card>
-
-        {/* Delete Account */}
-
-        <Card className="border-red-500/20 bg-red-500/3">
-          <CardContent className="flex items-center justify-between p-6">
-            <div className="flex gap-4">
-              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-red-500/10">
-                <UserX className="h-7 w-7 text-red-500" />
-              </div>
-
-              <div>
-                <h3 className="text-lg font-semibold">Delete Account</h3>
-
-                <p className="mt-2 max-w-md text-muted-foreground">
-                  Permanently remove your account, categories, words, progress,
-                  and every piece of stored data.
-                </p>
-              </div>
-            </div>
-
-            <Button variant="destructive" className="ml-8">
-              <UserX className="mr-2 h-4 w-4" />
-              Delete Account
-            </Button>
-          </CardContent>
-        </Card>
-      </CardContent>
-    </Card>
+      <SettingRow
+        icon={{
+          icon: LockKeyhole,
+        }}
+        title="Change Password"
+        description="********"
+      >
+        <Button variant="outline">
+          <SquarePen className="size-3" /> Change Password
+        </Button>
+      </SettingRow>
+    </div>
   );
 }

@@ -5,7 +5,7 @@ type SettingRowProps = {
   icon: IconBadgeProps;
   title: string;
   description: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 
 export const SettingRow = ({

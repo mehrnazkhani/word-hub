@@ -6,12 +6,14 @@ type SelectCategoryProps = {
   name: string;
   label?: string;
   placeholder?: string;
+  disabled?: boolean;
 };
 
 export const SelectCategory = ({
   name,
   label,
-  placeholder,
+  disabled = false,
+  placeholder = "Select Category",
 }: SelectCategoryProps) => {
   const { data: categories } = useUserCategories();
 

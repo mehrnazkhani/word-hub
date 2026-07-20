@@ -30,9 +30,12 @@ import {
 const ProfileSettings = dynamic(() => import("./ProfileSettings"), {
   ssr: false,
 });
-const AddWordFormSettings = dynamic(() => import("./AddWordFormSettings"), {
-  ssr: false,
-});
+const WordFormSettings = dynamic(
+  () => import("./word-form-settings/WordFormSettings"),
+  {
+    ssr: false,
+  },
+);
 const PrivacySettings = dynamic(() => import("./PrivacySettings"), {
   ssr: false,
 });
@@ -51,7 +54,7 @@ const AIFillSettingsForm = dynamic(
 
 const settingsSections = {
   Profile: ProfileSettings,
-  "Word Form": AddWordFormSettings,
+  "Word Form": WordFormSettings,
   Privacy: PrivacySettings,
   Data: DataManagementSettings,
   "Ai Fill": AIFillSettingsForm,

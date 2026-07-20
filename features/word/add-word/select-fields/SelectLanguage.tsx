@@ -8,11 +8,13 @@ type SelectLanguageProps = {
   name: string;
   label?: string;
   placeholder?: string;
+  disabled?: boolean;
 };
 
 export const SelectLanguage = ({
   name,
   label,
+  disabled = false,
   placeholder = "Ln",
 }: SelectLanguageProps) => {
   const { data: languages, isPending } = useLanguages();

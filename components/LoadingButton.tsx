@@ -11,18 +11,19 @@ interface LoadingButtonProps
     React.ComponentPropsWithoutRef<typeof Button>,
     VariantProps<typeof buttonVariants> {
   isLoading?: boolean;
+  disabled: boolean | undefined;
   className?: string;
 }
 
 const LoadingButton = React.forwardRef<HTMLButtonElement, LoadingButtonProps>(
-  ({ isLoading = false, className, children, ...props }, ref) => {
+  ({ isLoading = false, disabled, className, children, ...props }, ref) => {
     return (
       <Button
-        type="submit"
+        type={props.type ?? "submit"}
         ref={ref}
         {...props}
         className={cn("cursor-pointer", className)}
-        disabled={isLoading}
+        disabled={disabled || isLoading}
       >
         {isLoading && <Spinner data-icon="inline-start" />}
         {children}

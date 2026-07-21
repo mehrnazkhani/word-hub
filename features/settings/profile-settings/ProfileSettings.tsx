@@ -3,8 +3,10 @@
 import { Mail, Trash, SquarePen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+
 import { useUser } from "@/components/providers/user-provider";
-import { SettingRow } from "./SettingRow";
+import { SettingRow } from "../SettingRow";
+import { DeleteAccount } from "./delete-account/DeleteAccount";
 
 const ProfileSettings = () => {
   const { user } = useUser();
@@ -13,7 +15,7 @@ const ProfileSettings = () => {
     <div className="space-y-5">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="flex size-15 items-center justify-center rounded-full bg-accent">
+          <div className="flex size-12 items-center justify-center rounded-full bg-accent">
             {(user?.user_metadata?.full_name ??
               user?.email ??
               "?")[0].toUpperCase()}
@@ -58,18 +60,7 @@ const ProfileSettings = () => {
 
       <Separator />
 
-      <SettingRow
-        icon={{
-          icon: Trash,
-          variant: "destructive",
-        }}
-        title="Delete Account"
-        description="Permanently remove your account and all data"
-      >
-        <Button variant="destructive">
-          <Trash /> Delete Account
-        </Button>
-      </SettingRow>
+      <DeleteAccount />
     </div>
   );
 };

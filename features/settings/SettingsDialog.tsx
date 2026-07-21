@@ -27,9 +27,12 @@ import {
   SidebarProvider,
 } from "@/components/ui/sidebar";
 
-const ProfileSettings = dynamic(() => import("./ProfileSettings"), {
-  ssr: false,
-});
+const ProfileSettings = dynamic(
+  () => import("./profile-settings/ProfileSettings"),
+  {
+    ssr: false,
+  },
+);
 const WordFormSettings = dynamic(
   () => import("./word-form-settings/WordFormSettings"),
   {
@@ -90,7 +93,11 @@ const SettingsDialog = ({ open, onOpenChange }: SettingsDialogProps) => {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="overflow-hidden p-0 md:max-h-110 md:max-w-175 lg:max-w-150">
+      <DialogContent
+        onPointerDownOutside={(event) => event.preventDefault()}
+        onEscapeKeyDown={(event) => event.preventDefault()}
+        className="overflow-hidden p-0 md:max-h-110 md:max-w-175 lg:max-w-150"
+      >
         <DialogTitle className="sr-only">Settings</DialogTitle>
         <DialogDescription className="sr-only">
           Customize your settings here.

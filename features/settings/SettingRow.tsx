@@ -15,7 +15,7 @@ export const SettingRow = ({
   children,
 }: SettingRowProps) => {
   return (
-    <div className="flex items-center justify-between gap-10">
+    <div className="flex items-center justify-between gap-8">
       <div className="space-y-1">
         <div className="flex items-center gap-2">
           <IconBadge {...icon} />

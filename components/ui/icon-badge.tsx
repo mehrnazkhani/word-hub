@@ -1,25 +1,27 @@
-import { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { LucideIcon } from "lucide-react";
 
 type IconBadgeVariant = "default" | "secondary" | "destructive";
 
 export interface IconBadgeProps {
   icon: LucideIcon;
   variant?: IconBadgeVariant;
-  size?: number;
+  badgeSize?: number;
+  iconSize?: number;
   className?: string;
 }
 
 export function IconBadge({
   icon: Icon,
   variant = "default",
-  size = 12,
+  badgeSize = 6,
+  iconSize,
   className,
 }: IconBadgeProps) {
   return (
     <div
       className={cn(
-        "flex size-6 items-center justify-center rounded-full",
+        "flex items-center justify-center rounded-full",
         {
           "border bg-accent": variant === "default",
           "bg-secondary": variant === "secondary",
@@ -28,9 +30,13 @@ export function IconBadge({
         },
         className,
       )}
+      style={{
+        width: `${badgeSize * 0.25}rem`,
+        height: `${badgeSize * 0.25}rem`,
+      }}
     >
       <Icon
-        size={size}
+        size={iconSize ?? badgeSize * 2}
         className={cn({
           "text-destructive": variant === "destructive",
         })}

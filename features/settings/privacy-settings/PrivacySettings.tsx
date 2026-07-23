@@ -1,18 +1,12 @@
 "use client";
 
-import {
-  LockKeyhole,
-  Clock,
-  Calendar,
-  SquarePen,
-  CircleCheck,
-} from "lucide-react";
+import { Clock, Calendar, CircleCheck } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
-import { SettingRow } from "./SettingRow";
-
-import { useUser } from "@/components/providers/user-provider";
 import { Badge } from "@/components/ui/badge";
-import { ArrowButton } from "@/components/ArrowButton";
+
+import { SettingRow } from "../SettingRow";
+import { useUser } from "@/components/providers/user-provider";
+import { ChangePassword } from "./change-password/ChangePassword";
 
 export default function PrivacySettings() {
   const { user } = useUser();
@@ -61,15 +55,7 @@ export default function PrivacySettings() {
 
       <Separator />
 
-      <SettingRow
-        icon={{
-          icon: LockKeyhole,
-        }}
-        title="Change Password"
-        description="********"
-      >
-        <ArrowButton>Change Password</ArrowButton>
-      </SettingRow>
+      <ChangePassword />
     </div>
   );
 }

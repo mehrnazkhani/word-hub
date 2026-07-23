@@ -46,9 +46,12 @@ const WordFormSettings = dynamic(
     ssr: false,
   },
 );
-const PrivacySettings = dynamic(() => import("./PrivacySettings"), {
-  ssr: false,
-});
+const PrivacySettings = dynamic(
+  () => import("./privacy-settings/PrivacySettings"),
+  {
+    ssr: false,
+  },
+);
 const DataManagementSettings = dynamic(
   () => import("./data-settings/DataManagementSettings"),
   {

@@ -3,6 +3,7 @@ export const ROUTES = {
 
   CHANGE_EMAIL: "/account/change-email",
   EDIT_NAME: "/account/edit-name",
+  CHANGE_PASSWORD: "/account/change-password",
 
   TRASH: "/app/trash",
   RECENT: "/app/recent",

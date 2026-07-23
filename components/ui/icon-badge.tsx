@@ -1,10 +1,10 @@
 import { cn } from "@/lib/utils";
-import { LucideIcon } from "lucide-react";
+import type { ComponentType, SVGProps } from "react";
 
 type IconBadgeVariant = "default" | "secondary" | "destructive";
 
 export interface IconBadgeProps {
-  icon: LucideIcon;
+  icon: ComponentType<SVGProps<SVGSVGElement>>;
   variant?: IconBadgeVariant;
   badgeSize?: number;
   iconSize?: number;
@@ -36,7 +36,8 @@ export function IconBadge({
       }}
     >
       <Icon
-        size={iconSize ?? badgeSize * 2}
+        width={iconSize ?? badgeSize * 2}
+        height={iconSize ?? badgeSize * 2}
         className={cn({
           "text-destructive": variant === "destructive",
         })}

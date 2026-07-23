@@ -1,14 +1,11 @@
 "use client";
 
-import { Mail, Trash, SquarePen } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-
 import { useUser } from "@/components/providers/user-provider";
-import { SettingRow } from "../SettingRow";
-import { ChangeEmail } from "./change-email/ChangeEmail";
-import { DeleteAccount } from "./delete-account/DeleteAccount";
+import { Separator } from "@/components/ui/separator";
 import { ArrowButton } from "@/components/ArrowButton";
+import { ChangeEmail } from "./change-email/ChangeEmail";
+import { SignInMethod } from "./Signin-method/SignInMethod";
+import { DeleteAccount } from "./delete-account/DeleteAccount";
 
 const ProfileSettings = () => {
   const { user } = useUser();
@@ -38,13 +35,7 @@ const ProfileSettings = () => {
       <Separator />
       <ChangeEmail />
       <Separator />
-      <SettingRow
-        icon={{
-          icon: Mail,
-        }}
-        title="Sign-in Method"
-        description={user?.app_metadata?.provider ?? "email"}
-      />
+      <SignInMethod />
       <Separator />
       <DeleteAccount />
     </div>

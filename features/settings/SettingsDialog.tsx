@@ -3,7 +3,13 @@
 import dynamic from "next/dynamic";
 import { useState } from "react";
 
-import { Bell, Database, Menu, MessageCircle } from "lucide-react";
+import {
+  Bell,
+  CircleUserRound,
+  Database,
+  Menu,
+  MessageCircle,
+} from "lucide-react";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -72,7 +78,7 @@ const data: {
   }[];
 } = {
   nav: [
-    { name: "Profile", icon: Bell },
+    { name: "Profile", icon: CircleUserRound },
     { name: "Word Form", icon: Menu },
     { name: "Privacy", icon: MessageCircle },
     { name: "Data", icon: Database },

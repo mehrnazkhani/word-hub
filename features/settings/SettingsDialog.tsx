@@ -7,7 +7,8 @@ import {
   Bell,
   CircleUserRound,
   Database,
-  Menu,
+  Form,
+  Shield,
   MessageCircle,
 } from "lucide-react";
 import {
@@ -79,8 +80,8 @@ const data: {
 } = {
   nav: [
     { name: "Profile", icon: CircleUserRound },
-    { name: "Word Form", icon: Menu },
-    { name: "Privacy", icon: MessageCircle },
+    { name: "Word Form", icon: Form },
+    { name: "Privacy", icon: Shield },
     { name: "Data", icon: Database },
     { name: "Ai Fill", icon: MessageCircle },
   ],

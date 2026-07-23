@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { Languages, Folder } from "lucide-react";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -29,13 +29,18 @@ const WordFormSettings = () => {
   );
   const { category } = useCategoryById(userSettings?.default_category_id);
 
+  const defaultValues = useMemo<WordFormSettingsValues>(
+    () => ({
+      sourceLanguageId: userSettings?.default_source_lang_id?.toString() ?? "",
+      targetLanguageId: userSettings?.default_target_lang_id?.toString() ?? "",
+      categoryId: userSettings?.default_category_id?.toString() ?? null,
+    }),
+    [userSettings],
+  );
+
   const methods = useForm<WordFormSettingsValues>({
     resolver: zodResolver(wordFormSettingsSchema),
-    defaultValues: {
-      sourceLanguageId: "",
-      targetLanguageId: "",
-      categoryId: null,
-    },
+    defaultValues,
   });
 
   const {
@@ -45,21 +50,15 @@ const WordFormSettings = () => {
   } = methods;
 
   useEffect(() => {
-    if (!userSettings) return;
-
-    reset({
-      sourceLanguageId: userSettings.default_source_lang_id?.toString() ?? "",
-      targetLanguageId: userSettings.default_target_lang_id?.toString() ?? "",
-      categoryId: userSettings.default_category_id?.toString() ?? null,
-    });
-  }, [userSettings, reset]);
+    reset(defaultValues, { keepDefaultValues: false });
+  }, [defaultValues, reset]);
 
   const { mutate: updateWordFormSettings, isPending } =
     useUpdateWordFormSettings();
 
   const onSubmit = (data: WordFormSettingsValues) => {
     updateWordFormSettings(data, {
-      onSuccess: () => reset(data),
+      onSuccess: () => reset(data, { keepDefaultValues: false }),
       onError: () => toast.error("Failed to save settings. Please try again."),
     });
   };

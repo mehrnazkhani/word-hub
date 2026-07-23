@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-import { toast } from "sonner";
 import { Mail } from "lucide-react";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -32,8 +31,7 @@ export const ChangeEmailForm = () => {
   const {
     handleSubmit,
     setError,
-    getValues,
-    formState: { isSubmitting },
+    formState: { isSubmitting, errors },
   } = methods;
 
   const handleResult = (result: ChangeEmailResult) => {
@@ -95,13 +93,17 @@ export const ChangeEmailForm = () => {
         </div>
 
         <div className="space-y-5">
-          <LoadingButton className="w-full" disabled={emailSent}>
+          <LoadingButton
+            className="w-full"
+            isLoading={isSubmitting}
+            disabled={emailSent}
+          >
             Send verification link
           </LoadingButton>
 
-          {methods.formState.errors.root && (
+          {errors.root && (
             <p className="text-center text-sm text-destructive">
-              {methods.formState.errors.root.message}
+              {errors.root.message}
             </p>
           )}
         </div>

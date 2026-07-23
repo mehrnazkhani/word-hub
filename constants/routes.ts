@@ -2,6 +2,7 @@ export const ROUTES = {
   HOME: "/",
 
   CHANGE_EMAIL: "/account/change-email",
+  EDIT_NAME: "/account/edit-name",
 
   TRASH: "/app/trash",
   RECENT: "/app/recent",

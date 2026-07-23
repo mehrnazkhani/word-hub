@@ -15,6 +15,12 @@ export const passwordField = z
 
 export const confirmPasswordField = z.string();
 
+export const nameField = z
+  .string()
+  .trim()
+  .min(2, "Name must be at least 2 characters")
+  .max(50, "Name is too long");
+
 export const signInSchema = z.object({
   email: emailField,
   password: passwordField,
@@ -22,12 +28,7 @@ export const signInSchema = z.object({
 
 export const signUpSchema = z
   .object({
-    name: z
-      .string()
-      .trim()
-      .min(2, "Name must be at least 2 characters")
-      .max(50, "Name is too long"),
-
+    name: nameField,
     email: emailField,
     password: passwordField,
     confirmPassword: confirmPasswordField,

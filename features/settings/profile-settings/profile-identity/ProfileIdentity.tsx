@@ -1,11 +1,14 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { ArrowButton } from "@/components/ArrowButton";
 import { useUser } from "@/components/providers/user-provider";
 import { UserAvatar } from "@/components/UserAvatar";
+import { ROUTES } from "@/constants/routes";
 
 export const ProfileIdentity = () => {
   const { user } = useUser();
+  const router = useRouter();
 
   return (
     <div className="flex items-center justify-between">
@@ -20,7 +23,9 @@ export const ProfileIdentity = () => {
         </div>
       </div>
 
-      <ArrowButton>Edit</ArrowButton>
+      <ArrowButton onClick={() => router.push(ROUTES.EDIT_NAME)}>
+        Edit
+      </ArrowButton>
     </div>
   );
 };

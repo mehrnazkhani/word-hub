@@ -1,9 +1,10 @@
 export const ROUTES = {
   HOME: "/",
 
+  CHANGE_EMAIL: "/account/change-email",
+
   TRASH: "/app/trash",
   RECENT: "/app/recent",
-
   WORD_IN_CATEGORY: (categoryId: number, wordId: number) =>
     `/app/${categoryId}#word-${wordId}`,
 

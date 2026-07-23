@@ -3,6 +3,7 @@ import Link from "next/link";
 import { AppIcons } from "@/components/icons";
 import { AuthHeader } from "@/features/authentication/AuthHeader";
 import { ForgotPasswordForm } from "@/features/authentication/forms/ForgotPasswordForm";
+import { ROUTES } from "@/constants/routes";
 
 export const ForgotPasswordPage = () => {
   return (
@@ -16,7 +17,7 @@ export const ForgotPasswordPage = () => {
       <ForgotPasswordForm />
 
       <Link
-        href="/auth/signin"
+        href={ROUTES.SIGN_IN}
         className="text-app-secondary mt-10 flex items-center gap-1 text-xs transition-colors duration-300 hover:text-primary"
       >
         <AppIcons.ChevronLeftIcon strokeWidth={1} size={18} />

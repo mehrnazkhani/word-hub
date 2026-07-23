@@ -6,6 +6,7 @@ import { Separator } from "@/components/ui/separator";
 
 import { useUser } from "@/components/providers/user-provider";
 import { SettingRow } from "../SettingRow";
+import { ChangeEmail } from "./change-email/ChangeEmail";
 import { DeleteAccount } from "./delete-account/DeleteAccount";
 
 const ProfileSettings = () => {
@@ -49,17 +50,8 @@ const ProfileSettings = () => {
       </SettingRow>
 
       <Separator />
-
-      <SettingRow
-        icon={{
-          icon: Mail,
-        }}
-        title="Sign-in Method"
-        description={user?.app_metadata?.provider ?? "email"}
-      />
-
+      <ChangeEmail />
       <Separator />
-
       <DeleteAccount />
     </div>
   );

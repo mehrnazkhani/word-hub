@@ -13,11 +13,11 @@ export async function GET(request: NextRequest) {
 
   const supabase = await createClient();
 
-  // === Password Reset (Recovery) ===
+  // Password Reset (Recovery)
   if (token_hash && type === "recovery") {
     const { error } = await supabase.auth.verifyOtp({
       token_hash,
-      type: "recovery" as const,
+      type: "recovery",
     });
 
     if (error) {
@@ -30,6 +30,24 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(new URL(ROUTES.RESET_PASSWORD, origin));
   }
 
+  // Email Change
+  if (token_hash && type === "email_change") {
+    const { error } = await supabase.auth.verifyOtp({
+      token_hash,
+      type: "email_change",
+    });
+
+    if (error) {
+      console.error("Email change confirm error:", error);
+      return NextResponse.redirect(
+        new URL(`/error?message=${encodeURIComponent(error.message)}`, origin),
+      );
+    }
+
+    return NextResponse.redirect(new URL(next, origin));
+  }
+
+  // OAuth / Magic Link
   if (code) {
     const { error } = await supabase.auth.exchangeCodeForSession(code);
 

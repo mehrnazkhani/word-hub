@@ -11,7 +11,7 @@ interface LoadingButtonProps
     React.ComponentPropsWithoutRef<typeof Button>,
     VariantProps<typeof buttonVariants> {
   isLoading?: boolean;
-  disabled: boolean | undefined;
+  disabled?: boolean | undefined;
   className?: string;
 }
 

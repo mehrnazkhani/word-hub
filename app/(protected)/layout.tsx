@@ -30,7 +30,7 @@ const ProtectedLayout = async ({
 
   await Promise.all([
     prefetchLanguages(queryClient, supabase),
-    prefetchUserSettings(queryClient, supabase),
+    prefetchUserSettings(queryClient, supabase, user.id),
   ]);
 
   return (

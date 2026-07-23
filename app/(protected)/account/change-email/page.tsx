@@ -1,9 +1,7 @@
 import { Mail } from "lucide-react";
-
-import Link from "next/link";
+import { ArrowLink } from "@/components/ArrowLink";
 import { AuthHeader } from "@/features/authentication/AuthHeader";
 import { ChangeEmailForm } from "@/features/settings/profile-settings/change-email/ChangeEmailForm";
-import { AppIcons } from "@/components/icons";
 
 const ChangeEmailPage = async () => {
   return (
@@ -18,13 +16,9 @@ const ChangeEmailPage = async () => {
 
           <ChangeEmailForm />
 
-          <Link
-            href="#"
-            className="flex items-center gap-1 text-xs transition-colors duration-300 hover:text-accent-foreground/70"
-          >
-            <AppIcons.ChevronLeftIcon strokeWidth={1} size={18} />
+          <ArrowLink href="#" direction="left">
             Back to settings
-          </Link>
+          </ArrowLink>
         </div>
       </div>
     </div>

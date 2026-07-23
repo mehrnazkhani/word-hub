@@ -1,9 +1,7 @@
-import Link from "next/link";
-
-import { AppIcons } from "@/components/icons";
+import { CircleUserRound } from "lucide-react";
 import { AuthHeader } from "@/features/authentication/AuthHeader";
 import { EditNameForm } from "@/features/settings/profile-settings/profile-identity/EditNameForm";
-import { CircleUserRound } from "lucide-react";
+import { ArrowLink } from "@/components/ArrowLink";
 
 const EditNamePage = () => {
   return (
@@ -18,13 +16,9 @@ const EditNamePage = () => {
 
           <EditNameForm />
 
-          <Link
-            href="#"
-            className="flex items-center gap-1 text-xs transition-colors duration-300 hover:text-accent-foreground/70"
-          >
-            <AppIcons.ChevronLeftIcon strokeWidth={1} size={18} />
+          <ArrowLink href="#" direction="left">
             Back to settings
-          </Link>
+          </ArrowLink>
         </div>
       </div>
     </div>

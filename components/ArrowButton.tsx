@@ -1,7 +1,7 @@
 import { forwardRef } from "react";
 
 import { cn } from "@/lib/utils";
-import { ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Spinner } from "@/components/ui/spinner";
 import { Button } from "@/components/ui/button";
 
@@ -9,10 +9,23 @@ interface ArrowButtonProps extends React.ComponentPropsWithoutRef<
   typeof Button
 > {
   isLoading?: boolean;
+  direction?: "left" | "right";
 }
 
-const ArrowButton = forwardRef<HTMLButtonElement, ArrowButtonProps>(
-  ({ isLoading = false, disabled, className, children, ...props }, ref) => {
+export const ArrowButton = forwardRef<HTMLButtonElement, ArrowButtonProps>(
+  (
+    {
+      isLoading = false,
+      direction = "right",
+      disabled,
+      className,
+      children,
+      ...props
+    },
+    ref,
+  ) => {
+    const ChevronIcon = direction === "left" ? ChevronLeft : ChevronRight;
+
     return (
       <Button
         ref={ref}
@@ -22,14 +35,22 @@ const ArrowButton = forwardRef<HTMLButtonElement, ArrowButtonProps>(
         className={cn("cursor-pointer text-xs", className)}
         {...props}
       >
-        {isLoading && <Spinner data-icon="inline-start" />}
+        {direction === "left" &&
+          (isLoading ? (
+            <Spinner data-icon="inline-start" />
+          ) : (
+            <ChevronIcon className="size-3" />
+          ))}
+
         {children}
-        {!isLoading && <ChevronRight className="size-3" />}
+
+        {direction === "right" &&
+          (isLoading ? (
+            <Spinner data-icon="inline-start" />
+          ) : (
+            <ChevronIcon className="size-3" />
+          ))}
       </Button>
     );
   },
 );
-
-ArrowButton.displayName = "ArrowButton";
-
-export { ArrowButton };

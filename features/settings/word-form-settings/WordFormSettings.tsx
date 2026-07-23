@@ -14,7 +14,7 @@ import { useUserSettings } from "@/queries/user-settings/useUserSettings";
 import { useLanguagesById } from "@/queries/languages/useLanguagesById";
 import { useCategoryById } from "@/queries/categories/useCategoryById";
 import { useUpdateWordFormSettings } from "@/queries/user-settings/useUpdateDefaultWordFormSettings";
-import { LoadingButton } from "@/components/LoadingButton";
+import { ArrowButton } from "@/components/ArrowButton";
 
 import {
   wordFormSettingsSchema,
@@ -132,13 +132,13 @@ const WordFormSettings = () => {
         </div>
 
         <div className="flex justify-end">
-          <LoadingButton
-            variant="ghost"
+          <ArrowButton
+            type="submit"
             disabled={!isDirty || isPending}
             isLoading={isPending}
           >
             Save Changes
-          </LoadingButton>
+          </ArrowButton>
         </div>
       </form>
     </FormProvider>

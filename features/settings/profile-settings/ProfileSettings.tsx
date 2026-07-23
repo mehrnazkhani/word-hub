@@ -8,6 +8,7 @@ import { useUser } from "@/components/providers/user-provider";
 import { SettingRow } from "../SettingRow";
 import { ChangeEmail } from "./change-email/ChangeEmail";
 import { DeleteAccount } from "./delete-account/DeleteAccount";
+import { ArrowButton } from "@/components/ArrowButton";
 
 const ProfileSettings = () => {
   const { user } = useUser();
@@ -30,27 +31,20 @@ const ProfileSettings = () => {
             </span>
           </div>
         </div>
-        <Button variant="outline" className="cursor-pointer">
-          <SquarePen className="size-3" /> Edit
-        </Button>
+
+        <ArrowButton>Edit</ArrowButton>
       </div>
 
       <Separator />
-
+      <ChangeEmail />
+      <Separator />
       <SettingRow
         icon={{
           icon: Mail,
         }}
-        title="Email Address"
-        description={user?.email ?? ""}
-      >
-        <Button variant="outline">
-          <SquarePen className="size-3" /> Change
-        </Button>
-      </SettingRow>
-
-      <Separator />
-      <ChangeEmail />
+        title="Sign-in Method"
+        description={user?.app_metadata?.provider ?? "email"}
+      />
       <Separator />
       <DeleteAccount />
     </div>

@@ -4,9 +4,7 @@ import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { toast } from "sonner";
-import { AppIcons } from "@/components/icons";
 import { FormInput } from "@/components/inputs/FormInput";
-import { LoadingButton } from "@/components/LoadingButton";
 
 import { useCreateCategory } from "./useCreateCategory";
 import { applyServerErrors } from "@/features/authentication/lib/applyServerErrors";
@@ -16,6 +14,7 @@ import {
   categoryFormDefaultValues,
   type CategoryFormValues,
 } from "./categoryForm.schema";
+import { ArrowButton } from "@/components/ArrowButton";
 
 const CreateCategoryForm = () => {
   const method = useForm<CategoryFormValues>({
@@ -65,14 +64,13 @@ const CreateCategoryForm = () => {
           placeholder="Category Name"
         />
 
-        <LoadingButton
-          variant="ghost"
+        <ArrowButton
+          type="submit"
           isLoading={isSubmitting}
           className="self-end"
         >
           {isSubmitting ? "Creating..." : "Create"}
-          <AppIcons.ChevronRightIcon />
-        </LoadingButton>
+        </ArrowButton>
       </form>
     </FormProvider>
   );

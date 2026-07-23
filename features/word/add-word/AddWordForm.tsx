@@ -3,13 +3,12 @@
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { AppIcons } from "@/components/icons";
 import { FormInput } from "@/components/inputs/FormInput";
 import { SelectLanguage } from "./select-fields/SelectLanguage";
 import { SelectWordType } from "./select-fields/SelectWordType";
 import { SelectCategory } from "./select-fields/SelectCategory";
 import { WordFormAdvanced } from "./WordFormAdvanced";
-import { LoadingButton } from "@/components/LoadingButton";
+import { ArrowButton } from "@/components/ArrowButton";
 import { AiFillButton } from "./AiFillButton";
 
 import { useAiFillWord } from "@/features/word/add-word/use-ai-fill-word";
@@ -92,7 +91,6 @@ const AddWordForm = () => {
           />
         </div>
 
-        {/* <Separator className="col-span-4" /> */}
         <WordFormAdvanced />
 
         <div className="col-span-4 flex justify-between">
@@ -101,11 +99,9 @@ const AddWordForm = () => {
             onFill={fillWithAI}
             onStop={stopAI}
           />
-
-          <LoadingButton variant="ghost" isLoading={isSubmitting}>
+          <ArrowButton type="submit" isLoading={isSubmitting}>
             {isSubmitting ? "Saving..." : "Save"}
-            <AppIcons.ChevronRightIcon />
-          </LoadingButton>
+          </ArrowButton>
         </div>
       </form>
     </FormProvider>

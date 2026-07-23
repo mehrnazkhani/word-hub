@@ -1,15 +1,16 @@
 "use client";
 
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import { SettingRow } from "../../SettingRow";
-import { Mail, SquarePen } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Mail } from "lucide-react";
 import { useUser } from "@/components/providers/user-provider";
 import { ROUTES } from "@/constants/routes";
+import { ArrowButton } from "@/components/ArrowButton";
 
 export const ChangeEmail = () => {
   const { user } = useUser();
+  const router = useRouter();
 
   return (
     <SettingRow
@@ -19,11 +20,9 @@ export const ChangeEmail = () => {
       title="Email Address"
       description={user?.email ?? ""}
     >
-      <Button variant="outline" asChild>
-        <Link href={ROUTES.CHANGE_EMAIL}>
-          <SquarePen className="size-3" /> Change
-        </Link>
-      </Button>
+      <ArrowButton onClick={() => router.push(ROUTES.CHANGE_EMAIL)}>
+        Change
+      </ArrowButton>
     </SettingRow>
   );
 };

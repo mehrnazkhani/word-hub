@@ -49,7 +49,7 @@ const DataManagementSettings = dynamic(
   },
 );
 const AIFillSettingsForm = dynamic(
-  () => import("./ai-fill-settings/AIFillSettings"),
+  () => import("./ai-fill-settings/AIFillSettingsForm"),
   {
     ssr: false,
   },

@@ -7,8 +7,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useUserSettings } from "@/queries/user-settings/useUserSettings";
 import { FormCheckbox } from "@/components/inputs/FormCheckbox";
 import { aiFillFieldsSchema, type AiFillFields } from "./aiFillFields.schema";
-import { LoadingButton } from "@/components/LoadingButton";
 import { useUpdateAiFillSettings } from "@/queries/user-settings/useUpdateAiFillSettings";
+import { ArrowButton } from "@/components/ArrowButton";
 
 export const AIFillSettingsForm = () => {
   const { data: userSettings } = useUserSettings();
@@ -96,13 +96,9 @@ export const AIFillSettingsForm = () => {
         </div>
 
         <div className="flex justify-end">
-          <LoadingButton
-            variant="ghost"
-            disabled={!isDirty}
-            isLoading={isPending}
-          >
+          <ArrowButton type="submit" disabled={!isDirty} isLoading={isPending}>
             {isPending ? "Saving..." : "Save"}
-          </LoadingButton>
+          </ArrowButton>
         </div>
       </form>
     </FormProvider>

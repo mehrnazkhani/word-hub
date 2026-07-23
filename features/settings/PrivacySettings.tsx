@@ -7,12 +7,12 @@ import {
   SquarePen,
   CircleCheck,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { SettingRow } from "./SettingRow";
 
 import { useUser } from "@/components/providers/user-provider";
 import { Badge } from "@/components/ui/badge";
+import { ArrowButton } from "@/components/ArrowButton";
 
 export default function PrivacySettings() {
   const { user } = useUser();
@@ -68,9 +68,7 @@ export default function PrivacySettings() {
         title="Change Password"
         description="********"
       >
-        <Button variant="outline">
-          <SquarePen className="size-3" /> Change Password
-        </Button>
+        <ArrowButton>Change Password</ArrowButton>
       </SettingRow>
     </div>
   );

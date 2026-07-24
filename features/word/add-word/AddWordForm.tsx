@@ -1,9 +1,10 @@
 "use client";
 
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { FormInput } from "@/components/inputs/FormInput";
+import { WordPronunciation } from "@/components/WordPronunciation";
 import { SelectLanguage } from "./select-fields/SelectLanguage";
 import { SelectWordType } from "./select-fields/SelectWordType";
 import { SelectCategory } from "./select-fields/SelectCategory";
@@ -12,13 +13,16 @@ import { ArrowButton } from "@/components/ArrowButton";
 import { AiFillButton } from "./AiFillButton";
 
 import { useAiFillWord } from "@/features/word/add-word/use-ai-fill-word";
-import { addWordFormDefaultValues } from "@/schemas/word/addWord.defaults";
 import { useCreateWord } from "@/queries/words/useCreateWord";
 import { useUserSettings } from "@/queries/user-settings/useUserSettings";
+import { useLanguages } from "@/queries/languages/useLanguages";
+import { findObjectById } from "@/lib/utils/findObjectById";
+
 import {
   addWordSchema,
   type AddWordFormValues,
 } from "@/schemas/word/addWord.schema";
+import { addWordFormDefaultValues } from "@/schemas/word/addWord.defaults";
 
 const AddWordForm = () => {
   const { data: userSettings } = useUserSettings();
@@ -45,6 +49,18 @@ const AddWordForm = () => {
     formState: { isSubmitting },
   } = methods;
 
+  const wordValue = useWatch({ control: methods.control, name: "word" });
+  const sourceLanguageId = useWatch({
+    control: methods.control,
+
+    name: "sourceLanguageId",
+  });
+
+  const { data: languages = [] } = useLanguages();
+  const sourceLanguage = sourceLanguageId
+    ? findObjectById(languages, Number(sourceLanguageId))
+    : undefined;
+
   const { fillWithAI, isLoading: isAiLoading, stopAI } = useAiFillWord(methods);
 
   const { mutateAsync: creteWord } = useCreateWord();
@@ -59,8 +75,20 @@ const AddWordForm = () => {
         onSubmit={handleSubmit(onSubmit)}
         className="grid grid-cols-4 gap-4"
       >
-        <div className="col-span-3">
-          <FormInput name="word" label="Word" placeholder="Word" />
+        <div className="col-span-3 flex items-center">
+          <FormInput
+            name="word"
+            label="Word"
+            placeholder="Word"
+            endAdornment={
+              wordValue ? (
+                <WordPronunciation
+                  word={wordValue}
+                  lang={sourceLanguage?.value}
+                />
+              ) : undefined
+            }
+          />
         </div>
 
         <div className="col-span-1">

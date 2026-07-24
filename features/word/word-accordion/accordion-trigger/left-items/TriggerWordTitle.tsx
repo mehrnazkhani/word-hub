@@ -1,5 +1,5 @@
-import { AppIcons } from "@/components/icons";
 import { useWordAccordion } from "../../WordAccordionContext";
+import { WordPronunciation } from "@/components/WordPronunciation";
 
 export const TriggerWordTitle = () => {
   const { word } = useWordAccordion();
@@ -10,9 +10,7 @@ export const TriggerWordTitle = () => {
         <span className="text-sm">{word.sourceLanguage?.flag}</span>
         <span className="text-sm text-foreground/80">{word.word}</span>
 
-        {word.translation_audio && (
-          <AppIcons.AudioIcon size={15} className="cursor-pointer" />
-        )}
+        <WordPronunciation word={word.word} lang={word.sourceLanguage?.value} />
       </div>
 
       <div className="flex items-center gap-2">

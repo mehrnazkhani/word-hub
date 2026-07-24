@@ -57,6 +57,7 @@ export type FormControlFunc<ExtraProps = {}> = <
 
 export type InputProps = React.ComponentProps<typeof Input> & {
   icon?: LucideIcon;
+  endAdornment?: React.ReactNode;
 };
 
 export function createFormField<ExtraProps extends object = {}>(

@@ -9,9 +9,9 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { CategoryContextMenu } from "./CategoryContextMenu";
 import { useUserCategories } from "@/queries/categories/useCategories";
 import { CategorySkeleton } from "./CategorySkeleton";
+import { CategoryListContextMenu } from "./CategoryListContextMenu";
 
 export const CategoriesList = () => {
   const { data: categories, isPending } = useUserCategories();
@@ -24,16 +24,6 @@ export const CategoriesList = () => {
   useEffect(() => {
     setOptimisticActiveId(categoryId || null);
   }, [categoryId]);
-
-  const handleRename = (categoryId: number) => {
-    console.log("Rename category:", categoryId);
-  };
-  const handleExport = (categoryId: number) => {
-    console.log("Export category:", categoryId);
-  };
-  const handleDelete = (categoryId: number) => {
-    console.log("Delete category:", categoryId);
-  };
 
   if (isPending) {
     return <CategorySkeleton />;
@@ -63,14 +53,9 @@ export const CategoriesList = () => {
           if (category.is_system) return menuButton;
 
           return (
-            <CategoryContextMenu
-              key={category.id}
-              onRename={() => handleRename(category.id)}
-              onExport={() => handleExport(category.id)}
-              onDelete={() => handleDelete(category.id)}
-            >
+            <CategoryListContextMenu key={category.id} category={category}>
               {menuButton}
-            </CategoryContextMenu>
+            </CategoryListContextMenu>
           );
         })}
     </SidebarMenu>

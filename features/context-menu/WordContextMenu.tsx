@@ -9,12 +9,12 @@ import {
 } from "@/components/ui/context-menu";
 import type { Word } from "@/types/db-aliases";
 
+import { WordContextMenuContext } from "./WordContextMenuContext";
 import { CopyWord } from "./items/CopyWord";
 import { EditWord } from "./items/EditWord";
 import { MoveWord } from "./items/MoveWord";
 import { ShowInCategory } from "./items/ShowInCategory";
 import { DeleteWord } from "./items/DeleteWord";
-import { WordContextMenuContext } from "./WordContextMenuContext";
 import { PermanentDeleteWord } from "./items/PermanentDeleteWord";
 import { RestoreWord } from "./items/RestoreWord";
 
@@ -32,7 +32,7 @@ const WordContextMenuRoot = ({ word, children }: WordContextMenuProps) => {
 };
 
 const Content = ({ children }: { children: ReactNode }) => (
-  <ContextMenuContent className="p-2 text-xs">{children}</ContextMenuContent>
+  <ContextMenuContent className="p-2">{children}</ContextMenuContent>
 );
 
 export const WordContextMenu = Object.assign(WordContextMenuRoot, {

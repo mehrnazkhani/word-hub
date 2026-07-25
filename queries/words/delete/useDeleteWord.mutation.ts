@@ -1,10 +1,10 @@
 "use client";
 
+import { toast } from "sonner";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useUser } from "@/components/providers/user-provider";
 import { deleteWordAction } from "./deleteWord.action";
-import { queryKeys } from "../queries";
-import { toast } from "sonner";
+import { queryKeys } from "@/queries/queries";
 import type { Word } from "@/types/db-aliases";
 
 type WordCache = {
@@ -18,7 +18,7 @@ type DeleteWordMutationProps = {
   word: Word;
 };
 
-export const useDeleteWord = () => {
+export const useDeleteWordMutation = () => {
   const queryClient = useQueryClient();
   const { user } = useUser();
 
@@ -57,6 +57,7 @@ export const useDeleteWord = () => {
       });
       queryClient.invalidateQueries({
         queryKey: queryKeys.word.deleted(user!.id),
+        type: "all",
       });
       queryClient.invalidateQueries({
         queryKey: queryKeys.word.recent(user!.id),

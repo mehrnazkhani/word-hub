@@ -3,7 +3,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useUser } from "@/components/providers/user-provider";
 import { restoreWordAction } from "./restoreWord.action";
-import { queryKeys } from "../queries";
+import { queryKeys } from "../../queries";
 import { toast } from "sonner";
 import type { Word } from "@/types/db-aliases";
 
@@ -18,7 +18,7 @@ type RestoreWordMutationProps = {
   word: Word;
 };
 
-export const useRestoreWord = () => {
+export const useRestoreWordMutation = () => {
   const queryClient = useQueryClient();
   const { user } = useUser();
 

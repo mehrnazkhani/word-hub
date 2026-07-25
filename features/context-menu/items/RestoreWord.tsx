@@ -3,11 +3,11 @@
 import { RotateCcw } from "lucide-react";
 import { ContextMenuItem } from "@/components/ui/context-menu";
 import { useWordContextMenu } from "../WordContextMenuContext";
-import { useRestoreWord } from "@/queries/words/useRestoreWord";
+import { useRestoreWordMutation } from "@/queries/words/restore/useRestoreWord.mutation";
 
 export const RestoreWord = () => {
   const { word } = useWordContextMenu();
-  const { mutate: restoreWord } = useRestoreWord();
+  const { mutate: restoreWord } = useRestoreWordMutation();
 
   const handleRestore = () => {
     restoreWord({ word });

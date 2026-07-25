@@ -3,8 +3,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { useSupabase } from "@/lib/supabase/useSupabase";
 import { useUser } from "@/components/providers/user-provider";
-import { getRecentWords } from "./getWords";
-import { queryKeys } from "../queries";
+import { getRecentWords } from "../getWords";
+import { queryKeys } from "@/queries/queries";
 
 type RecentWordsProps = {
   limit: number;

@@ -10,7 +10,7 @@ type GetActiveWordsProps = {
 };
 
 const selectFields =
-  "id, antonyms, category_id, source_language_id, target_language_id, created_at, deleted_at, description, part_of_speech, score, synonyms, translation, translation_audio, updated_at, user_audio, word";
+  "id, antonyms, category_id, source_language_id, target_language_id, created_at, deleted_at, description, example, part_of_speech, score, synonyms, translation, translation_audio, updated_at, user_audio, word, search_vector";
 
 export const getActiveWords = async ({
   client,
@@ -39,6 +39,7 @@ export const getDeletedWords = async ({
   return client
     .from("words")
     .select(selectFields)
+    .eq("user_id", userId)
     .not("deleted_at", "is", null)
     .order("deleted_at", { ascending: false })
     .throwOnError();

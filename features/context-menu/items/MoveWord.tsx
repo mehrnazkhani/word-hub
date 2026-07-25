@@ -9,12 +9,12 @@ import {
 } from "@/components/ui/context-menu";
 import { useUserCategories } from "@/queries/categories/useCategories";
 import { useWordContextMenu } from "../WordContextMenuContext";
-import { useMoveWord } from "@/queries/words/useMoveWord";
+import { useMoveWordMutation } from "@/queries/words/move/useMoveWord.mutation";
 
 export const MoveWord = () => {
   const { data: categories, isPending } = useUserCategories();
   const { word } = useWordContextMenu();
-  const { mutate: moveWord } = useMoveWord();
+  const { mutate: moveWord } = useMoveWordMutation();
 
   return (
     <ContextMenuSub>

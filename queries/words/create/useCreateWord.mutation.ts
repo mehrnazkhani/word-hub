@@ -4,11 +4,12 @@ import { toast } from "sonner";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useUser } from "@/components/providers/user-provider";
 import { createWordAction } from "@/lib/actions/createWord.action";
-import { queryKeys } from "../queries";
+import { queryKeys } from "@/queries/queries";
+
 import type { AddWordFormValues } from "@/schemas/word/addWord.schema";
 import type { Word } from "@/types/db-aliases";
 
-export const useCreateWord = () => {
+export const useCreateWordMutation = () => {
   const queryClient = useQueryClient();
   const { user } = useUser();
 

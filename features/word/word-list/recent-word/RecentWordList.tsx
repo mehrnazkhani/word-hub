@@ -1,6 +1,6 @@
 "use client";
 
-import { useRecentWords } from "@/queries/words/useRecentWords";
+import { useRecentWords } from "@/queries/words/resent/useRecentWords";
 import { WordListContainer } from "@/features/word/word-list/WordListContainer";
 import { WordAccordion } from "../../word-accordion/WordAccordion";
 import { RecentWordContextMenu } from "./RecentWordContextMenu";

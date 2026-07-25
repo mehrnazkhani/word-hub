@@ -1,5 +1,5 @@
 import { Separator } from "@/components/ui/separator";
-import { DataOverview } from "./data-count/DataOverview";
+import { DataOverview } from "./DataOverview";
 import { ExportData } from "./ExportData";
 import { DeleteAllData } from "./DeleteAllData";
 

@@ -13,7 +13,7 @@ import { ArrowButton } from "@/components/ArrowButton";
 import { AiFillButton } from "./AiFillButton";
 
 import { useAiFillWord } from "@/features/word/add-word/use-ai-fill-word";
-import { useCreateWord } from "@/queries/words/useCreateWord";
+import { useCreateWordMutation } from "@/queries/words/create/useCreateWord.mutation";
 import { useUserSettings } from "@/queries/user-settings/useUserSettings";
 import { useLanguages } from "@/queries/languages/useLanguages";
 import { findObjectById } from "@/lib/utils/findObjectById";
@@ -63,7 +63,7 @@ const AddWordForm = () => {
 
   const { fillWithAI, isLoading: isAiLoading, stopAI } = useAiFillWord(methods);
 
-  const { mutateAsync: creteWord } = useCreateWord();
+  const { mutateAsync: creteWord } = useCreateWordMutation();
 
   const onSubmit = async (data: AddWordFormValues) => {
     await creteWord(data, { onSuccess: () => reset() });

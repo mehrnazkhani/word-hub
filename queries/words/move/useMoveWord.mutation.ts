@@ -3,7 +3,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useUser } from "@/components/providers/user-provider";
 import { moveWordAction } from "./moveWord.action";
-import { queryKeys } from "../queries";
+import { queryKeys } from "@/queries/queries";
 import { toast } from "sonner";
 import type { Word } from "@/types/db-aliases";
 
@@ -18,7 +18,7 @@ type MoveWordMutationProps = {
   toCategoryId: number;
 };
 
-export const useMoveWord = () => {
+export const useMoveWordMutation = () => {
   const queryClient = useQueryClient();
   const { user } = useUser();
 

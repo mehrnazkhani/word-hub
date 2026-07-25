@@ -1,7 +1,7 @@
 import { Folder, CaseSensitive, Database } from "lucide-react";
 import { IconBadge } from "@/components/ui/icon-badge";
-import { useCategoryCount } from "./useCategoryCount";
-import { useWordCount } from "./useWordCount";
+import { useCategoryCount } from "../../../queries/categories/useCategoryCount";
+import { useWordCount } from "../../../queries/words/count/useWordCount";
 
 export const DataOverview = () => {
   const categoryCount = useCategoryCount();

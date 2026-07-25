@@ -3,7 +3,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useUser } from "@/components/providers/user-provider";
 import { permanentDeleteWordAction } from "./deleteWord.action";
-import { queryKeys } from "../queries";
+import { queryKeys } from "@/queries/queries";
 import { toast } from "sonner";
 import type { Word } from "@/types/db-aliases";
 
@@ -18,7 +18,7 @@ type PermanentDeleteWordMutationProps = {
   word: Word;
 };
 
-export const usePermanentDeleteWord = () => {
+export const usePermanentDeleteWordMutation = () => {
   const queryClient = useQueryClient();
   const { user } = useUser();
 

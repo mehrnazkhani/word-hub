@@ -1,7 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
-import { safeParseInput } from "../lib/safeParseInput";
+import { safeParseInput } from "../../../lib/utils/safeParseInput";
 import type { ResetPasswordResult } from "../auth.type";
 
 import {

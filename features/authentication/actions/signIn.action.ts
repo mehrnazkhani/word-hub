@@ -1,7 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
-import { safeParseInput } from "../lib/safeParseInput";
+import { safeParseInput } from "../../../lib/utils/safeParseInput";
 import { signInSchema, type SignInFormValues } from "../schemas/auth.schema";
 import type { SignInResult } from "../auth.type";
 

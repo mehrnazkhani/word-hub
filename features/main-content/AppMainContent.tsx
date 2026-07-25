@@ -1,4 +1,4 @@
-import { FloatingActions } from "../floating-actions/FloatingActions";
+import { FloatingActions } from "./floating-actions/FloatingActions";
 
 export const AppMainContent = ({ children }: { children: React.ReactNode }) => {
   return (

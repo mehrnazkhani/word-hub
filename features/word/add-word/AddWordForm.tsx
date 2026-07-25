@@ -66,7 +66,9 @@ const AddWordForm = () => {
   const { mutateAsync: creteWord } = useCreateWordMutation();
 
   const onSubmit = async (data: AddWordFormValues) => {
-    await creteWord(data, { onSuccess: () => reset() });
+    try {
+      await creteWord(data, { onSuccess: () => reset() });
+    } catch {}
   };
 
   return (

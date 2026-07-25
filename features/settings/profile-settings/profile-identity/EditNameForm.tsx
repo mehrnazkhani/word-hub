@@ -7,7 +7,7 @@ import { CircleUserRound } from "lucide-react";
 import { useUser } from "@/components/providers/user-provider";
 import { FormInput } from "@/components/inputs/FormInput";
 import { LoadingButton } from "@/components/LoadingButton";
-import { applyServerErrors } from "@/features/authentication/lib/applyServerErrors";
+import { applyServerErrors } from "@/lib/utils/applyServerErrors";
 
 import { editNameSchema, type EditNameValue } from "./editName.schema";
 import { editNameAction, type EditNameResult } from "./editName.action";

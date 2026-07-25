@@ -10,7 +10,7 @@ import { FormPasswordInput } from "@/components/inputs/FormPasswordInput";
 import { LoadingButton } from "@/components/LoadingButton";
 
 import { resetPasswordAction } from "../actions/resetPassword.action";
-import { applyServerErrors } from "../lib/applyServerErrors";
+import { applyServerErrors } from "../../../lib/utils/applyServerErrors";
 import { ROUTES } from "@/constants/routes";
 
 import {

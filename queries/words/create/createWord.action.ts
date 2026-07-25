@@ -1,9 +1,9 @@
 "use server";
 
-import { createClient } from "../supabase/server";
-import { getAuthenticatedUser } from "../supabase/getAuthenticatedUser";
+import { createClient } from "../../../lib/supabase/server";
+import { getAuthenticatedUser } from "../../../lib/supabase/getAuthenticatedUser";
 import { wordInsertSchema } from "@/schemas/word/wordInsert.schema";
-import { safeParseInput } from "@/features/authentication/lib/safeParseInput";
+import { safeParseInput } from "@/lib/utils/safeParseInput";
 import { getSystemCategoryId } from "@/queries/categories/getCategories";
 import { mapAddWordFormToInsert } from "@/schemas/word/word.mapper";
 import type { AddWordFormValues } from "@/schemas/word/addWord.schema";

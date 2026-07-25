@@ -10,12 +10,12 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 
-const AddWordForm = dynamic(() => import("../word/add-word/AddWordForm"), {
+const AddWordForm = dynamic(() => import("../../word/add-word/AddWordForm"), {
   loading: () => <div className="py-8 text-center">Loading form...</div>,
 });
 
 const CreateCategoryForm = dynamic(
-  () => import("../category/create-category/CreateCategoryForm"),
+  () => import("../../category/create-category/CreateCategoryForm"),
   {
     loading: () => <div className="py-8 text-center">Loading form...</div>,
   },

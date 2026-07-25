@@ -2,7 +2,7 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { signUpSchema, type SignUpFormValues } from "../schemas/auth.schema";
-import { safeParseInput } from "../lib/safeParseInput";
+import { safeParseInput } from "../../../lib/utils/safeParseInput";
 import { ROUTES } from "@/constants/routes";
 import type { SignUpResult } from "../auth.type";
 

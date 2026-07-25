@@ -3,7 +3,7 @@
 import { toast } from "sonner";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useUser } from "@/components/providers/user-provider";
-import { createWordAction } from "@/lib/actions/createWord.action";
+import { createWordAction } from "@/queries/words/create/createWord.action";
 import { queryKeys } from "@/queries/queries";
 
 import type { AddWordFormValues } from "@/schemas/word/addWord.schema";

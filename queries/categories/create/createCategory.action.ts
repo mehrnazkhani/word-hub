@@ -2,17 +2,19 @@
 
 import { getAuthenticatedUser } from "@/lib/supabase/getAuthenticatedUser";
 import { createClient } from "@/lib/supabase/server";
-import { safeParseInput } from "@/features/authentication/lib/safeParseInput";
-import { categoryFormSchema } from "./categoryForm.schema";
-import type { InsertCategory } from "@/types/db-aliases";
+import { safeParseInput } from "@/lib/utils/safeParseInput";
+import {
+  categoryFormSchema,
+  type CategoryFormValues,
+} from "@/features/category/create-category/categoryForm.schema";
 
-export const createCategoryAction = async (insertData: InsertCategory) => {
+export const createCategoryAction = async (formData: CategoryFormValues) => {
   const user = await getAuthenticatedUser();
   const userId = user.id;
 
   const parsed = safeParseInput({
     schema: categoryFormSchema,
-    data: insertData,
+    data: formData,
   });
 
   if (!parsed.success) {
@@ -24,7 +26,7 @@ export const createCategoryAction = async (insertData: InsertCategory) => {
 
   const supabase = await createClient();
 
-  // Check Category Limit (Max
+  // Check Category Limit (Max)
   const { error: limitError } = await supabase.rpc("check_category_limit", {
     p_user_id: userId,
   });
@@ -62,7 +64,7 @@ export const createCategoryAction = async (insertData: InsertCategory) => {
   }
 
   return {
-    status: "success",
+    status: "success" as const,
     data,
   };
 };

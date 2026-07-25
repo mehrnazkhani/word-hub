@@ -10,7 +10,7 @@ import { FormInput } from "@/components/inputs/FormInput";
 
 import { useUser } from "@/components/providers/user-provider";
 import { LoadingButton } from "@/components/LoadingButton";
-import { applyServerErrors } from "@/features/authentication/lib/applyServerErrors";
+import { applyServerErrors } from "@/lib/utils/applyServerErrors";
 import {
   changeEmailAction,
   type ChangeEmailResult,

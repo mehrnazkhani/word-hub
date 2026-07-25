@@ -1,7 +1,7 @@
 "use server";
 
 import { getAuthenticatedUser } from "@/lib/supabase/getAuthenticatedUser";
-import { safeParseInput } from "@/features/authentication/lib/safeParseInput";
+import { safeParseInput } from "@/lib/utils/safeParseInput";
 import { createClient } from "@/lib/supabase/server";
 import {
   changePasswordSchema,

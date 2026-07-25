@@ -7,7 +7,7 @@ import { toast } from "sonner";
 
 import { FormPasswordInput } from "@/components/inputs/FormPasswordInput";
 import { LoadingButton } from "@/components/LoadingButton";
-import { applyServerErrors } from "@/features/authentication/lib/applyServerErrors";
+import { applyServerErrors } from "@/lib/utils/applyServerErrors";
 
 import {
   changePasswordSchema,

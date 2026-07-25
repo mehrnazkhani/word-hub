@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import dynamic from "next/dynamic";
-import { FolderPlus, Plus, Type } from "lucide-react";
+import { Plus, CaseSensitive, Folder } from "lucide-react";
 
 import {
   DropdownMenu,
@@ -37,12 +36,12 @@ export const FloatingActions = () => {
 
           <DropdownMenuContent align="end" side="top" className="w-44">
             <DropdownMenuItem onClick={() => setActiveModal("add-word")}>
-              <Type />
+              <CaseSensitive />
               Add word
             </DropdownMenuItem>
 
             <DropdownMenuItem onClick={() => setActiveModal("create-category")}>
-              <FolderPlus />
+              <Folder />
               Create category
             </DropdownMenuItem>
           </DropdownMenuContent>

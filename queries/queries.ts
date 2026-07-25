@@ -10,6 +10,7 @@ export const queryKeys = {
       ["words", categoryId, userId] as const,
     deleted: (userId: string) => ["words", "deleted", userId],
     recent: (userId: string) => ["words", "recent", userId],
+    count: (userId: string) => ["words", "count", userId],
   },
 
   settings: {

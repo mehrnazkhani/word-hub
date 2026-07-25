@@ -64,3 +64,20 @@ export const getRecentWords = ({
     .limit(limit)
     .throwOnError();
 };
+
+type GetWordCountProps = {
+  client: Client;
+  userId: string;
+};
+
+export const getActiveWordsCount = async ({
+  client,
+  userId,
+}: GetWordCountProps) => {
+  return client
+    .from("words")
+    .select("*", { count: "exact", head: true })
+    .eq("user_id", userId)
+    .is("deleted_at", null)
+    .throwOnError();
+};

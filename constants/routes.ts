@@ -5,6 +5,7 @@ export const ROUTES = {
   EDIT_NAME: "/account/edit-name",
   CHANGE_PASSWORD: "/account/change-password",
 
+  APP: "/app",
   TRASH: "/app/trash",
   RECENT: "/app/recent",
   WORD_IN_CATEGORY: (categoryId: number, wordId: number) =>

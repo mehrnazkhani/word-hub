@@ -3,7 +3,7 @@
 import { toast } from "sonner";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useUser } from "@/components/providers/user-provider";
-import { deleteWordAction } from "./deleteWord.action";
+import { softDeleteWordAction } from "./deleteWord.action";
 import { queryKeys } from "@/queries/queries";
 import type { Word } from "@/types/db-aliases";
 
@@ -24,7 +24,7 @@ export const useDeleteWordMutation = () => {
 
   return useMutation({
     mutationFn: ({ word }: DeleteWordMutationProps) =>
-      deleteWordAction({ wordId: word.id }),
+      softDeleteWordAction({ wordId: word.id }),
 
     onMutate: async ({ word }) => {
       const { id: wordId, category_id: categoryId } = word;

@@ -17,6 +17,7 @@ import { ExportCategory } from "./items/ExportCategory";
 import { RenameCategory } from "./items/RenameCategory";
 import { DeleteCategory } from "./items/DeleteCategory";
 import { RenameCategoryDialog } from "@/features/context-menu/category/dialogs/RenameCategoryDialog";
+import { DeleteCategoryDialog } from "./dialogs/DeleteCategoryDialog";
 
 type CategoryContextMenuProps = {
   category: Category;
@@ -37,6 +38,12 @@ const CategoryContextMenuRoot = ({
         category={category}
         open={dialog === "rename"}
         onOpenChange={(open) => setDialog(open ? "rename" : null)}
+      />
+
+      <DeleteCategoryDialog
+        category={category}
+        open={dialog === "delete"}
+        onOpenChange={(open) => setDialog(open ? "delete" : null)}
       />
     </CategoryContextMenuContext.Provider>
   );

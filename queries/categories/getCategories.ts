@@ -8,6 +8,7 @@ export const getUserCategories = (client: Client, userId: string) => {
     .from("categories")
     .select("*")
     .eq("user_id", userId)
+    .is("deleted_at", null)
     .order("created_at", { ascending: false })
     .throwOnError();
 };

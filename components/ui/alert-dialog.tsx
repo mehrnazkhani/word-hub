@@ -158,7 +158,7 @@ function AlertDialogAction({
     <Button variant={variant} size={size} asChild>
       <AlertDialogPrimitive.Action
         data-slot="alert-dialog-action"
-        className={cn(className)}
+        className={cn("cursor-pointer", className)}
         {...props}
       />
     </Button>

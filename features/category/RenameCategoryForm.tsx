@@ -58,20 +58,18 @@ export const RenameCategoryForm = ({
       return;
     }
 
-    try {
-      await renameCategory(
-        { formData: data, categoryId: category.id },
-        {
-          onSuccess: (result) => {
-            if (result.status === "validation_error" && result.fieldErrors) {
-              applyServerErrors(setError, result.fieldErrors);
-              return;
-            }
-            onSuccess?.();
-          },
+    renameCategory(
+      { formData: data, categoryId: category.id },
+      {
+        onSuccess: (result) => {
+          if (result.status === "validation_error" && result.fieldErrors) {
+            applyServerErrors(setError, result.fieldErrors);
+            return;
+          }
+          onSuccess?.();
         },
-      );
-    } catch {}
+      },
+    );
   };
 
   return (

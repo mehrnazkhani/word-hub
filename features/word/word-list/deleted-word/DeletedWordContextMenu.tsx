@@ -1,6 +1,6 @@
 "use client";
 
-import { WordContextMenu } from "@/features/context-menu/WordContextMenu";
+import { WordContextMenu } from "@/features/context-menu/word/WordContextMenu";
 import type { Word } from "@/types/db-aliases";
 
 type DeletedWordContextMenuProps = {

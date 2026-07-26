@@ -11,7 +11,8 @@ import {
 } from "@/components/ui/sidebar";
 import { useUserCategories } from "@/queries/categories/useCategories";
 import { CategorySkeleton } from "./CategorySkeleton";
-import { CategoryListContextMenu } from "./CategoryListContextMenu";
+import { CategoryContextMenu } from "@/features/context-menu/category/CategoryContextMenu";
+import type { Category } from "@/types/db-aliases";
 
 export const CategoriesList = () => {
   const { data: categories, isPending } = useUserCategories();
@@ -31,33 +32,59 @@ export const CategoriesList = () => {
 
   return (
     <SidebarMenu className="text-app-secondary flex-1 overflow-y-auto">
-      {categories &&
-        categories.map((category) => {
-          const menuButton = (
-            <SidebarMenuItem key={category.id}>
-              <SidebarMenuButton
-                asChild
-                className="cursor-pointer"
-                isActive={optimisticActiveId === String(category.id)}
+      {categories?.map((category) => {
+        const menuButton = (
+          <SidebarMenuItem key={category.id}>
+            <SidebarMenuButton
+              asChild
+              className="cursor-pointer"
+              isActive={optimisticActiveId === String(category.id)}
+            >
+              <Link
+                href={`/app/${category.id}`}
+                onClick={() => setOptimisticActiveId(String(category.id))}
               >
-                <Link
-                  href={`/app/${category.id}`}
-                  onClick={() => setOptimisticActiveId(String(category.id))}
-                >
-                  <span className="truncate">{category.name}</span>
-                </Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          );
+                <span className="truncate">{category.name}</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        );
 
-          if (category.is_system) return menuButton;
+        if (category.is_system) {
+          return menuButton;
+        }
 
-          return (
-            <CategoryListContextMenu key={category.id} category={category}>
-              {menuButton}
-            </CategoryListContextMenu>
-          );
-        })}
+        return (
+          <CategoryItemContextMenu key={category.id} category={category}>
+            {menuButton}
+          </CategoryItemContextMenu>
+        );
+      })}
     </SidebarMenu>
   );
 };
+
+type CategoryItemContextMenuProps = {
+  category: Category;
+  children: React.ReactNode;
+};
+
+function CategoryItemContextMenu({
+  category,
+  children,
+}: CategoryItemContextMenuProps) {
+  return (
+    <CategoryContextMenu category={category}>
+      <CategoryContextMenu.Trigger asChild>
+        {children}
+      </CategoryContextMenu.Trigger>
+
+      <CategoryContextMenu.Content>
+        <CategoryContextMenu.Rename />
+        <CategoryContextMenu.Export />
+        <CategoryContextMenu.Separator />
+        <CategoryContextMenu.Delete />
+      </CategoryContextMenu.Content>
+    </CategoryContextMenu>
+  );
+}

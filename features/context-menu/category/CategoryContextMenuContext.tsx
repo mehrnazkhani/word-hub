@@ -1,8 +1,11 @@
 import { createContext, useContext } from "react";
 import type { Category } from "@/types/db-aliases";
 
+export type DialogType = "rename" | "delete" | null;
+
 type CategoryContextMenuContextValue = {
   category: Category;
+  setDialog: (dialog: DialogType) => void;
 };
 
 export const CategoryContextMenuContext =

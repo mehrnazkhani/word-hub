@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 
 import { Word } from "@/types/db-aliases";
-import { WordContextMenu } from "@/features/context-menu/WordContextMenu";
+import { WordContextMenu } from "@/features/context-menu/word/WordContextMenu";
 
 type CategoryWordContextMenuProps = {
   word: Word;

@@ -8,7 +8,15 @@ import {
   type CategoryFormValues,
 } from "@/features/category/category.schema";
 
-export const createCategoryAction = async (formData: CategoryFormValues) => {
+export type RenameCategoryActionProps = {
+  formData: CategoryFormValues;
+  categoryId: number;
+};
+
+export const renameCategoryAction = async ({
+  formData,
+  categoryId,
+}: RenameCategoryActionProps) => {
   const user = await getAuthenticatedUser();
   const userId = user.id;
 
@@ -26,31 +34,16 @@ export const createCategoryAction = async (formData: CategoryFormValues) => {
 
   const supabase = await createClient();
 
-  // Check Category Limit (Max)
-  const { error: limitError } = await supabase.rpc("check_category_limit", {
-    p_user_id: userId,
-  });
-
-  if (limitError) {
-    if (limitError.message === "category_limit_exceeded") {
-      return {
-        status: "limit_error",
-        message: "You can only create up to 20 categories.",
-      };
-    }
-    throw new Error(limitError.message);
-  }
-
-  // Check Duplicate Name And Insert Category
   const { data, error } = await supabase
     .from("categories")
-    .insert({ ...parsed.data, user_id: userId })
+    .update({ name: parsed.data.name })
+    .eq("id", categoryId)
+    .eq("user_id", userId)
     .select()
     .single();
 
   if (error) {
     if (error.code === "23505") {
-      // unique_violation
       return {
         status: "validation_error",
         fieldErrors: {
@@ -59,8 +52,15 @@ export const createCategoryAction = async (formData: CategoryFormValues) => {
       };
     }
 
-    console.error("Create Category error:", error);
+    console.error("Rename Category error:", error);
     throw new Error(error.message);
+  }
+
+  if (!data) {
+    return {
+      status: "not_found",
+      message: "Category not found or you don't have permission to rename it.",
+    };
   }
 
   return {

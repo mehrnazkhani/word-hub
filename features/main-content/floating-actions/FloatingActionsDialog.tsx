@@ -15,7 +15,7 @@ const AddWordForm = dynamic(() => import("../../word/add-word/AddWordForm"), {
 });
 
 const CreateCategoryForm = dynamic(
-  () => import("../../category/create-category/CreateCategoryForm"),
+  () => import("../../category/CreateCategoryForm"),
   {
     loading: () => <div className="py-8 text-center">Loading form...</div>,
   },

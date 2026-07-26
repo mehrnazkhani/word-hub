@@ -1,16 +1,22 @@
 "use client";
 
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import {
   ContextMenu,
   ContextMenuContent,
   ContextMenuSeparator,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
-import type { Category } from "@/types/db-aliases";
 
-import { CategoryContextMenuContext } from "./CategoryContextMenuContext";
+import type { Category } from "@/types/db-aliases";
+import {
+  CategoryContextMenuContext,
+  type DialogType,
+} from "./CategoryContextMenuContext";
 import { ExportCategory } from "./items/ExportCategory";
+import { RenameCategory } from "./items/RenameCategory";
+import { DeleteCategory } from "./items/DeleteCategory";
+import { RenameCategoryDialog } from "@/features/context-menu/category/dialogs/RenameCategoryDialog";
 
 type CategoryContextMenuProps = {
   category: Category;
@@ -21,9 +27,17 @@ const CategoryContextMenuRoot = ({
   category,
   children,
 }: CategoryContextMenuProps) => {
+  const [dialog, setDialog] = useState<DialogType>(null);
+
   return (
-    <CategoryContextMenuContext.Provider value={{ category }}>
+    <CategoryContextMenuContext.Provider value={{ category, setDialog }}>
       <ContextMenu>{children}</ContextMenu>
+
+      <RenameCategoryDialog
+        category={category}
+        open={dialog === "rename"}
+        onOpenChange={(open) => setDialog(open ? "rename" : null)}
+      />
     </CategoryContextMenuContext.Provider>
   );
 };
@@ -33,8 +47,10 @@ const Content = ({ children }: { children: ReactNode }) => (
 );
 
 export const CategoryContextMenu = Object.assign(CategoryContextMenuRoot, {
+  Content,
   Separator: ContextMenuSeparator,
   Trigger: ContextMenuTrigger,
   Export: ExportCategory,
-  Content,
+  Rename: RenameCategory,
+  Delete: DeleteCategory,
 });

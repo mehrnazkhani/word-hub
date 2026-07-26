@@ -10,19 +10,17 @@ import { ArrowButton } from "@/components/ArrowButton";
 import { applyServerErrors } from "@/lib/utils/applyServerErrors";
 import { useCreateCategoryMutation } from "@/queries/categories/create/useCreateCategoryMutation";
 
-import {
-  categoryFormSchema,
-  categoryFormDefaultValues,
-  type CategoryFormValues,
-} from "./categoryForm.schema";
+import { categoryFormSchema, type CategoryFormValues } from "./category.schema";
 
 const CreateCategoryForm = () => {
-  const method = useForm<CategoryFormValues>({
+  const methods = useForm<CategoryFormValues>({
     resolver: zodResolver(categoryFormSchema),
-    defaultValues: categoryFormDefaultValues,
+    defaultValues: {
+      name: "",
+    },
   });
 
-  const { handleSubmit, reset, setError } = method;
+  const { handleSubmit, reset, setError } = methods;
 
   const { mutateAsync: createCategory, isPending } =
     useCreateCategoryMutation();
@@ -42,7 +40,7 @@ const CreateCategoryForm = () => {
   };
 
   return (
-    <FormProvider {...method}>
+    <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
         <FormInput
           icon={Folder}

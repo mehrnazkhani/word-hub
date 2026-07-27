@@ -9,9 +9,11 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+
 import { useUserCategories } from "@/queries/categories/useCategories";
 import { CategorySkeleton } from "./CategorySkeleton";
 import { CategoryContextMenu } from "@/features/context-menu/category/CategoryContextMenu";
+import { ROUTES } from "@/constants/routes";
 import type { Category } from "@/types/db-aliases";
 
 export const CategoriesList = () => {
@@ -41,7 +43,7 @@ export const CategoriesList = () => {
               isActive={optimisticActiveId === String(category.id)}
             >
               <Link
-                href={`/app/${category.id}`}
+                href={ROUTES.CATEGORY(category.id)}
                 onClick={() => setOptimisticActiveId(String(category.id))}
               >
                 <span className="truncate">{category.name}</span>

@@ -8,6 +8,7 @@ export const ROUTES = {
   APP: "/app",
   TRASH: "/app/trash",
   RECENT: "/app/recent",
+  CATEGORY: (categoryId: number) => `/app/${categoryId}`,
   WORD_IN_CATEGORY: (categoryId: number, wordId: number) =>
     `/app/${categoryId}#word-${wordId}`,
 

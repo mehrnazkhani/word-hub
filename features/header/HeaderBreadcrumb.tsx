@@ -1,24 +1,21 @@
 "use client";
 
-import { useParams } from "next/navigation";
-
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbList,
   BreadcrumbPage,
 } from "@/components/ui/breadcrumb";
+import { usePageTitle } from "./usePageTitle";
 
 export const HeaderBreadcrumb = () => {
-  const { categoryId } = useParams<{ categoryId?: string }>();
+  const title = usePageTitle();
 
   return (
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbPage className="line-clamp-1">
-            {"Categories"}
-          </BreadcrumbPage>
+          <BreadcrumbPage className="line-clamp-1">{title}</BreadcrumbPage>
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>

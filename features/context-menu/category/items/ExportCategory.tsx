@@ -4,11 +4,13 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useSupabase } from "@/lib/supabase/useSupabase";
 import { useUser } from "@/components/providers/user-provider";
 import { useCategoryContextMenu } from "../CategoryContextMenuContext";
+import { activeWordsQuery } from "@/queries/words/useActiveWords";
+import { mapWordToExportShape } from "@/lib/utils/mapWordToExportShape";
+import { downloadJson } from "@/lib/utils/downloadJson";
 
 import { toast } from "sonner";
 import { Download } from "lucide-react";
 import { ContextMenuItem } from "@/components/ui/context-menu";
-import { activeWordsQuery } from "@/queries/words/useActiveWords";
 
 export const ExportCategory = () => {
   const { category } = useCategoryContextMenu();
@@ -37,41 +39,10 @@ export const ExportCategory = () => {
 
       const exportData = {
         category: category.name,
-        words: words.map(
-          ({
-            word,
-            source_language_id,
-            translation,
-            target_language_id,
-            part_of_speech,
-            antonyms,
-            synonyms,
-            example,
-            description,
-          }) => ({
-            word,
-            source_language_id,
-            translation,
-            target_language_id,
-            ...(part_of_speech && { part_of_speech }),
-            ...(synonyms?.length && { synonyms }),
-            ...(antonyms?.length && { antonyms }),
-            ...(example && { example }),
-            ...(description && { description }),
-          }),
-        ),
+        words: words.map(mapWordToExportShape),
       };
 
-      const blob = new Blob([JSON.stringify(exportData, null, 2)], {
-        type: "application/json",
-      });
-
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `${category.name}.json`;
-      a.click();
-      URL.revokeObjectURL(url);
+      downloadJson(exportData, `${category.name}.json`);
 
       toast.success(
         `"${category.name}" exported successfully — ${words.length} words.`,

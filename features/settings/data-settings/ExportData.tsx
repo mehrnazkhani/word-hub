@@ -10,6 +10,8 @@ import { toast } from "sonner";
 import { Download } from "lucide-react";
 import { SettingRow } from "../SettingRow";
 import { ArrowButton } from "@/components/ArrowButton";
+import { mapWordToExportShape } from "@/lib/utils/mapWordToExportShape";
+import { downloadJson } from "@/lib/utils/downloadJson";
 
 export const ExportData = () => {
   const queryClient = useQueryClient();
@@ -48,40 +50,13 @@ export const ExportData = () => {
 
       const exportData = categoriesResult.map((category) => ({
         category: category.name,
-        words: (wordsByCategory[category.id] ?? []).map(
-          ({
-            word,
-            source_language_id,
-            translation,
-            target_language_id,
-            part_of_speech,
-            antonyms,
-            synonyms,
-            example,
-            description,
-          }) => ({
-            word,
-            source_language_id,
-            translation,
-            target_language_id,
-            ...(part_of_speech && { part_of_speech }),
-            ...(synonyms?.length && { synonyms }),
-            ...(antonyms?.length && { antonyms }),
-            ...(example && { example }),
-            ...(description && { description }),
-          }),
-        ),
+        words: (wordsByCategory[category.id] ?? []).map(mapWordToExportShape),
       }));
 
-      const blob = new Blob([JSON.stringify(exportData, null, 2)], {
-        type: "application/json",
-      });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `wordHub-export-${new Date().toISOString().slice(0, 10)}.json`;
-      a.click();
-      URL.revokeObjectURL(url);
+      downloadJson(
+        exportData,
+        `wordHub-export-${new Date().toISOString().slice(0, 10)}.json`,
+      );
 
       toast.success(
         `Exported ${categoriesResult.length} categories — ${words.length} words.`,

@@ -9,6 +9,7 @@ import {
 import { UserProvider } from "@/components/providers/user-provider";
 import { prefetchLanguages } from "@/queries/languages/prefetchLanguages";
 import { prefetchUserSettings } from "@/queries/user-settings/prefetchUserSettings";
+import { prefetchWordCount } from "@/queries/words/count/wordCountQuery";
 import { ROUTES } from "@/constants/routes";
 
 const ProtectedLayout = async ({
@@ -31,6 +32,7 @@ const ProtectedLayout = async ({
   await Promise.all([
     prefetchLanguages(queryClient, supabase),
     prefetchUserSettings(queryClient, supabase, user.id),
+    prefetchWordCount(queryClient, supabase, user.id),
   ]);
 
   return (

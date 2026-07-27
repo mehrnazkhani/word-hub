@@ -5,7 +5,7 @@ import { useWordCount } from "../../../queries/words/count/useWordCount";
 
 export const DataOverview = () => {
   const categoryCount = useCategoryCount();
-  const { data: wordCountData, isLoading } = useWordCount();
+  const { data: wordCount = 0, isPending } = useWordCount();
 
   return (
     <div className="space-y-5">
@@ -33,9 +33,7 @@ export const DataOverview = () => {
           <IconBadge icon={CaseSensitive} badgeSize={10} />
 
           <div className="flex flex-col">
-            <span>
-              {isLoading ? "Calculating..." : wordCountData?.wordCount}
-            </span>
+            <span>{isPending ? "Calculating..." : wordCount}</span>
             <span className="text-accent-foreground/60">Words</span>
           </div>
         </div>

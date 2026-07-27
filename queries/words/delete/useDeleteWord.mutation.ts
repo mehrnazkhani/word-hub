@@ -62,6 +62,9 @@ export const useDeleteWordMutation = () => {
       queryClient.invalidateQueries({
         queryKey: queryKeys.word.recent(user!.id),
       });
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.word.count(user!.id),
+      });
     },
 
     onError: (_, { word }, context) => {

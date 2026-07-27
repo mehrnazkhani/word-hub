@@ -8,7 +8,7 @@ import { useCategoryContextMenu } from "../CategoryContextMenuContext";
 import { toast } from "sonner";
 import { Download } from "lucide-react";
 import { ContextMenuItem } from "@/components/ui/context-menu";
-import { activeWordsQueryOptions } from "@/queries/words/useActiveWords";
+import { activeWordsQuery } from "@/queries/words/useActiveWords";
 
 export const ExportCategory = () => {
   const { category } = useCategoryContextMenu();
@@ -23,7 +23,11 @@ export const ExportCategory = () => {
 
     try {
       const words = await queryClient.fetchQuery(
-        activeWordsQueryOptions(category.id, user.id, supabase),
+        activeWordsQuery({
+          supabase,
+          userId: user.id,
+          categoryId: category.id,
+        }),
       );
 
       if (!words?.length) {

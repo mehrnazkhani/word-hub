@@ -1,18 +1,23 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, queryOptions } from "@tanstack/react-query";
 import { useSupabase } from "@/lib/supabase/useSupabase";
 import { useUser } from "@/components/providers/user-provider";
 import { getActiveWords } from "./getWords";
 import { queryKeys } from "../queries";
 import { SupabaseClient } from "@supabase/supabase-js";
-import { queryOptions } from "@tanstack/react-query";
 
-export const activeWordsQueryOptions = (
-  categoryId: number,
-  userId: string,
-  supabase: SupabaseClient,
-) =>
+type ActiveWordsQueryProps = {
+  supabase: SupabaseClient;
+  userId: string;
+  categoryId: number;
+};
+
+export const activeWordsQuery = ({
+  supabase,
+  userId,
+  categoryId,
+}: ActiveWordsQueryProps) =>
   queryOptions({
     queryKey: queryKeys.word.byCategoryId(categoryId, userId),
     queryFn: async () => {
@@ -31,7 +36,7 @@ export const useActiveWords = (categoryId: number) => {
   const { user, isPending } = useUser();
 
   return useQuery({
-    ...activeWordsQueryOptions(categoryId, user!.id, supabase),
+    ...activeWordsQuery({ supabase, userId: user!.id, categoryId }),
     enabled: !!user && !isPending,
   });
 };

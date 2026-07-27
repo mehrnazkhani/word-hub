@@ -27,6 +27,24 @@ export const getActiveWords = async ({
     .throwOnError();
 };
 
+type GetAllActiveWordsProps = {
+  client: Client;
+  userId: string;
+};
+
+export const getAllActiveWords = async ({
+  client,
+  userId,
+}: GetAllActiveWordsProps) => {
+  return client
+    .from("words")
+    .select(selectFields)
+    .eq("user_id", userId)
+    .is("deleted_at", null)
+    .order("created_at", { ascending: false })
+    .throwOnError();
+};
+
 type GetDeletedWordsProps = {
   client: Client;
   userId: string;

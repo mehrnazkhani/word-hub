@@ -11,7 +11,7 @@ export default function DashboardPage() {
   const { user } = useUser();
 
   return (
-    <main className="mx-48 flex flex-col gap-15">
+    <main className="flex flex-col gap-15 px-44">
       <header className="space-y-2">
         <h1 className="text-3xl">Hello, {user?.user_metadata.full_name}</h1>
         <div className="text-secondary-foreground/60">

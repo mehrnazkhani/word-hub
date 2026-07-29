@@ -9,9 +9,8 @@ import { CategoryWordContextMenu } from "./CategoryWordContextMenu";
 import { WordsLoading } from "@/components/WordsLoading";
 import { EmptyUI } from "@/components/EmptyUI";
 
-import { useUserCategories } from "@/queries/categories/useCategories";
 import { useActiveWords } from "@/queries/words/useActiveWords";
-import { findObjectById } from "@/lib/utils/findObjectById";
+import { useCategoryById } from "@/queries/categories/useCategoryById";
 
 type CategoryWordListProps = {
   categoryId: string;
@@ -21,11 +20,8 @@ export const CategoryWordList = ({ categoryId }: CategoryWordListProps) => {
   const id = Number(categoryId);
   validateCategoryId(id);
 
-  const { data: categories = [], isPending: categoriesLoading } =
-    useUserCategories();
-  if (categoriesLoading) return <WordsLoading />;
-
-  const category = findObjectById(categories, id);
+  const { category, isPending: categoryPending } = useCategoryById(id);
+  if (categoryPending) return <WordsLoading />;
   if (!category) {
     notFound();
   }

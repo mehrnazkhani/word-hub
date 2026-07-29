@@ -45,6 +45,7 @@ export const CategoriesList = () => {
               <Link
                 href={ROUTES.CATEGORY(category.id)}
                 onClick={() => setOptimisticActiveId(String(category.id))}
+                className="text-accent-foreground/60"
               >
                 <span className="truncate">{category.name}</span>
               </Link>

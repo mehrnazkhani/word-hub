@@ -12,11 +12,15 @@ import {
 type FormSelectProps = {
   children: ReactNode;
   placeholder?: string;
+  disabled?: boolean;
   renderValue?: (value: string) => ReactNode;
 };
 
 export const FormSelect = createFormField<FormSelectProps>(
-  ({ onChange, onBlur, ...field }, { children, placeholder, renderValue }) => (
+  (
+    { onChange, onBlur, ...field },
+    { children, placeholder, disabled, renderValue },
+  ) => (
     <Select
       value={
         field.value && field.value !== "null" ? field.value.toString() : ""

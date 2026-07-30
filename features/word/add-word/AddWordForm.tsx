@@ -5,9 +5,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { FormInput } from "@/components/inputs/FormInput";
 import { WordPronunciation } from "@/components/WordPronunciation";
-import { SelectLanguage } from "./select-fields/SelectLanguage";
-import { SelectWordType } from "./select-fields/SelectWordType";
-import { SelectCategory } from "./select-fields/SelectCategory";
+import { SelectLanguage } from "../../../components/inputs/selectors/SelectLanguage";
+import { SelectWordType } from "../../../components/inputs/selectors/SelectWordType";
+import { SelectCategory } from "../../../components/inputs/selectors/SelectCategory";
 import { WordFormAdvanced } from "./WordFormAdvanced";
 import { ArrowButton } from "@/components/ArrowButton";
 import { AiFillButton } from "./ai/AiFillButton";

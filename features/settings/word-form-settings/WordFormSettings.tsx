@@ -7,8 +7,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 
 import { Separator } from "@/components/ui/separator";
-import { SelectCategory } from "@/features/word/add-word/select-fields/SelectCategory";
-import { SelectLanguage } from "@/features/word/add-word/select-fields/SelectLanguage";
+import { SelectCategory } from "@/components/inputs/selectors/SelectCategory";
+import { SelectLanguage } from "@/components/inputs/selectors/SelectLanguage";
 import { SettingRow } from "../SettingRow";
 import { useUserSettings } from "@/queries/user-settings/useUserSettings";
 import { useLanguagesById } from "@/queries/languages/useLanguagesById";

@@ -28,6 +28,7 @@ export const SelectLanguage = ({
       name={name}
       label={label}
       placeholder={placeholder}
+      disabled={disabled}
       renderValue={(value) => {
         const lang = languages?.find((l) => String(l.id) === value);
 

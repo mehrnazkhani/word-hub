@@ -1,16 +1,7 @@
 import { google } from "@ai-sdk/google";
 import { generateText, Output } from "ai";
-import { z } from "zod";
 import { PARTS_OF_SPEECH, WORD_LIMITS } from "@/schemas/word/word.shared";
-
-const aiWordSchema = z.object({
-  translation: z.string().max(WORD_LIMITS.translation),
-  partOfSpeech: z.enum(PARTS_OF_SPEECH).nullable(),
-  synonyms: z.string(),
-  antonyms: z.string(),
-  description: z.string().max(WORD_LIMITS.description).nullable(),
-  example: z.string().max(WORD_LIMITS.example).nullable(),
-});
+import { aiWordSchema } from "@/schemas/word/word.schema";
 
 export async function POST(req: Request) {
   try {

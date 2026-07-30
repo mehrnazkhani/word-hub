@@ -19,7 +19,7 @@ import { ArrowButton } from "@/components/ArrowButton";
 import {
   wordFormSettingsSchema,
   type WordFormSettingsValues,
-} from "./AddWordFormSettings.schema";
+} from "@/schemas/word/word.schema";
 
 const WordFormSettings = () => {
   const { data: userSettings } = useUserSettings();

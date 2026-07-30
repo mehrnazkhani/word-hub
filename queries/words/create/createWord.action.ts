@@ -2,18 +2,19 @@
 
 import { createClient } from "../../../lib/supabase/server";
 import { getAuthenticatedUser } from "../../../lib/supabase/getAuthenticatedUser";
-import { wordInsertSchema } from "@/schemas/word/wordInsert.schema";
 import { safeParseInput } from "@/lib/utils/safeParseInput";
 import { getSystemCategoryId } from "@/queries/categories/getCategories";
-import { mapAddWordFormToInsert } from "@/schemas/word/word.mapper";
-import type { AddWordFormValues } from "@/schemas/word/addWord.schema";
+import {
+  wordDbSchema,
+  type AddWordFormValues,
+} from "@/schemas/word/word.schema";
 
 export const createWordAction = async (formData: AddWordFormValues) => {
   const user = await getAuthenticatedUser();
 
   const parsed = safeParseInput({
-    schema: wordInsertSchema,
-    data: mapAddWordFormToInsert(formData),
+    schema: wordDbSchema,
+    data: formData,
   });
 
   if (!parsed.success) {

@@ -19,16 +19,28 @@ import { useLanguages } from "@/queries/languages/useLanguages";
 import { findObjectById } from "@/lib/utils/findObjectById";
 
 import {
-  addWordSchema,
+  addWordFormSchema,
   type AddWordFormValues,
-} from "@/schemas/word/addWord.schema";
-import { addWordFormDefaultValues } from "@/schemas/word/addWord.defaults";
+} from "@/schemas/word/word.schema";
+
+const addWordFormDefaultValues: AddWordFormValues = {
+  word: "",
+  translation: "",
+  sourceLanguageId: "",
+  targetLanguageId: "",
+  partOfSpeech: null,
+  categoryId: null,
+  synonyms: "",
+  antonyms: "",
+  description: "",
+  example: "",
+};
 
 const AddWordForm = () => {
   const { data: userSettings } = useUserSettings();
 
   const methods = useForm<AddWordFormValues>({
-    resolver: zodResolver(addWordSchema),
+    resolver: zodResolver(addWordFormSchema),
     defaultValues: {
       ...addWordFormDefaultValues,
       sourceLanguageId: userSettings?.default_source_lang_id

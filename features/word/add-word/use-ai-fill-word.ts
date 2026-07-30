@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { toast } from "sonner";
 
-import { AddWordFormValues } from "@/schemas/word/addWord.schema";
+import { AddWordFormValues } from "@/schemas/word/word.schema";
 import { useLanguages } from "@/queries/languages/useLanguages";
 import { useUserSettings } from "@/queries/user-settings/useUserSettings";
 import { findObjectById } from "@/lib/utils/findObjectById";

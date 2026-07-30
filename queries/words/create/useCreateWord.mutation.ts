@@ -7,7 +7,7 @@ import { createWordAction } from "@/queries/words/create/createWord.action";
 import { splitRelatedWords } from "@/schemas/word/word.shared";
 import { queryKeys } from "@/queries/queries";
 
-import type { AddWordFormValues } from "@/schemas/word/addWord.schema";
+import type { AddWordFormValues } from "@/schemas/word/word.schema";
 import type { Word } from "@/types/db-aliases";
 
 export const useCreateWordMutation = () => {

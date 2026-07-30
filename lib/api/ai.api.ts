@@ -1,4 +1,4 @@
-import { AddWordFormValues } from "@/schemas/word/addWord.schema";
+import { AddWordFormValues } from "@/schemas/word/word.schema";
 import { API_ROUTES } from "@/constants/routes";
 
 export type AiFillWordRequest = {

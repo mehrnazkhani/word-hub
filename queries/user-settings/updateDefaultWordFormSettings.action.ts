@@ -5,7 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 import {
   wordFormSettingsSchema,
   type WordFormSettingsValues,
-} from "@/features/settings/word-form-settings/AddWordFormSettings.schema";
+} from "@/schemas/word/word.schema";
 
 export const updateDefaultWordFormSettingsAction = async (
   data: WordFormSettingsValues,

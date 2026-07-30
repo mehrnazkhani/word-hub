@@ -18,7 +18,10 @@ export const MoveWord = () => {
 
   return (
     <ContextMenuSub>
-      <ContextMenuSubTrigger className="text-sm">
+      <ContextMenuSubTrigger
+        disabled={isPending || !categories?.length}
+        className="text-sm"
+      >
         <FolderOutput className="size-3" />
         Move
       </ContextMenuSubTrigger>

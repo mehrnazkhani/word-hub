@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useUser } from "@/components/providers/user-provider";
 import { updateDefaultWordFormSettingsAction } from "./updateDefaultWordFormSettings.action";
 import { queryKeys } from "../queries";
-import type { WordFormSettingsValues } from "@/features/settings/word-form-settings/AddWordFormSettings.schema";
+import type { WordFormSettingsValues } from "@/schemas/word/word.schema";
 
 export const useUpdateWordFormSettings = () => {
   const queryClient = useQueryClient();

@@ -20,6 +20,9 @@ importers:
       '@hookform/resolvers':
         specifier: ^5.4.0
         version: 5.4.0(react-hook-form@7.81.0(react@19.2.4))
+      '@next/env':
+        specifier: ^16.2.12
+        version: 16.2.12
       '@supabase/ssr':
         specifier: ^0.10.3
         version: 0.10.3(@supabase/supabase-js@2.110.0)
@@ -611,6 +614,9 @@ packages:
     peerDependencies:
       '@emnapi/core': ^1.7.1
       '@emnapi/runtime': ^1.7.1
+
+  '@next/env@16.2.12':
+    resolution: {integrity: sha512-d0Z5Bc13Fa4nR8pFAKx2jay2yhJM16vlfHbTzYnUQAxlNb6B6lmn4hjt69lYNt4kRtyYP6gEM49lPRHNbIyneg==}
 
   '@next/env@16.2.7':
     resolution: {integrity: sha512-tMJizPlj6ZYpBMMdK8S0LJufrP4QTdR6pcv9KQ/bVETPAmg0j1mlHE9G2c38UyGHxoBapgwuj7XjbGJ2RcDFOg==}
@@ -4574,6 +4580,8 @@ snapshots:
       '@emnapi/runtime': 1.10.0
       '@tybys/wasm-util': 0.10.3
     optional: true
+
+  '@next/env@16.2.12': {}
 
   '@next/env@16.2.7': {}
 

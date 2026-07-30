@@ -14,6 +14,30 @@ export type Database = {
   }
   public: {
     Tables: {
+      app_limits: {
+        Row: {
+          description: string | null
+          key: string
+          updated_at: string | null
+          value: string
+          value_type: string
+        }
+        Insert: {
+          description?: string | null
+          key: string
+          updated_at?: string | null
+          value: string
+          value_type?: string
+        }
+        Update: {
+          description?: string | null
+          key?: string
+          updated_at?: string | null
+          value?: string
+          value_type?: string
+        }
+        Relationships: []
+      }
       categories: {
         Row: {
           created_at: string

@@ -184,7 +184,6 @@ export type Database = {
           translation: string
           translation_audio: string | null
           updated_at: string | null
-          user_audio: string | null
           user_id: string
           word: string
         }
@@ -207,7 +206,6 @@ export type Database = {
           translation: string
           translation_audio?: string | null
           updated_at?: string | null
-          user_audio?: string | null
           user_id: string
           word: string
         }
@@ -230,7 +228,6 @@ export type Database = {
           translation?: string
           translation_audio?: string | null
           updated_at?: string | null
-          user_audio?: string | null
           user_id?: string
           word?: string
         }

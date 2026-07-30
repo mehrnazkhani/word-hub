@@ -8,7 +8,7 @@ import { AddWordFormValues } from "@/schemas/word/word.schema";
 import { useLanguages } from "@/queries/languages/useLanguages";
 import { useUserSettings } from "@/queries/user-settings/useUserSettings";
 import { findObjectById } from "@/lib/utils/findObjectById";
-import { aiFillWord } from "@/lib/api/ai.api";
+import { aiFillWord } from "@/lib/api/aiFill.api";
 import type { AiFillFields } from "@/types/db-aliases";
 
 export function useAiFillWord(form: UseFormReturn<AddWordFormValues>) {

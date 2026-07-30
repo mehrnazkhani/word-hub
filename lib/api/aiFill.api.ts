@@ -1,5 +1,5 @@
-import { AddWordFormValues } from "@/schemas/word/word.schema";
 import { API_ROUTES } from "@/constants/routes";
+import type { AIWordValues } from "@/schemas/word/word.schema";
 
 export type AiFillWordRequest = {
   word: string;
@@ -7,14 +7,7 @@ export type AiFillWordRequest = {
   targetLanguage: string;
 };
 
-export type AiFillWordResponse = {
-  translation: string;
-  partOfSpeech: AddWordFormValues["partOfSpeech"];
-  synonyms: string;
-  antonyms: string;
-  example: string;
-  description: string | null;
-};
+export type AiFillWordResponse = AIWordValues;
 
 export const aiFillWord = async (
   payload: AiFillWordRequest,

@@ -10,9 +10,9 @@ import { SelectWordType } from "./select-fields/SelectWordType";
 import { SelectCategory } from "./select-fields/SelectCategory";
 import { WordFormAdvanced } from "./WordFormAdvanced";
 import { ArrowButton } from "@/components/ArrowButton";
-import { AiFillButton } from "./AiFillButton";
+import { AiFillButton } from "./ai/AiFillButton";
 
-import { useAiFillWord } from "@/features/word/add-word/use-ai-fill-word";
+import { useAiFillWord } from "@/features/word/add-word/ai/use-ai-fill-word";
 import { useCreateWordMutation } from "@/queries/words/create/useCreateWord.mutation";
 import { useUserSettings } from "@/queries/user-settings/useUserSettings";
 import { useLanguages } from "@/queries/languages/useLanguages";

@@ -3,32 +3,34 @@ import { PARTS_OF_SPEECH, WORD_LIMITS, splitRelatedWords } from "./word.shared";
 
 const relatedWordsSchema = z
   .string()
-  .transform(splitRelatedWords)
-  .pipe(
-    z
-      .array(z.string().max(WORD_LIMITS.relatedWord))
-      .max(WORD_LIMITS.maxRelatedWords),
-  );
+  .optional()
+  .superRefine((val, ctx) => {
+    if (!val) return;
+    const words = splitRelatedWords(val);
 
-export const wordBaseSchema = z.object({
-  word: z.string().trim().min(1).max(WORD_LIMITS.word),
-  translation: z.string().trim().min(1).max(WORD_LIMITS.translation),
-  partOfSpeech: z.enum(PARTS_OF_SPEECH).nullable().optional(),
-  sourceLanguageId: z.string().min(1),
-  targetLanguageId: z.string().min(1),
-  categoryId: z.string().nullable().optional(),
-  example: z.string().trim().max(WORD_LIMITS.example).nullable().optional(),
-  description: z
-    .string()
-    .trim()
-    .max(WORD_LIMITS.description)
-    .nullable()
-    .optional(),
-  synonyms: z.string().optional(),
-  antonyms: z.string().optional(),
-});
+    if (words.length > WORD_LIMITS.maxRelatedWords) {
+      ctx.addIssue({
+        code: "too_big",
+        origin: "array",
+        maximum: WORD_LIMITS.maxRelatedWords,
+        inclusive: true,
+        message: `You can add at most ${WORD_LIMITS.maxRelatedWords} related words`,
+      });
+      return;
+    }
 
-export const addWordFormSchema = wordBaseSchema.extend({
+    if (words.some((w) => w.length > WORD_LIMITS.relatedWord)) {
+      ctx.addIssue({
+        code: "too_big",
+        origin: "string",
+        maximum: WORD_LIMITS.relatedWord,
+        inclusive: true,
+        message: `Each related word must be less than ${WORD_LIMITS.relatedWord} characters`,
+      });
+    }
+  });
+
+export const addWordFormSchema = z.object({
   word: z
     .string()
     .trim()
@@ -43,8 +45,10 @@ export const addWordFormSchema = wordBaseSchema.extend({
     .max(WORD_LIMITS.translation, {
       message: `Translation must be less than ${WORD_LIMITS.translation} characters`,
     }),
+  partOfSpeech: z.enum(PARTS_OF_SPEECH).nullable().optional(),
   sourceLanguageId: z.string().min(1, { message: "" }),
   targetLanguageId: z.string().min(1, { message: "" }),
+  categoryId: z.string().nullable().optional(),
   example: z
     .string()
     .trim()
@@ -61,6 +65,8 @@ export const addWordFormSchema = wordBaseSchema.extend({
     })
     .nullable()
     .optional(),
+  synonyms: relatedWordsSchema,
+  antonyms: relatedWordsSchema,
 });
 export type AddWordFormValues = z.infer<typeof addWordFormSchema>;
 
@@ -78,7 +84,7 @@ export const wordDbSchema = addWordFormSchema.transform((data) => ({
 }));
 export type WordInsertPayload = z.infer<typeof wordDbSchema>;
 
-export const aiWordSchema = wordBaseSchema.pick({
+export const aiWordSchema = addWordFormSchema.pick({
   translation: true,
   partOfSpeech: true,
   synonyms: true,
@@ -88,7 +94,7 @@ export const aiWordSchema = wordBaseSchema.pick({
 });
 export type AIWordValues = z.infer<typeof aiWordSchema>;
 
-export const wordFormSettingsSchema = wordBaseSchema.pick({
+export const wordFormSettingsSchema = addWordFormSchema.pick({
   sourceLanguageId: true,
   targetLanguageId: true,
   categoryId: true,

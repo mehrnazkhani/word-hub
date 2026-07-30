@@ -8,8 +8,13 @@ import {
 } from "@/components/ui/collapsible";
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
+import { useFormContext } from "react-hook-form";
 
 export const WordFormAdvanced = () => {
+  const {
+    formState: { errors },
+  } = useFormContext();
+
   return (
     <Collapsible className="col-span-4">
       <CollapsibleTrigger asChild>
@@ -31,9 +36,11 @@ export const WordFormAdvanced = () => {
               label="Synonyms"
               placeholder="Synonyms"
             />
-            <p className="px-2.5 text-xs text-muted-foreground">
-              separated by commas
-            </p>
+            {!errors.synonyms && (
+              <p className="px-2.5 text-xs text-muted-foreground">
+                separated by commas
+              </p>
+            )}
           </div>
 
           <div className="space-y-2">

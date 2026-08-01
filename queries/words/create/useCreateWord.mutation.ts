@@ -23,10 +23,15 @@ export const useCreateWordMutation = () => {
         Number(categoryId),
         user!.id,
       );
+      const countQueryKey = queryKeys.word.count(user!.id);
 
       await queryClient.cancelQueries({ queryKey });
+      await queryClient.cancelQueries({ queryKey: countQueryKey });
 
       const previousWords = queryClient.getQueryData<Word[]>(queryKey);
+      const previousCount = queryClient.getQueryData<number | null>(
+        countQueryKey,
+      );
 
       const optimisticWord: Word = {
         id: -Date.now(),
@@ -55,7 +60,18 @@ export const useCreateWordMutation = () => {
         optimisticWord,
       ]);
 
-      return { previousWords, queryKey, optimisticWord };
+      queryClient.setQueryData<number | null>(
+        countQueryKey,
+        (old) => (old ?? 0) + 1,
+      );
+
+      return {
+        previousWords,
+        queryKey,
+        optimisticWord,
+        previousCount,
+        countQueryKey,
+      };
     },
 
     onSuccess: (result, _formData, context) => {
@@ -64,6 +80,14 @@ export const useCreateWordMutation = () => {
           id: "create-word",
         });
         queryClient.setQueryData(context.queryKey, context.previousWords);
+        queryClient.setQueryData(context.countQueryKey, context.previousCount);
+        return;
+      }
+
+      if (result.status === "limit_reached") {
+        toast.error(result.message, { id: "create-word" });
+        queryClient.setQueryData(context.queryKey, context.previousWords);
+        queryClient.setQueryData(context.countQueryKey, context.previousCount);
         return;
       }
 
@@ -83,10 +107,6 @@ export const useCreateWordMutation = () => {
         queryClient.invalidateQueries({ queryKey: context.queryKey });
       }
 
-      queryClient.invalidateQueries({
-        queryKey: queryKeys.word.count(user!.id),
-      });
-
       toast.success(`Word "${_formData.word}" added successfully`, {
         id: "create-word",
       });
@@ -95,6 +115,10 @@ export const useCreateWordMutation = () => {
     onError: (_err, _formData, context) => {
       if (context?.previousWords !== undefined) {
         queryClient.setQueryData(context.queryKey, context.previousWords);
+      }
+
+      if (context?.previousCount !== undefined) {
+        queryClient.setQueryData(context.countQueryKey, context.previousCount);
       }
 
       toast.error("Failed to add word. Please try again.", {

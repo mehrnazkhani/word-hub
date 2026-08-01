@@ -15,6 +15,7 @@ import { AiFillButton } from "./ai/AiFillButton";
 import { useAiFillWord } from "@/features/word/add-word/ai/use-ai-fill-word";
 import { useCreateWordMutation } from "@/queries/words/create/useCreateWord.mutation";
 import { useUserSettings } from "@/queries/user-settings/useUserSettings";
+import { useWordCount } from "@/queries/words/count/useWordCount";
 import { useLanguages } from "@/queries/languages/useLanguages";
 import { findObjectById } from "@/lib/utils/findObjectById";
 
@@ -22,6 +23,8 @@ import {
   addWordFormSchema,
   type AddWordFormValues,
 } from "@/schemas/word/word.schema";
+import { APP_LIMITS } from "@/lib/app-limits";
+import { toast } from "sonner";
 
 const addWordFormDefaultValues: AddWordFormValues = {
   word: "",
@@ -75,9 +78,17 @@ const AddWordForm = () => {
 
   const { fillWithAI, isLoading: isAiLoading, stopAI } = useAiFillWord(methods);
 
+  const { data: wordsCount } = useWordCount();
   const { mutateAsync: creteWord } = useCreateWordMutation();
 
   const onSubmit = async (data: AddWordFormValues) => {
+    if ((wordsCount ?? 0) >= APP_LIMITS.word_limit_per_user) {
+      toast.error(
+        `You've reached the maximum limit of ${APP_LIMITS.word_limit_per_user} words.`,
+      );
+      return;
+    }
+
     try {
       await creteWord(data, { onSuccess: () => reset() });
     } catch {}

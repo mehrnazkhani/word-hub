@@ -4,6 +4,8 @@ import { createClient } from "../../../lib/supabase/server";
 import { getAuthenticatedUser } from "../../../lib/supabase/getAuthenticatedUser";
 import { safeParseInput } from "@/lib/utils/safeParseInput";
 import { getSystemCategoryId } from "@/queries/categories/getCategories";
+import { APP_LIMITS } from "@/lib/app-limits";
+
 import {
   wordDbSchema,
   type AddWordFormValues,
@@ -36,6 +38,13 @@ export const createWordAction = async (formData: AddWordFormValues) => {
     .single();
 
   if (error) {
+    if (error.message.includes("WORD_LIMIT_REACHED")) {
+      return {
+        status: "limit_reached" as const,
+        message: `You've reached the maximum limit of ${APP_LIMITS.word_limit_per_user} words.`,
+      };
+    }
+
     return {
       status: "error" as const,
       message: error.message,

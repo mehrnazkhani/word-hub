@@ -89,14 +89,10 @@ type GetWordCountProps = {
   userId: string;
 };
 
-export const getActiveWordsCount = async ({
-  client,
-  userId,
-}: GetWordCountProps) => {
+export const getWordsCount = async ({ client, userId }: GetWordCountProps) => {
   return client
     .from("words")
     .select("*", { count: "exact", head: true })
     .eq("user_id", userId)
-    .is("deleted_at", null)
     .throwOnError();
 };

@@ -1,13 +1,13 @@
 "use client";
-import { FormInput } from "@/components/inputs/FormInput";
 import { FormTextarea } from "@/components/inputs/FormTextarea";
+import { RelatedWordsInput } from "@/components/inputs/RelatedWordsInput";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { Button } from "@/components/ui/button";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, CircleHelp } from "lucide-react";
 import { useFormContext } from "react-hook-form";
 
 export const WordFormAdvanced = () => {
@@ -30,30 +30,8 @@ export const WordFormAdvanced = () => {
 
       <CollapsibleContent>
         <div className="space-y-4">
-          <div className="space-y-2">
-            <FormInput
-              name="synonyms"
-              label="Synonyms"
-              placeholder="Synonyms"
-            />
-            {!errors.synonyms && (
-              <p className="px-2.5 text-xs text-muted-foreground">
-                separated by commas
-              </p>
-            )}
-          </div>
-
-          <div className="space-y-2">
-            <FormInput
-              name="antonyms"
-              label="Antonyms"
-              placeholder="Antonyms"
-            />
-
-            <p className="px-2.5 text-xs text-muted-foreground">
-              separated by commas
-            </p>
-          </div>
+          <RelatedWordsInput name="synonyms" placeholder="Synonyms" />
+          <RelatedWordsInput name="antonyms" placeholder="Antonyms" />
 
           <FormTextarea
             name="example"

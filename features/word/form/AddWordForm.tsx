@@ -12,7 +12,7 @@ import { WordFormAdvanced } from "./WordFormAdvanced";
 import { ArrowButton } from "@/components/ArrowButton";
 import { AiFillButton } from "./ai/AiFillButton";
 
-import { useAiFillWord } from "@/features/word/add-word/ai/use-ai-fill-word";
+import { useAiFillWord } from "@/features/word/form/ai/use-ai-fill-word";
 import { useCreateWordMutation } from "@/queries/words/create/useCreateWord.mutation";
 import { useUserSettings } from "@/queries/user-settings/useUserSettings";
 import { useWordCount } from "@/queries/words/count/useWordCount";

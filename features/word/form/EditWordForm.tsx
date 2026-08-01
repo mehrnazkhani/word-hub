@@ -4,6 +4,7 @@ import { FormProvider, useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { FormInput } from "@/components/inputs/FormInput";
+import { RelatedWordsInput } from "@/components/inputs/RelatedWordsInput";
 import { FormTextarea } from "@/components/inputs/FormTextarea";
 import { WordPronunciation } from "@/components/WordPronunciation";
 import { SelectLanguage } from "../../../components/inputs/selectors/SelectLanguage";
@@ -112,27 +113,8 @@ const EditWordForm = ({ word, onSuccess }: EditWordFormProps) => {
         </div>
 
         <div className="col-span-4 space-y-4">
-          <div className="space-y-2">
-            <FormInput
-              name="synonyms"
-              label="Synonyms"
-              placeholder="Synonyms"
-            />
-            <p className="px-2.5 text-xs text-muted-foreground">
-              separated by commas
-            </p>
-          </div>
-
-          <div className="space-y-2">
-            <FormInput
-              name="antonyms"
-              label="Antonyms"
-              placeholder="Antonyms"
-            />
-            <p className="px-2.5 text-xs text-muted-foreground">
-              separated by commas
-            </p>
-          </div>
+          <RelatedWordsInput name="synonyms" placeholder="Synonyms" />
+          <RelatedWordsInput name="antonyms" placeholder="Antonyms" />
 
           <FormTextarea
             name="example"

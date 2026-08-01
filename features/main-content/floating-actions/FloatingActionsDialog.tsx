@@ -8,7 +8,7 @@ type FormProps = {
 };
 
 const AddWordForm = dynamic<FormProps>(
-  () => import("../../word/add-word/AddWordForm"),
+  () => import("../../word/form/AddWordForm"),
   {
     loading: () => <div className="py-8 text-center">Loading form...</div>,
   },

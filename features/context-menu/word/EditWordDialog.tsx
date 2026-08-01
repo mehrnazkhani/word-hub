@@ -1,5 +1,5 @@
 import { FormDialog } from "@/components/FormDialog";
-import EditWordForm from "@/features/word/edit-word/EditWordForm";
+import EditWordForm from "@/features/word/form/EditWordForm";
 import type { Word } from "@/types/db-aliases";
 
 type EditWordDialogProps = {

@@ -11,6 +11,7 @@ import { ArrowButton } from "@/components/ArrowButton";
 
 import { useRenameCategoryMutation } from "@/queries/categories/rename/useRenameCategory.mutation";
 import { applyServerErrors } from "@/lib/utils/applyServerErrors";
+import { hasDuplicateCategoryName } from "./utils/hasDuplicateCategoryName";
 import { queryKeys } from "@/queries/queries";
 
 import { categoryFormSchema, type CategoryFormValues } from "./category.schema";
@@ -45,13 +46,7 @@ export const RenameCategoryForm = ({
       queryClient.getQueryData<Category[]>(queryKeys.category.user(user!.id)) ??
       [];
 
-    const normalizedName = data.name.trim().toLowerCase();
-    const isDuplicate = categories.some(
-      (c) =>
-        c.id !== category.id && c.name.trim().toLowerCase() === normalizedName,
-    );
-
-    if (isDuplicate) {
+    if (hasDuplicateCategoryName(data.name, categories, category.id)) {
       setError("name", {
         message: "A category with this name already exists.",
       });

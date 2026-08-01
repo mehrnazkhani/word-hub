@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import {
   ContextMenu,
   ContextMenuContent,
@@ -17,6 +17,7 @@ import { ShowInCategory } from "./items/ShowInCategory";
 import { DeleteWord } from "./items/DeleteWord";
 import { PermanentDeleteWord } from "./items/PermanentDeleteWord";
 import { RestoreWord } from "./items/RestoreWord";
+import { EditWordDialog } from "./EditWordDialog";
 
 type WordContextMenuProps = {
   word: Word;
@@ -24,9 +25,13 @@ type WordContextMenuProps = {
 };
 
 const WordContextMenuRoot = ({ word, children }: WordContextMenuProps) => {
+  const [editOpen, setEditOpen] = useState(false);
+
   return (
-    <WordContextMenuContext.Provider value={{ word }}>
+    <WordContextMenuContext.Provider value={{ word, setEditOpen }}>
       <ContextMenu>{children}</ContextMenu>
+
+      <EditWordDialog word={word} open={editOpen} onOpenChange={setEditOpen} />
     </WordContextMenuContext.Provider>
   );
 };

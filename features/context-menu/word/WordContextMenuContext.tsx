@@ -3,6 +3,7 @@ import type { Word } from "@/types/db-aliases";
 
 type WordContextMenuContextValue = {
   word: Word;
+  setEditOpen: (open: boolean) => void;
 };
 
 export const WordContextMenuContext =

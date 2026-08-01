@@ -23,3 +23,6 @@ export const splitRelatedWords = (value: string): string[] =>
     .split(",")
     .map((w) => w.trim())
     .filter(Boolean);
+
+export const joinRelatedWords = (value?: string[] | null): string =>
+  value?.join(", ") ?? "";

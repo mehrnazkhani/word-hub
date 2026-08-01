@@ -94,6 +94,11 @@ export const aiWordSchema = addWordFormSchema.pick({
 });
 export type AIWordValues = z.infer<typeof aiWordSchema>;
 
+export const editWordFormSchema = addWordFormSchema.omit({
+  categoryId: true,
+});
+export type EditWordFormValues = z.infer<typeof editWordFormSchema>;
+
 export const wordFormSettingsSchema = addWordFormSchema.pick({
   sourceLanguageId: true,
   targetLanguageId: true,

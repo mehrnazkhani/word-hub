@@ -5,15 +5,11 @@ import { ContextMenuItem } from "@/components/ui/context-menu";
 import { useWordContextMenu } from "../WordContextMenuContext";
 
 export const EditWord = () => {
-  const { word } = useWordContextMenu();
+  const { setEditOpen } = useWordContextMenu();
 
   return (
-    <ContextMenuItem onSelect={() => handleEdit(word.id)} className="text-sm">
+    <ContextMenuItem onSelect={() => setEditOpen(true)} className="text-sm">
       <Pencil className="size-3" /> Edit
     </ContextMenuItem>
   );
-};
-
-const handleEdit = (wordId: number) => {
-  console.log("Edit word:", wordId);
 };

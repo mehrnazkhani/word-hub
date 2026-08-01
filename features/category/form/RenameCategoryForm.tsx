@@ -5,16 +5,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
 import { useUser } from "@/components/providers/user-provider";
 
-import { Folder } from "lucide-react";
-import { FormInput } from "@/components/inputs/FormInput";
-import { ArrowButton } from "@/components/ArrowButton";
-
+import { CategoryForm } from "./CategoryForm";
 import { useRenameCategoryMutation } from "@/queries/categories/rename/useRenameCategory.mutation";
 import { applyServerErrors } from "@/lib/utils/applyServerErrors";
-import { hasDuplicateCategoryName } from "./utils/hasDuplicateCategoryName";
+import { hasDuplicateCategoryName } from "../utils/hasDuplicateCategoryName";
 import { queryKeys } from "@/queries/queries";
 
-import { categoryFormSchema, type CategoryFormValues } from "./category.schema";
+import {
+  categoryFormSchema,
+  type CategoryFormValues,
+} from "../category.schema";
 import type { Category } from "@/types/db-aliases";
 
 type RenameCategoryFormProps = {
@@ -69,18 +69,12 @@ export const RenameCategoryForm = ({
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-        <FormInput
-          icon={Folder}
-          name="name"
-          label="Category name"
-          placeholder="Category Name"
-        />
-
-        <ArrowButton type="submit" isLoading={isPending} className="self-end">
-          {isPending ? "Renaming..." : "Rename"}
-        </ArrowButton>
-      </form>
+      <CategoryForm
+        onSubmit={onSubmit}
+        isPending={isPending}
+        submitLabel="Rename"
+        pendingLabel="Renaming..."
+      />
     </FormProvider>
   );
 };

@@ -1,21 +1,21 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { FormDialog } from "@/components/FormDialog";
 
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from "@/components/ui/dialog";
+type FormProps = {
+  onSuccess: () => void;
+};
 
-const AddWordForm = dynamic(() => import("../../word/add-word/AddWordForm"), {
-  loading: () => <div className="py-8 text-center">Loading form...</div>,
-});
+const AddWordForm = dynamic<FormProps>(
+  () => import("../../word/add-word/AddWordForm"),
+  {
+    loading: () => <div className="py-8 text-center">Loading form...</div>,
+  },
+);
 
-const CreateCategoryForm = dynamic(
-  () => import("../../category/CreateCategoryForm"),
+const CreateCategoryForm = dynamic<FormProps>(
+  () => import("../../category/form/CreateCategoryForm"),
   {
     loading: () => <div className="py-8 text-center">Loading form...</div>,
   },
@@ -33,7 +33,7 @@ const modalConfig: Record<
   {
     title: string;
     description: string;
-    Component: React.ComponentType;
+    Component: React.ComponentType<{ onSuccess: () => void }>;
   }
 > = {
   "add-word": {
@@ -59,22 +59,13 @@ export const FloatingActionsDialog = ({
   const { title, description, Component } = modalConfig[activeModal];
 
   return (
-    <Dialog
-      open={activeModal !== null}
+    <FormDialog
+      open
       onOpenChange={(open) => !open && onClose()}
+      title={title}
+      description={description}
     >
-      <DialogContent
-        onPointerDownOutside={(event) => event.preventDefault()}
-        onEscapeKeyDown={(event) => event.preventDefault()}
-      >
-        <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
-          <DialogDescription className="sr-only">
-            {description}
-          </DialogDescription>
-        </DialogHeader>
-        <Component />
-      </DialogContent>
-    </Dialog>
+      <Component onSuccess={onClose} />
+    </FormDialog>
   );
 };

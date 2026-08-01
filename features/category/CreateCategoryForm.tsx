@@ -3,14 +3,17 @@
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+import { toast } from "sonner";
 import { Folder } from "lucide-react";
 import { FormInput } from "@/components/inputs/FormInput";
 import { ArrowButton } from "@/components/ArrowButton";
 
 import { applyServerErrors } from "@/lib/utils/applyServerErrors";
 import { useCreateCategoryMutation } from "@/queries/categories/create/useCreateCategoryMutation";
+import { APP_LIMITS } from "@/lib/app-limits";
 
 import { categoryFormSchema, type CategoryFormValues } from "./category.schema";
+import { useUserCategories } from "@/queries/categories/useCategories";
 
 const CreateCategoryForm = () => {
   const methods = useForm<CategoryFormValues>({
@@ -24,8 +27,30 @@ const CreateCategoryForm = () => {
 
   const { mutateAsync: createCategory, isPending } =
     useCreateCategoryMutation();
+  const { data: categories } = useUserCategories();
+  const isLimitReached =
+    (categories?.length ?? 0) >= APP_LIMITS.category_limit_per_user;
 
   const onSubmit = async (data: CategoryFormValues) => {
+    if (isLimitReached) {
+      toast.error(
+        `You've reached the maximum limit of ${APP_LIMITS.category_limit_per_user} categories.`,
+      );
+      return;
+    }
+
+    const normalizedName = data.name.trim().toLowerCase();
+    const isDuplicate = categories?.some(
+      (c) => c.name.trim().toLowerCase() === normalizedName,
+    );
+
+    if (isDuplicate) {
+      setError("name", {
+        message: "A category with this name already exists.",
+      });
+      return;
+    }
+
     try {
       await createCategory(data, {
         onSuccess: (result) => {

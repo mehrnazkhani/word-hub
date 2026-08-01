@@ -3,6 +3,8 @@
 import { getAuthenticatedUser } from "@/lib/supabase/getAuthenticatedUser";
 import { createClient } from "@/lib/supabase/server";
 import { safeParseInput } from "@/lib/utils/safeParseInput";
+import { APP_LIMITS } from "@/lib/app-limits";
+
 import {
   categoryFormSchema,
   type CategoryFormValues,
@@ -10,7 +12,6 @@ import {
 
 export const createCategoryAction = async (formData: CategoryFormValues) => {
   const user = await getAuthenticatedUser();
-  const userId = user.id;
 
   const parsed = safeParseInput({
     schema: categoryFormSchema,
@@ -19,47 +20,36 @@ export const createCategoryAction = async (formData: CategoryFormValues) => {
 
   if (!parsed.success) {
     return {
-      status: "validation_error",
+      status: "validation_error" as const,
       fieldErrors: parsed.fieldErrors,
     };
   }
 
   const supabase = await createClient();
 
-  // Check Category Limit (Max)
-  const { error: limitError } = await supabase.rpc("check_category_limit", {
-    p_user_id: userId,
-  });
-
-  if (limitError) {
-    if (limitError.message === "category_limit_exceeded") {
-      return {
-        status: "limit_error",
-        message: "You can only create up to 20 categories.",
-      };
-    }
-    throw new Error(limitError.message);
-  }
-
-  // Check Duplicate Name And Insert Category
   const { data, error } = await supabase
     .from("categories")
-    .insert({ ...parsed.data, user_id: userId })
+    .insert({ ...parsed.data, user_id: user.id })
     .select()
     .single();
 
   if (error) {
-    if (error.code === "23505") {
-      // unique_violation
+    if (error.message.includes("CATEGORY_LIMIT_REACHED")) {
       return {
-        status: "validation_error",
+        status: "limit_reached" as const,
+        message: `You've reached the maximum limit of ${APP_LIMITS.category_limit_per_user} categories.`,
+      };
+    }
+
+    if (error.code === "23505") {
+      return {
+        status: "validation_error" as const,
         fieldErrors: {
           name: ["A category with this name already exists."],
         },
       };
     }
 
-    console.error("Create Category error:", error);
     throw new Error(error.message);
   }
 

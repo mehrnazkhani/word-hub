@@ -9,7 +9,7 @@ export type AppLimits = z.infer<typeof AppLimitsSchema>;
 
 export const APP_LIMITS: AppLimits = {
   word_limit_per_user: 100,
-  category_limit_per_user: 20,
+  category_limit_per_user: 15,
 };
 
 export const APP_LIMITS_META: Record<

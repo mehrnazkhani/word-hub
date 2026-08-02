@@ -17,20 +17,24 @@ type ActiveModal = "add-word" | "create-category" | null;
 
 export const FloatingActions = () => {
   const [activeModal, setActiveModal] = useState<ActiveModal>(null);
+  const [isOpen, setIsOpen] = useState(false);
 
   const closeModal = () => setActiveModal(null);
 
   return (
     <>
       <div className="fixed right-10 bottom-10 z-50">
-        <DropdownMenu>
+        <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
           <DropdownMenuTrigger asChild>
             <Button
               variant="secondary"
               className="size-14 cursor-pointer rounded-full outline-none focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none"
               aria-label="Open actions menu"
             >
-              <Plus />
+              <Plus
+                className="size-[1.3em] transition-transform duration-300 ease-in-out"
+                style={{ transform: isOpen ? "rotate(45deg)" : "rotate(0deg)" }}
+              />
             </Button>
           </DropdownMenuTrigger>
 

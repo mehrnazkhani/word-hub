@@ -1,8 +1,12 @@
 import { loadEnvConfig } from "@next/env";
 loadEnvConfig(process.cwd());
 
-import { createAdminClient } from "./supabase/admin";
-import { APP_LIMITS, APP_LIMITS_META, AppLimitsSchema } from "./app-limits";
+import { createAdminClient } from "../supabase/admin";
+import {
+  APP_LIMITS,
+  APP_LIMITS_META,
+  AppLimitsSchema,
+} from "../../constants/app-limits";
 
 const syncLimits = async () => {
   AppLimitsSchema.parse(APP_LIMITS);

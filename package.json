@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "sync-app-limits": "npx tsx lib/sync-limits.ts"
+    "sync-app-limits": "npx tsx lib/scripts/sync-limits.ts",
+    "sync-languages": "npx tsx lib/scripts/sync-languages.ts"
   },
   "dependencies": {
     "@ai-sdk/google": "^4.0.12",

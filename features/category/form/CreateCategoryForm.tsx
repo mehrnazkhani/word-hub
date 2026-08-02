@@ -9,7 +9,7 @@ import { applyServerErrors } from "@/lib/utils/applyServerErrors";
 import { useCreateCategoryMutation } from "@/queries/categories/create/useCreateCategoryMutation";
 import { useUserCategories } from "@/queries/categories/useCategories";
 import { hasDuplicateCategoryName } from "../utils/hasDuplicateCategoryName";
-import { APP_LIMITS } from "@/lib/app-limits";
+import { APP_LIMITS } from "@/constants/app-limits";
 
 import {
   categoryFormSchema,

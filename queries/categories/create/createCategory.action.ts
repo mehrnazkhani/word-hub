@@ -3,7 +3,7 @@
 import { getAuthenticatedUser } from "@/lib/supabase/getAuthenticatedUser";
 import { createClient } from "@/lib/supabase/server";
 import { safeParseInput } from "@/lib/utils/safeParseInput";
-import { APP_LIMITS } from "@/lib/app-limits";
+import { APP_LIMITS } from "@/constants/app-limits";
 
 import {
   categoryFormSchema,

@@ -4,7 +4,7 @@ import { createClient } from "../../../lib/supabase/server";
 import { getAuthenticatedUser } from "../../../lib/supabase/getAuthenticatedUser";
 import { safeParseInput } from "@/lib/utils/safeParseInput";
 import { getSystemCategoryId } from "@/queries/categories/getCategories";
-import { APP_LIMITS } from "@/lib/app-limits";
+import { APP_LIMITS } from "@/constants/app-limits";
 
 import {
   wordDbSchema,

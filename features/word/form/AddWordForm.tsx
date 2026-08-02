@@ -23,7 +23,7 @@ import {
   addWordFormSchema,
   type AddWordFormValues,
 } from "@/schemas/word/word.schema";
-import { APP_LIMITS } from "@/lib/app-limits";
+import { APP_LIMITS } from "@/constants/app-limits";
 import { toast } from "sonner";
 
 const addWordFormDefaultValues: AddWordFormValues = {

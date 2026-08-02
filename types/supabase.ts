@@ -73,6 +73,7 @@ export type Database = {
           created_at: string
           flag: string | null
           id: number
+          is_active: boolean
           label: string
           value: string
         }
@@ -80,6 +81,7 @@ export type Database = {
           created_at?: string
           flag?: string | null
           id?: number
+          is_active?: boolean
           label: string
           value: string
         }
@@ -87,6 +89,7 @@ export type Database = {
           created_at?: string
           flag?: string | null
           id?: number
+          is_active?: boolean
           label?: string
           value?: string
         }
@@ -284,7 +287,6 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      check_category_limit: { Args: { p_user_id: string }; Returns: undefined }
       get_user_top_language_stats: {
         Args: { userid: string }
         Returns: {

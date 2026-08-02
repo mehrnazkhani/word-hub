@@ -14,18 +14,22 @@ type FormSelectProps = {
   placeholder?: string;
   disabled?: boolean;
   renderValue?: (value: string) => ReactNode;
+  onValueChange?: (value: string) => void;
 };
 
 export const FormSelect = createFormField<FormSelectProps>(
   (
     { onChange, onBlur, ...field },
-    { children, placeholder, disabled, renderValue },
+    { children, placeholder, disabled, renderValue, onValueChange },
   ) => (
     <Select
       value={
         field.value && field.value !== "null" ? field.value.toString() : ""
       }
-      onValueChange={onChange}
+      onValueChange={(value) => {
+        onChange(value);
+        onValueChange?.(value);
+      }}
       disabled={field.disabled}
     >
       <SelectTrigger

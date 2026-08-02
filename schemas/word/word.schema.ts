@@ -99,11 +99,16 @@ export const editWordFormSchema = addWordFormSchema.omit({
 });
 export type EditWordFormValues = z.infer<typeof editWordFormSchema>;
 
-export const wordFormSettingsSchema = addWordFormSchema.pick({
-  sourceLanguageId: true,
-  targetLanguageId: true,
-  categoryId: true,
-});
+export const wordFormSettingsSchema = addWordFormSchema
+  .pick({
+    sourceLanguageId: true,
+    targetLanguageId: true,
+    categoryId: true,
+  })
+  .extend({
+    sourceLanguageId: z.string().nullable().optional(),
+    targetLanguageId: z.string().nullable().optional(),
+  });
 export type WordFormSettingsValues = z.infer<typeof wordFormSettingsSchema>;
 
 export const importWordSchema = wordDbSchema;

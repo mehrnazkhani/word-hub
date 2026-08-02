@@ -18,12 +18,15 @@ export const updateDefaultWordFormSettingsAction = async (
 
   const { sourceLanguageId, targetLanguageId, categoryId } = parsed.data;
 
+  const toNullableNumber = (value: string | null | undefined) =>
+    value == null ? null : Number(value);
+
   const { error } = await supabase
     .from("user_settings")
     .update({
-      default_source_lang_id: Number(sourceLanguageId),
-      default_target_lang_id: Number(targetLanguageId),
-      default_category_id: Number(categoryId),
+      default_source_lang_id: toNullableNumber(sourceLanguageId),
+      default_target_lang_id: toNullableNumber(targetLanguageId),
+      default_category_id: toNullableNumber(categoryId),
     })
     .eq("user_id", user.id);
 

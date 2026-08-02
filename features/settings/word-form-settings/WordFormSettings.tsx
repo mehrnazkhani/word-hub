@@ -87,6 +87,7 @@ const WordFormSettings = () => {
                 name="sourceLanguageId"
                 placeholder="Select Language"
                 disabled={isPending}
+                clearable
               />
             </div>
           </SettingRow>
@@ -107,6 +108,7 @@ const WordFormSettings = () => {
                 name="targetLanguageId"
                 placeholder="Select Language"
                 disabled={isPending}
+                clearable
               />
             </div>
           </SettingRow>

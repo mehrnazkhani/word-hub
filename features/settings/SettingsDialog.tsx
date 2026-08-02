@@ -9,7 +9,7 @@ import {
   Database,
   Form,
   Shield,
-  MessageCircle,
+  PencilSparkles,
 } from "lucide-react";
 import {
   Breadcrumb,
@@ -86,7 +86,7 @@ const data: {
     { name: "Word Form", icon: Form },
     { name: "Privacy", icon: Shield },
     { name: "Data", icon: Database },
-    { name: "Ai Fill", icon: MessageCircle },
+    { name: "Ai Fill", icon: PencilSparkles },
   ],
 };
 

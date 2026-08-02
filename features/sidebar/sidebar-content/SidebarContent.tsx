@@ -10,7 +10,9 @@ export const SidebarContent = () => {
     <Content>
       <SidebarGroup className="flex h-full flex-col">
         <SidebarGroupLabel className="uppercase">Categories</SidebarGroupLabel>
-        <CategoriesList />
+        <div className="px-3">
+          <CategoriesList />
+        </div>
       </SidebarGroup>
     </Content>
   );

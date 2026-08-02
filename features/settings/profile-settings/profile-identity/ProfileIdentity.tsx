@@ -16,7 +16,7 @@ export const ProfileIdentity = () => {
         <UserAvatar size="lg" />
 
         <div className="flex flex-col gap-1">
-          <span>Display Name</span>
+          <span>Name</span>
           <span className="text-accent-foreground/60">
             {user?.user_metadata?.full_name ?? user?.user_metadata?.name ?? "—"}
           </span>

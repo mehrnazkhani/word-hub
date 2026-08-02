@@ -1,21 +1,21 @@
-import { AppIcons } from "@/components/icons";
+import { Clock, Gamepad2, type LucideIcon } from "lucide-react";
 import { ROUTES } from "@/constants/routes";
-import type { SidebarHeaderItemType } from "./types";
+
+export interface SidebarHeaderItemType {
+  title: string;
+  icon: LucideIcon;
+  href: string;
+}
 
 export const SIDEBAR_HEADER_ITEMS = [
   {
     title: "Practice",
-    icon: AppIcons.PracticeIcon,
+    icon: Gamepad2,
     href: "/practice",
   },
   {
-    title: "Feeds",
-    icon: AppIcons.FeedIcon,
-    href: "/recent",
-  },
-  {
     title: "Recently Added",
-    icon: AppIcons.ClockIcon,
+    icon: Clock,
     href: ROUTES.RECENT,
   },
 ] as const satisfies readonly SidebarHeaderItemType[];

@@ -34,10 +34,11 @@ export const useCreateCategoryMutation = () => {
         is_system: null,
       };
 
-      queryClient.setQueryData<Category[]>(queryKey, (old) => [
-        optimisticCategory,
-        ...(old ?? []),
-      ]);
+      queryClient.setQueryData<Category[]>(queryKey, (old) => {
+        const systemCategories = (old ?? []).filter((c) => c.is_system);
+        const userCategories = (old ?? []).filter((c) => !c.is_system);
+        return [...systemCategories, optimisticCategory, ...userCategories];
+      });
 
       return { previousCategories, queryKey, optimisticCategory };
     },

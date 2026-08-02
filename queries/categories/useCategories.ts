@@ -29,5 +29,11 @@ export const useUserCategories = () => {
   return useQuery({
     ...categoriesQuery({ supabase, userId: user!.id }),
     enabled: !!user && !isPending,
+    select: (data) => {
+      if (!data) return data;
+      const system = data.filter((c) => c.is_system);
+      const user = data.filter((c) => !c.is_system);
+      return [...system, ...user];
+    },
   });
 };

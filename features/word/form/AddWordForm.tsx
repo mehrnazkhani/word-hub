@@ -3,6 +3,7 @@
 import { FormProvider, useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+import { toast } from "sonner";
 import { FormInput } from "@/components/inputs/FormInput";
 import { WordPronunciation } from "@/components/WordPronunciation";
 import { SelectLanguage } from "../../../components/inputs/selectors/SelectLanguage";
@@ -16,15 +17,13 @@ import { useAiFillWord } from "@/features/word/form/ai/use-ai-fill-word";
 import { useCreateWordMutation } from "@/queries/words/create/useCreateWord.mutation";
 import { useUserSettings } from "@/queries/user-settings/useUserSettings";
 import { useWordCount } from "@/queries/words/count/useWordCount";
-import { useLanguages } from "@/queries/languages/useLanguages";
-import { findObjectById } from "@/lib/utils/findObjectById";
+import { getLanguageById } from "@/constants/languages";
+import { APP_LIMITS } from "@/constants/app-limits";
 
 import {
   addWordFormSchema,
   type AddWordFormValues,
 } from "@/schemas/word/word.schema";
-import { APP_LIMITS } from "@/constants/app-limits";
-import { toast } from "sonner";
 
 const addWordFormDefaultValues: AddWordFormValues = {
   word: "",
@@ -70,9 +69,8 @@ const AddWordForm = () => {
     name: "sourceLanguageId",
   });
 
-  const { data: languages = [] } = useLanguages();
   const sourceLanguage = sourceLanguageId
-    ? findObjectById(languages, Number(sourceLanguageId))
+    ? getLanguageById(sourceLanguageId)
     : undefined;
 
   const { fillWithAI, isLoading: isAiLoading, stopAI } = useAiFillWord(methods);

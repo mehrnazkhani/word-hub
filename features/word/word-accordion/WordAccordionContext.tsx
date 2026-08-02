@@ -1,7 +1,5 @@
 import { createContext, useContext, ReactNode } from "react";
-
-import { useLanguages } from "@/queries/languages/useLanguages";
-import { findObjectById } from "@/lib/utils/findObjectById";
+import { getLanguageById } from "@/constants/languages";
 import type { Word, Language } from "@/types/db-aliases";
 
 type WordViewModel = Word & {
@@ -38,14 +36,8 @@ export const WordAccordionProvider = ({
   word,
   children,
 }: WordAccordionProviderProps) => {
-  const { data: languages } = useLanguages();
-  const sourceLanguage = languages
-    ? findObjectById(languages, word.source_language_id)
-    : undefined;
-
-  const targetLanguage = languages
-    ? findObjectById(languages, word.target_language_id)
-    : undefined;
+  const sourceLanguage = getLanguageById(word.source_language_id) ?? undefined;
+  const targetLanguage = getLanguageById(word.target_language_id) ?? undefined;
 
   return (
     <WordAccordionContext.Provider

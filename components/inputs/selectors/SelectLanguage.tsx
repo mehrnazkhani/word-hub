@@ -2,7 +2,7 @@
 
 import { SelectItem } from "@/components/ui/select";
 import { FormSelect } from "@/components/inputs/FormSelect";
-import { useLanguages } from "@/queries/languages/useLanguages";
+import { ACTIVE_LANGUAGES, getLanguageById } from "@/constants/languages";
 
 type SelectLanguageProps = {
   name: string;
@@ -17,12 +17,6 @@ export const SelectLanguage = ({
   disabled = false,
   placeholder = "Ln",
 }: SelectLanguageProps) => {
-  const { data: languages, isPending } = useLanguages();
-
-  if (isPending) {
-    return <p>Loading...</p>;
-  }
-
   return (
     <FormSelect
       name={name}
@@ -30,7 +24,7 @@ export const SelectLanguage = ({
       placeholder={placeholder}
       disabled={disabled}
       renderValue={(value) => {
-        const lang = languages?.find((l) => String(l.id) === value);
+        const lang = getLanguageById(value);
 
         return lang ? (
           <span className="flex items-center gap-1">
@@ -40,12 +34,11 @@ export const SelectLanguage = ({
         ) : null;
       }}
     >
-      {languages &&
-        languages.map((item) => (
-          <SelectItem key={item.id} value={String(item.id)}>
-            {item.flag} {item.label}
-          </SelectItem>
-        ))}
+      {ACTIVE_LANGUAGES.map((item) => (
+        <SelectItem key={item.id} value={String(item.id)}>
+          {item.flag} {item.label}
+        </SelectItem>
+      ))}
     </FormSelect>
   );
 };

@@ -3,15 +3,13 @@
 import { Copy } from "lucide-react";
 import { ContextMenuItem } from "@/components/ui/context-menu";
 import { useWordContextMenu } from "../WordContextMenuContext";
-import { useLanguages } from "@/queries/languages/useLanguages";
-import { findObjectById } from "@/lib/utils/findObjectById";
+import { getLanguageById } from "@/constants/languages";
 import { toast } from "sonner";
 
 export const CopyWord = () => {
   const { word } = useWordContextMenu();
-  const { data: languages = [] } = useLanguages();
-  const sourceLanguage = findObjectById(languages, word.source_language_id);
-  const targetLanguage = findObjectById(languages, word.target_language_id);
+  const sourceLanguage = getLanguageById(word.source_language_id);
+  const targetLanguage = getLanguageById(word.target_language_id);
 
   const handleCopy = async () => {
     const text = [

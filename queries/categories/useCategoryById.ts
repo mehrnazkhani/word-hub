@@ -1,13 +1,9 @@
-"use client";
-
-import { findObjectById } from "@/lib/utils/findObjectById";
 import { useUserCategories } from "./useCategories";
 
-export const useCategoryById = (categoryId?: number | null) => {
-  const { data: categories = [], isPending } = useUserCategories();
+export const useCategoryById = (id: number | string | null | undefined) => {
+  const { data: categories, isPending } = useUserCategories();
+  const category =
+    id != null ? (categories?.find((c) => c.id === Number(id)) ?? null) : null;
 
-  return {
-    category: findObjectById(categories, categoryId),
-    isPending,
-  };
+  return { category, isPending };
 };

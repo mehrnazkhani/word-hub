@@ -11,9 +11,8 @@ import { SelectLanguage } from "../../../components/inputs/selectors/SelectLangu
 import { SelectWordType } from "../../../components/inputs/selectors/SelectWordType";
 import { ArrowButton } from "@/components/ArrowButton";
 
-import { useLanguages } from "@/queries/languages/useLanguages";
+import { getLanguageById } from "@/constants/languages";
 import { useEditWordMutation } from "@/queries/words/edit/useEditWord.mutation";
-import { findObjectById } from "@/lib/utils/findObjectById";
 import { joinRelatedWords } from "@/schemas/word/word.shared";
 
 import {
@@ -54,9 +53,8 @@ const EditWordForm = ({ word, onSuccess }: EditWordFormProps) => {
     name: "sourceLanguageId",
   });
 
-  const { data: languages = [] } = useLanguages();
   const sourceLanguage = sourceLanguageId
-    ? findObjectById(languages, Number(sourceLanguageId))
+    ? getLanguageById(sourceLanguageId)
     : undefined;
 
   const { mutateAsync: editWord } = useEditWordMutation({

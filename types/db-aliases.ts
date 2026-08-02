@@ -36,8 +36,7 @@ export type PracticeRecordType = TableRow<"practices">;
 export type InsertPracticeRecordType = TableInsert<"practices">;
 
 // =================== Languages ======================
-export type Language = TableRow<"languages">;
-export type InsertLanguageRecordType = TableInsert<"languages">;
+export type Language = Omit<TableRow<"languages">, "created_at">;
 
 // =================== PartOfSpeech ======================
 export type PartOfSpeech = DbEnum<"part_of_speech_enum">;

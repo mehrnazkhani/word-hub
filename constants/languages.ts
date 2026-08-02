@@ -23,7 +23,11 @@ export const LANGUAGES: Language[] = [
 ];
 
 export const ACTIVE_LANGUAGES = LANGUAGES.filter((l) => l.is_active);
+
 export const LANGUAGE_MAP = new Map(LANGUAGES.map((l) => [l.id, l]));
-export const getLanguageById = (id: number) => LANGUAGE_MAP.get(id) ?? null;
+
+export const getLanguageById = (id: number | string | null | undefined) =>
+  id != null ? (LANGUAGE_MAP.get(Number(id)) ?? null) : null;
+
 export const getLanguageByValue = (value: string) =>
   LANGUAGES.find((l) => l.value === value) ?? null;

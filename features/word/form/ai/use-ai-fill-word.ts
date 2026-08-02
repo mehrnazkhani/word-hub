@@ -5,15 +5,13 @@ import { UseFormReturn } from "react-hook-form";
 import { toast } from "sonner";
 
 import { AddWordFormValues } from "@/schemas/word/word.schema";
-import { useLanguages } from "@/queries/languages/useLanguages";
+import { getLanguageById } from "@/constants/languages";
 import { useUserSettings } from "@/queries/user-settings/useUserSettings";
-import { findObjectById } from "@/lib/utils/findObjectById";
 import { aiFillWord } from "@/lib/api/aiFill.api";
 import type { AiFillFields } from "@/types/db-aliases";
 
 export function useAiFillWord(form: UseFormReturn<AddWordFormValues>) {
   const [isLoading, setIsLoading] = useState(false);
-  const { data: languages = [] } = useLanguages();
   const { data: userSettings } = useUserSettings();
   const abortControllerRef = useRef<AbortController | null>(null);
 
@@ -26,10 +24,10 @@ export function useAiFillWord(form: UseFormReturn<AddWordFormValues>) {
 
     if (!word || !sourceLanguageId || !targetLanguageId) return;
 
-    const sourceLang = findObjectById(languages, sourceLanguageId);
-    const targetLang = findObjectById(languages, targetLanguageId);
+    const sourceLanguage = getLanguageById(sourceLanguageId);
+    const targetLanguage = getLanguageById(targetLanguageId);
 
-    if (!sourceLang || !targetLang) return;
+    if (!sourceLanguage || !targetLanguage) return;
 
     abortControllerRef.current = new AbortController();
     setIsLoading(true);
@@ -38,8 +36,8 @@ export function useAiFillWord(form: UseFormReturn<AddWordFormValues>) {
       const data = await aiFillWord(
         {
           word,
-          sourceLanguage: sourceLang.value,
-          targetLanguage: targetLang.value,
+          sourceLanguage: sourceLanguage.value,
+          targetLanguage: targetLanguage.value,
         },
         abortControllerRef.current.signal,
       );

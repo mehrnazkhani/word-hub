@@ -11,10 +11,10 @@ import { SelectCategory } from "@/components/inputs/selectors/SelectCategory";
 import { SelectLanguage } from "@/components/inputs/selectors/SelectLanguage";
 import { SettingRow } from "../SettingRow";
 import { useUserSettings } from "@/queries/user-settings/useUserSettings";
-import { useLanguagesById } from "@/queries/languages/useLanguagesById";
 import { useCategoryById } from "@/queries/categories/useCategoryById";
 import { useUpdateWordFormSettings } from "@/queries/user-settings/useUpdateDefaultWordFormSettings";
 import { ArrowButton } from "@/components/ArrowButton";
+import { getLanguageById } from "@/constants/languages";
 
 import {
   wordFormSettingsSchema,
@@ -23,10 +23,8 @@ import {
 
 const WordFormSettings = () => {
   const { data: userSettings } = useUserSettings();
-  const { sourceLang, targetLang } = useLanguagesById(
-    userSettings?.default_source_lang_id,
-    userSettings?.default_target_lang_id,
-  );
+  const sourceLanguage = getLanguageById(userSettings?.default_source_lang_id);
+  const targetLanguage = getLanguageById(userSettings?.default_target_lang_id);
   const { category } = useCategoryById(userSettings?.default_category_id);
 
   const defaultValues = useMemo<WordFormSettingsValues>(
@@ -79,8 +77,8 @@ const WordFormSettings = () => {
             icon={{ icon: Languages }}
             title="Default Source Language"
             description={
-              sourceLang
-                ? `${sourceLang.flag} ${sourceLang.label}`
+              sourceLanguage
+                ? `${sourceLanguage.flag} ${sourceLanguage.label}`
                 : "No default language"
             }
           >
@@ -99,8 +97,8 @@ const WordFormSettings = () => {
             icon={{ icon: Languages }}
             title="Default Target Language"
             description={
-              targetLang
-                ? `${targetLang.flag} ${targetLang.label}`
+              targetLanguage
+                ? `${targetLanguage.flag} ${targetLanguage.label}`
                 : "No default language"
             }
           >

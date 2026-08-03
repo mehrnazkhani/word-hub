@@ -9,7 +9,10 @@ import {
 import { UserProvider } from "@/components/providers/user-provider";
 import { prefetchUserSettings } from "@/queries/user-settings/prefetchUserSettings";
 import { prefetchWordCount } from "@/queries/words/count/wordCountQuery";
+import { prefetchDailyWordSuggestion } from "@/queries/daily_suggestions/dailyWordSuggestionsQuery";
 import { ROUTES } from "@/constants/routes";
+import { queryKeys } from "@/queries/queries";
+import type { UserSettings } from "@/types/db-aliases";
 
 const ProtectedLayout = async ({
   children,
@@ -28,9 +31,17 @@ const ProtectedLayout = async ({
 
   const queryClient = new QueryClient();
 
+  await prefetchUserSettings(queryClient, supabase, user.id);
+
+  const settings = queryClient.getQueryData<UserSettings>(
+    queryKeys.settings.user(user.id),
+  );
+
   await Promise.all([
-    prefetchUserSettings(queryClient, supabase, user.id),
     prefetchWordCount(queryClient, supabase, user.id),
+    settings
+      ? prefetchDailyWordSuggestion(queryClient, supabase, settings)
+      : Promise.resolve(),
   ]);
 
   return (

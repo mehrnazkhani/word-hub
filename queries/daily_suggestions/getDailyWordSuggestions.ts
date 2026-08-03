@@ -1,0 +1,21 @@
+import { SupabaseClient } from "@supabase/supabase-js";
+import { Database } from "@/types/supabase";
+
+type Client = SupabaseClient<Database>;
+type Settings = Database["public"]["Tables"]["user_settings"]["Row"];
+
+export const getDailyWordSuggestionsAction = async (
+  client: Client,
+  settings: Settings,
+) => {
+  const today = new Date().toISOString().split("T")[0];
+
+  return client
+    .from("daily_word_suggestions")
+    .select("*")
+    .eq("display_date", today)
+    .eq("source_language_id", settings.daily_word_source_lang_id!)
+    .eq("level", settings.daily_word_level)
+    .single()
+    .throwOnError();
+};

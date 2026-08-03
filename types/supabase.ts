@@ -68,6 +68,78 @@ export type Database = {
         }
         Relationships: []
       }
+      daily_word_suggestions: {
+        Row: {
+          antonyms: string[] | null
+          created_at: string
+          description: string | null
+          display_date: string
+          example: string | null
+          id: number
+          level: Database["public"]["Enums"]["cefr_level_enum"]
+          part_of_speech:
+            | Database["public"]["Enums"]["part_of_speech_enum"]
+            | null
+          source_language_id: number
+          synonyms: string[] | null
+          target_language_id: number
+          translation: string
+          translation_audio: string | null
+          word: string
+        }
+        Insert: {
+          antonyms?: string[] | null
+          created_at?: string
+          description?: string | null
+          display_date?: string
+          example?: string | null
+          id?: never
+          level: Database["public"]["Enums"]["cefr_level_enum"]
+          part_of_speech?:
+            | Database["public"]["Enums"]["part_of_speech_enum"]
+            | null
+          source_language_id: number
+          synonyms?: string[] | null
+          target_language_id: number
+          translation: string
+          translation_audio?: string | null
+          word: string
+        }
+        Update: {
+          antonyms?: string[] | null
+          created_at?: string
+          description?: string | null
+          display_date?: string
+          example?: string | null
+          id?: never
+          level?: Database["public"]["Enums"]["cefr_level_enum"]
+          part_of_speech?:
+            | Database["public"]["Enums"]["part_of_speech_enum"]
+            | null
+          source_language_id?: number
+          synonyms?: string[] | null
+          target_language_id?: number
+          translation?: string
+          translation_audio?: string | null
+          word?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "daily_word_suggestions_source_language_id_fkey"
+            columns: ["source_language_id"]
+            isOneToOne: false
+            referencedRelation: "languages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "daily_word_suggestions_target_language_id_fkey"
+            columns: ["target_language_id"]
+            isOneToOne: false
+            referencedRelation: "languages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       languages: {
         Row: {
           created_at: string
@@ -143,6 +215,9 @@ export type Database = {
         Row: {
           ai_fill_fields: Json
           created_at: string
+          daily_word_enabled: boolean
+          daily_word_level: Database["public"]["Enums"]["cefr_level_enum"]
+          daily_word_source_lang_id: number | null
           default_category_id: number | null
           default_source_lang_id: number | null
           default_target_lang_id: number | null
@@ -152,6 +227,9 @@ export type Database = {
         Insert: {
           ai_fill_fields?: Json
           created_at?: string
+          daily_word_enabled?: boolean
+          daily_word_level?: Database["public"]["Enums"]["cefr_level_enum"]
+          daily_word_source_lang_id?: number | null
           default_category_id?: number | null
           default_source_lang_id?: number | null
           default_target_lang_id?: number | null
@@ -161,6 +239,9 @@ export type Database = {
         Update: {
           ai_fill_fields?: Json
           created_at?: string
+          daily_word_enabled?: boolean
+          daily_word_level?: Database["public"]["Enums"]["cefr_level_enum"]
+          daily_word_source_lang_id?: number | null
           default_category_id?: number | null
           default_source_lang_id?: number | null
           default_target_lang_id?: number | null
@@ -168,6 +249,13 @@ export type Database = {
           user_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "user_settings_daily_word_source_lang_id_fkey"
+            columns: ["daily_word_source_lang_id"]
+            isOneToOne: false
+            referencedRelation: "languages"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "user_settings_default_category_id_fkey"
             columns: ["default_category_id"]
@@ -311,6 +399,7 @@ export type Database = {
       show_trgm: { Args: { "": string }; Returns: string[] }
     }
     Enums: {
+      cefr_level_enum: "A1" | "A2" | "B1" | "B2" | "C1" | "C2"
       part_of_speech_enum:
         | "noun"
         | "verb"
@@ -447,6 +536,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      cefr_level_enum: ["A1", "A2", "B1", "B2", "C1", "C2"],
       part_of_speech_enum: [
         "noun",
         "verb",

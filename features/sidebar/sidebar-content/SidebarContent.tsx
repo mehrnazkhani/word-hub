@@ -10,7 +10,7 @@ export const SidebarContent = () => {
     <Content>
       <SidebarGroup className="flex h-full flex-col">
         <SidebarGroupLabel className="uppercase">Categories</SidebarGroupLabel>
-        <div className="px-3">
+        <div className="min-h-0 flex-1 scroll-fade overflow-y-auto px-3">
           <CategoriesList />
         </div>
       </SidebarGroup>

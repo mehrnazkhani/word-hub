@@ -8,7 +8,7 @@ import { WordPronunciation } from "@/components/WordPronunciation";
 import { getLanguageById } from "@/constants/languages";
 import { useDailyWordSuggestion } from "@/queries/daily_suggestions/useDailyWordSuggestion";
 import { joinRelatedWords } from "@/schemas/word/word.shared";
-import { Bookmark } from "lucide-react";
+import { Bookmark, MoveRight } from "lucide-react";
 
 export default function DashboardPage() {
   const { user } = useUser();
@@ -16,7 +16,9 @@ export default function DashboardPage() {
 
   const {
     word,
+    translation,
     source_language_id,
+    target_language_id,
     part_of_speech,
     synonyms,
     antonyms,
@@ -26,6 +28,7 @@ export default function DashboardPage() {
   } = dailyWordSuggestion ?? {};
 
   const sourceLanguage = getLanguageById(source_language_id);
+  const targetLanguage = getLanguageById(target_language_id);
 
   return (
     <div className="flex h-full flex-col px-44">
@@ -71,7 +74,10 @@ export default function DashboardPage() {
             <Badge variant="default">{level}</Badge>
           </div>
 
-          <p className="text-secondary-foreground/60">{description}</p>
+          <div className="space-y-3">
+            <span className="text-secondary-foreground/60">{translation}</span>
+            <p className="text-secondary-foreground/60">{description}</p>
+          </div>
 
           <div className="mt-5 flex items-center gap-5 text-sm">
             <span className="font-medium">Synonyms</span>
@@ -89,8 +95,14 @@ export default function DashboardPage() {
 
           <div className="flex items-center gap-5 text-sm">
             <span className="font-medium">Example</span>
-            <p className="text-secondary-foreground/60 italic">{example}</p>
+            <p className="text-secondary-foreground/60 italic">"{example}"</p>
           </div>
+
+          <p className="flex items-center gap-1 pt-5 text-xs text-foreground/50">
+            {sourceLanguage?.flag} {sourceLanguage?.label}
+            <MoveRight size={12} />
+            {targetLanguage?.label} {targetLanguage?.flag}
+          </p>
         </div>
       </main>
 

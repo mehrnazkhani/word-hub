@@ -61,3 +61,5 @@ export type UpdateUserSettings = Omit<
 > & {
   ai_fill_fields?: AiFillFields;
 };
+
+export type CefrLevel = DbEnum<"cefr_level_enum">;

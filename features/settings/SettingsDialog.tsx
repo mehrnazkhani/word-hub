@@ -10,6 +10,7 @@ import {
   Form,
   Shield,
   PencilSparkles,
+  CalendarClock,
 } from "lucide-react";
 import {
   Breadcrumb,
@@ -34,40 +35,35 @@ import {
   SidebarProvider,
 } from "@/components/ui/sidebar";
 
-const ProfileSettings = dynamic(
-  () => import("./profile-settings/ProfileSettings"),
+const ProfileSettings = dynamic(() => import("./profile/ProfileSettings"), {
+  ssr: false,
+});
+const WordFormSettings = dynamic(() => import("./word-form/WordFormSettings"), {
+  ssr: false,
+});
+const DailyWordSuggestionSettings = dynamic(
+  () => import("./daily-word/DailyWordSettings"),
   {
     ssr: false,
   },
 );
-const WordFormSettings = dynamic(
-  () => import("./word-form-settings/WordFormSettings"),
-  {
-    ssr: false,
-  },
-);
-const PrivacySettings = dynamic(
-  () => import("./privacy-settings/PrivacySettings"),
-  {
-    ssr: false,
-  },
-);
+const PrivacySettings = dynamic(() => import("./privacy/PrivacySettings"), {
+  ssr: false,
+});
 const DataManagementSettings = dynamic(
-  () => import("./data-settings/DataManagementSettings"),
+  () => import("./data/DataManagementSettings"),
   {
     ssr: false,
   },
 );
-const AIFillSettingsForm = dynamic(
-  () => import("./ai-fill-settings/AIFillSettingsForm"),
-  {
-    ssr: false,
-  },
-);
+const AIFillSettingsForm = dynamic(() => import("./ai-fill/AIFillSettings"), {
+  ssr: false,
+});
 
 const settingsSections = {
   Profile: ProfileSettings,
   "Word Form": WordFormSettings,
+  "Daily word": DailyWordSuggestionSettings,
   Privacy: PrivacySettings,
   Data: DataManagementSettings,
   "Ai Fill": AIFillSettingsForm,
@@ -84,6 +80,7 @@ const data: {
   nav: [
     { name: "Profile", icon: CircleUserRound },
     { name: "Word Form", icon: Form },
+    { name: "Daily word", icon: CalendarClock },
     { name: "Privacy", icon: Shield },
     { name: "Data", icon: Database },
     { name: "Ai Fill", icon: PencilSparkles },

@@ -1,7 +1,7 @@
 import { Lock } from "lucide-react";
 import { ArrowLink } from "@/components/ArrowLink";
 import { AuthHeader } from "@/features/authentication/AuthHeader";
-import { ChangePasswordForm } from "@/features/settings/privacy-settings/change-password/ChangePasswordForm";
+import { ChangePasswordForm } from "@/features/settings/privacy/change-password/ChangePasswordForm";
 
 const ChangePasswordPage = async () => {
   return (

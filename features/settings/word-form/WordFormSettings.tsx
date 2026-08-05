@@ -12,7 +12,7 @@ import { SelectLanguage } from "@/components/inputs/selectors/SelectLanguage";
 import { SettingRow } from "../SettingRow";
 import { useUserSettings } from "@/queries/user-settings/useUserSettings";
 import { useCategoryById } from "@/queries/categories/useCategoryById";
-import { useUpdateWordFormSettings } from "@/queries/user-settings/useUpdateDefaultWordFormSettings";
+import { useUpdateDefaultWordFormSettingsMutation } from "./useUpdateDefaultWordFormSettings.mutation";
 import { ArrowButton } from "@/components/ArrowButton";
 import { getLanguageById } from "@/constants/languages";
 
@@ -52,7 +52,7 @@ const WordFormSettings = () => {
   }, [defaultValues, reset]);
 
   const { mutate: updateWordFormSettings, isPending } =
-    useUpdateWordFormSettings();
+    useUpdateDefaultWordFormSettingsMutation();
 
   const onSubmit = (data: WordFormSettingsValues) => {
     updateWordFormSettings(data, {

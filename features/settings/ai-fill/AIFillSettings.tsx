@@ -7,13 +7,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useUserSettings } from "@/queries/user-settings/useUserSettings";
 import { FormCheckbox } from "@/components/inputs/FormCheckbox";
 import { aiFillFieldsSchema, type AiFillFields } from "./aiFillFields.schema";
-import { useUpdateAiFillSettings } from "@/queries/user-settings/useUpdateAiFillSettings";
+import { useUpdateAiFillSettingsMutation } from "./useUpdateAiFillSettings.mutation";
 import { ArrowButton } from "@/components/ArrowButton";
 
 export const AIFillSettingsForm = () => {
   const { data: userSettings } = useUserSettings();
   const aiFillFields = userSettings?.ai_fill_fields as AiFillFields | undefined;
-  const { mutate: updateAiFillSettings, isPending } = useUpdateAiFillSettings();
+  const { mutate: updateAiFillSettings, isPending } =
+    useUpdateAiFillSettingsMutation();
 
   const methods = useForm<AiFillFields>({
     resolver: zodResolver(aiFillFieldsSchema),

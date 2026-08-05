@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 
 import { SettingRow } from "../../SettingRow";
 import { DeleteAccountDialog } from "./DeleteAccountDialog";
-import { deleteAccountAction } from "@/features/settings/profile-settings/delete-account/deleteAccount.action";
+import { deleteAccountAction } from "./deleteAccount.action";
 
 export const DeleteAccount = () => {
   const [isPending, startTransition] = useTransition();

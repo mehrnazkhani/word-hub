@@ -12,6 +12,8 @@ export const useDailyWordSuggestion = () => {
   return useQuery({
     ...dailyWordSuggestionsQuery(supabase, settings!),
     enabled:
-      !!settings?.daily_word_source_lang_id && !!settings?.daily_word_level,
+      !!settings?.daily_word_enabled &&
+      !!settings?.daily_word_source_lang_id &&
+      !!settings?.daily_word_level,
   });
 };

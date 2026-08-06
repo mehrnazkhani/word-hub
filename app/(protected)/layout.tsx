@@ -39,7 +39,7 @@ const ProtectedLayout = async ({
 
   await Promise.all([
     prefetchWordCount(queryClient, supabase, user.id),
-    settings
+    settings?.daily_word_enabled
       ? prefetchDailyWordSuggestion(queryClient, supabase, settings)
       : Promise.resolve(),
   ]);

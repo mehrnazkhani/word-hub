@@ -30,7 +30,7 @@ export const FormSelect = createFormField<FormSelectProps>(
         onChange(value);
         onValueChange?.(value);
       }}
-      disabled={field.disabled}
+      disabled={field.disabled || disabled}
     >
       <SelectTrigger
         id={field.id}

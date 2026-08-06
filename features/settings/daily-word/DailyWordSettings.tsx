@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 
 import { Calendar, Dumbbell, Languages } from "lucide-react";
 import { FormProvider, useForm } from "react-hook-form";
@@ -75,7 +74,7 @@ const DailyWordSettings = () => {
         className="flex h-full flex-col justify-between"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className="space-y-5">
+        <fieldset disabled={isPending} className="space-y-5">
           <p className="text-sm text-muted-foreground">
             Set your preferred language and level. We'll pick a new word for you
             every day.
@@ -136,7 +135,7 @@ const DailyWordSettings = () => {
               </SettingRow>
             </div>
           </div>
-        </div>
+        </fieldset>
 
         <div className="flex justify-end">
           <ArrowButton type="submit" disabled={!isDirty || isPending}>

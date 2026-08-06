@@ -67,7 +67,7 @@ const WordFormSettings = () => {
         className="flex h-full flex-col justify-between"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className="space-y-5">
+        <fieldset disabled={isPending} className="space-y-5">
           <p className="text-sm text-muted-foreground">
             Choose your default language pair and category. These settings will
             be automatically used when adding new words.
@@ -128,7 +128,7 @@ const WordFormSettings = () => {
               />
             </div>
           </SettingRow>
-        </div>
+        </fieldset>
 
         <div className="flex justify-end">
           <ArrowButton

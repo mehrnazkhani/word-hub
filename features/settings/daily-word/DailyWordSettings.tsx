@@ -37,8 +37,9 @@ const DailyWordSettings = () => {
     () => ({
       daily_word_enabled: userSettings?.daily_word_enabled ?? true,
       daily_word_level: userSettings?.daily_word_level ?? "B1",
-      daily_word_source_lang_id:
-        userSettings?.daily_word_source_lang_id ?? null,
+      daily_word_source_lang_id: userSettings?.daily_word_source_lang_id
+        ? String(userSettings.daily_word_source_lang_id)
+        : null,
     }),
     [userSettings],
   );

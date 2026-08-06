@@ -2,14 +2,14 @@
 
 import { updateUserSettingsAction } from "@/queries/user-settings/updateUserSettings.action";
 import {
-  dailyWordSettingsSchema,
+  dailyWordSettingsDbSchema,
   type DailyWordSettingsValues,
 } from "./dailyWordSettings.schema";
 
 export const updateDailyWordSettingsAction = async (
   data: DailyWordSettingsValues,
 ) => {
-  const parsed = dailyWordSettingsSchema.safeParse(data);
+  const parsed = dailyWordSettingsDbSchema.safeParse(data);
   if (!parsed.success) throw new Error("Invalid data");
   return updateUserSettingsAction(parsed.data);
 };

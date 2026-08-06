@@ -6,7 +6,8 @@ import { createClient } from "@/lib/supabase/server";
 import { editNameSchema, type EditNameValue } from "./editName.schema";
 
 export const editNameAction = async (data: EditNameValue) => {
-  const user = await getAuthenticatedUser();
+  const supabase = await createClient();
+  const user = await getAuthenticatedUser(supabase);
 
   const parsed = safeParseInput({
     schema: editNameSchema,
@@ -30,8 +31,6 @@ export const editNameAction = async (data: EditNameValue) => {
       },
     };
   }
-
-  const supabase = await createClient();
 
   const { error } = await supabase.auth.updateUser({
     data: { full_name: name },

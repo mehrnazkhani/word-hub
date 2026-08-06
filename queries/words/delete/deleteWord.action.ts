@@ -11,7 +11,7 @@ export const softDeleteWordAction = async ({
   wordId,
 }: DeleteWordActionProps) => {
   const supabase = await createClient();
-  const user = await getAuthenticatedUser();
+  const user = await getAuthenticatedUser(supabase);
 
   const { error } = await supabase
     .from("words")
@@ -31,7 +31,7 @@ export const permanentDeleteWordAction = async ({
   wordId,
 }: DeleteWordActionProps) => {
   const supabase = await createClient();
-  const user = await getAuthenticatedUser();
+  const user = await getAuthenticatedUser(supabase);
 
   const { error } = await supabase
     .from("words")

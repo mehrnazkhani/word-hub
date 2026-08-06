@@ -5,7 +5,8 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { getAuthenticatedUser } from "@/lib/supabase/getAuthenticatedUser";
 
 export const deleteAccountAction = async () => {
-  const user = await getAuthenticatedUser();
+  const supabase = await createClient();
+  const user = await getAuthenticatedUser(supabase);
   const supabaseAdmin = createAdminClient();
 
   const { error: deleteAccountError } =
@@ -15,6 +16,6 @@ export const deleteAccountAction = async () => {
     console.error("Delete user error:", deleteAccountError);
     return;
   }
-  const supabase = await createClient();
+
   await supabase.auth.signOut();
 };

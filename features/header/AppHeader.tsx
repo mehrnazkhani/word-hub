@@ -1,6 +1,7 @@
+import { createClient } from "@/lib/supabase/server";
+
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
-
 import { HeaderBreadcrumb } from "./HeaderBreadcrumb";
 import { UserAccount } from "./user-account/UserAccount";
 import { SearchWord } from "../search-word/SearchWord";
@@ -8,7 +9,8 @@ import { SearchWord } from "../search-word/SearchWord";
 import { getAuthenticatedUser } from "@/lib/supabase/getAuthenticatedUser";
 
 export const AppHeader = async () => {
-  const user = await getAuthenticatedUser();
+  const supabase = await createClient();
+  const user = await getAuthenticatedUser(supabase);
 
   return (
     <header className="flex h-16 shrink-0 items-center gap-2 bg-background px-5">

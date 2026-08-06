@@ -11,7 +11,8 @@ import {
 } from "@/features/category/category.schema";
 
 export const createCategoryAction = async (formData: CategoryFormValues) => {
-  const user = await getAuthenticatedUser();
+  const supabase = await createClient();
+  const user = await getAuthenticatedUser(supabase);
 
   const parsed = safeParseInput({
     schema: categoryFormSchema,
@@ -24,8 +25,6 @@ export const createCategoryAction = async (formData: CategoryFormValues) => {
       fieldErrors: parsed.fieldErrors,
     };
   }
-
-  const supabase = await createClient();
 
   const { data, error } = await supabase
     .from("categories")

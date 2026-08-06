@@ -17,7 +17,8 @@ export const editWordAction = async ({
   wordId,
   formData,
 }: editWordActionProps) => {
-  const user = await getAuthenticatedUser();
+  const supabase = await createClient();
+  const user = await getAuthenticatedUser(supabase);
   const userId = user.id;
 
   const parsed = safeParseInput({
@@ -31,8 +32,6 @@ export const editWordAction = async ({
       fieldErrors: parsed.fieldErrors,
     };
   }
-
-  const supabase = await createClient();
 
   const { category_id, ...updateData } = parsed.data;
 

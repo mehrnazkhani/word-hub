@@ -17,7 +17,8 @@ export const renameCategoryAction = async ({
   formData,
   categoryId,
 }: RenameCategoryActionProps) => {
-  const user = await getAuthenticatedUser();
+  const supabase = await createClient();
+  const user = await getAuthenticatedUser(supabase);
   const userId = user.id;
 
   const parsed = safeParseInput({
@@ -31,8 +32,6 @@ export const renameCategoryAction = async ({
       fieldErrors: parsed.fieldErrors,
     };
   }
-
-  const supabase = await createClient();
 
   const { data, error } = await supabase
     .from("categories")

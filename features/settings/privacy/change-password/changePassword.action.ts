@@ -9,7 +9,8 @@ import {
 } from "./changePassword.schema";
 
 export const changePasswordAction = async (data: ChangePasswordValue) => {
-  await getAuthenticatedUser();
+  const supabase = await createClient();
+  await getAuthenticatedUser(supabase);
 
   const parsed = safeParseInput({
     schema: changePasswordSchema,
@@ -23,7 +24,6 @@ export const changePasswordAction = async (data: ChangePasswordValue) => {
     };
   }
 
-  const supabase = await createClient();
   const { newPassword } = parsed.data;
 
   const { error } = await supabase.auth.updateUser({

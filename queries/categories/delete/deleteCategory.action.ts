@@ -12,7 +12,7 @@ export const deleteCategoryAction = async ({
   category,
 }: DeleteCategoryActionProps) => {
   const supabase = await createClient();
-  const user = await getAuthenticatedUser();
+  const user = await getAuthenticatedUser(supabase);
 
   const { error: categoryError } = await supabase
     .from("categories")

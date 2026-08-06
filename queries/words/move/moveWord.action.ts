@@ -13,7 +13,7 @@ export const moveWordAction = async ({
   toCategoryId,
 }: moveWordActionProps) => {
   const supabase = await createClient();
-  const user = await getAuthenticatedUser();
+  const user = await getAuthenticatedUser(supabase);
 
   const { error } = await supabase
     .from("words")

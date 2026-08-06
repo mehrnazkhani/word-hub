@@ -1,9 +1,8 @@
-import { createClient } from "./server";
-import { User } from "@supabase/supabase-js";
+import type { SupabaseClient, User } from "@supabase/supabase-js";
 
-export const getAuthenticatedUser = async (): Promise<User> => {
-  const supabase = await createClient();
-
+export const getAuthenticatedUser = async (
+  supabase: SupabaseClient,
+): Promise<User> => {
   const {
     data: { user },
     error,

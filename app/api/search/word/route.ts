@@ -3,8 +3,12 @@ import { createClient } from "@/lib/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
-  const user = await getAuthenticatedUser();
-  if (!user) {
+  const supabase = await createClient();
+
+  let user;
+  try {
+    user = await getAuthenticatedUser(supabase);
+  } catch {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -15,8 +19,6 @@ export async function GET(request: NextRequest) {
   if (!query || query.length < 1) {
     return NextResponse.json({ results: [] });
   }
-
-  const supabase = await createClient();
 
   const tsQuery = query
     .split(/\s+/)

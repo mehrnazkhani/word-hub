@@ -6,7 +6,8 @@ import { createClient } from "@/lib/supabase/server";
 import { changeEmailSchema, type ChangeEmailValue } from "./changeEmail.schema";
 
 export const changeEmailAction = async (data: ChangeEmailValue) => {
-  const user = await getAuthenticatedUser();
+  const supabase = await createClient();
+  const user = await getAuthenticatedUser(supabase);
 
   const parsed = safeParseInput({
     schema: changeEmailSchema,
@@ -20,7 +21,6 @@ export const changeEmailAction = async (data: ChangeEmailValue) => {
     };
   }
 
-  const supabase = await createClient();
   const { newEmail } = parsed.data;
 
   if (newEmail === user.email) {

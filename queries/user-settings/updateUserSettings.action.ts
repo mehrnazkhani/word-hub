@@ -8,7 +8,7 @@ export async function updateUserSettingsAction(
   fields: Partial<UpdateUserSettings>,
 ) {
   const supabase = await createClient();
-  const user = await getAuthenticatedUser();
+  const user = await getAuthenticatedUser(supabase);
 
   const { data, error } = await supabase
     .from("user_settings")

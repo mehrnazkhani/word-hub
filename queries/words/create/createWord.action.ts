@@ -12,7 +12,8 @@ import {
 } from "@/schemas/word/word.schema";
 
 export const createWordAction = async (formData: AddWordFormValues) => {
-  const user = await getAuthenticatedUser();
+  const supabase = await createClient();
+  const user = await getAuthenticatedUser(supabase);
 
   const parsed = safeParseInput({
     schema: wordDbSchema,
@@ -25,8 +26,6 @@ export const createWordAction = async (formData: AddWordFormValues) => {
       fieldErrors: parsed.fieldErrors,
     };
   }
-
-  const supabase = await createClient();
 
   const categoryId =
     parsed.data.category_id ?? (await getSystemCategoryId(supabase));

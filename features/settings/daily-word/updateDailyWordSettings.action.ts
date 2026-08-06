@@ -4,7 +4,7 @@ import { updateUserSettingsAction } from "@/queries/user-settings/updateUserSett
 import {
   dailyWordSettingsSchema,
   type DailyWordSettingsValues,
-} from "./DailyWordSettings";
+} from "./dailyWordSettings.schema";
 
 export const updateDailyWordSettingsAction = async (
   data: DailyWordSettingsValues,

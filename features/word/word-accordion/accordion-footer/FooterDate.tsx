@@ -1,4 +1,4 @@
-import { AppIcons } from "@/components/icons";
+import { Calendar } from "lucide-react";
 import { useWordAccordion } from "../WordAccordionContext";
 import { formatDate } from "@/lib/utils/formatDate";
 import { getRemainingDeletionDays } from "@/lib/utils/getRemainingDeletionDays";
@@ -19,7 +19,7 @@ export const FooterDate = ({ type = "created" }: FooterDateProps) => {
 
   return (
     <p className="flex items-center gap-1 text-foreground/50">
-      <AppIcons.CalendarIcon size={12} />
+      <Calendar size={12} />
       {content}
     </p>
   );

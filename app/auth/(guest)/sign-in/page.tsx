@@ -1,4 +1,4 @@
-import { AppIcons } from "@/components/icons";
+import { UserRoundKey } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Providers } from "@/features/authentication/Providers";
 import { AuthHeader } from "@/features/authentication/AuthHeader";
@@ -9,7 +9,7 @@ export const SignInPage = () => {
   return (
     <>
       <AuthHeader
-        icon={AppIcons.LoginIcon}
+        icon={UserRoundKey}
         title="Sign in to your account"
         description="Don't have an account?"
         linkText="Sign up"

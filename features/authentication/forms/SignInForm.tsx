@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 
-import { AppIcons } from "@/components/icons";
+import { Mail } from "lucide-react";
 import { FieldGroup, FieldError, Field } from "@/components/ui/field";
 import { FormInput } from "@/components/inputs/FormInput";
 import { FormPasswordInput } from "@/components/inputs/FormPasswordInput";
@@ -79,7 +79,7 @@ export const SignInForm = () => {
           label="Email"
           placeholder="Email"
           type="email"
-          icon={AppIcons.MailIcon}
+          icon={Mail}
         />
 
         <div className="space-y-2.5">

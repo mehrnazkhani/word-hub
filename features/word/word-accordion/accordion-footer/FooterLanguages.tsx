@@ -1,5 +1,5 @@
 import { useWordAccordion } from "../WordAccordionContext";
-import { AppIcons } from "@/components/icons";
+import { MoveRight } from "lucide-react";
 
 export const FooterLanguages = () => {
   const { word } = useWordAccordion();
@@ -7,7 +7,7 @@ export const FooterLanguages = () => {
   return (
     <p className="flex items-center gap-1 text-foreground/50">
       {word.sourceLanguage?.flag} {word.sourceLanguage?.label}
-      <AppIcons.MoveRightIcon size={12} />
+      <MoveRight size={12} />
       {word.targetLanguage?.label} {word.targetLanguage?.flag}
     </p>
   );

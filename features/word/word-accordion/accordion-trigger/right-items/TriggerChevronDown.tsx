@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { AppIcons } from "@/components/icons";
+import { ChevronDown } from "lucide-react";
 
 type TriggerArrowProps = {
   size?: number;
@@ -11,7 +11,7 @@ export const TriggerChevronDown = ({
   className,
 }: TriggerArrowProps) => {
   return (
-    <AppIcons.ChevronDownIcon
+    <ChevronDown
       size={size}
       className={cn(
         "transition-transform duration-300 group-data-[state=open]:rotate-180",

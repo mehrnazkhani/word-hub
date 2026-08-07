@@ -1,4 +1,4 @@
-import { AppIcons } from "@/components/icons";
+import { MailCheck } from "lucide-react";
 import { AuthHeader } from "@/features/authentication/AuthHeader";
 
 type CheckEmailPageProps = {
@@ -15,7 +15,7 @@ export const CheckEmailPage = async ({ searchParams }: CheckEmailPageProps) => {
       <div className="w-full max-w-md rounded-md border p-10">
         <div className="space-y-5 text-center">
           <AuthHeader
-            icon={AppIcons.MailCheckIcon}
+            icon={MailCheck}
             title="Check your email"
             description={`We sent a confirmation link to ${email}. Please open your inbox and click the link to activate your account.`}
           />

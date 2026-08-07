@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { AppIcons } from "@/components/icons";
+import { Mail } from "lucide-react";
 import { Field, FieldError, FieldGroup } from "@/components/ui/field";
 import { FormInput } from "@/components/inputs/FormInput";
 import { LoadingButton } from "@/components/LoadingButton";
@@ -75,7 +75,7 @@ export const ForgotPasswordForm = () => {
             label="Email"
             placeholder="Email"
             type="email"
-            icon={AppIcons.MailIcon}
+            icon={Mail}
           />
 
           {errors.root && (

@@ -1,4 +1,4 @@
-import { AppIcons } from "@/components/icons";
+import { UserRoundPlus } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Providers } from "@/features/authentication/Providers";
 import { AuthHeader } from "@/features/authentication/AuthHeader";
@@ -9,7 +9,7 @@ const SignupPage = () => {
   return (
     <>
       <AuthHeader
-        icon={AppIcons.SignupIcon}
+        icon={UserRoundPlus}
         title="Create a new account"
         description="Already have an account?"
         linkText="Sign in"

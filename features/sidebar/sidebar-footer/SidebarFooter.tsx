@@ -1,6 +1,5 @@
 import Link from "next/link";
-
-import { AppIcons } from "@/components/icons";
+import { Trash } from "lucide-react";
 import {
   SidebarFooter as Footer,
   SidebarMenu,
@@ -17,7 +16,7 @@ export const SidebarFooter = () => {
         <SidebarMenuItem>
           <SidebarMenuButton asChild className="cursor-pointer">
             <Link href={ROUTES.TRASH}>
-              <AppIcons.TrashIcon /> Trash
+              <Trash /> Trash
             </Link>
           </SidebarMenuButton>
         </SidebarMenuItem>

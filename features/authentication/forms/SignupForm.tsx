@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 
-import { AppIcons } from "@/components/icons";
+import { CircleUserRound, Mail } from "lucide-react";
 import { FieldGroup } from "@/components/ui/field";
 import { FormInput } from "@/components/inputs/FormInput";
 import { FormPasswordInput } from "@/components/inputs/FormPasswordInput";
@@ -75,7 +75,7 @@ export const SignupForm = () => {
           name="name"
           label="Name"
           placeholder="Name"
-          icon={AppIcons.CircleUserRoundIcon}
+          icon={CircleUserRound}
         />
         <FormInput
           control={control}
@@ -83,7 +83,7 @@ export const SignupForm = () => {
           label="Email"
           placeholder="Email"
           type="email"
-          icon={AppIcons.MailIcon}
+          icon={Mail}
         />
         <FormPasswordInput
           control={control}

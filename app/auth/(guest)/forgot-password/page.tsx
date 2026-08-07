@@ -1,6 +1,5 @@
 import Link from "next/link";
-
-import { AppIcons } from "@/components/icons";
+import { Key, ChevronLeft } from "lucide-react";
 import { AuthHeader } from "@/features/authentication/AuthHeader";
 import { ForgotPasswordForm } from "@/features/authentication/forms/ForgotPasswordForm";
 import { ROUTES } from "@/constants/routes";
@@ -9,7 +8,7 @@ export const ForgotPasswordPage = () => {
   return (
     <>
       <AuthHeader
-        icon={AppIcons.KeyIcon}
+        icon={Key}
         title="Forgot your password?"
         description="Enter your email and we'll send you a reset link."
       />
@@ -20,7 +19,7 @@ export const ForgotPasswordPage = () => {
         href={ROUTES.SIGN_IN}
         className="text-app-secondary mt-10 flex items-center gap-1 text-xs transition-colors duration-300 hover:text-primary"
       >
-        <AppIcons.ChevronLeftIcon strokeWidth={1} size={18} />
+        <ChevronLeft strokeWidth={1} size={18} />
         Back to Sign in
       </Link>
     </>

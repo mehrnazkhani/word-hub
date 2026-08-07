@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { AppIcons } from "@/components/icons";
+import { FolderDown } from "lucide-react";
 
 import { SidebarMenuItem, SidebarMenuButton } from "@/components/ui/sidebar";
 
@@ -15,7 +15,7 @@ export const ImportTrigger = () => {
         className="cursor-pointer"
         onClick={() => fileInputRef.current?.click()}
       >
-        <AppIcons.ImportIcon />
+        <FolderDown />
         <span>Import File</span>
       </SidebarMenuButton>
 

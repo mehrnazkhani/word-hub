@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { Lock, Eye, EyeOff } from "lucide-react";
 
 import { Input } from "../ui/input";
-import { AppIcons } from "../icons";
 
 import { FormBase, type FormControlFunc, type InputProps } from "./FormBase";
 import { InputWrapper } from "./InputWrapper";
@@ -11,7 +11,7 @@ import { InputWrapper } from "./InputWrapper";
 export const FormPasswordInput: FormControlFunc<InputProps> = (props) => {
   const { control, name, label, description, ...inputProps } = props;
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const Icon = showPassword ? AppIcons.EyeIcon : AppIcons.EyeOffIcon;
+  const Icon = showPassword ? Eye : EyeOff;
 
   return (
     <FormBase
@@ -22,7 +22,7 @@ export const FormPasswordInput: FormControlFunc<InputProps> = (props) => {
     >
       {(field) => (
         <InputWrapper>
-          <AppIcons.LockIcon strokeWidth={1} size={16} />
+          <Lock strokeWidth={1} size={16} />
           <Input
             {...field}
             {...inputProps}

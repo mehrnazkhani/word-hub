@@ -103,7 +103,7 @@ const SettingsDialog = ({ open, onOpenChange }: SettingsDialogProps) => {
       <DialogContent
         onPointerDownOutside={(event) => event.preventDefault()}
         onEscapeKeyDown={(event) => event.preventDefault()}
-        className="overflow-hidden p-0 md:max-h-110 md:max-w-175 lg:max-w-150"
+        className="max-h-110 overflow-hidden p-0 md:max-w-160"
       >
         <DialogTitle className="sr-only">Settings</DialogTitle>
         <DialogDescription className="sr-only">
@@ -112,8 +112,8 @@ const SettingsDialog = ({ open, onOpenChange }: SettingsDialogProps) => {
 
         <SidebarProvider className="items-start">
           <Sidebar collapsible="none" className="hidden w-40 md:flex">
-            <SidebarContent>
-              <SidebarGroup>
+            <SidebarContent className="h-full">
+              <SidebarGroup className="h-full">
                 <SidebarGroupContent>
                   <SidebarMenu>
                     {data.nav.map((item) => (
@@ -151,7 +151,7 @@ const SettingsDialog = ({ open, onOpenChange }: SettingsDialogProps) => {
               </div>
             </header>
 
-            <div className="mr-3 flex h-full flex-col gap-4 overflow-y-auto rounded-xl bg-muted/50 p-4">
+            <div className="mx-3 flex h-full flex-col gap-4 overflow-y-auto rounded-xl bg-muted/50 p-4">
               <ActiveSettingsComponent />
             </div>
           </main>

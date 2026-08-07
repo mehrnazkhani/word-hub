@@ -6,9 +6,9 @@ export const FooterLanguages = () => {
 
   return (
     <p className="flex items-center gap-1 text-foreground/50">
-      {word.sourceLanguage?.label}
+      {word.sourceLanguage?.flag} {word.sourceLanguage?.label}
       <AppIcons.MoveRightIcon size={12} />
-      {word.targetLanguage?.label}
+      {word.targetLanguage?.label} {word.targetLanguage?.flag}
     </p>
   );
 };

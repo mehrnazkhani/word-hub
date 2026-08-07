@@ -17,8 +17,8 @@ export const EditWordDialog = ({
     <FormDialog
       open={open}
       onOpenChange={onOpenChange}
-      title="Rename Category"
-      description="Rename this category while keeping all of its words."
+      title="Edit Word"
+      description="Update the word and any of its details."
     >
       <EditWordForm word={word} onSuccess={() => onOpenChange(false)} />
     </FormDialog>

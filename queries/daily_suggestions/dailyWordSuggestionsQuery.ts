@@ -21,10 +21,10 @@ export const dailyWordSuggestionsQuery = (
     if (error) throw error;
     if (!data) return null;
 
-    const { data: savedSuggestion } = await getSavedWordSuggestionAction(
-      supabase,
-      data.word,
-    );
+    const { data: savedSuggestion } = await getSavedWordSuggestionAction({
+      client: supabase,
+      word: data.word,
+    });
 
     console.log("savedSuggestion:", savedSuggestion);
 

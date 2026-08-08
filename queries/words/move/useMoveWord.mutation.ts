@@ -60,7 +60,7 @@ export const useMoveWordMutation = () => {
         },
       );
 
-      toast.success(`Word ${word.word} moved successfully`, {
+      toast.success(`Word "${word.word}" moved successfully`, {
         id: "move-word",
       });
 

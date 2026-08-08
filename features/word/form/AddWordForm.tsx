@@ -20,10 +20,8 @@ import { useWordCount } from "@/queries/words/count/useWordCount";
 import { getLanguageById } from "@/constants/languages";
 import { APP_LIMITS } from "@/constants/app-limits";
 
-import {
-  addWordFormSchema,
-  type AddWordFormValues,
-} from "@/schemas/word/word.schema";
+import { addWordFormSchema } from "@/schemas/word/word.schema";
+import z from "zod";
 
 const addWordFormDefaultValues: AddWordFormValues = {
   word: "",
@@ -37,6 +35,8 @@ const addWordFormDefaultValues: AddWordFormValues = {
   description: "",
   example: "",
 };
+
+export type AddWordFormValues = z.input<typeof addWordFormSchema>;
 
 const AddWordForm = () => {
   const { data: userSettings } = useUserSettings();
@@ -87,7 +87,10 @@ const AddWordForm = () => {
     }
 
     try {
-      await creteWord(data, { onSuccess: () => reset() });
+      await creteWord(
+        { ...data, source: "manual" },
+        { onSuccess: () => reset() },
+      );
     } catch {}
   };
 

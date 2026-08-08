@@ -8,16 +8,19 @@ import { splitRelatedWords } from "@/schemas/word/word.shared";
 import { queryKeys } from "@/queries/queries";
 
 import type { AddWordFormValues } from "@/schemas/word/word.schema";
-import type { Word } from "@/types/db-aliases";
+import type { Word, WordSource } from "@/types/db-aliases";
+
+type CreateWordMutation = AddWordFormValues & { source?: WordSource };
 
 export const useCreateWordMutation = () => {
   const queryClient = useQueryClient();
   const { user } = useUser();
 
   return useMutation({
-    mutationFn: (formData: AddWordFormValues) => createWordAction(formData),
+    mutationFn: ({ source, ...formData }: CreateWordMutation) =>
+      createWordAction({ formData, source }),
 
-    onMutate: async (formData) => {
+    onMutate: async ({ source, ...formData }: CreateWordMutation) => {
       const categoryId = formData.categoryId ?? null;
       const queryKey = queryKeys.word.byCategoryId(
         Number(categoryId),
@@ -53,6 +56,7 @@ export const useCreateWordMutation = () => {
         created_at: new Date().toISOString(),
         updated_at: null,
         deleted_at: null,
+        source: source ?? "manual",
       };
 
       queryClient.setQueryData<Word[]>(queryKey, (old) => [

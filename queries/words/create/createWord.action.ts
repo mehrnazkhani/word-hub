@@ -10,8 +10,17 @@ import {
   wordDbSchema,
   type AddWordFormValues,
 } from "@/schemas/word/word.schema";
+import type { WordSource } from "@/types/db-aliases";
 
-export const createWordAction = async (formData: AddWordFormValues) => {
+type CreateWordActionProps = {
+  formData: AddWordFormValues;
+  source?: WordSource;
+};
+
+export const createWordAction = async ({
+  formData,
+  source,
+}: CreateWordActionProps) => {
   const supabase = await createClient();
   const user = await getAuthenticatedUser(supabase);
 
@@ -32,7 +41,12 @@ export const createWordAction = async (formData: AddWordFormValues) => {
 
   const { data, error } = await supabase
     .from("words")
-    .insert({ ...parsed.data, category_id: categoryId, user_id: user.id })
+    .insert({
+      ...parsed.data,
+      category_id: categoryId,
+      user_id: user.id,
+      source: source ?? "manual",
+    })
     .select()
     .single();
 

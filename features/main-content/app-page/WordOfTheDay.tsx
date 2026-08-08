@@ -1,22 +1,27 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { WordPronunciation } from "@/components/WordPronunciation";
 import { getLanguageById } from "@/constants/languages";
 import { useDailyWordSuggestion } from "@/queries/daily_suggestions/useDailyWordSuggestion";
 import { joinRelatedWords } from "@/schemas/word/word.shared";
-import { Bookmark } from "lucide-react";
 import { MoveRight } from "lucide-react";
 import { WordOfTheDayEmpty } from "./WordOfTheDayEmpty";
-import { useState } from "react";
-import { cn } from "@/lib/utils";
+import { SaveWordButton } from "./SaveWordButton";
+import type { Word } from "@/types/db-aliases";
 
 export const WordOfTheDay = () => {
   const { data: dailyWordSuggestion } = useDailyWordSuggestion();
-  const [saved, setSaved] = useState(false);
 
   if (!dailyWordSuggestion) return <WordOfTheDayEmpty />;
+
+  const {
+    level,
+    savedSuggestion,
+    display_date,
+    translation_audio,
+    ...wordData
+  } = dailyWordSuggestion;
 
   const {
     word,
@@ -28,8 +33,7 @@ export const WordOfTheDay = () => {
     antonyms,
     description,
     example,
-    level,
-  } = dailyWordSuggestion;
+  } = wordData;
 
   const sourceLanguage = getLanguageById(source_language_id);
   const targetLanguage = getLanguageById(target_language_id);
@@ -39,12 +43,10 @@ export const WordOfTheDay = () => {
 
   return (
     <div className="flex w-full max-w-4xl flex-col gap-4">
-      {/* Header */}
       <span className="text-xs font-medium tracking-widest text-secondary-foreground/50 uppercase">
         Today's Word
       </span>
 
-      {/* Word + Save */}
       <div className="flex items-start justify-between gap-4">
         <div className="flex flex-col gap-1">
           <div className="flex items-center gap-2">
@@ -61,22 +63,10 @@ export const WordOfTheDay = () => {
           </span>
         </div>
 
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => setSaved((prev) => !prev)}
-          className={cn(
-            "mt-1 shrink-0 cursor-pointer gap-1.5 transition-colors",
-            saved && "text-primary",
-          )}
-          aria-label={saved ? "Remove from saved words" : "Save this word"}
-        >
-          <Bookmark
-            size={16}
-            className={cn("transition-all", saved && "fill-current")}
-          />
-          <span>{saved ? "Saved" : "Save"}</span>
-        </Button>
+        <SaveWordButton
+          savedSuggestion={savedSuggestion}
+          word={wordData as Word}
+        />
       </div>
 
       {/* Badges */}

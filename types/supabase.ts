@@ -293,6 +293,7 @@ export type Database = {
             | null
           score: number
           search_vector: unknown
+          source: string
           source_language_id: number
           synonyms: string[] | null
           target_language_id: number
@@ -315,6 +316,7 @@ export type Database = {
             | null
           score?: number
           search_vector?: unknown
+          source?: string
           source_language_id: number
           synonyms?: string[] | null
           target_language_id: number
@@ -337,6 +339,7 @@ export type Database = {
             | null
           score?: number
           search_vector?: unknown
+          source?: string
           source_language_id?: number
           synonyms?: string[] | null
           target_language_id?: number

@@ -1,14 +1,13 @@
 import { QueryClient } from "@tanstack/react-query";
 import { getDailyWordSuggestionsAction } from "./getDailyWordSuggestions";
+import { getSavedWordSuggestionAction } from "./getSavedWordSuggestion.action";
 import { queryKeys } from "@/queries/queries";
 import type { SupabaseClient } from "@supabase/supabase-js";
-import { Database } from "@/types/supabase";
-
-type Settings = Database["public"]["Tables"]["user_settings"]["Row"];
+import type { UserSettings } from "@/types/db-aliases";
 
 export const dailyWordSuggestionsQuery = (
   supabase: SupabaseClient,
-  settings: Settings,
+  settings: UserSettings,
 ) => ({
   queryKey: queryKeys.word.dailySuggestion(
     settings.daily_word_source_lang_id,
@@ -20,14 +19,26 @@ export const dailyWordSuggestionsQuery = (
       settings,
     );
     if (error) throw error;
-    return data;
+    if (!data) return null;
+
+    const { data: savedSuggestion } = await getSavedWordSuggestionAction(
+      supabase,
+      data.word,
+    );
+
+    console.log("savedSuggestion:", savedSuggestion);
+
+    return {
+      ...data,
+      savedSuggestion: savedSuggestion ?? null,
+    };
   },
 });
 
 export const prefetchDailyWordSuggestion = async (
   queryClient: QueryClient,
   supabase: SupabaseClient,
-  settings: Settings,
+  settings: UserSettings,
 ) => {
   await queryClient.prefetchQuery(
     dailyWordSuggestionsQuery(supabase, settings),

@@ -31,6 +31,8 @@ export type UpdateWord = Omit<
   "translation_audio" | "search_vector"
 >;
 
+export type WordSource = "manual" | "suggestion";
+
 // =================== Practices ======================
 export type PracticeRecordType = TableRow<"practices">;
 export type InsertPracticeRecordType = TableInsert<"practices">;

@@ -1,12 +1,11 @@
 import { SupabaseClient } from "@supabase/supabase-js";
 import { Database } from "@/types/supabase";
-
+import type { UserSettings } from "@/types/db-aliases";
 type Client = SupabaseClient<Database>;
-type Settings = Database["public"]["Tables"]["user_settings"]["Row"];
 
 export const getDailyWordSuggestionsAction = async (
   client: Client,
-  settings: Settings,
+  settings: UserSettings,
 ) => {
   const today = new Date().toISOString().split("T")[0];
 

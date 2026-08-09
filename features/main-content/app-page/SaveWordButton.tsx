@@ -16,7 +16,7 @@ import { useUserCategories } from "@/queries/categories/useCategories";
 import { useSaveDailyWordSuggestion } from "./useSaveDailyWordSuggestion";
 
 import type { Word } from "@/types/db-aliases";
-export type SavedSuggestion = { id: number; category_id: number };
+export type SavedSuggestion = { id: number; category_id: number } | null;
 
 type SaveWordButtonProps = {
   savedSuggestion: SavedSuggestion;

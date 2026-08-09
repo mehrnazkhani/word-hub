@@ -26,8 +26,6 @@ export const dailyWordSuggestionsQuery = (
       word: data.word,
     });
 
-    console.log("savedSuggestion:", savedSuggestion);
-
     return {
       ...data,
       savedSuggestion: savedSuggestion ?? null,

@@ -10,7 +10,7 @@ type GetActiveWordsProps = {
 };
 
 const selectFields =
-  "id, antonyms, category_id, source_language_id, target_language_id, created_at, deleted_at, description, example, part_of_speech, score, synonyms, translation, updated_at, word";
+  "id, antonyms, category_id, source_language_id, target_language_id, created_at, deleted_at, description, example, part_of_speech, score, synonyms, translation, updated_at, word, source";
 
 export const getActiveWords = async ({
   client,

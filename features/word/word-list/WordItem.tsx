@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import { memo, ReactNode, useEffect, useRef, useState } from "react";
 import { WordAccordion } from "../word-accordion/WordAccordion";
 import type { Word } from "@/types/db-aliases";
@@ -35,7 +36,10 @@ export const WordItem = memo(
       <div
         ref={ref}
         id={id}
-        className={`rounded-md transition-colors duration-500 [&>div]:border-b last:[&>div]:border-b-0 ${highlighted ? "bg-white/5" : ""} `}
+        className={cn(
+          "rounded-md transition-colors duration-500 [&>div]:border-b last:[&>div]:border-b-0",
+          highlighted ? "bg-white/5" : "",
+        )}
       >
         <WordAccordion.Item value={`item-${word.id}`} word={word}>
           <WordAccordion.Trigger>

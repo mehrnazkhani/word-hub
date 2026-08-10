@@ -4,12 +4,10 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useUser } from "@/components/providers/user-provider";
-import {
-  deleteCategoryAction,
-  type DeleteCategoryActionProps,
-} from "./deleteCategory.action";
+import { deleteCategoryAction } from "./deleteCategory.action";
 import { queryKeys } from "@/queries/queries";
 import { ROUTES } from "@/constants/routes";
+import type { Category } from "@/types/db-aliases";
 
 type CategoryCache = {
   id: number;
@@ -17,7 +15,8 @@ type CategoryCache = {
   [key: string]: unknown;
 };
 
-type DeleteCategoryMutationProps = DeleteCategoryActionProps & {
+type DeleteCategoryMutationProps = {
+  category: Category;
   currentCategoryId?: number;
 };
 
@@ -28,7 +27,7 @@ export const useDeleteCategoryMutation = () => {
 
   return useMutation({
     mutationFn: ({ category }: DeleteCategoryMutationProps) =>
-      deleteCategoryAction({ category }),
+      deleteCategoryAction({ categoryId: category.id }),
 
     onMutate: async ({ category, currentCategoryId }) => {
       await queryClient.cancelQueries({

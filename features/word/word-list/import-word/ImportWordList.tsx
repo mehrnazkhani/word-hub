@@ -1,8 +1,9 @@
-import { Word } from "@/types/db-aliases";
 import { WordAccordion } from "../../word-accordion/WordAccordion";
+import { mapWordToImportShape } from "@/lib/utils/mapWordToImportShape";
+import type { ExportShape } from "@/lib/utils/mapWordToExportShape";
 
 type ImportWordListProps = {
-  words: Word[];
+  words: ExportShape[];
 };
 
 export const ImportWordList = ({ words }: ImportWordListProps) => {
@@ -16,10 +17,18 @@ export const ImportWordList = ({ words }: ImportWordListProps) => {
   );
 };
 
-const ImportWordItem = ({ word, index }: { word: Word; index: number }) => {
+const ImportWordItem = ({
+  word,
+  index,
+}: {
+  word: ExportShape;
+  index: number;
+}) => {
+  const dbWord = mapWordToImportShape({ word, categoryId: 0 });
+
   return (
     <div className="rounded-md transition-colors duration-500 [&>div]:border-b last:[&>div]:border-b-0">
-      <WordAccordion.Item value={`item-${index}`} word={word}>
+      <WordAccordion.Item value={`item-${index}`} word={dbWord}>
         <WordAccordion.Trigger>
           <WordAccordion.Trigger.Left>
             <WordAccordion.Trigger.WordTitle />

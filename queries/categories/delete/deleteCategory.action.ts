@@ -2,14 +2,13 @@
 
 import { getAuthenticatedUser } from "@/lib/supabase/getAuthenticatedUser";
 import { createClient } from "@/lib/supabase/server";
-import type { Category } from "@/types/db-aliases";
 
 export type DeleteCategoryActionProps = {
-  category: Category;
+  categoryId: number;
 };
 
 export const deleteCategoryAction = async ({
-  category,
+  categoryId,
 }: DeleteCategoryActionProps) => {
   const supabase = await createClient();
   const user = await getAuthenticatedUser(supabase);
@@ -17,7 +16,7 @@ export const deleteCategoryAction = async ({
   const { error: categoryError } = await supabase
     .from("categories")
     .delete()
-    .eq("id", category.id)
+    .eq("id", categoryId)
     .eq("user_id", user.id);
 
   return categoryError ? { error: categoryError.message } : { success: true };

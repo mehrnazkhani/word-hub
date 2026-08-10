@@ -11,3 +11,5 @@ export const mapWordToExportShape = (word: Word) => ({
   ...(word.example && { example: word.example }),
   ...(word.description && { description: word.description }),
 });
+
+export type ExportShape = ReturnType<typeof mapWordToExportShape>;

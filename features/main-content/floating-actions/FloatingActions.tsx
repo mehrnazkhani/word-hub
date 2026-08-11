@@ -38,14 +38,18 @@ export const FloatingActions = () => {
             </Button>
           </DropdownMenuTrigger>
 
-          <DropdownMenuContent align="end" side="top" className="w-44">
+          <DropdownMenuContent
+            align="end"
+            side="top"
+            className="w-36 p-2 *:text-xs"
+          >
             <DropdownMenuItem onClick={() => setActiveModal("add-word")}>
-              <CaseSensitive />
+              <CaseSensitive className="size-3" />
               Add word
             </DropdownMenuItem>
 
             <DropdownMenuItem onClick={() => setActiveModal("create-category")}>
-              <Folder />
+              <Folder className="size-3" />
               Create category
             </DropdownMenuItem>
           </DropdownMenuContent>

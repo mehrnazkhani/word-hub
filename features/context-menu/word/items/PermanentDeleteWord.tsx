@@ -17,7 +17,7 @@ export const PermanentDeleteWord = () => {
     <ContextMenuItem
       variant="destructive"
       onSelect={handlePermanentDelete}
-      className="text-sm"
+      className="text-xs"
     >
       <Trash2 className="size-3" />
       Permanent Delete

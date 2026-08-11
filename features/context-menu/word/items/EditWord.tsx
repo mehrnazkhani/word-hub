@@ -8,7 +8,7 @@ export const EditWord = () => {
   const { setEditOpen } = useWordContextMenu();
 
   return (
-    <ContextMenuItem onSelect={() => setEditOpen(true)} className="text-sm">
+    <ContextMenuItem onSelect={() => setEditOpen(true)} className="text-xs">
       <Pencil className="size-3" /> Edit
     </ContextMenuItem>
   );

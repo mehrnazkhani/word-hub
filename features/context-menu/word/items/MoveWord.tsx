@@ -20,7 +20,7 @@ export const MoveWord = () => {
     <ContextMenuSub>
       <ContextMenuSubTrigger
         disabled={isPending || !categories?.length}
-        className="text-sm"
+        className="text-xs"
       >
         <FolderOutput className="size-3" />
         Move

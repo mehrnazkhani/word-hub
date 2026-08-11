@@ -16,7 +16,7 @@ export const ShowInCategory = () => {
   };
 
   return (
-    <ContextMenuItem onSelect={handleShowInCategory}>
+    <ContextMenuItem onSelect={handleShowInCategory} className="text-xs">
       <Eye className="size-3" />
       Show in category
     </ContextMenuItem>

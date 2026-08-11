@@ -8,6 +8,7 @@ import {
   Palette,
   Settings,
   Sun,
+  User,
 } from "lucide-react";
 
 import {
@@ -36,8 +37,9 @@ export const UserAccountDropdown = ({ fullName }: UserAccountProps) => {
 
   return (
     <>
-      <DropdownMenuContent align="end">
-        <DropdownMenuLabel className="truncate text-center">
+      <DropdownMenuContent align="end" className="p-2">
+        <DropdownMenuLabel className="flex items-center truncate">
+          <User className="mr-1.5 size-3" />
           {fullName ?? "My Account"}
         </DropdownMenuLabel>
 
@@ -47,40 +49,40 @@ export const UserAccountDropdown = ({ fullName }: UserAccountProps) => {
           className="cursor-pointer text-xs"
           onSelect={() => setSettingsOpen(true)}
         >
-          <Settings className="mr-2 size-4" />
+          <Settings className="size-3" />
           Settings
         </DropdownMenuItem>
 
         <DropdownMenuSub>
           <DropdownMenuSubTrigger className="cursor-pointer text-xs">
-            <Palette className="mr-2 size-4" />
+            <Palette className="size-3" />
             Theme
           </DropdownMenuSubTrigger>
 
-          <DropdownMenuSubContent>
+          <DropdownMenuSubContent className="p-2">
             <DropdownMenuItem
               className="cursor-pointer text-xs"
               onClick={() => setTheme("light")}
             >
-              <Sun className="mr-2 size-4" />
+              <Sun className="size-3" />
               Light
-              {theme === "light" && <Check className="ml-auto size-4" />}
+              {theme === "light" && <Check className="ml-auto size-3" />}
             </DropdownMenuItem>
 
             <DropdownMenuItem
               className="cursor-pointer text-xs"
               onClick={() => setTheme("dark")}
             >
-              <Moon className="mr-2 size-4" />
+              <Moon className="size-3" />
               Dark
-              {theme === "dark" && <Check className="ml-auto size-4" />}
+              {theme === "dark" && <Check className="ml-auto size-3" />}
             </DropdownMenuItem>
 
             <DropdownMenuItem
               className="cursor-pointer text-xs"
               onClick={() => setTheme("system")}
             >
-              <Monitor className="mr-2 size-4" />
+              <Monitor className="size-4" />
               System
               {theme === "system" && <Check className="ml-auto size-4" />}
             </DropdownMenuItem>
@@ -97,7 +99,7 @@ export const UserAccountDropdown = ({ fullName }: UserAccountProps) => {
             }}
             className="cursor-pointer text-xs"
           >
-            <LogOut className="mr-2 size-4" />
+            <LogOut className="size-3" />
             Sign out
           </DropdownMenuItem>
         </SignOutConfirm>

@@ -28,52 +28,75 @@ export const useDeleteWordMutation = () => {
 
     onMutate: async ({ word }) => {
       const { id: wordId, category_id: categoryId } = word;
+      const deletedQueryKey = queryKeys.word.deleted(user!.id);
+      const recentQueryKey = queryKeys.word.recent(user!.id);
+      const byCategoryQueryKey = queryKeys.word.byCategoryId(
+        categoryId,
+        user!.id,
+      );
 
-      await queryClient.cancelQueries({
-        queryKey: queryKeys.word.byCategoryId(categoryId, user!.id),
+      await queryClient.cancelQueries({ queryKey: byCategoryQueryKey });
+      await queryClient.cancelQueries({ queryKey: deletedQueryKey });
+      await queryClient.cancelQueries({ queryKey: recentQueryKey });
+
+      const previousWords =
+        queryClient.getQueryData<WordCache[]>(byCategoryQueryKey);
+      const previousDeleted =
+        queryClient.getQueryData<WordCache[]>(deletedQueryKey);
+      const previousRecent =
+        queryClient.getQueryData<WordCache[]>(recentQueryKey);
+
+      queryClient.setQueryData<WordCache[]>(byCategoryQueryKey, (old) => {
+        if (old === undefined) return undefined;
+        return old?.filter((w) => w.id !== wordId);
       });
 
-      const previousWords = queryClient.getQueryData<WordCache[]>(
-        queryKeys.word.byCategoryId(categoryId, user!.id),
-      );
+      queryClient.setQueryData<WordCache[]>(deletedQueryKey, (old) => {
+        if (old === undefined) return undefined;
+        return [{ ...word, deleted_at: new Date().toISOString() }, ...old];
+      });
 
-      queryClient.setQueryData<WordCache[]>(
-        queryKeys.word.byCategoryId(categoryId, user!.id),
-        (old) => old?.filter((w) => w.id !== wordId) ?? [],
-      );
+      queryClient.setQueryData<WordCache[]>(recentQueryKey, (old) => {
+        if (old === undefined) return undefined;
+        return old.filter((w) => w.id !== wordId);
+      });
 
       toast.success(`Word ${word.word} deleted successfully`, {
         id: "delete-word",
       });
 
-      return { previousWords };
+      return {
+        previousWords,
+        previousDeleted,
+        previousRecent,
+        deletedQueryKey,
+        recentQueryKey,
+        byCategoryQueryKey,
+      };
     },
 
-    onSuccess: (result, { word }) => {
+    onSuccess: (result) => {
       if (result.error) throw new Error(result.error);
-
-      queryClient.invalidateQueries({
-        queryKey: queryKeys.word.byCategoryId(word.category_id, user!.id),
-      });
-      queryClient.invalidateQueries({
-        queryKey: queryKeys.word.deleted(user!.id),
-        type: "all",
-      });
-      queryClient.invalidateQueries({
-        queryKey: queryKeys.word.recent(user!.id),
-      });
-      queryClient.invalidateQueries({
-        queryKey: queryKeys.word.count(user!.id),
-      });
     },
 
     onError: (_, { word }, context) => {
-      if (context?.previousWords) {
+      if (context?.previousWords !== undefined)
         queryClient.setQueryData(
-          queryKeys.word.byCategoryId(word.category_id, user!.id),
+          context.byCategoryQueryKey,
           context.previousWords,
         );
-      }
+
+      if (context?.previousDeleted !== undefined)
+        queryClient.setQueryData(
+          context.deletedQueryKey,
+          context.previousDeleted,
+        );
+
+      if (context?.previousRecent !== undefined)
+        queryClient.setQueryData(
+          context.recentQueryKey,
+          context.previousRecent,
+        );
 
       toast.error("Failed to delete word. Please try again.", {
         id: "delete-word",

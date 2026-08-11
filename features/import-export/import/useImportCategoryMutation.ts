@@ -58,11 +58,16 @@ export const useImportCategoryMutation = () => {
 
     onSuccess: ({ category, total }, { category: categoryName }) => {
       const queryKey = queryKeys.category.user(user!.id);
+      const wordCountKey = queryKeys.word.count(user!.id);
 
       queryClient.setQueryData<Category[]>(queryKey, (old) => {
         const systemCategories = (old ?? []).filter((c) => c.is_system);
         const userCategories = (old ?? []).filter((c) => !c.is_system);
         return [...systemCategories, category, ...userCategories];
+      });
+
+      queryClient.setQueryData<number | null>(wordCountKey, (old) => {
+        return (old ?? 0) + total;
       });
 
       toast.success(

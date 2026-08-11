@@ -54,13 +54,12 @@ export const useEditWordMutation = ({
         updated_at: new Date().toISOString(),
       };
 
-      queryClient.setQueryData<Word[]>(
-        queryKey,
-        (old) =>
-          old?.map((w) =>
-            w.id === wordId ? { ...w, ...optimisticWord } : w,
-          ) ?? [],
-      );
+      queryClient.setQueryData<Word[]>(queryKey, (old) => {
+        if (old === undefined) return undefined;
+        return old.map((w) =>
+          w.id === wordId ? { ...w, ...optimisticWord } : w,
+        );
+      });
 
       return { previousWords, queryKey };
     },

@@ -28,69 +28,49 @@ export const useMoveWordMutation = () => {
 
     onMutate: async ({ word, toCategoryId }) => {
       const { id: wordId, category_id: fromCategoryId } = word;
+      const fromQueryKey = queryKeys.word.byCategoryId(
+        fromCategoryId,
+        user!.id,
+      );
+      const toQueryKey = queryKeys.word.byCategoryId(toCategoryId, user!.id);
 
       await Promise.all([
-        queryClient.cancelQueries({
-          queryKey: queryKeys.word.byCategoryId(fromCategoryId, user!.id),
-        }),
-        queryClient.cancelQueries({
-          queryKey: queryKeys.word.byCategoryId(toCategoryId, user!.id),
-        }),
+        queryClient.cancelQueries({ queryKey: fromQueryKey }),
+        queryClient.cancelQueries({ queryKey: toQueryKey }),
       ]);
 
-      const previousFrom = queryClient.getQueryData<WordCache[]>(
-        queryKeys.word.byCategoryId(fromCategoryId, user!.id),
-      );
-      const previousTo = queryClient.getQueryData<WordCache[]>(
-        queryKeys.word.byCategoryId(toCategoryId, user!.id),
-      );
+      const previousFrom = queryClient.getQueryData<WordCache[]>(fromQueryKey);
+      const previousTo = queryClient.getQueryData<WordCache[]>(toQueryKey);
 
-      queryClient.setQueryData<WordCache[]>(
-        queryKeys.word.byCategoryId(fromCategoryId, user!.id),
-        (old) => old?.filter((w) => w.id !== wordId) ?? [],
-      );
+      queryClient.setQueryData<WordCache[]>(fromQueryKey, (old) => {
+        if (old === undefined) return undefined;
+        return old.filter((w) => w.id !== wordId);
+      });
 
-      queryClient.setQueryData<WordCache[]>(
-        queryKeys.word.byCategoryId(toCategoryId, user!.id),
-        (old) => {
-          if (!old) return old;
-          const word = previousFrom?.find((w) => w.id === wordId);
-          if (!word) return old;
-          return [...old, { ...word, category_id: toCategoryId }];
-        },
-      );
+      queryClient.setQueryData<WordCache[]>(toQueryKey, (old) => {
+        if (old === undefined) return undefined;
+        const moved = previousFrom?.find((w) => w.id === wordId);
+        if (!moved) return old;
+        return [...old, { ...moved, category_id: toCategoryId }];
+      });
 
       toast.success(`Word "${word.word}" moved successfully`, {
         id: "move-word",
       });
 
-      return { previousFrom, previousTo };
+      return { previousFrom, previousTo, fromQueryKey, toQueryKey };
     },
 
-    onSuccess: (result, { word, toCategoryId }) => {
+    onSuccess: (result) => {
       if (result.error) throw new Error(result.error);
-
-      queryClient.invalidateQueries({
-        queryKey: queryKeys.word.byCategoryId(word.category_id, user!.id),
-      });
-      queryClient.invalidateQueries({
-        queryKey: queryKeys.word.byCategoryId(toCategoryId, user!.id),
-      });
     },
 
-    onError: (_, { word, toCategoryId }, context) => {
-      if (context?.previousFrom) {
-        queryClient.setQueryData(
-          queryKeys.word.byCategoryId(word.category_id, user!.id),
-          context.previousFrom,
-        );
-      }
-      if (context?.previousTo) {
-        queryClient.setQueryData(
-          queryKeys.word.byCategoryId(toCategoryId, user!.id),
-          context.previousTo,
-        );
-      }
+    onError: (_, _variables, context) => {
+      if (context?.previousFrom !== undefined)
+        queryClient.setQueryData(context.fromQueryKey, context.previousFrom);
+
+      if (context?.previousTo !== undefined)
+        queryClient.setQueryData(context.toQueryKey, context.previousTo);
 
       toast.error("Failed to move word. Please try again.", {
         id: "move-word",

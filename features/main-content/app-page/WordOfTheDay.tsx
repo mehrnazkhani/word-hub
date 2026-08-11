@@ -20,6 +20,7 @@ export const WordOfTheDay = () => {
     savedSuggestion,
     display_date,
     translation_audio,
+    phonetic,
     ...wordData
   } = dailyWordSuggestion;
 
@@ -58,9 +59,11 @@ export const WordOfTheDay = () => {
             )}
           </div>
 
-          <span className="text-sm text-secondary-foreground/50 italic">
-            phonetic
-          </span>
+          {phonetic && (
+            <span className="text-sm text-secondary-foreground/50 italic">
+              {phonetic}
+            </span>
+          )}
         </div>
 
         <SaveWordButton

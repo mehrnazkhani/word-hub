@@ -5,7 +5,6 @@ import { useState } from "react";
 import { AlertTriangle } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { InputWrapper } from "@/components/inputs/InputWrapper";
-import { IconBadge } from "@/components/ui/icon-badge";
 import { LoadingButton } from "@/components/LoadingButton";
 import {
   AlertDialog,
@@ -14,6 +13,7 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
+  AlertDialogMedia,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 
@@ -42,30 +42,36 @@ export const DeleteAccountDialog = ({
     <AlertDialog open={open} onOpenChange={handleOpenChange}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle className="mb-3 flex gap-2 text-center text-destructive">
-            <IconBadge icon={AlertTriangle} variant="destructive" />
-            Delete Account Permanently
-          </AlertDialogTitle>
-
-          <AlertDialogDescription className="text-xs">
-            This action is irreversible. All your data, posts, settings, and
-            information will be permanently deleted.
-            <br />
-            <br />
-            To confirm, type{" "}
-            <span className="font-bold text-destructive">DELETE</span> below:
-          </AlertDialogDescription>
+          <AlertDialogMedia className="bg-destructive/10 ring-1 ring-destructive/20">
+            <AlertTriangle className="size-5 text-destructive" />
+          </AlertDialogMedia>
+          <div className="space-y-2">
+            <AlertDialogTitle className="text-destructive">
+              Delete Account Permanently
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              This action is irreversible. All your data, posts, settings, and
+              information will be permanently deleted. To confirm, type{" "}
+            </AlertDialogDescription>
+          </div>
         </AlertDialogHeader>
 
-        <InputWrapper className="mb-5">
-          <Input
-            type="text"
-            value={confirmText}
-            onChange={(e) => setConfirmText(e.target.value)}
-            placeholder="DELETE"
-            disabled={isPending}
-          />
-        </InputWrapper>
+        <div className="mb-5">
+          <label className="text-xs text-accent-foreground/50">
+            To confirm, type{" "}
+            <span className="font-bold text-accent-foreground/70">DELETE</span>{" "}
+            below
+          </label>
+          <InputWrapper>
+            <Input
+              type="text"
+              value={confirmText}
+              onChange={(e) => setConfirmText(e.target.value)}
+              placeholder="DELETE"
+              disabled={isPending}
+            />
+          </InputWrapper>
+        </div>
 
         <AlertDialogFooter>
           <AlertDialogCancel disabled={isPending}>Cancel</AlertDialogCancel>

@@ -1,10 +1,9 @@
 "use client";
 import { PropsWithChildren } from "react";
-
-import { signOutAction } from "./signOut.action";
-import { LoadingButton } from "@/components/LoadingButton";
 import { useFormStatus } from "react-dom";
 
+import { LogOut } from "lucide-react";
+import { LoadingButton } from "@/components/LoadingButton";
 import {
   AlertDialog,
   AlertDialogTrigger,
@@ -17,7 +16,7 @@ import {
   AlertDialogAction,
   AlertDialogMedia,
 } from "@/components/ui/alert-dialog";
-import { LogOut } from "lucide-react";
+import { signOutAction } from "./signOut.action";
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -34,15 +33,20 @@ export const SignOutConfirm = ({ children }: PropsWithChildren) => {
     <AlertDialog>
       <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
 
-      <AlertDialogContent size="sm">
+      <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogMedia className="bg-destructive/10 text-destructive dark:bg-destructive/20 dark:text-destructive">
-            <LogOut />
+          <AlertDialogMedia className="bg-destructive/10 ring-1 ring-destructive/20">
+            <LogOut className="size-5 text-destructive" />
           </AlertDialogMedia>
-          <AlertDialogTitle>Sign out?</AlertDialogTitle>
-          <AlertDialogDescription>
-            Are you sure you want to sign out of your account?
-          </AlertDialogDescription>
+          <div className="space-y-2">
+            <AlertDialogTitle className="text-destructive">
+              Sign out?
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              You'll be signed out of your account on this device. Your data
+              will remain intact.
+            </AlertDialogDescription>
+          </div>
         </AlertDialogHeader>
 
         <form action={signOutAction}>

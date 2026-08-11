@@ -2,6 +2,7 @@
 
 import { useParams } from "next/navigation";
 
+import { Trash2 } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -10,6 +11,7 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
+  AlertDialogMedia,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { useDeleteCategoryMutation } from "@/queries/categories/delete/useDeleteCategory.mutation";
@@ -43,13 +45,18 @@ export const DeleteCategoryDialog = ({
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>
-            Delete &quot;{category.name}&quot;?
-          </AlertDialogTitle>
-          <AlertDialogDescription>
-            This category will be permanently deleted. Its words will be moved
-            to trash.
-          </AlertDialogDescription>
+          <AlertDialogMedia className="bg-destructive/10 ring-1 ring-destructive/20">
+            <Trash2 className="size-5 text-destructive" />
+          </AlertDialogMedia>
+          <div className="space-y-2">
+            <AlertDialogTitle className="text-destructive">
+              Delete &quot;{category.name}&quot;?
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              This category will be permanently deleted. Its words will be moved
+              to trash and recoverable for 30 days.
+            </AlertDialogDescription>
+          </div>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel disabled={isPending}>Cancel</AlertDialogCancel>

@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { ROUTES } from "@/constants/routes";
 import { useCategoryById } from "@/queries/categories/useCategoryById";
 import { useCategoryWordCount } from "@/queries/words/count/useCategoryWordCount";
+import { useDeletedWords } from "@/queries/words/useDeletedWords";
 
 const useCategoryTitle = () => {
   const pathname = usePathname();
@@ -19,9 +20,11 @@ const useCategoryTitle = () => {
 export const usePageTitle = () => {
   const pathname = usePathname();
   const { name, wordCount } = useCategoryTitle();
+  const { data: deletedWords } = useDeletedWords();
 
-  if (pathname === ROUTES.TRASH) return { name: "Trash" };
   if (pathname === ROUTES.RECENT) return { name: "Recent" };
+  if (pathname === ROUTES.TRASH)
+    return { name: "Trash", wordCount: deletedWords?.length };
   if (pathname.match(/^\/app\/(\d+)/)) return { name: name ?? "", wordCount };
 
   return { name: "" };

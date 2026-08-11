@@ -60,8 +60,8 @@ export const useCreateWordMutation = () => {
       };
 
       queryClient.setQueryData<Word[]>(queryKey, (old) => [
-        ...(old ?? []),
         optimisticWord,
+        ...(old ?? []),
       ]);
 
       queryClient.setQueryData<number | null>(

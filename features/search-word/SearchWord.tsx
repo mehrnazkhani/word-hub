@@ -1,9 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-import { ArrowRight, Search } from "lucide-react";
+import { ChevronRight, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import {
@@ -16,68 +16,28 @@ import {
   CommandList,
 } from "@/components/ui/command";
 
-import { useDebounce } from "@/hooks/useDebounce";
 import { useSearchShortcut } from "./useSearchShortcut";
-import { fetchSearchedWords } from "@/lib/api/words.api";
+import { useWordSearch } from "./useWordSearch";
+import { useUserCategories } from "@/queries/categories/useCategories";
 import { ROUTES } from "@/constants/routes";
 import type { Word } from "@/types/db-aliases";
+import { PartOfSpeechBadge } from "@/components/PartOfSpeechBadge";
 
 export const SearchWord = () => {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState<Word[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
-  const debouncedQuery = useDebounce(query, 300);
+  const { results, loading, error, reset } = useWordSearch(query, open);
+  const { data: categories } = useUserCategories();
   const router = useRouter();
 
   useSearchShortcut({ key: "k", onToggle: () => setOpen((prev) => !prev) });
-
-  useEffect(() => {
-    if (!open) return;
-
-    if (!debouncedQuery.trim()) {
-      setResults([]);
-      setError(null);
-      setLoading(false);
-      return;
-    }
-
-    const controller = new AbortController();
-
-    setLoading(true);
-    setError(null);
-
-    fetchSearchedWords({
-      query: debouncedQuery,
-      signal: controller.signal,
-      limit: 15,
-    })
-      .then((data) => setResults(data))
-      .catch((err) => {
-        if (err.name !== "AbortError") {
-          setError("Search failed. Please try again.");
-        }
-      })
-      .finally(() => {
-        if (!controller.signal.aborted) {
-          setLoading(false);
-        }
-      });
-
-    return () => {
-      controller.abort();
-    };
-  }, [debouncedQuery, open]);
 
   const handleOpenChange = (next: boolean) => {
     setOpen(next);
     if (!next) {
       setQuery("");
-      setResults([]);
-      setError(null);
-      setLoading(false);
+      reset();
     }
   };
 
@@ -111,7 +71,11 @@ export const SearchWord = () => {
         <span className="sr-only">Search words</span>
       </Button>
 
-      <CommandDialog open={open} onOpenChange={handleOpenChange}>
+      <CommandDialog
+        open={open}
+        onOpenChange={handleOpenChange}
+        className="max-w-xl!"
+      >
         <Command shouldFilter={false}>
           <CommandInput
             placeholder="Search words or translations…"
@@ -123,26 +87,47 @@ export const SearchWord = () => {
             <CommandEmpty>{emptyContent}</CommandEmpty>
 
             {!loading && !error && results.length > 0 && (
-              <CommandGroup heading="Words">
-                {results.map((word) => (
-                  <CommandItem
-                    key={word.id}
-                    value={String(word.id)}
-                    onSelect={() => handleSelect(word)}
-                    className="cursor-pointer gap-0 [&>svg]:hidden"
-                  >
-                    <div className="flex w-full items-center">
-                      <div className="flex items-center gap-4">
-                        <span className="font-medium">{word.word}</span>
-                        <span className="truncate text-sm text-muted-foreground">
-                          {word.translation}
-                        </span>
-                      </div>
+              <CommandGroup
+                heading="WORDS"
+                className="**:[[cmdk-group-heading]]:uppercase"
+              >
+                {results.map((word) => {
+                  const categoryName = categories?.find(
+                    (c) => c.id === word.category_id,
+                  )?.name;
 
-                      <ArrowRight className="ml-auto text-muted-foreground" />
-                    </div>
-                  </CommandItem>
-                ))}
+                  return (
+                    <CommandItem
+                      key={word.id}
+                      value={String(word.id)}
+                      onSelect={() => handleSelect(word)}
+                      className="cursor-pointer gap-0 [&>svg]:hidden"
+                    >
+                      <div className="flex w-full items-center">
+                        <div className="flex flex-col">
+                          <div className="flex items-center gap-1.5">
+                            <span className="font-medium">{word.word}</span>
+                            <PartOfSpeechBadge
+                              partOfSpeech={word.part_of_speech}
+                            />
+                          </div>
+                          <span className="truncate text-sm text-muted-foreground">
+                            {word.translation}
+                          </span>
+                        </div>
+
+                        <div className="ml-auto flex items-center gap-2">
+                          {categoryName && (
+                            <span className="max-w-30 truncate text-xs text-muted-foreground">
+                              {categoryName}
+                            </span>
+                          )}
+                          <ChevronRight className="text-muted-foreground" />
+                        </div>
+                      </div>
+                    </CommandItem>
+                  );
+                })}
               </CommandGroup>
             )}
           </CommandList>

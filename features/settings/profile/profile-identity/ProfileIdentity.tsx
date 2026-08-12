@@ -23,9 +23,9 @@ export const ProfileIdentity = () => {
         </div>
       </div>
 
-      <ArrowButton onClick={() => router.push(ROUTES.EDIT_NAME)}>
+      {/* <ArrowButton onClick={() => router.push(ROUTES.EDIT_NAME)}>
         Edit
-      </ArrowButton>
+      </ArrowButton> */}
     </div>
   );
 };

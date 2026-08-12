@@ -103,7 +103,7 @@ const SettingsDialog = ({ open, onOpenChange }: SettingsDialogProps) => {
       <DialogContent
         onPointerDownOutside={(event) => event.preventDefault()}
         onEscapeKeyDown={(event) => event.preventDefault()}
-        className="max-h-110 overflow-hidden p-0 md:max-w-160"
+        className="max-h-110 overflow-hidden p-0 md:max-w-2xl"
       >
         <DialogTitle className="sr-only">Settings</DialogTitle>
         <DialogDescription className="sr-only">

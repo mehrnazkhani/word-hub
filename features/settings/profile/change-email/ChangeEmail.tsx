@@ -20,9 +20,9 @@ export const ChangeEmail = () => {
       title="Email Address"
       description={user?.email ?? ""}
     >
-      <ArrowButton onClick={() => router.push(ROUTES.CHANGE_EMAIL)}>
+      {/* <ArrowButton onClick={() => router.push(ROUTES.CHANGE_EMAIL)}>
         Change
-      </ArrowButton>
+      </ArrowButton> */}
     </SettingRow>
   );
 };

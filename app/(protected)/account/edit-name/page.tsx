@@ -1,9 +1,12 @@
+import { notFound } from "next/navigation";
 import { CircleUserRound } from "lucide-react";
 import { AuthHeader } from "@/features/authentication/AuthHeader";
-import { EditNameForm } from "@/features/settings/profile-settings/profile-identity/EditNameForm";
+import { EditNameForm } from "@/features/settings/profile/profile-identity/EditNameForm";
 import { ArrowLink } from "@/components/ArrowLink";
 
 const EditNamePage = () => {
+  notFound();
+
   return (
     <div className="flex min-h-screen items-center justify-center px-4">
       <div className="w-full max-w-md rounded-md border p-10">

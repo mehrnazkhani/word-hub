@@ -19,6 +19,9 @@ import { parseImportFile, type ImportFileShape } from "./parseImportFile";
 import { useImportCategoryMutation } from "./useImportCategoryMutation";
 import { readJson } from "@/lib/utils/readJson";
 import { mapWordToImportShape } from "@/lib/utils/mapWordToImportShape";
+import { useWordCount } from "@/queries/words/count/useWordCount";
+import { useCategoryCount } from "@/queries/categories/useCategoryCount";
+import { APP_LIMITS } from "@/constants/app-limits";
 
 export const ImportTrigger = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -26,8 +29,25 @@ export const ImportTrigger = () => {
   const [open, setOpen] = useState(false);
   const [importData, setImportData] = useState<ImportFileShape | null>(null);
 
+  const { data: wordCount } = useWordCount();
+  const categoryCount = useCategoryCount();
+
   const { mutate: importCategoryMutation, isPending } =
     useImportCategoryMutation();
+
+  const getImportLimitError = (): string | null => {
+    if (categoryCount >= APP_LIMITS.category_limit_per_user) {
+      return `You've reached the category limit (${APP_LIMITS.category_limit_per_user}). Delete a category before importing.`;
+    }
+
+    const totalWords = (wordCount ?? 0) + importData!.words.length;
+    if (totalWords > APP_LIMITS.word_limit_per_user) {
+      const available = APP_LIMITS.word_limit_per_user - (wordCount ?? 0);
+      return `This import adds ${importData!.words.length} words but you only have room for ${available} more (limit: ${APP_LIMITS.word_limit_per_user}).`;
+    }
+
+    return null;
+  };
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -46,6 +66,12 @@ export const ImportTrigger = () => {
 
   const handleImport = () => {
     if (!importData) return;
+
+    const error = getImportLimitError();
+    if (error) {
+      toast.error(error);
+      return;
+    }
 
     importCategoryMutation(
       {

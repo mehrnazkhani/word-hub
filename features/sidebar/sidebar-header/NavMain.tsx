@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/sidebar";
 
 import { SIDEBAR_HEADER_ITEMS } from "./sidebarHeaderItems";
-import { ImportTrigger } from "@/features/import-export/import/ImportTrigger";
+import { ImportTrigger } from "@/features/sidebar/sidebar-header/import/ImportTrigger";
 
 export const NavMain = () => {
   const pathname = usePathname();

@@ -2,6 +2,7 @@ import { Lock } from "lucide-react";
 import { ArrowLink } from "@/components/ArrowLink";
 import { AuthHeader } from "@/features/authentication/AuthHeader";
 import { ChangePasswordForm } from "@/features/settings/privacy/change-password/ChangePasswordForm";
+import { ROUTES } from "@/constants/routes";
 
 const ChangePasswordPage = async () => {
   return (
@@ -16,8 +17,8 @@ const ChangePasswordPage = async () => {
 
           <ChangePasswordForm />
 
-          <ArrowLink href="#" direction="left">
-            Back to settings
+          <ArrowLink href={ROUTES.APP} direction="left">
+            Back
           </ArrowLink>
         </div>
       </div>

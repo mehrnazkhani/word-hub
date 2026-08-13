@@ -1,5 +1,10 @@
+import type { CategoryId } from "@/features/practices/practice-modes/PracticeCategoryList";
+
 export const ROUTES = {
   HOME: "/",
+  PRACTICE: "/app/practice",
+  PRACTICE_Mode: (practiceMode: string, categoryId: CategoryId) =>
+    `/practice/${practiceMode}?category=${categoryId}`,
 
   CHANGE_EMAIL: "/account/change-email",
   EDIT_NAME: "/account/edit-name",

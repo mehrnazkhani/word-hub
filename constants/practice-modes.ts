@@ -8,6 +8,8 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
+export const MIN_WORDS_REQUIRED = 5;
+
 export type PracticeModeName =
   "match" | "guess" | "fill" | "write" | "synonym" | "antonym";
 
@@ -56,3 +58,14 @@ export const PRACTICE_MODES: PracticeMode[] = [
     practiceMode: "antonym",
   },
 ];
+export const PRACTICE_MODE_CONFIG: Record<
+  PracticeModeName,
+  { extraFields?: string }
+> = {
+  match: { extraFields: "translation" },
+  write: { extraFields: "translation" },
+  guess: { extraFields: "description" },
+  fill: { extraFields: "example" },
+  synonym: { extraFields: "synonyms" },
+  antonym: { extraFields: "antonyms" },
+};

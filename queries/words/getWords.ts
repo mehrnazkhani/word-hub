@@ -3,10 +3,17 @@ import { Database } from "@/types/supabase";
 
 type Client = SupabaseClient<Database>;
 
-type GetActiveWordsProps = {
+type BaseProps = {
   client: Client;
   userId: string;
+};
+
+type CategoryProps = BaseProps & {
   categoryId: number;
+};
+
+type RecentProps = BaseProps & {
+  limit?: number;
 };
 
 const selectFields =
@@ -16,7 +23,7 @@ export const getActiveWords = async ({
   client,
   userId,
   categoryId,
-}: GetActiveWordsProps) => {
+}: CategoryProps) => {
   return client
     .from("words")
     .select(selectFields)
@@ -27,15 +34,7 @@ export const getActiveWords = async ({
     .throwOnError();
 };
 
-type GetAllActiveWordsProps = {
-  client: Client;
-  userId: string;
-};
-
-export const getAllActiveWords = async ({
-  client,
-  userId,
-}: GetAllActiveWordsProps) => {
+export const getAllActiveWords = async ({ client, userId }: BaseProps) => {
   return client
     .from("words")
     .select(selectFields)
@@ -45,15 +44,7 @@ export const getAllActiveWords = async ({
     .throwOnError();
 };
 
-type GetDeletedWordsProps = {
-  client: Client;
-  userId: string;
-};
-
-export const getDeletedWords = async ({
-  client,
-  userId,
-}: GetDeletedWordsProps) => {
+export const getDeletedWords = async ({ client, userId }: BaseProps) => {
   return client
     .from("words")
     .select(selectFields)
@@ -63,17 +54,7 @@ export const getDeletedWords = async ({
     .throwOnError();
 };
 
-type getRecentWordsProps = {
-  client: Client;
-  userId: string;
-  limit?: number;
-};
-
-export const getRecentWords = ({
-  client,
-  userId,
-  limit = 20,
-}: getRecentWordsProps) => {
+export const getRecentWords = ({ client, userId, limit = 20 }: RecentProps) => {
   return client
     .from("words")
     .select(selectFields)
@@ -84,15 +65,24 @@ export const getRecentWords = ({
     .throwOnError();
 };
 
-type GetWordCountProps = {
-  client: Client;
-  userId: string;
-};
-
-export const getWordsCount = async ({ client, userId }: GetWordCountProps) => {
+export const getWordsCount = async ({ client, userId }: BaseProps) => {
   return client
     .from("words")
     .select("*", { count: "exact", head: true })
     .eq("user_id", userId)
+    .throwOnError();
+};
+
+export const getCategoryWordCount = async ({
+  client,
+  userId,
+  categoryId,
+}: CategoryProps) => {
+  return client
+    .from("words")
+    .select("*", { count: "exact", head: true })
+    .eq("user_id", userId)
+    .eq("category_id", categoryId)
+    .is("deleted_at", null)
     .throwOnError();
 };

@@ -26,3 +26,23 @@ export const getSystemCategoryId = async (client: Client) => {
 
   return data.id;
 };
+
+type GetUserCategoryByIdProps = {
+  client: Client;
+  userId: string;
+  categoryId: number;
+};
+
+export const getUserCategoryById = ({
+  client,
+  userId,
+  categoryId,
+}: GetUserCategoryByIdProps) => {
+  return client
+    .from("categories")
+    .select("id, is_system, created_at, name, updated_at")
+    .eq("id", categoryId)
+    .eq("user_id", userId)
+    .is("deleted_at", null)
+    .maybeSingle();
+};

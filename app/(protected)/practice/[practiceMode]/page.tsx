@@ -4,17 +4,21 @@ import { MatchingPractice } from "@/features/practices/practice-modes/modes/Matc
 import { getUserCategoryById } from "@/queries/categories/getCategories";
 import { createClient } from "@/lib/supabase/server";
 import { getAuthenticatedUser } from "@/lib/supabase/getAuthenticatedUser";
+import { getCategoryWordCount } from "@/queries/words/getWords";
+import {
+  validatePracticeMode,
+  type PracticeModeWords,
+} from "@/features/practices/practice-modes/validatePracticeMode";
 import {
   MIN_WORDS_REQUIRED,
   PRACTICE_MODES,
   type PracticeModeName,
 } from "@/constants/practice-modes";
 import type { CategoryId } from "@/features/practices/practice-modes/PracticeCategoryList";
-import { getCategoryWordCount } from "@/queries/words/getWords";
 
 const practiceComponents: Record<
   PracticeModeName,
-  React.ComponentType<{ categoryId: CategoryId }>
+  React.ComponentType<{ categoryId: CategoryId; words: PracticeModeWords }>
 > = {
   match: MatchingPractice,
   guess: MatchingPractice, // TODO
@@ -38,6 +42,7 @@ const PracticeModePage = async ({
   const { practiceMode } = await params;
   const { category } = await searchParams;
 
+  // 1. Validate practice mode
   if (!VALID_PRACTICE_MODES.has(practiceMode)) {
     notFound();
   }
@@ -45,6 +50,7 @@ const PracticeModePage = async ({
   const PracticeComponent =
     practiceComponents[practiceMode as PracticeModeName];
 
+  // 2. Validate category type
   const categoryId: CategoryId = (() => {
     if (!category || category === "mixed") return "mixed";
     const id = Number(category);
@@ -52,30 +58,43 @@ const PracticeModePage = async ({
     return id;
   })();
 
-  if (categoryId !== "mixed") {
-    const supabase = await createClient();
-    const { id: userId } = await getAuthenticatedUser(supabase);
-
-    const existingCategory = await getUserCategoryById({
-      client: supabase,
-      userId,
-      categoryId,
-    });
-
-    if (!existingCategory) notFound();
-
-    const { count: categoryWordCount } = await getCategoryWordCount({
-      client: supabase,
-      userId,
-      categoryId,
-    });
-
-    if ((categoryWordCount ?? 0) < MIN_WORDS_REQUIRED) {
-      return "not enough.";
-    }
+  // 3. Validate numeric category
+  if (categoryId === "mixed") {
+    // TODO: mixed
+    return null;
   }
 
-  return <PracticeComponent categoryId={categoryId} />;
+  const supabase = await createClient();
+  const { id: userId } = await getAuthenticatedUser(supabase);
+
+  const existingCategory = await getUserCategoryById({
+    client: supabase,
+    userId,
+    categoryId,
+  });
+
+  if (!existingCategory) notFound();
+
+  // 4. Validate word count
+  const { count: categoryWordCount } = await getCategoryWordCount({
+    client: supabase,
+    userId,
+    categoryId,
+  });
+
+  if ((categoryWordCount ?? 0) < MIN_WORDS_REQUIRED) notFound();
+
+  // 5. Validate mode-specific words
+  const words = await validatePracticeMode({
+    client: supabase,
+    userId,
+    categoryId,
+    practiceMode: practiceMode as PracticeModeName,
+  });
+
+  if (!words) notFound();
+
+  return <PracticeComponent categoryId={categoryId} words={words} />;
 };
 
 export default PracticeModePage;

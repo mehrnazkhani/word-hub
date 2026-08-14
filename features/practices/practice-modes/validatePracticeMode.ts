@@ -2,11 +2,9 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "@/types/supabase";
 import type { PracticeModeName } from "@/constants/practice-modes";
 import type { CategoryId } from "@/features/practices/practice-modes/PracticeCategoryList";
+import type { PracticeWord } from "@/queries/words/getPracticeModeWords";
 import { getPracticeModeWords } from "@/queries/words/getPracticeModeWords";
-import {
-  MIN_WORDS_REQUIRED,
-  PRACTICE_MODE_CONFIG,
-} from "@/constants/practice-modes";
+import { MIN_WORDS_REQUIRED } from "@/constants/practice-modes";
 
 type ValidatePracticeModeProps = {
   client: SupabaseClient<Database>;
@@ -15,25 +13,27 @@ type ValidatePracticeModeProps = {
   practiceMode: PracticeModeName;
 };
 
+export type PracticeModeWords = PracticeWord[];
+
 export const validatePracticeMode = async ({
   client,
   userId,
   categoryId,
   practiceMode,
-}: ValidatePracticeModeProps): Promise<boolean> => {
-  const { extraFields } = PRACTICE_MODE_CONFIG[practiceMode];
-
+}: ValidatePracticeModeProps): Promise<PracticeModeWords | null> => {
   if (categoryId === "mixed") {
-    // TODO: کوئری mixed
-    return true;
+    // TODO: mixed
+    return null;
   }
 
-  const { data: words } = await getPracticeModeWords({
+  const words = await getPracticeModeWords({
     client,
     userId,
     categoryId,
-    extraFields,
+    practiceMode: practiceMode,
   });
 
-  return (words?.length ?? 0) >= MIN_WORDS_REQUIRED;
+  if (words.length < MIN_WORDS_REQUIRED) return null;
+
+  return words;
 };

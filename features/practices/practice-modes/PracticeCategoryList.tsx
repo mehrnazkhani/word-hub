@@ -8,6 +8,11 @@ import type { CategoryWithWordCount } from "@/types/db-aliases";
 
 export type CategoryId = "mixed" | number;
 
+export type SelectedCategory = {
+  id: CategoryId;
+  wordCount: number | null;
+};
+
 type MixedCategory = {
   id: "mixed";
   name: string;
@@ -25,7 +30,7 @@ const MIXED_CATEGORY: MixedCategory = {
 type CategoryRowProps = {
   item: CategoryItem;
   isSelected: boolean;
-  onSelect: (id: CategoryId) => void;
+  onSelect: (selected: SelectedCategory) => void;
 };
 
 const CategoryRow = ({ item, isSelected, onSelect }: CategoryRowProps) => {
@@ -35,7 +40,9 @@ const CategoryRow = ({ item, isSelected, onSelect }: CategoryRowProps) => {
     <Button
       type="button"
       variant={isSelected ? "secondary" : "ghost"}
-      onClick={() => onSelect(item.id as CategoryId)}
+      onClick={() =>
+        onSelect({ id: item.id as CategoryId, wordCount: item.wordCount })
+      }
       className="w-full cursor-pointer justify-between"
     >
       <div className="flex min-w-0 items-center gap-2">
@@ -54,7 +61,7 @@ const CategoryRow = ({ item, isSelected, onSelect }: CategoryRowProps) => {
 
 type PracticeCategoryListProps = {
   selectedId: CategoryId;
-  onSelect: (id: CategoryId) => void;
+  onSelect: (selected: SelectedCategory) => void;
 };
 
 export const PracticeCategoryList = ({

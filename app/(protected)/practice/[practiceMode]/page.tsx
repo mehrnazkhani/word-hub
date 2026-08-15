@@ -15,6 +15,7 @@ import {
   type PracticeModeName,
 } from "@/constants/practice-modes";
 import type { CategoryId } from "@/features/practices/practice-modes/PracticeCategoryList";
+import { NotEnoughWordsMessage } from "@/features/practices/practice-modes/NotEnoughWordsMessage";
 
 const practiceComponents: Record<
   PracticeModeName,
@@ -82,7 +83,13 @@ const PracticeModePage = async ({
     categoryId,
   });
 
-  if ((categoryWordCount ?? 0) < MIN_WORDS_REQUIRED) notFound();
+  if ((categoryWordCount ?? 0) < MIN_WORDS_REQUIRED) {
+    return (
+      <NotEnoughWordsMessage
+        categoryName={existingCategory.data?.name ?? "This category"}
+      />
+    );
+  }
 
   // 5. Validate mode-specific words
   const words = await validatePracticeMode({

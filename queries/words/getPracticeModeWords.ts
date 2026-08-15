@@ -52,5 +52,6 @@ export const getPracticeModeWords = async ({
     .not(field, "is", null)
     .throwOnError();
 
-  return (data ?? []) as PracticeWord[];
+  const shuffledData = [...(data ?? [])].sort(() => Math.random() - 0.5);
+  return shuffledData as PracticeWord[];
 };

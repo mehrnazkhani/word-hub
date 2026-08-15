@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "sonner";
 
 import {
   Dialog,
@@ -11,7 +12,12 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { ArrowButton } from "@/components/ArrowButton";
-import { PracticeCategoryList, type CategoryId } from "./PracticeCategoryList";
+import {
+  PracticeCategoryList,
+  type SelectedCategory,
+  type CategoryId,
+} from "./PracticeCategoryList";
+import { MIN_WORDS_REQUIRED } from "@/constants/practice-modes";
 
 type PracticeCategoryDialogProps = {
   open: boolean;
@@ -24,32 +30,48 @@ export const PracticeCategoryDialog = ({
   onOpenChange,
   onContinue,
 }: PracticeCategoryDialogProps) => {
-  const [selectedId, setSelectedId] = useState<CategoryId | null>(null);
+  const [selected, setSelected] = useState<SelectedCategory | null>(null);
 
   const handleContinue = () => {
-    if (selectedId === null) return;
-    onContinue(selectedId);
+    if (selected === null) return;
+
+    if (selected.id !== "mixed") {
+      if (selected.wordCount === 0 || selected.wordCount === null) {
+        toast.error("This category has no words yet. Add some words first.");
+        return;
+      }
+
+      if (selected.wordCount < MIN_WORDS_REQUIRED) {
+        toast.warning(
+          `This category only has ${selected.wordCount} word${selected.wordCount === 1 ? "" : "s"}. Add at least ${MIN_WORDS_REQUIRED} to start practicing.`,
+        );
+        return;
+      }
+    }
+
+    onContinue(selected.id);
   };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="flex max-h-150 flex-col">
+      <DialogContent className="flex max-h-120 flex-col">
         <DialogHeader>
           <DialogTitle>Select a category</DialogTitle>
-          <DialogDescription className="sr-only">
-            Select a category to practice
+          <DialogDescription>
+            Choose a category to practice. Categories need at least{" "}
+            {MIN_WORDS_REQUIRED} words to start.
           </DialogDescription>
         </DialogHeader>
 
         <div className="overflow-y-auto">
           <PracticeCategoryList
-            selectedId={selectedId ?? "mixed"}
-            onSelect={setSelectedId}
+            selectedId={selected?.id ?? "mixed"}
+            onSelect={setSelected}
           />
         </div>
 
         <DialogFooter>
-          <ArrowButton onClick={handleContinue} disabled={selectedId === null}>
+          <ArrowButton onClick={handleContinue} disabled={selected === null}>
             Continue
           </ArrowButton>
         </DialogFooter>

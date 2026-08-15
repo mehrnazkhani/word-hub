@@ -381,6 +381,19 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_user_categories: {
+        Args: { p_user_id: string }
+        Returns: {
+          created_at: string
+          deleted_at: string
+          id: number
+          is_system: boolean
+          name: string
+          updated_at: string
+          user_id: string
+          word_count: number
+        }[]
+      }
       get_user_top_language_stats: {
         Args: { userid: string }
         Returns: {

@@ -9,16 +9,12 @@ export const getUserCategories = async (
   userId: string,
 ): Promise<CategoryWithWordCount[]> => {
   const { data } = await client
-    .from("categories")
-    .select(`*, wordCount:words(count)`)
-    .eq("user_id", userId)
-    .is("deleted_at", null)
-    .order("created_at", { ascending: false })
+    .rpc("get_user_categories", { p_user_id: userId })
     .throwOnError();
 
   return data.map((category) => ({
     ...category,
-    wordCount: category.wordCount[0]?.count ?? 0,
+    wordCount: Number(category.word_count),
   }));
 };
 

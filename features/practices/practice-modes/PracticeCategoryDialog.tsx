@@ -33,7 +33,7 @@ export const PracticeCategoryDialog = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="flex max-h-[80vh] flex-col">
+      <DialogContent className="flex max-h-150 flex-col">
         <DialogHeader>
           <DialogTitle>Select a category</DialogTitle>
           <DialogDescription className="sr-only">

@@ -6,6 +6,7 @@ import { restoreWordAction } from "./restoreWord.action";
 import { queryKeys } from "../../queries";
 import { toast } from "sonner";
 import type { Word } from "@/types/db-aliases";
+import type { CategoryWithWordCount } from "@/types/db-aliases";
 
 type WordCache = {
   id: number;
@@ -34,10 +35,12 @@ export const useRestoreWordMutation = () => {
         user!.id,
       );
       const recentQueryKey = queryKeys.word.recent(user!.id);
+      const categoriesQueryKey = queryKeys.category.user(user!.id);
 
       await queryClient.cancelQueries({ queryKey: deletedQueryKey });
       await queryClient.cancelQueries({ queryKey: byCategoryQueryKey });
       await queryClient.cancelQueries({ queryKey: recentQueryKey });
+      await queryClient.cancelQueries({ queryKey: categoriesQueryKey });
 
       const previousDeleted =
         queryClient.getQueryData<WordCache[]>(deletedQueryKey);
@@ -45,6 +48,8 @@ export const useRestoreWordMutation = () => {
         queryClient.getQueryData<WordCache[]>(byCategoryQueryKey);
       const previousRecent =
         queryClient.getQueryData<WordCache[]>(recentQueryKey);
+      const previousCategories =
+        queryClient.getQueryData<CategoryWithWordCount[]>(categoriesQueryKey);
 
       queryClient.setQueryData<WordCache[]>(deletedQueryKey, (old) => {
         if (old === undefined) return undefined;
@@ -61,6 +66,16 @@ export const useRestoreWordMutation = () => {
         return [{ ...word, deleted_at: null }, ...old];
       });
 
+      if (categoryId !== null) {
+        queryClient.setQueryData<CategoryWithWordCount[]>(
+          categoriesQueryKey,
+          (old) =>
+            old?.map((c) =>
+              c.id === categoryId ? { ...c, wordCount: c.wordCount + 1 } : c,
+            ),
+        );
+      }
+
       toast.success(`Word ${word.word} restored successfully`, {
         id: "restore-word",
       });
@@ -69,9 +84,11 @@ export const useRestoreWordMutation = () => {
         previousDeleted,
         previousByCategory,
         previousRecent,
+        previousCategories,
         deletedQueryKey,
         byCategoryQueryKey,
         recentQueryKey,
+        categoriesQueryKey,
       };
     },
 
@@ -96,6 +113,12 @@ export const useRestoreWordMutation = () => {
         queryClient.setQueryData(
           context.recentQueryKey,
           context.previousRecent,
+        );
+
+      if (context?.previousCategories !== undefined)
+        queryClient.setQueryData(
+          context.categoriesQueryKey,
+          context.previousCategories,
         );
 
       toast.error("Failed to restore word. Please try again.", {

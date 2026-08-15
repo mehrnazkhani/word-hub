@@ -4,21 +4,22 @@ import { Shuffle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useUserCategories } from "@/queries/categories/useCategories";
+import type { CategoryWithWordCount } from "@/types/db-aliases";
 
 export type CategoryId = "mixed" | number;
 
 type MixedCategory = {
   id: "mixed";
   name: string;
+  wordCount: null;
 };
 
-type CategoryItem =
-  | MixedCategory
-  | NonNullable<ReturnType<typeof useUserCategories>["data"]>[number];
+type CategoryItem = MixedCategory | CategoryWithWordCount;
 
 const MIXED_CATEGORY: MixedCategory = {
   id: "mixed",
   name: "Mixed Practice",
+  wordCount: null,
 };
 
 type CategoryRowProps = {
@@ -35,10 +36,18 @@ const CategoryRow = ({ item, isSelected, onSelect }: CategoryRowProps) => {
       type="button"
       variant={isSelected ? "secondary" : "ghost"}
       onClick={() => onSelect(item.id as CategoryId)}
-      className="w-full cursor-pointer text-left"
+      className="w-full cursor-pointer justify-between"
     >
-      {isMixed && <Shuffle className="size-3" />}
-      <span className="flex-1 truncate">{item.name}</span>
+      <div className="flex min-w-0 items-center gap-2">
+        {isMixed && <Shuffle className="size-3 shrink-0" />}
+        <span className="truncate">{item.name}</span>
+      </div>
+
+      {item.wordCount !== null && (
+        <span className="shrink-0 text-xs text-muted-foreground">
+          {item.wordCount}
+        </span>
+      )}
     </Button>
   );
 };

@@ -6,6 +6,7 @@ import { useUser } from "@/components/providers/user-provider";
 import { softDeleteWordAction } from "./deleteWord.action";
 import { queryKeys } from "@/queries/queries";
 import type { Word } from "@/types/db-aliases";
+import type { CategoryWithWordCount } from "@/types/db-aliases";
 
 type WordCache = {
   id: number;
@@ -34,10 +35,12 @@ export const useDeleteWordMutation = () => {
         categoryId,
         user!.id,
       );
+      const categoriesQueryKey = queryKeys.category.user(user!.id);
 
       await queryClient.cancelQueries({ queryKey: byCategoryQueryKey });
       await queryClient.cancelQueries({ queryKey: deletedQueryKey });
       await queryClient.cancelQueries({ queryKey: recentQueryKey });
+      await queryClient.cancelQueries({ queryKey: categoriesQueryKey });
 
       const previousWords =
         queryClient.getQueryData<WordCache[]>(byCategoryQueryKey);
@@ -45,6 +48,8 @@ export const useDeleteWordMutation = () => {
         queryClient.getQueryData<WordCache[]>(deletedQueryKey);
       const previousRecent =
         queryClient.getQueryData<WordCache[]>(recentQueryKey);
+      const previousCategories =
+        queryClient.getQueryData<CategoryWithWordCount[]>(categoriesQueryKey);
 
       queryClient.setQueryData<WordCache[]>(byCategoryQueryKey, (old) => {
         if (old === undefined) return undefined;
@@ -61,6 +66,18 @@ export const useDeleteWordMutation = () => {
         return old.filter((w) => w.id !== wordId);
       });
 
+      if (categoryId !== null) {
+        queryClient.setQueryData<CategoryWithWordCount[]>(
+          categoriesQueryKey,
+          (old) =>
+            old?.map((c) =>
+              c.id === categoryId
+                ? { ...c, wordCount: Math.max(0, c.wordCount - 1) }
+                : c,
+            ),
+        );
+      }
+
       toast.success(`Word ${word.word} deleted successfully`, {
         id: "delete-word",
       });
@@ -69,9 +86,11 @@ export const useDeleteWordMutation = () => {
         previousWords,
         previousDeleted,
         previousRecent,
+        previousCategories,
         deletedQueryKey,
         recentQueryKey,
         byCategoryQueryKey,
+        categoriesQueryKey,
       };
     },
 
@@ -96,6 +115,12 @@ export const useDeleteWordMutation = () => {
         queryClient.setQueryData(
           context.recentQueryKey,
           context.previousRecent,
+        );
+
+      if (context?.previousCategories !== undefined)
+        queryClient.setQueryData(
+          context.categoriesQueryKey,
+          context.previousCategories,
         );
 
       toast.error("Failed to delete word. Please try again.", {

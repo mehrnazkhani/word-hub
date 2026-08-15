@@ -14,7 +14,7 @@ import { useUserCategories } from "@/queries/categories/useCategories";
 import { CategorySkeleton } from "./CategorySkeleton";
 import { CategoryContextMenu } from "@/features/context-menu/category/CategoryContextMenu";
 import { ROUTES } from "@/constants/routes";
-import type { Category } from "@/types/db-aliases";
+import type { CategoryWithWordCount } from "@/types/db-aliases";
 
 export const CategoriesList = () => {
   const { data: categories, isPending } = useUserCategories();
@@ -68,7 +68,7 @@ export const CategoriesList = () => {
 };
 
 type CategoryItemContextMenuProps = {
-  category: Category;
+  category: CategoryWithWordCount;
   children: React.ReactNode;
 };
 

@@ -6,6 +6,7 @@ import { moveWordAction } from "./moveWord.action";
 import { queryKeys } from "@/queries/queries";
 import { toast } from "sonner";
 import type { Word } from "@/types/db-aliases";
+import type { CategoryWithWordCount } from "@/types/db-aliases";
 
 type WordCache = {
   id: number;
@@ -33,14 +34,18 @@ export const useMoveWordMutation = () => {
         user!.id,
       );
       const toQueryKey = queryKeys.word.byCategoryId(toCategoryId, user!.id);
+      const categoriesQueryKey = queryKeys.category.user(user!.id);
 
       await Promise.all([
         queryClient.cancelQueries({ queryKey: fromQueryKey }),
         queryClient.cancelQueries({ queryKey: toQueryKey }),
+        queryClient.cancelQueries({ queryKey: categoriesQueryKey }),
       ]);
 
       const previousFrom = queryClient.getQueryData<WordCache[]>(fromQueryKey);
       const previousTo = queryClient.getQueryData<WordCache[]>(toQueryKey);
+      const previousCategories =
+        queryClient.getQueryData<CategoryWithWordCount[]>(categoriesQueryKey);
 
       queryClient.setQueryData<WordCache[]>(fromQueryKey, (old) => {
         if (old === undefined) return undefined;
@@ -54,11 +59,30 @@ export const useMoveWordMutation = () => {
         return [...old, { ...moved, category_id: toCategoryId }];
       });
 
+      queryClient.setQueryData<CategoryWithWordCount[]>(
+        categoriesQueryKey,
+        (old) =>
+          old?.map((c) => {
+            if (c.id === fromCategoryId)
+              return { ...c, wordCount: Math.max(0, c.wordCount - 1) };
+            if (c.id === toCategoryId)
+              return { ...c, wordCount: c.wordCount + 1 };
+            return c;
+          }),
+      );
+
       toast.success(`Word "${word.word}" moved successfully`, {
         id: "move-word",
       });
 
-      return { previousFrom, previousTo, fromQueryKey, toQueryKey };
+      return {
+        previousFrom,
+        previousTo,
+        previousCategories,
+        fromQueryKey,
+        toQueryKey,
+        categoriesQueryKey,
+      };
     },
 
     onSuccess: (result) => {
@@ -71,6 +95,12 @@ export const useMoveWordMutation = () => {
 
       if (context?.previousTo !== undefined)
         queryClient.setQueryData(context.toQueryKey, context.previousTo);
+
+      if (context?.previousCategories !== undefined)
+        queryClient.setQueryData(
+          context.categoriesQueryKey,
+          context.previousCategories,
+        );
 
       toast.error("Failed to move word. Please try again.", {
         id: "move-word",

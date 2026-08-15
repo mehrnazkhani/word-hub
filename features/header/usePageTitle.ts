@@ -3,7 +3,6 @@
 import { usePathname } from "next/navigation";
 import { ROUTES } from "@/constants/routes";
 import { useCategoryById } from "@/queries/categories/useCategoryById";
-import { useCategoryWordCount } from "@/queries/words/count/useCategoryWordCount";
 import { useDeletedWords } from "@/queries/words/useDeletedWords";
 
 const useCategoryTitle = () => {
@@ -12,9 +11,8 @@ const useCategoryTitle = () => {
   const categoryId = match ? parseInt(match[1]) : undefined;
 
   const { category } = useCategoryById(categoryId);
-  const wordCount = useCategoryWordCount(categoryId);
 
-  return { name: category?.name, wordCount };
+  return { name: category?.name, wordCount: category?.wordCount };
 };
 
 export const usePageTitle = () => {

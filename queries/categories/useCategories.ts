@@ -15,11 +15,7 @@ type CategoriesQueryProps = {
 export const categoriesQuery = ({ supabase, userId }: CategoriesQueryProps) =>
   queryOptions({
     queryKey: queryKeys.category.user(userId),
-    queryFn: async () => {
-      const { data, error } = await getUserCategories(supabase, userId);
-      if (error) throw error;
-      return data;
-    },
+    queryFn: () => getUserCategories(supabase, userId),
   });
 
 export const useUserCategories = () => {

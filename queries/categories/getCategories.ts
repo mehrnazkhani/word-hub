@@ -1,16 +1,25 @@
 import { SupabaseClient } from "@supabase/supabase-js";
 import { Database } from "@/types/supabase";
+import type { CategoryWithWordCount } from "@/types/db-aliases";
 
 type Client = SupabaseClient<Database>;
 
-export const getUserCategories = (client: Client, userId: string) => {
-  return client
+export const getUserCategories = async (
+  client: Client,
+  userId: string,
+): Promise<CategoryWithWordCount[]> => {
+  const { data } = await client
     .from("categories")
-    .select("*")
+    .select(`*, wordCount:words(count)`)
     .eq("user_id", userId)
     .is("deleted_at", null)
     .order("created_at", { ascending: false })
     .throwOnError();
+
+  return data.map((category) => ({
+    ...category,
+    wordCount: category.wordCount[0]?.count ?? 0,
+  }));
 };
 
 export const getSystemCategoryId = async (client: Client) => {

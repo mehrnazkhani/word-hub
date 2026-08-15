@@ -9,6 +9,7 @@ import { queryKeys } from "@/queries/queries";
 
 import type { AddWordFormValues } from "@/schemas/word/word.schema";
 import type { Word, WordSource } from "@/types/db-aliases";
+import type { CategoryWithWordCount } from "@/types/db-aliases";
 
 type CreateWordMutation = AddWordFormValues & { source?: WordSource };
 
@@ -27,14 +28,18 @@ export const useCreateWordMutation = () => {
         user!.id,
       );
       const countQueryKey = queryKeys.word.count(user!.id);
+      const categoriesQueryKey = queryKeys.category.user(user!.id);
 
       await queryClient.cancelQueries({ queryKey });
       await queryClient.cancelQueries({ queryKey: countQueryKey });
+      await queryClient.cancelQueries({ queryKey: categoriesQueryKey });
 
       const previousWords = queryClient.getQueryData<Word[]>(queryKey);
       const previousCount = queryClient.getQueryData<number | null>(
         countQueryKey,
       );
+      const previousCategories =
+        queryClient.getQueryData<CategoryWithWordCount[]>(categoriesQueryKey);
 
       const optimisticWord: Word = {
         id: -Date.now(),
@@ -69,12 +74,26 @@ export const useCreateWordMutation = () => {
         (old) => (old ?? 0) + 1,
       );
 
+      if (categoryId !== null) {
+        queryClient.setQueryData<CategoryWithWordCount[]>(
+          categoriesQueryKey,
+          (old) =>
+            old?.map((c) =>
+              c.id === Number(categoryId)
+                ? { ...c, wordCount: c.wordCount + 1 }
+                : c,
+            ),
+        );
+      }
+
       return {
         previousWords,
         queryKey,
         optimisticWord,
         previousCount,
         countQueryKey,
+        previousCategories,
+        categoriesQueryKey,
       };
     },
 
@@ -85,6 +104,10 @@ export const useCreateWordMutation = () => {
         });
         queryClient.setQueryData(context.queryKey, context.previousWords);
         queryClient.setQueryData(context.countQueryKey, context.previousCount);
+        queryClient.setQueryData(
+          context.categoriesQueryKey,
+          context.previousCategories,
+        );
         return;
       }
 
@@ -92,6 +115,10 @@ export const useCreateWordMutation = () => {
         toast.error(result.message, { id: "create-word" });
         queryClient.setQueryData(context.queryKey, context.previousWords);
         queryClient.setQueryData(context.countQueryKey, context.previousCount);
+        queryClient.setQueryData(
+          context.categoriesQueryKey,
+          context.previousCategories,
+        );
         return;
       }
 
@@ -123,6 +150,13 @@ export const useCreateWordMutation = () => {
 
       if (context?.previousCount !== undefined) {
         queryClient.setQueryData(context.countQueryKey, context.previousCount);
+      }
+
+      if (context?.previousCategories !== undefined) {
+        queryClient.setQueryData(
+          context.categoriesQueryKey,
+          context.previousCategories,
+        );
       }
 
       toast.error("Failed to add word. Please try again.", {

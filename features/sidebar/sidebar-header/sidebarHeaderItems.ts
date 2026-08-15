@@ -11,7 +11,7 @@ export const SIDEBAR_HEADER_ITEMS = [
   {
     title: "Practice",
     icon: Gamepad2,
-    href: "/practice",
+    href: ROUTES.PRACTICE,
   },
   {
     title: "Recently Added",

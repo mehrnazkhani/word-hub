@@ -14,6 +14,9 @@ type DbEnum<T extends keyof Database["public"]["Enums"]> =
 
 // =================== Categories ===================
 export type Category = TableRow<"categories">;
+export type CategoryWithWordCount = Category & {
+  wordCount: number;
+};
 export type InsertCategory = Pick<TableInsert<"categories">, "name">;
 export type UpdateCategoryType = TableUpdate<"categories">;
 

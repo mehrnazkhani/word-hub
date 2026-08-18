@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import { format, eachDayOfInterval, subDays } from "date-fns";
 
 import {
@@ -34,8 +34,8 @@ const FALLBACK_DATA = eachDayOfInterval({
   activities: 0,
 }));
 
-export function ChartLine() {
-  const { data, isLoading } = useWeeklyPractices();
+export function ChartBar() {
+  const { data, isPending } = useWeeklyPractices();
 
   const chartData = useMemo(() => {
     if (!data?.data) return FALLBACK_DATA;
@@ -63,11 +63,15 @@ export function ChartLine() {
     <Card className="bg-background">
       <CardHeader>
         <CardTitle className="text-xs">Weekly Activity</CardTitle>
-        <CardDescription className="text-xs">Last 7 days</CardDescription>
+
+        <CardDescription className="text-xs">
+          {" "}
+          {isPending ? "Loading..." : "Last 7 days"}
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
-          <LineChart
+          <BarChart
             accessibilityLayer
             data={chartData}
             margin={{ left: 12, right: 12 }}
@@ -90,15 +94,14 @@ export function ChartLine() {
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
             />
-            <Line
+            <Bar
               dataKey="activities"
-              type="monotone"
-              stroke="var(--color-activities)"
-              strokeWidth={2}
-              dot={false}
-              strokeDasharray={isLoading ? "4 4" : undefined}
+              fill="var(--color-activities)"
+              radius={4}
+              opacity={isPending ? 0.5 : 1}
+              maxBarSize={16}
             />
-          </LineChart>
+          </BarChart>
         </ChartContainer>
       </CardContent>
     </Card>

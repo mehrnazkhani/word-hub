@@ -3,7 +3,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { safeParseInput } from "../../../lib/utils/safeParseInput";
 import { ROUTES } from "@/constants/routes";
-import type { ActionResult } from "../auth.type";
+import type { ForgotPasswordResult } from "../auth.type";
 
 import {
   forgotPasswordSchema,
@@ -12,7 +12,7 @@ import {
 
 export const forgotPasswordAction = async (
   data: ForgotPasswordFormValues,
-): Promise<ActionResult> => {
+): Promise<ForgotPasswordResult> => {
   const parsed = safeParseInput({
     schema: forgotPasswordSchema,
     data,

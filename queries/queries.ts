@@ -11,6 +11,7 @@ export const queryKeys = {
     deleted: (userId: string) => ["words", "deleted", userId],
     recent: (userId: string) => ["words", "recent", userId],
     count: (userId: string) => ["words", "count", userId],
+    score: (userId: string) => ["words", "score", userId],
     dailySuggestion: (sourceLangId?: number | null, level?: string | null) =>
       ["daily_word", sourceLangId, level] as const,
   },

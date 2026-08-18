@@ -36,7 +36,7 @@ export function PracticeModes() {
           return (
             <Card
               key={mode.practiceMode}
-              className="cursor-pointer border bg-card hover:bg-secondary"
+              className="cursor-pointer border-0 bg-background hover:bg-card"
               onClick={() => handleCardClick(mode)}
             >
               <CardContent className="flex flex-col gap-3">

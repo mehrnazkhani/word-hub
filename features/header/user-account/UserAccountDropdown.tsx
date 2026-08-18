@@ -82,9 +82,9 @@ export const UserAccountDropdown = ({ fullName }: UserAccountProps) => {
               className="cursor-pointer text-xs"
               onClick={() => setTheme("system")}
             >
-              <Monitor className="size-4" />
+              <Monitor className="size-3" />
               System
-              {theme === "system" && <Check className="ml-auto size-4" />}
+              {theme === "system" && <Check className="ml-auto size-3" />}
             </DropdownMenuItem>
           </DropdownMenuSubContent>
         </DropdownMenuSub>

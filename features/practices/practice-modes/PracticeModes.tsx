@@ -29,13 +29,14 @@ export function PracticeModes() {
   return (
     <section className="space-y-3">
       <h2 className="font-semibold">Practice Modes</h2>
+
       <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
         {PRACTICE_MODES.map((mode) => {
           const Icon = mode.icon;
           return (
             <Card
               key={mode.practiceMode}
-              className="cursor-pointer border bg-sidebar hover:bg-secondary"
+              className="cursor-pointer border bg-card hover:bg-secondary"
               onClick={() => handleCardClick(mode)}
             >
               <CardContent className="flex flex-col gap-3">

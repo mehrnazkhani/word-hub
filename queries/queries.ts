@@ -21,6 +21,7 @@ export const queryKeys = {
 
   practice: {
     recent: (userId: string) => ["practice", "recent", userId],
+    weekly: (userId: string) => ["practice", "weekly", userId],
   },
 
   language: {

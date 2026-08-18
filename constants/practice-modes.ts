@@ -58,3 +58,17 @@ export const PRACTICE_MODES: PracticeMode[] = [
     practiceMode: "antonym",
   },
 ];
+
+export const getPracticeLabel = (practiceMode: PracticeModeName): string => {
+  return (
+    PRACTICE_MODES.find((mode) => mode.practiceMode === practiceMode)?.label ??
+    ""
+  );
+};
+
+export const getPracticeIcon = (practiceMode: string): LucideIcon => {
+  return (
+    PRACTICE_MODES.find((mode) => mode.practiceMode === practiceMode)?.icon ??
+    Grid2X2
+  );
+};

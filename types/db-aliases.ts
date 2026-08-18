@@ -37,8 +37,8 @@ export type UpdateWord = Omit<
 export type WordSource = "manual" | "suggestion";
 
 // =================== Practices ======================
-export type PracticeRecordType = TableRow<"practices">;
-export type InsertPracticeRecordType = TableInsert<"practices">;
+export type Practice = TableRow<"practices">;
+export type InsertPractice = TableInsert<"practices">;
 
 // =================== Languages ======================
 export type Language = Omit<TableRow<"languages">, "created_at">;

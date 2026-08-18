@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 
-import { MatchingPractice } from "@/features/practices/practice-modes/modes/MatchingPractice";
+import { MatchWordPractice } from "@/features/practices/practice-modes/modes/match/MatchWordPractice";
 import { getUserCategoryById } from "@/queries/categories/getCategories";
 import { createClient } from "@/lib/supabase/server";
 import { getAuthenticatedUser } from "@/lib/supabase/getAuthenticatedUser";
@@ -19,19 +19,27 @@ import { NotEnoughWordsMessage } from "@/features/practices/practice-modes/NotEn
 
 const practiceComponents: Record<
   PracticeModeName,
-  React.ComponentType<{ categoryId: CategoryId; words: PracticeModeWords }>
+  React.ComponentType<{
+    practiceMode: PracticeModeName;
+    categoryId: CategoryId;
+    words: PracticeModeWords;
+  }>
 > = {
-  match: MatchingPractice,
-  guess: MatchingPractice, // TODO
-  fill: MatchingPractice, // TODO
-  write: MatchingPractice, // TODO
-  synonym: MatchingPractice, // TODO
-  antonym: MatchingPractice, // TODO
+  match: MatchWordPractice,
+  guess: MatchWordPractice, // TODO
+  fill: MatchWordPractice, // TODO
+  write: MatchWordPractice, // TODO
+  synonym: MatchWordPractice, // TODO
+  antonym: MatchWordPractice, // TODO
 };
 
-const VALID_PRACTICE_MODES = new Set<string>(
+const VALID_PRACTICE_MODES = new Set<PracticeModeName>(
   PRACTICE_MODES.map((m) => m.practiceMode),
 );
+
+const isPracticeMode = (value: string): value is PracticeModeName => {
+  return VALID_PRACTICE_MODES.has(value as PracticeModeName);
+};
 
 const PracticeModePage = async ({
   params,
@@ -44,18 +52,18 @@ const PracticeModePage = async ({
   const { category } = await searchParams;
 
   // 1. Validate practice mode
-  if (!VALID_PRACTICE_MODES.has(practiceMode)) {
+  if (!isPracticeMode(practiceMode)) {
     notFound();
   }
-
-  const PracticeComponent =
-    practiceComponents[practiceMode as PracticeModeName];
 
   // 2. Validate category type
   const categoryId: CategoryId = (() => {
     if (!category || category === "mixed") return "mixed";
+
     const id = Number(category);
+
     if (isNaN(id) || id <= 0 || !Number.isInteger(id)) notFound();
+
     return id;
   })();
 
@@ -96,12 +104,20 @@ const PracticeModePage = async ({
     client: supabase,
     userId,
     categoryId,
-    practiceMode: practiceMode as PracticeModeName,
+    practiceMode,
   });
 
   if (!words) notFound();
 
-  return <PracticeComponent categoryId={categoryId} words={words} />;
+  const PracticeComponent = practiceComponents[practiceMode];
+
+  return (
+    <PracticeComponent
+      practiceMode={practiceMode}
+      categoryId={categoryId}
+      words={words}
+    />
+  );
 };
 
 export default PracticeModePage;

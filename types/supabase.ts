@@ -177,10 +177,10 @@ export type Database = {
           created_at: string
           duration: number
           id: number
-          practice_type: string
-          progress: number
+          incorrect_count: number
+          practice_mode: string
           total_questions: number
-          user_id: string
+          user_id: string | null
         }
         Insert: {
           category_id?: number | null
@@ -188,10 +188,10 @@ export type Database = {
           created_at?: string
           duration: number
           id?: number
-          practice_type: string
-          progress: number
+          incorrect_count?: number
+          practice_mode: string
           total_questions: number
-          user_id: string
+          user_id?: string | null
         }
         Update: {
           category_id?: number | null
@@ -199,10 +199,10 @@ export type Database = {
           created_at?: string
           duration?: number
           id?: number
-          practice_type?: string
-          progress?: number
+          incorrect_count?: number
+          practice_mode?: string
           total_questions?: number
-          user_id?: string
+          user_id?: string | null
         }
         Relationships: [
           {

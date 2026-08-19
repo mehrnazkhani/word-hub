@@ -64,10 +64,12 @@ export const useCreateWordMutation = () => {
         source: source ?? "manual",
       };
 
-      queryClient.setQueryData<Word[]>(queryKey, (old) => [
-        optimisticWord,
-        ...(old ?? []),
-      ]);
+      if (previousWords !== undefined) {
+        queryClient.setQueryData<Word[]>(queryKey, (old) => [
+          optimisticWord,
+          ...(old ?? []),
+        ]);
+      }
 
       queryClient.setQueryData<number | null>(
         countQueryKey,
@@ -127,13 +129,17 @@ export const useCreateWordMutation = () => {
       }
 
       if (result.data) {
-        queryClient.setQueryData<Word[]>(
-          context.queryKey,
-          (old) =>
-            old?.map((w) =>
-              w.id === context.optimisticWord.id ? result.data : w,
-            ) ?? [],
-        );
+        if (context.previousWords === undefined) {
+          queryClient.invalidateQueries({ queryKey: context.queryKey });
+        } else {
+          queryClient.setQueryData<Word[]>(
+            context.queryKey,
+            (old) =>
+              old?.map((w) =>
+                w.id === context.optimisticWord.id ? result.data : w,
+              ) ?? [],
+          );
+        }
       } else {
         queryClient.invalidateQueries({ queryKey: context.queryKey });
       }

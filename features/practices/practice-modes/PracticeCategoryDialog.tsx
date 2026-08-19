@@ -54,10 +54,13 @@ export const PracticeCategoryDialog = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="flex max-h-120 flex-col">
+      <DialogContent
+        onOpenAutoFocus={(e) => e.preventDefault()}
+        className="flex max-h-120 flex-col"
+      >
         <DialogHeader>
           <DialogTitle>Select a category</DialogTitle>
-          <DialogDescription>
+          <DialogDescription className="text-xs">
             Choose a category to practice. Categories need at least{" "}
             {MIN_WORDS_REQUIRED} words to start.
           </DialogDescription>

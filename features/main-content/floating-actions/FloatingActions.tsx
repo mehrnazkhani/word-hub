@@ -27,8 +27,8 @@ export const FloatingActions = () => {
         <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
           <DropdownMenuTrigger asChild>
             <Button
-              variant="secondary"
-              className="size-14 cursor-pointer rounded-full outline-none focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none"
+              variant="outline"
+              className="size-14 cursor-pointer rounded-full bg-secondary! outline-none focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none"
               aria-label="Open actions menu"
             >
               <Plus
@@ -38,18 +38,14 @@ export const FloatingActions = () => {
             </Button>
           </DropdownMenuTrigger>
 
-          <DropdownMenuContent
-            align="end"
-            side="top"
-            className="w-36 p-2 *:text-xs"
-          >
+          <DropdownMenuContent align="end" side="top" className="w-40 p-2">
             <DropdownMenuItem onClick={() => setActiveModal("add-word")}>
-              <CaseSensitive className="size-3" />
+              {/* <CaseSensitive className="size-3" /> */}
               Add word
             </DropdownMenuItem>
 
             <DropdownMenuItem onClick={() => setActiveModal("create-category")}>
-              <Folder className="size-3" />
+              {/* <Folder className="size-3" /> */}
               Create category
             </DropdownMenuItem>
           </DropdownMenuContent>

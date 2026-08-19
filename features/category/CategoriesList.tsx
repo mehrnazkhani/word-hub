@@ -20,13 +20,18 @@ export const CategoriesList = () => {
   const { data: categories, isPending } = useUserCategories();
   const { categoryId } = useParams<{ categoryId?: string }>();
 
+  // Only used while navigation is in progress.
   const [optimisticActiveId, setOptimisticActiveId] = useState<string | null>(
     null,
   );
 
+  const activeId = optimisticActiveId ?? categoryId ?? null;
+
   useEffect(() => {
-    setOptimisticActiveId(categoryId || null);
-  }, [categoryId]);
+    if (optimisticActiveId === categoryId) {
+      setOptimisticActiveId(null);
+    }
+  }, [categoryId, optimisticActiveId]);
 
   if (isPending) {
     return <CategorySkeleton />;
@@ -35,37 +40,57 @@ export const CategoriesList = () => {
   return (
     <SidebarMenu className="text-app-secondary flex-1 overflow-y-auto">
       {categories?.map((category) => {
-        const menuButton = (
-          <SidebarMenuItem key={category.id}>
-            <SidebarMenuButton
-              asChild
-              className="cursor-pointer"
-              isActive={optimisticActiveId === String(category.id)}
-            >
-              <Link
-                href={ROUTES.CATEGORY(category.id)}
-                onClick={() => setOptimisticActiveId(String(category.id))}
-                className="text-accent-foreground/60"
-              >
-                <span className="truncate">{category.name}</span>
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
+        const categoryItem = (
+          <CategoryMenuItem
+            category={category}
+            activeId={activeId}
+            onNavigate={() => setOptimisticActiveId(String(category.id))}
+          />
         );
 
         if (category.is_system) {
-          return menuButton;
+          return <div key={category.id}>{categoryItem}</div>;
         }
 
         return (
           <CategoryItemContextMenu key={category.id} category={category}>
-            {menuButton}
+            {categoryItem}
           </CategoryItemContextMenu>
         );
       })}
     </SidebarMenu>
   );
 };
+
+type CategoryMenuItemProps = {
+  category: CategoryWithWordCount;
+  activeId: string | null;
+  onNavigate: () => void;
+};
+
+function CategoryMenuItem({
+  category,
+  activeId,
+  onNavigate,
+}: CategoryMenuItemProps) {
+  return (
+    <SidebarMenuItem>
+      <SidebarMenuButton
+        asChild
+        className="cursor-pointer"
+        isActive={activeId === String(category.id)}
+      >
+        <Link
+          href={ROUTES.CATEGORY(category.id)}
+          onClick={onNavigate}
+          className="text-accent-foreground/60"
+        >
+          <span className="truncate">{category.name}</span>
+        </Link>
+      </SidebarMenuButton>
+    </SidebarMenuItem>
+  );
+}
 
 type CategoryItemContextMenuProps = {
   category: CategoryWithWordCount;

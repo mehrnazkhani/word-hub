@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 import { ChevronRight, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -31,10 +31,16 @@ export const SearchWord = () => {
   const { data: categories } = useUserCategories();
   const router = useRouter();
 
+  const categoryMap = useMemo(
+    () => new Map(categories?.map((category) => [category.id, category.name])),
+    [categories],
+  );
+
   useSearchShortcut({ key: "k", onToggle: () => setOpen((prev) => !prev) });
 
   const handleOpenChange = (next: boolean) => {
     setOpen(next);
+
     if (!next) {
       setQuery("");
       reset();
@@ -91,48 +97,62 @@ export const SearchWord = () => {
                 heading="WORDS"
                 className="**:[[cmdk-group-heading]]:uppercase"
               >
-                {results.map((word) => {
-                  const categoryName = categories?.find(
-                    (c) => c.id === word.category_id,
-                  )?.name;
-
-                  return (
-                    <CommandItem
-                      key={word.id}
-                      value={String(word.id)}
-                      onSelect={() => handleSelect(word)}
-                      className="cursor-pointer gap-0 [&>svg]:hidden"
-                    >
-                      <div className="flex w-full items-center">
-                        <div className="flex flex-col">
-                          <div className="flex items-center gap-1.5">
-                            <span className="font-medium">{word.word}</span>
-                            <PartOfSpeechBadge
-                              partOfSpeech={word.part_of_speech}
-                            />
-                          </div>
-                          <span className="truncate text-sm text-muted-foreground">
-                            {word.translation}
-                          </span>
-                        </div>
-
-                        <div className="ml-auto flex items-center gap-2">
-                          {categoryName && (
-                            <span className="max-w-30 truncate text-xs text-muted-foreground">
-                              {categoryName}
-                            </span>
-                          )}
-                          <ChevronRight className="text-muted-foreground" />
-                        </div>
-                      </div>
-                    </CommandItem>
-                  );
-                })}
+                {results.map((word) => (
+                  <SearchResultItem
+                    key={word.id}
+                    word={word}
+                    categoryName={categoryMap.get(word.category_id)}
+                    onSelect={handleSelect}
+                  />
+                ))}
               </CommandGroup>
             )}
           </CommandList>
         </Command>
       </CommandDialog>
     </div>
+  );
+};
+
+type SearchResultItemProps = {
+  word: Word;
+  categoryName?: string;
+  onSelect: (word: Word) => void;
+};
+
+const SearchResultItem = ({
+  word,
+  categoryName,
+  onSelect,
+}: SearchResultItemProps) => {
+  return (
+    <CommandItem
+      value={String(word.id)}
+      onSelect={() => onSelect(word)}
+      className="cursor-pointer gap-0 [&>svg]:hidden"
+    >
+      <div className="flex w-full items-center">
+        <div className="flex flex-col">
+          <div className="flex items-center gap-1.5">
+            <span className="font-medium">{word.word}</span>
+            <PartOfSpeechBadge partOfSpeech={word.part_of_speech} />
+          </div>
+
+          <span className="truncate text-sm text-muted-foreground">
+            {word.translation}
+          </span>
+        </div>
+
+        <div className="ml-auto flex items-center gap-2">
+          {categoryName && (
+            <span className="max-w-30 truncate text-xs text-muted-foreground">
+              {categoryName}
+            </span>
+          )}
+
+          <ChevronRight className="text-muted-foreground" />
+        </div>
+      </div>
+    </CommandItem>
   );
 };

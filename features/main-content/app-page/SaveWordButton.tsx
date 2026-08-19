@@ -38,6 +38,8 @@ export const SaveWordButton = ({
     (c) => c.id === savedSuggestion?.category_id,
   );
 
+  const savedCategoryId = savedSuggestion?.category_id;
+
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger asChild>
@@ -69,7 +71,7 @@ export const SaveWordButton = ({
               className="flex items-center justify-between gap-2"
             >
               <span>{category.name}</span>
-              {savedSuggestion?.category_id === category.id && (
+              {savedCategoryId === category.id && (
                 <Check size={13} className="text-primary" />
               )}
             </DropdownMenuItem>

@@ -3,9 +3,10 @@ import { useSupabase } from "@/lib/supabase/useSupabase";
 import { useUser } from "@/components/providers/user-provider";
 import { getWeeklyPractices } from "./getWeeklyPractices";
 import { queryKeys } from "../queries";
+import type { SupabaseClient } from "@supabase/supabase-js";
 
 export const weeklyPracticesQuery = (
-  supabase: ReturnType<typeof useSupabase>,
+  supabase: SupabaseClient,
   userId: string,
 ) =>
   queryOptions({
@@ -19,10 +20,10 @@ export const weeklyPracticesQuery = (
 
 export const useWeeklyPractices = () => {
   const supabase = useSupabase();
-  const { user } = useUser();
+  const { user, isPending } = useUser();
 
   return useQuery({
     ...weeklyPracticesQuery(supabase, user!.id),
-    enabled: !!user,
+    enabled: !!user && !isPending,
   });
 };

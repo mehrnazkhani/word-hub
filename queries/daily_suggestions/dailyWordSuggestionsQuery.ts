@@ -5,13 +5,21 @@ import { queryKeys } from "@/queries/queries";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { UserSettings } from "@/types/db-aliases";
 
-export const dailyWordSuggestionsQuery = (
-  supabase: SupabaseClient,
-  settings: UserSettings,
-) => ({
+type DailyWordSuggestionsQueryProps = {
+  supabase: SupabaseClient;
+  settings: UserSettings;
+  userId: string;
+};
+
+export const dailyWordSuggestionsQuery = ({
+  supabase,
+  settings,
+  userId,
+}: DailyWordSuggestionsQueryProps) => ({
   queryKey: queryKeys.word.dailySuggestion(
     settings.daily_word_source_lang_id,
     settings.daily_word_level,
+    userId,
   ),
   queryFn: async () => {
     const { data, error } = await getDailyWordSuggestionsAction(
@@ -33,12 +41,20 @@ export const dailyWordSuggestionsQuery = (
   },
 });
 
-export const prefetchDailyWordSuggestion = async (
-  queryClient: QueryClient,
-  supabase: SupabaseClient,
-  settings: UserSettings,
-) => {
+type PrefetchDailyWordSuggestionProps = {
+  queryClient: QueryClient;
+  supabase: SupabaseClient;
+  settings: UserSettings;
+  userId: string;
+};
+
+export const prefetchDailyWordSuggestion = async ({
+  queryClient,
+  settings,
+  supabase,
+  userId,
+}: PrefetchDailyWordSuggestionProps) => {
   await queryClient.prefetchQuery(
-    dailyWordSuggestionsQuery(supabase, settings),
+    dailyWordSuggestionsQuery({ supabase, settings, userId }),
   );
 };

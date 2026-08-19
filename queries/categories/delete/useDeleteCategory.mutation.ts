@@ -56,10 +56,6 @@ export const useDeleteCategoryMutation = () => {
         (old) => old?.filter((c) => c.id !== category.id) ?? [],
       );
 
-      queryClient.invalidateQueries({
-        queryKey: queryKeys.word.count(user!.id),
-      });
-
       toast.success(`Category ${category.name} deleted successfully`, {
         id: "delete-category",
       });

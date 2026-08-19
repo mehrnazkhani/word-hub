@@ -3,11 +3,9 @@ import { useSupabase } from "@/lib/supabase/useSupabase";
 import { useUser } from "@/components/providers/user-provider";
 import { getUserWordsScore } from "./getUserWordsScore";
 import { queryKeys } from "@/queries/queries";
+import type { SupabaseClient } from "@supabase/supabase-js";
 
-export const userWordsScoreQuery = (
-  supabase: ReturnType<typeof useSupabase>,
-  userId: string,
-) =>
+export const userWordsScoreQuery = (supabase: SupabaseClient, userId: string) =>
   queryOptions({
     queryKey: queryKeys.word.score(userId),
     queryFn: () =>
@@ -19,10 +17,10 @@ export const userWordsScoreQuery = (
 
 export const useUserWordsScore = () => {
   const supabase = useSupabase();
-  const { user } = useUser();
+  const { user, isPending } = useUser();
 
   return useQuery({
     ...userWordsScoreQuery(supabase, user!.id),
-    enabled: !!user,
+    enabled: !!user && !isPending,
   });
 };

@@ -13,8 +13,11 @@ export const queryKeys = {
     recent: (userId: string) => ["words", "recent", userId],
     count: (userId: string) => ["words", "count", userId],
     score: (userId: string) => ["words", "score", userId],
-    dailySuggestion: (sourceLangId?: number | null, level?: string | null) =>
-      ["daily_word", sourceLangId, level] as const,
+    dailySuggestion: (
+      sourceLangId?: number | null,
+      level?: string | null,
+      userId?: string | null,
+    ) => ["daily_word", sourceLangId, level, userId] as const,
   },
 
   settings: {

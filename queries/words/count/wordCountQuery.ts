@@ -5,12 +5,15 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 
 export const wordCountQuery = (supabase: SupabaseClient, userId: string) => ({
   queryKey: queryKeys.word.count(userId),
+
   queryFn: async () => {
     const { count, error } = await getWordsCount({
       client: supabase,
-      userId: userId,
+      userId,
     });
+
     if (error) throw error;
+
     return count;
   },
 });

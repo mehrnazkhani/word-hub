@@ -38,7 +38,7 @@ export const WordItem = memo(
         id={id}
         className={cn(
           "rounded-md transition-colors duration-500 [&>div]:border-b last:[&>div]:border-b-0",
-          highlighted ? "bg-white/5" : "",
+          highlighted ? "bg-accent text-accent-foreground" : "",
         )}
       >
         <WordAccordion.Item value={`item-${word.id}`} word={word}>

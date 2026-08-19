@@ -6,6 +6,7 @@ import { useMemo, useState } from "react";
 import { ChevronRight, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
+import { PartOfSpeechBadge } from "@/components/PartOfSpeechBadge";
 import {
   Command,
   CommandDialog,
@@ -21,7 +22,6 @@ import { useWordSearch } from "./useWordSearch";
 import { useUserCategories } from "@/queries/categories/useCategories";
 import { ROUTES } from "@/constants/routes";
 import type { Word } from "@/types/db-aliases";
-import { PartOfSpeechBadge } from "@/components/PartOfSpeechBadge";
 
 export const SearchWord = () => {
   const [open, setOpen] = useState(false);

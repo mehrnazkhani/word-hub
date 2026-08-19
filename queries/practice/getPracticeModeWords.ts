@@ -2,6 +2,7 @@ import { SupabaseClient } from "@supabase/supabase-js";
 import { Database } from "@/types/supabase";
 import type { Word } from "@/types/db-aliases";
 import type { PracticeModeName } from "@/constants/practice-modes";
+import type { CategoryId } from "@/features/practices/practice-modes/PracticeCategoryList";
 
 type Client = SupabaseClient<Database>;
 
@@ -28,10 +29,12 @@ const PRACTICE_FIELDS: Record<PracticeModeName, keyof PracticeExtraFields> = {
   antonym: "antonyms",
 };
 
+const MIXED_WORD_LIMIT = 20;
+
 type GetPracticeModeWordsProps = {
   client: Client;
   userId: string;
-  categoryId: number;
+  categoryId: CategoryId;
   practiceMode: PracticeModeName;
 };
 
@@ -42,6 +45,18 @@ export const getPracticeModeWords = async ({
   practiceMode,
 }: GetPracticeModeWordsProps): Promise<PracticeWord[]> => {
   const field = PRACTICE_FIELDS[practiceMode];
+
+  if (categoryId === "mixed") {
+    const { data, error } = await client
+      .rpc("get_random_practice_words", {
+        p_user_id: userId,
+        p_practice_field: field,
+        p_limit: MIXED_WORD_LIMIT,
+      })
+      .throwOnError();
+
+    return (data ?? []) as PracticeWord[];
+  }
 
   const { data } = await client
     .from("words")

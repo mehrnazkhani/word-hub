@@ -51,55 +51,43 @@ const PracticeModePage = async ({
   const { practiceMode } = await params;
   const { category } = await searchParams;
 
-  // 1. Validate practice mode
-  if (!isPracticeMode(practiceMode)) {
-    notFound();
-  }
+  if (!isPracticeMode(practiceMode)) notFound();
 
-  // 2. Validate category type
   const categoryId: CategoryId = (() => {
     if (!category || category === "mixed") return "mixed";
-
     const id = Number(category);
-
     if (isNaN(id) || id <= 0 || !Number.isInteger(id)) notFound();
-
     return id;
   })();
-
-  // 3. Validate numeric category
-  if (categoryId === "mixed") {
-    // TODO: mixed
-    return null;
-  }
 
   const supabase = await createClient();
   const { id: userId } = await getAuthenticatedUser(supabase);
 
-  const existingCategory = await getUserCategoryById({
-    client: supabase,
-    userId,
-    categoryId,
-  });
+  // فقط برای category عددی این چک‌ها لازمه
+  if (categoryId !== "mixed") {
+    const existingCategory = await getUserCategoryById({
+      client: supabase,
+      userId,
+      categoryId,
+    });
 
-  if (!existingCategory) notFound();
+    if (!existingCategory) notFound();
 
-  // 4. Validate word count
-  const { count: categoryWordCount } = await getCategoryWordCount({
-    client: supabase,
-    userId,
-    categoryId,
-  });
+    const { count: categoryWordCount } = await getCategoryWordCount({
+      client: supabase,
+      userId,
+      categoryId,
+    });
 
-  if ((categoryWordCount ?? 0) < MIN_WORDS_REQUIRED) {
-    return (
-      <NotEnoughWordsMessage
-        categoryName={existingCategory.data?.name ?? "This category"}
-      />
-    );
+    if ((categoryWordCount ?? 0) < MIN_WORDS_REQUIRED) {
+      return (
+        <NotEnoughWordsMessage
+          categoryName={existingCategory.data?.name ?? "This category"}
+        />
+      );
+    }
   }
 
-  // 5. Validate mode-specific words
   const words = await validatePracticeMode({
     client: supabase,
     userId,

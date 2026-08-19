@@ -51,7 +51,7 @@ export function RecentSessions() {
                 <div className="flex-1 space-y-1">
                   <p className="font-medium">{recentPractice.practice_mode}</p>
                   <p className="truncate text-xs text-accent-foreground/60">
-                    {recentPractice.category?.name} -{" "}
+                    {recentPractice.category?.name ?? "Mixed"} -{" "}
                     <span>{recentPractice.total_questions} words</span>
                   </p>
                 </div>

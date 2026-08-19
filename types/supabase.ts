@@ -381,6 +381,20 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_random_practice_words: {
+        Args: { p_limit?: number; p_practice_field: string; p_user_id: string }
+        Returns: {
+          antonyms: string[]
+          description: string
+          example: string
+          id: number
+          score: number
+          source_language_id: number
+          synonyms: string[]
+          translation: string
+          word: string
+        }[]
+      }
       get_user_categories: {
         Args: { p_user_id: string }
         Returns: {

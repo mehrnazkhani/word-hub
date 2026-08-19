@@ -2,8 +2,8 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "@/types/supabase";
 import type { PracticeModeName } from "@/constants/practice-modes";
 import type { CategoryId } from "@/features/practices/practice-modes/PracticeCategoryList";
-import type { PracticeWord } from "@/queries/words/getPracticeModeWords";
-import { getPracticeModeWords } from "@/queries/words/getPracticeModeWords";
+import type { PracticeWord } from "@/queries/practice/getPracticeModeWords";
+import { getPracticeModeWords } from "@/queries/practice/getPracticeModeWords";
 import { MIN_WORDS_REQUIRED } from "@/constants/practice-modes";
 
 type ValidatePracticeModeProps = {
@@ -21,16 +21,11 @@ export const validatePracticeMode = async ({
   categoryId,
   practiceMode,
 }: ValidatePracticeModeProps): Promise<PracticeModeWords | null> => {
-  if (categoryId === "mixed") {
-    // TODO: mixed
-    return null;
-  }
-
   const words = await getPracticeModeWords({
     client,
     userId,
     categoryId,
-    practiceMode: practiceMode,
+    practiceMode,
   });
 
   if (words.length < MIN_WORDS_REQUIRED) return null;

@@ -1,9 +1,9 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { ROUTES } from "@/constants/routes";
 import { useCategoryById } from "@/queries/categories/useCategoryById";
 import { useDeletedWords } from "@/queries/words/useDeletedWords";
+import { ROUTES } from "@/constants/routes";
 
 const useCategoryTitle = () => {
   const pathname = usePathname();
@@ -20,6 +20,7 @@ export const usePageTitle = () => {
   const { name, wordCount } = useCategoryTitle();
   const { data: deletedWords } = useDeletedWords();
 
+  if (pathname === ROUTES.PRACTICE) return { name: "Practice" };
   if (pathname === ROUTES.RECENT) return { name: "Recent" };
   if (pathname === ROUTES.TRASH)
     return { name: "Trash", wordCount: deletedWords?.length };

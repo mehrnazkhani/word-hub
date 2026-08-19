@@ -2,7 +2,8 @@ export const queryKeys = {
   category: {
     all: ["categories"] as const,
     user: (userId?: string) => ["categories", "user", userId] as const,
-    byId: (id: string) => ["categories", id] as const,
+    byId: (categoryId: string, userId?: string) =>
+      [...queryKeys.category.user(userId), categoryId] as const,
   },
 
   word: {

@@ -5,7 +5,7 @@ import { useSupabase } from "@/lib/supabase/useSupabase";
 import { useUser } from "@/components/providers/user-provider";
 import { getUserCategories } from "./getCategories";
 import { queryKeys } from "../queries";
-import { SupabaseClient } from "@supabase/supabase-js";
+import type { SupabaseClient } from "@supabase/supabase-js";
 
 type CategoriesQueryProps = {
   supabase: SupabaseClient;

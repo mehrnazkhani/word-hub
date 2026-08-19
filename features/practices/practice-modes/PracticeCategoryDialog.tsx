@@ -64,10 +64,12 @@ export const PracticeCategoryDialog = ({
         </DialogHeader>
 
         <div className="overflow-y-auto">
-          <PracticeCategoryList
-            selectedId={selected?.id ?? "mixed"}
-            onSelect={setSelected}
-          />
+          {open && (
+            <PracticeCategoryList
+              selectedId={selected?.id ?? "mixed"}
+              onSelect={setSelected}
+            />
+          )}
         </div>
 
         <DialogFooter>

@@ -1,7 +1,9 @@
 import { createClient } from "@/lib/supabase/server";
 
-import DashboardPage from "./(protected)/app/page";
 import { redirect } from "next/navigation";
+import { FeatureShowcase } from "@/features/landing/tools/ FeatureShowcase";
+import { LandingHeader } from "@/features/landing/LandingHeader";
+import { Hero } from "@/features/landing/Hero";
 
 export default async function Home() {
   const supabase = await createClient();
@@ -15,8 +17,12 @@ export default async function Home() {
   }
 
   return (
-    <div className="flex flex-1 flex-col items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <h1>Signin / signup</h1>
+    <div className="mx-auto flex h-screen w-full flex-col items-center bg-background px-5">
+      <LandingHeader />
+      <div className="scrollbar-hide relative w-full max-w-4xl flex-1 space-y-30 overflow-y-auto pt-30">
+        <Hero />
+        <FeatureShowcase />
+      </div>
     </div>
   );
 }

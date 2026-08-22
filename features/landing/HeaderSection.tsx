@@ -4,9 +4,9 @@ import { ROUTES } from "@/constants/routes";
 import Image from "next/image";
 import Link from "next/link";
 
-export const LandingHeader = () => {
+export const HeaderSection = () => {
   return (
-    <div className="flex w-full items-center justify-between">
+    <div className="flex w-full items-center justify-between px-5">
       <div className="flex items-center px-2 pt-2">
         <Image src="/logo.png" alt="Logo" width={50} height={50} />{" "}
         <span className="font-bold">Word Hub</span>

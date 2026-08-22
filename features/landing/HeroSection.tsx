@@ -6,7 +6,7 @@ import { HeroWordCard } from "./HeroWordCard";
 import Link from "next/link";
 import { ROUTES } from "@/constants/routes";
 
-export const Hero = () => {
+export const HeroSection = () => {
   const scrollToFeatures = () => {
     const container = document.getElementById("landing-scroll");
     const features = document.getElementById("features");

@@ -5,7 +5,7 @@ import DonutLegend from "./landing-features/Statistics";
 import { ChartBarProgress } from "./landing-features/ChartBarProgress";
 import { PracticeList } from "./landing-features/PracticeList";
 
-export const LandingFeatures = () => {
+export const FeaturesSection = () => {
   return (
     <main
       id="features"

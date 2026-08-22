@@ -57,7 +57,7 @@ export default function DonutLegend() {
     <FeatureShowcaseContainer
       title="Your Vocabulary at a Glance"
       description="Get a clear picture of your overall progress — see how many words you've mastered, how many are in progress, and how many are still waiting to be learned."
-      position="left"
+      position="right"
     >
       <div className="flex h-full w-full items-center justify-center gap-10">
         <DonutLegend.Donut />

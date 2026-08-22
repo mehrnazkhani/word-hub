@@ -13,7 +13,7 @@ export default function FolderList() {
     <FeatureShowcaseContainer
       title="Organize with Categories"
       description="Group your words into categories to study smarter — practice by topic, focus on what matters most, and track progress for each group."
-      position="right"
+      position="left"
     >
       <CardContent className="w-full">
         {ROWS.map((row, i) => (

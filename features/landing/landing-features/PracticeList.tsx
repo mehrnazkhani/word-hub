@@ -7,7 +7,7 @@ export const PracticeList = () => {
     <FeatureShowcaseContainer
       title="Practice & Master Your Words"
       description="Reinforce your vocabulary through six different exercise types — match, guess, fill in the blank, write, synonym, and antonym — so every word truly sticks."
-      position="left"
+      position="right"
       children={
         <CardContent className="px-5 py-2">
           <div className="grid grid-cols-3 gap-5">

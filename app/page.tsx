@@ -1,9 +1,11 @@
 import { createClient } from "@/lib/supabase/server";
-
 import { redirect } from "next/navigation";
-import { FeatureShowcase } from "@/features/landing/tools/ FeatureShowcase";
+
+import { LandingFeatures } from "@/features/landing/LandingFeatures";
 import { LandingHeader } from "@/features/landing/LandingHeader";
 import { Hero } from "@/features/landing/Hero";
+import { ROUTES } from "@/constants/routes";
+import { LandingPracticeShowcase } from "@/features/landing/LandingPracticeShowcase";
 
 export default async function Home() {
   const supabase = await createClient();
@@ -13,15 +15,22 @@ export default async function Home() {
   } = await supabase.auth.getUser();
 
   if (user) {
-    redirect("/app");
+    redirect(ROUTES.APP);
   }
 
   return (
     <div className="mx-auto flex h-screen w-full flex-col items-center bg-background px-5">
       <LandingHeader />
-      <div className="scrollbar-hide relative w-full max-w-4xl flex-1 scroll-fade space-y-70 overflow-y-auto pt-20">
+
+      <div
+        id="landing-scroll"
+        className="scrollbar-hide relative w-full max-w-6xl flex-1 scroll-fade space-y-50 overflow-y-auto scroll-smooth pt-20"
+      >
         <Hero />
-        <FeatureShowcase />
+
+        <LandingFeatures />
+
+        <LandingPracticeShowcase />
       </div>
     </div>
   );

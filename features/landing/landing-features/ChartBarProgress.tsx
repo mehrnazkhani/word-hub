@@ -17,7 +17,7 @@ export const ChartBarProgress = () => {
     <FeatureShowcaseContainer
       title="Your Progress at a Glance"
       description="See how consistent you've been — track your practice sessions over the last 7 days and keep your streak going."
-      position="right"
+      position="left"
     >
       <div className="flex h-24 items-center justify-center gap-4">
         {BARS.map((h, i) => (

@@ -21,7 +21,7 @@ export default function ImportExport() {
     <FeatureShowcaseContainer
       title="Share & Import Categories"
       description="Export your word categories and share them with friends, or import categories others have created — learn together and grow your vocabulary as a team"
-      position="right"
+      position="left"
     >
       <CardContent className="group flex h-full w-full items-center justify-center gap-2 px-2 py-2">
         {/* Left — Upload / Export */}

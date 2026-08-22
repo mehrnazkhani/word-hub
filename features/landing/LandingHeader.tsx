@@ -1,7 +1,6 @@
 import { ModeToggle } from "@/components/ModeToggle";
 import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/constants/routes";
-import { ChevronRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -16,10 +15,7 @@ export const LandingHeader = () => {
       <div className="flex items-center gap-3">
         <ModeToggle />
         <Button className="cursor-pointer" asChild>
-          <Link href={ROUTES.SIGN_IN}>
-            Get Started
-            <ChevronRight />
-          </Link>
+          <Link href={ROUTES.SIGN_IN}>Get Started</Link>
         </Button>
       </div>
     </div>

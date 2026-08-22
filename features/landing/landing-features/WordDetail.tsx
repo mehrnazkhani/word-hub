@@ -9,7 +9,7 @@ export const WordDetail = () => {
     <FeatureShowcaseContainer
       title="Save Words in Full Detail"
       description="Store every word with its translation, description, synonyms, antonyms, examples, and more — everything you need to truly learn it, all in one place."
-      position="left"
+      position="right"
       children={
         <CardContent className="space-y-5 px-5 py-2">
           {/* Header */}

@@ -23,7 +23,10 @@ export default function ImportExport() {
       description="Export your word categories and share them with friends, or import categories others have created — learn together and grow your vocabulary as a team"
       position="left"
     >
-      <CardContent className="group flex h-full w-full items-center justify-center gap-2 px-2 py-2">
+      <CardContent
+        className="group flex h-full w-full items-center justify-center gap-2 px-2 py-2"
+        aria-hidden="true"
+      >
         {/* Left — Upload / Export */}
         <div className="relative shrink-0" style={{ width: 130, height: 80 }}>
           {LEFT_ICONS.map((ic, i) => (

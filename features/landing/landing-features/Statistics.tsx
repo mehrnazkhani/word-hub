@@ -59,7 +59,10 @@ export default function DonutLegend() {
       description="Get a clear picture of your overall progress — see how many words you've mastered, how many are in progress, and how many are still waiting to be learned."
       position="right"
     >
-      <div className="flex h-full w-full items-center justify-center gap-10">
+      <div
+        className="flex h-full w-full items-center justify-center gap-10"
+        aria-hidden="true"
+      >
         <DonutLegend.Donut />
 
         <div className="flex flex-col gap-4">

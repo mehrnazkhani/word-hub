@@ -11,28 +11,35 @@ import {
 } from "@/components/ui/questionnaire";
 import { PRACTICE_MODES } from "@/constants/practice-modes";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { ROUTES } from "@/constants/routes";
+
+const ITEM_WIDTHS = ["w-full", "w-1/3", "w-2/3"] as const;
 
 export const FullWidthSection = () => {
   return (
-    <div className="h-80 bg-accent-foreground/3 px-10 py-5">
-      <div className="mx-auto grid h-full max-w-6xl grid-cols-3 gap-6">
+    <section
+      aria-labelledby="fullwidth-heading"
+      className="h-80 bg-accent-foreground/3 px-10 py-5"
+    >
+      <div className="mx-auto grid h-full max-w-6xl grid-cols-3 gap-15">
         <div className="col-span-2 flex h-full flex-col space-y-5">
-          <p className="text-3xl font-bold">Practice in Different Ways</p>
-
-          <p className="w-xl text-accent-foreground/60">
+          <h2 id="fullwidth-heading" className="text-3xl font-bold">
+            Practice in Different Ways
+          </h2>
+          <p className="text-accent-foreground/60">
             Reinforce your vocabulary through six different exercise types —
             match, guess, fill in the blank, write, synonym, and antonym — so
             every word truly sticks.
           </p>
 
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-5" aria-hidden="true">
             {PRACTICE_MODES.map((practice) => {
               const Icon = practice.icon;
-
               return (
                 <div
                   key={practice.label}
-                  className="group flex size-12 cursor-pointer items-center justify-center rounded-lg border bg-accent-foreground/5"
+                  className="group flex size-12 items-center justify-center rounded-lg border bg-accent-foreground/5"
                 >
                   <Icon className="size-5 text-accent-foreground/50 transition-colors group-hover:text-accent-foreground/70" />
                 </div>
@@ -40,22 +47,20 @@ export const FullWidthSection = () => {
             })}
           </div>
 
-          <Button className="mt-auto w-fit cursor-pointer">
-            Get Started Now
+          <Button className="mt-auto w-fit cursor-pointer" asChild>
+            <Link href={ROUTES.SIGN_IN}>Get Started Now</Link>
           </Button>
         </div>
 
-        <Card className="h-full w-full bg-transparent">
+        <Card className="h-full w-full bg-transparent" aria-hidden="true">
           <CardContent className="flex h-full items-center justify-center px-[clamp(1rem,5vw,3.75rem)]">
             <QuestionnaireAnimated />
           </CardContent>
         </Card>
       </div>
-    </div>
+    </section>
   );
 };
-
-const ITEM_WIDTHS = ["w-full", "w-1/3", "w-2/3"] as const;
 
 export function QuestionnaireAnimated() {
   return (

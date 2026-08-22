@@ -28,14 +28,14 @@ export default async function Home() {
         id="landing-scroll"
         className="scrollbar-hide relative w-full flex-1 scroll-fade space-y-20 overflow-y-auto scroll-smooth pt-20"
       >
-        <div className="mx-auto max-w-6xl space-y-50 px-5">
+        <main className="mx-auto max-w-6xl space-y-50 px-5">
           <HeroSection />
           <FeaturesSection />
-        </div>
+        </main>
 
         <Separator />
-
         <FullWidthSection />
+        <Separator />
         <FooterSection />
       </div>
     </div>

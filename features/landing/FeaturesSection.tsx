@@ -7,11 +7,14 @@ import { PracticeList } from "./landing-features/PracticeList";
 
 export const FeaturesSection = () => {
   return (
-    <main
+    <section
       id="features"
+      aria-labelledby="features-heading"
       className="flex w-full scroll-mt-20 flex-col gap-20 py-10"
     >
-      <h1 className="text-center text-3xl font-black">What's in Word Hub?</h1>
+      <h2 id="features-heading" className="text-center text-3xl font-black">
+        What's in Word Hub?
+      </h2>
 
       <div className="flex flex-col items-center gap-20 md:gap-35">
         <WordDetail />
@@ -21,6 +24,6 @@ export const FeaturesSection = () => {
         <DonutLegend />
         <ImportExport />
       </div>
-    </main>
+    </section>
   );
 };

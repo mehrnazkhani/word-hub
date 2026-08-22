@@ -19,12 +19,12 @@ export const ChartBarProgress = () => {
       description="See how consistent you've been — track your practice sessions over the last 7 days and keep your streak going."
       position="left"
     >
-      <div className="flex h-24 items-center justify-center gap-4">
+      <div
+        className="flex h-24 items-center justify-center gap-4"
+        aria-hidden="true"
+      >
         {BARS.map((h, i) => (
-          <div
-            key={i}
-            className="flex h-full cursor-pointer flex-col justify-end"
-          >
+          <div key={i} className="flex h-full flex-col justify-end">
             <div
               className={`w-4 rounded-sm transition-all duration-300 ${getBarColor(i, BARS.length)}`}
               style={{ height: `${h}px` }}

@@ -20,9 +20,16 @@ export const HeroSection = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center gap-y-10">
+    <section
+      id="hero"
+      aria-labelledby="hero-heading"
+      className="flex flex-col items-center justify-center gap-y-10"
+    >
       <div className="space-y-10 text-center">
-        <h1 className="text-2xl font-bold md:text-4xl lg:text-6xl">
+        <h1
+          id="hero-heading"
+          className="text-2xl font-bold md:text-4xl lg:text-6xl"
+        >
           Your Vocabulary, All in One Place
         </h1>
 
@@ -37,18 +44,19 @@ export const HeroSection = () => {
 
       <div className="flex items-center gap-5">
         <Button className="cursor-pointer" asChild>
-          <Link href={ROUTES.SIGN_IN}>Started now</Link>
+          <Link href={ROUTES.SIGN_IN}>Get Started</Link>
         </Button>
 
         <Button
           variant="outline"
           className="cursor-pointer"
           onClick={scrollToFeatures}
+          aria-label="Scroll to features section"
         >
           See how it works
-          <ArrowRight />
+          <ArrowRight aria-hidden="true" />
         </Button>
       </div>
-    </div>
+    </section>
   );
 };

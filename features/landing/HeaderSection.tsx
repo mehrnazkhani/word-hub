@@ -6,18 +6,20 @@ import Link from "next/link";
 
 export const HeaderSection = () => {
   return (
-    <div className="flex w-full items-center justify-between px-5">
+    <header className="flex w-full items-center justify-between px-5">
       <div className="flex items-center px-2 pt-2">
-        <Image src="/logo.png" alt="Logo" width={50} height={50} />{" "}
+        <Link href="/">
+          <Image src="/logo.png" alt="Word Hub Logo" width={50} height={50} />
+        </Link>
         <span className="font-bold">Word Hub</span>
       </div>
 
-      <div className="flex items-center gap-3">
+      <nav className="flex items-center gap-3" aria-label="Main navigation">
         <ModeToggle />
         <Button className="cursor-pointer" asChild>
           <Link href={ROUTES.SIGN_IN}>Get Started</Link>
         </Button>
-      </div>
-    </div>
+      </nav>
+    </header>
   );
 };

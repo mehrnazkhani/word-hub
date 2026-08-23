@@ -63,7 +63,11 @@ export const HeroWordCard = () => {
             ref={inputRef}
             type="text"
             defaultValue="Hello"
-            className="p-0 text-lg!"
+            onKeyDown={(e) => e.preventDefault()}
+            onPaste={(e) => e.preventDefault()}
+            onCut={(e) => e.preventDefault()}
+            onBeforeInput={(e) => e.preventDefault()}
+            className="cursor-default p-0 text-lg!"
           />
 
           <div className="flex items-center gap-3">

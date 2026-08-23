@@ -12,7 +12,7 @@ export const RecentWordContextMenu = ({
 }: RecentWordContextMenuProps) => {
   return (
     <WordContextMenu word={word}>
-      <WordContextMenu.Trigger>{children}</WordContextMenu.Trigger>
+      <WordContextMenu.Trigger asChild>{children}</WordContextMenu.Trigger>
       <WordContextMenu.Content>
         <WordContextMenu.ShowInCategory />
       </WordContextMenu.Content>

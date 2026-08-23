@@ -73,14 +73,14 @@ export const SearchWord = () => {
         className="cursor-pointer"
         aria-label="Open search (Ctrl+K)"
       >
-        <Search className="h-4 w-4" />
+        <Search className="size-4" />
         <span className="sr-only">Search words</span>
       </Button>
 
       <CommandDialog
         open={open}
         onOpenChange={handleOpenChange}
-        className="max-w-xl!"
+        className="md:max-w-lg"
       >
         <Command shouldFilter={false}>
           <CommandInput

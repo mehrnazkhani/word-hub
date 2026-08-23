@@ -12,7 +12,7 @@ import { formatDuration } from "@/lib/utils/formatDuration";
 import { getPracticeIcon } from "@/constants/practice-modes";
 
 const metaTextClass =
-  "w-12 shrink-0 text-[10px] text-accent-foreground/50 sm:w-16 sm:text-xs";
+  "w-12 shrink-0 text-[10px] text-accent-foreground/50 md:w-16 md:text-xs";
 
 export function RecentSessions() {
   const { data: recentPractices = [], isPending } = useRecentPractices();
@@ -22,7 +22,7 @@ export function RecentSessions() {
     <section className="space-y-3">
       <h2 className="font-semibold">Recent Sessions</h2>
 
-      <div className="px-5">
+      <div className="px-4">
         {isPending ? (
           <RecentSessionsSkeleton count={3} />
         ) : isEmpty ? (
@@ -37,7 +37,7 @@ export function RecentSessions() {
               <div
                 key={recentPractice.id}
                 className={cn(
-                  "flex min-w-0 items-center gap-2 py-3 sm:gap-3.5",
+                  "flex min-w-0 items-center gap-2 py-3 md:gap-3.5",
                   i < recentPractices.length - 1 && "border-b",
                 )}
               >
@@ -48,7 +48,7 @@ export function RecentSessions() {
                 <IconBadge
                   icon={Icon}
                   badgeSize={7}
-                  className="shrink-0 text-accent-foreground/60 sm:size-8"
+                  className="shrink-0 text-accent-foreground/60 md:size-8"
                 />
 
                 <div className="min-w-0 flex-1">
@@ -56,13 +56,13 @@ export function RecentSessions() {
                     {recentPractice.practice_mode}
                   </p>
 
-                  <p className="truncate text-[11px] text-accent-foreground/60 sm:text-xs">
+                  <p className="truncate text-[11px] text-accent-foreground/60 md:text-xs">
                     <span>{recentPractice.total_questions} words</span> -{" "}
                     {recentPractice.category?.name ?? "Mixed"}
                   </p>
                 </div>
 
-                <div className="flex shrink-0 items-center space-x-1.5 sm:space-x-5">
+                <div className="flex shrink-0 items-center space-x-1.5 md:space-x-5">
                   <StatItem
                     icon={CircleCheck}
                     value={recentPractice.correct_count}
@@ -99,12 +99,12 @@ type StatItemProps = {
 
 const StatItem = ({ icon: Icon, value, label, className }: StatItemProps) => (
   <div
-    className={cn("flex flex-col items-center gap-0.5 sm:gap-1", className)}
+    className={cn("flex flex-col items-center gap-0.5 md:gap-1", className)}
     aria-label={label}
   >
     <Icon className="size-3.5 text-accent-foreground/60" />
 
-    <span className="text-xs whitespace-nowrap tabular-nums sm:text-sm">
+    <span className="text-xs whitespace-nowrap tabular-nums md:text-sm">
       {value}
     </span>
   </div>

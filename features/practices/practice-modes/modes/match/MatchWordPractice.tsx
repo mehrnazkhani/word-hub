@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { PracticeResultDialog } from "../../PracticeResultDialog";
 
-import { MatchingColumn } from "./MatchColumn";
+import { MatchColumn } from "./MatchColumn";
 import { useMatchWord } from "./useMatchWord";
 import { PracticeProgressbar } from "@/features/practices/practice-modes/PracticeProgressbar";
 import { usePracticeTimer } from "@/features/practices/practice-modes/usePracticeTimer";
@@ -72,7 +72,7 @@ export const MatchWordPractice = ({
       </header>
 
       <main className="grid flex-1 grid-cols-2 items-center gap-6">
-        <MatchingColumn
+        <MatchColumn
           items={visibleTranslations.map((w) => ({
             id: w.id,
             label: w.translation!,
@@ -81,7 +81,7 @@ export const MatchWordPractice = ({
           onSelect={handleTranslationSelect}
           matchStatuses={matchStatuses}
         />
-        <MatchingColumn
+        <MatchColumn
           items={visibleWords.map((w) => ({ id: w.id, label: w.word }))}
           selectedId={selectedWord}
           onSelect={handleWordSelect}

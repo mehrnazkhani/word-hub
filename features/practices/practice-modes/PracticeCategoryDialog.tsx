@@ -76,7 +76,11 @@ export const PracticeCategoryDialog = ({
         </div>
 
         <DialogFooter>
-          <ArrowButton onClick={handleContinue} disabled={selected === null}>
+          <ArrowButton
+            onClick={handleContinue}
+            disabled={selected === null}
+            className="w-fit self-end"
+          >
             Continue
           </ArrowButton>
         </DialogFooter>

@@ -11,20 +11,22 @@ type Props = {
   matchStatuses: Record<number, MatchStatus>;
 };
 
-export const MatchingColumn = ({
+export const MatchColumn = ({
   items,
   selectedId,
   onSelect,
   matchStatuses,
 }: Props) => (
-  <div className="flex min-w-72 flex-col gap-3">
+  <div className="flex w-[45vw] max-w-40 flex-col gap-2 sm:w-full sm:max-w-none sm:min-w-72 sm:gap-3">
     {items.map((item) => (
       <Button
         key={item.id}
         variant={selectedId === item.id ? "secondary" : "outline"}
         className={cn(
-          "h-14 w-full cursor-pointer truncate",
-          item.label.length > FONT_SIZE_THRESHOLD ? "text-xs" : "text-sm",
+          "h-11 w-full cursor-pointer truncate px-2 sm:h-14 sm:px-3",
+          item.label.length > FONT_SIZE_THRESHOLD
+            ? "text-[11px] sm:text-xs"
+            : "text-xs sm:text-sm",
           matchStatuses[item.id] === "correct" &&
             "cursor-default bg-muted hover:bg-muted",
           matchStatuses[item.id] === "incorrect" &&

@@ -11,9 +11,11 @@ import {
 
 import { SIDEBAR_HEADER_ITEMS } from "./sidebarHeaderItems";
 import { ImportTrigger } from "@/features/sidebar/sidebar-header/import/ImportTrigger";
+import { useCloseSidebarOnClick } from "@/hooks/useCloseSidebarOnClick";
 
 export const NavMain = () => {
   const pathname = usePathname();
+  const closeSidebar = useCloseSidebarOnClick();
 
   return (
     <SidebarMenu>
@@ -23,7 +25,12 @@ export const NavMain = () => {
           return (
             <SidebarMenuItem key={item.title}>
               <SidebarMenuButton asChild isActive={isActive}>
-                <Link href={item.href} scroll={false} replace>
+                <Link
+                  href={item.href}
+                  scroll={false}
+                  replace
+                  onClick={closeSidebar}
+                >
                   <item.icon />
                   <span>{item.title}</span>
                 </Link>

@@ -13,12 +13,14 @@ import {
 import { useUserCategories } from "@/queries/categories/useCategories";
 import { CategorySkeleton } from "./CategorySkeleton";
 import { CategoryContextMenu } from "@/features/context-menu/category/CategoryContextMenu";
+import { useCloseSidebarOnClick } from "@/hooks/useCloseSidebarOnClick";
 import { ROUTES } from "@/constants/routes";
 import type { CategoryWithWordCount } from "@/types/db-aliases";
 
 export const CategoriesList = () => {
   const { data: categories, isPending } = useUserCategories();
   const { categoryId } = useParams<{ categoryId?: string }>();
+  const closeSidebar = useCloseSidebarOnClick();
 
   // Only used while navigation is in progress.
   const [optimisticActiveId, setOptimisticActiveId] = useState<string | null>(
@@ -44,7 +46,10 @@ export const CategoriesList = () => {
           <CategoryMenuItem
             category={category}
             activeId={activeId}
-            onNavigate={() => setOptimisticActiveId(String(category.id))}
+            onNavigate={() => {
+              setOptimisticActiveId(String(category.id));
+              closeSidebar();
+            }}
           />
         );
 

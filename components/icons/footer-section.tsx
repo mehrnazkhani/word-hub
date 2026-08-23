@@ -47,7 +47,10 @@ export const FooterSection = () => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Icon className="size-5 transition-opacity hover:opacity-70" />
+                <Icon
+                  className="size-5 transition-opacity hover:opacity-70"
+                  style={{ fill: "var(--foreground)" }}
+                />
               </a>
             </li>
           ))}

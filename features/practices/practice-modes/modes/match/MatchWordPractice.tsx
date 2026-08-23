@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -11,6 +11,7 @@ import { useMatchWord } from "./useMatchWord";
 import { PracticeProgressbar } from "@/features/practices/practice-modes/PracticeProgressbar";
 import { usePracticeTimer } from "@/features/practices/practice-modes/usePracticeTimer";
 import { usePracticeSession } from "../../usePracticeSession";
+import { MAX_WORD_SCORE } from "@/constants/practice-modes";
 
 import type { CategoryId } from "../../PracticeCategoryList";
 import type { PracticeModeWords } from "../../validatePracticeMode";
@@ -52,6 +53,15 @@ export const MatchWordPractice = ({
     stopWhen: isPracticeCompleted,
   });
 
+  const wordsToUpdate = useMemo(
+    () =>
+      shuffledWords.map((w) => ({
+        id: w.id,
+        score: Math.min(w.score + 1, MAX_WORD_SCORE),
+      })),
+    [shuffledWords],
+  );
+
   usePracticeSession({
     isCompleted: isPracticeCompleted,
     elapsedSeconds,
@@ -59,7 +69,8 @@ export const MatchWordPractice = ({
     practiceMode,
     correctCount: totalQuestions,
     incorrectCount,
-    totalQuestions: totalQuestions,
+    totalQuestions,
+    wordsToUpdate,
   });
 
   return (

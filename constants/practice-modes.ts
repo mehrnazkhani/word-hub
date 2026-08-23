@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 
 export const MIN_WORDS_REQUIRED = 5;
+export const MAX_WORD_SCORE = 10;
 
 export type PracticeModeName =
   "match" | "guess" | "fill" | "write" | "synonym" | "antonym";

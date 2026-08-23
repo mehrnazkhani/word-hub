@@ -8,7 +8,7 @@ export const RenameCategory = () => {
   const { setDialog } = useCategoryContextMenu();
 
   return (
-    <ContextMenuItem onSelect={() => setDialog("rename")} className="text-xs">
+    <ContextMenuItem onSelect={() => setDialog("rename")}>
       <FolderPen className="size-3" />
       Rename
     </ContextMenuItem>

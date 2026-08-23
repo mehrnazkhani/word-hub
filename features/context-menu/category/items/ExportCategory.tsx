@@ -56,7 +56,7 @@ export const ExportCategory = () => {
   };
 
   return (
-    <ContextMenuItem onSelect={handleExport} className="text-xs">
+    <ContextMenuItem onSelect={handleExport}>
       <Download className="size-3" />
       Export
     </ContextMenuItem>

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { forwardRef, useEffect, useState } from "react";
 
 import {
   SidebarMenu,
@@ -73,13 +73,13 @@ type CategoryMenuItemProps = {
   onNavigate: () => void;
 };
 
-function CategoryMenuItem({
-  category,
-  activeId,
-  onNavigate,
-}: CategoryMenuItemProps) {
+const CategoryMenuItem = forwardRef<
+  React.ElementRef<typeof SidebarMenuItem>,
+  CategoryMenuItemProps &
+    Omit<React.ComponentPropsWithoutRef<typeof SidebarMenuItem>, "children">
+>(function CategoryMenuItem({ category, activeId, onNavigate, ...props }, ref) {
   return (
-    <SidebarMenuItem>
+    <SidebarMenuItem ref={ref} {...props}>
       <SidebarMenuButton
         asChild
         className="cursor-pointer"
@@ -95,7 +95,7 @@ function CategoryMenuItem({
       </SidebarMenuButton>
     </SidebarMenuItem>
   );
-}
+});
 
 type CategoryItemContextMenuProps = {
   category: CategoryWithWordCount;

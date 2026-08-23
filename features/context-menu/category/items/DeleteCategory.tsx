@@ -8,11 +8,7 @@ export const DeleteCategory = () => {
   const { setDialog } = useCategoryContextMenu();
 
   return (
-    <ContextMenuItem
-      variant="destructive"
-      onSelect={() => setDialog("delete")}
-      className="text-xs"
-    >
+    <ContextMenuItem variant="destructive" onSelect={() => setDialog("delete")}>
       <Trash2 className="size-3" />
       Delete
     </ContextMenuItem>

@@ -4,6 +4,20 @@ import { ThemeProvider } from "@wrksz/themes/next";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/sonner";
 import { QueryProviders } from "@/components/providers/query-provider";
+import type { Viewport } from "next";
+
+export const viewport: Viewport = {
+  themeColor: [
+    {
+      media: "(prefers-color-scheme: light)",
+      color: "oklch(1 0 0)",
+    },
+    {
+      media: "(prefers-color-scheme: dark)",
+      color: "oklch(0.145 0 0)",
+    },
+  ],
+};
 
 export const metadata: Metadata = {
   title: "Create Next App",

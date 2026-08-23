@@ -19,22 +19,24 @@ export const useSavePracticeSessionMutation = () => {
       savePracticeSessionAction(sessionData),
 
     onSuccess: (newSession) => {
-      // recent practices update
       const recentQueryKey = queryKeys.practice.recent(user!.id);
-      queryClient.setQueryData<Practice[]>(recentQueryKey, (old) => {
-        const updated = [newSession, ...(old ?? [])];
-        return updated.slice(0, 5);
-      });
+      const weeklyQueryKey = queryKeys.practice.weekly(user!.id);
+
+      // recent practices update
+      if (queryClient.getQueryData(recentQueryKey) !== undefined) {
+        queryClient.setQueryData<Practice[]>(recentQueryKey, (old) => {
+          const updated = [newSession, ...(old ?? [])];
+          return updated.slice(0, 5);
+        });
+      }
 
       //  weekly practices update
-      const weeklyQueryKey = queryKeys.practice.weekly(user!.id);
-      queryClient.setQueryData<{ data: Practice[] | null }>(
-        weeklyQueryKey,
-        (old) => {
-          if (!old) return { data: [newSession] };
-          return { data: [...(old.data ?? []), newSession] };
-        },
-      );
+      if (queryClient.getQueryData(weeklyQueryKey) !== undefined) {
+        queryClient.setQueryData<{ data: Practice[] | null }>(
+          weeklyQueryKey,
+          (old) => ({ data: [...(old?.data ?? []), newSession] }),
+        );
+      }
     },
 
     onError: () => {

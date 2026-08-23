@@ -11,6 +11,9 @@ import { formatDate } from "@/lib/utils/formatDate";
 import { formatDuration } from "@/lib/utils/formatDuration";
 import { getPracticeIcon } from "@/constants/practice-modes";
 
+const metaTextClass =
+  "w-12 shrink-0 text-[10px] text-accent-foreground/50 sm:w-16 sm:text-xs";
+
 export function RecentSessions() {
   const { data: recentPractices = [], isPending } = useRecentPractices();
   const isEmpty = !isPending && recentPractices.length === 0;
@@ -34,35 +37,40 @@ export function RecentSessions() {
               <div
                 key={recentPractice.id}
                 className={cn(
-                  "flex items-center gap-3.5 py-3.5",
+                  "flex min-w-0 items-center gap-2 py-3 sm:gap-3.5",
                   i < recentPractices.length - 1 && "border-b",
                 )}
               >
-                <span className="w-16 text-xs text-accent-foreground/50">
+                <span className={cn(metaTextClass, "text-start")}>
                   {formatDate({ date: recentPractice.created_at })}
                 </span>
 
                 <IconBadge
                   icon={Icon}
-                  badgeSize={8}
-                  className="text-accent-foreground/60"
+                  badgeSize={7}
+                  className="shrink-0 text-accent-foreground/60 sm:size-8"
                 />
 
-                <div className="flex-1 space-y-1">
-                  <p className="font-medium">{recentPractice.practice_mode}</p>
-                  <p className="truncate text-xs text-accent-foreground/60">
-                    {recentPractice.category?.name ?? "Mixed"} -{" "}
-                    <span>{recentPractice.total_questions} words</span>
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-sm font-medium capitalize">
+                    {recentPractice.practice_mode}
+                  </p>
+
+                  <p className="truncate text-[11px] text-accent-foreground/60 sm:text-xs">
+                    <span>{recentPractice.total_questions} words</span> -{" "}
+                    {recentPractice.category?.name ?? "Mixed"}
                   </p>
                 </div>
 
-                <div className="flex items-center space-x-5">
+                <div className="flex shrink-0 items-center space-x-1.5 sm:space-x-5">
                   <StatItem
                     icon={CircleCheck}
                     value={recentPractice.correct_count}
                     label="Correct"
                   />
-                  <Separator orientation="vertical" className="h-8!" />
+
+                  <Separator orientation="vertical" className="h-5!" />
+
                   <StatItem
                     icon={XCircle}
                     value={recentPractice.incorrect_count}
@@ -70,7 +78,7 @@ export function RecentSessions() {
                   />
                 </div>
 
-                <span className="w-16 text-end text-xs text-accent-foreground/50">
+                <span className={cn(metaTextClass, "text-end")}>
                   {formatDuration(recentPractice.duration)}
                 </span>
               </div>
@@ -91,10 +99,13 @@ type StatItemProps = {
 
 const StatItem = ({ icon: Icon, value, label, className }: StatItemProps) => (
   <div
-    className={cn("flex flex-col items-center gap-1", className)}
+    className={cn("flex flex-col items-center gap-0.5 sm:gap-1", className)}
     aria-label={label}
   >
-    <Icon className="size-3 text-accent-foreground/60" />
-    <span className="text-sm whitespace-nowrap tabular-nums">{value}</span>
+    <Icon className="size-3.5 text-accent-foreground/60" />
+
+    <span className="text-xs whitespace-nowrap tabular-nums sm:text-sm">
+      {value}
+    </span>
   </div>
 );

@@ -58,7 +58,7 @@ export const SaveWordButton = ({
         </Button>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent align="end" className="w-48">
+      <DropdownMenuContent align="end" className="h-80! w-48">
         {!categories || categories.length === 0 ? (
           <DropdownMenuItem disabled className="text-xs text-muted-foreground">
             No categories yet
@@ -68,7 +68,7 @@ export const SaveWordButton = ({
             <DropdownMenuItem
               key={category.id}
               onClick={() => saveToCategory(category.id)}
-              className="flex items-center justify-between gap-2"
+              className="flex items-center justify-between gap-2 truncate"
             >
               <span>{category.name}</span>
               {savedCategoryId === category.id && (

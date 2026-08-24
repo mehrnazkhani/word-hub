@@ -44,32 +44,30 @@ export const WordOfTheDay = () => {
 
   return (
     <div className="flex w-full max-w-4xl flex-col gap-4">
-      <span className="text-xs font-medium tracking-widest text-secondary-foreground/50 uppercase">
-        Today's Word
-      </span>
-
-      <div className="flex items-start justify-between gap-4">
-        <div className="flex flex-col gap-1">
-          <div className="flex items-center gap-2">
-            <span className="text-5xl font-semibold tracking-tight">
-              {word}
-            </span>
-            {word && (
-              <WordPronunciation word={word} lang={sourceLanguage?.value} />
-            )}
-          </div>
-
-          {phonetic && (
-            <span className="text-sm text-secondary-foreground/50 italic">
-              {phonetic}
-            </span>
-          )}
-        </div>
+      <div className="flex items-center justify-between">
+        <span className="text-xs font-medium tracking-widest text-secondary-foreground/50 uppercase">
+          Today's Word
+        </span>
 
         <SaveWordButton
           savedSuggestion={savedSuggestion}
           word={wordData as Word}
         />
+      </div>
+
+      <div className="flex flex-col gap-1">
+        <div className="flex items-center gap-2">
+          <span className="text-5xl font-semibold tracking-tight">{word}</span>
+          {word && (
+            <WordPronunciation word={word} lang={sourceLanguage?.value} />
+          )}
+        </div>
+
+        {phonetic && (
+          <span className="text-sm text-secondary-foreground/50 italic">
+            {phonetic}
+          </span>
+        )}
       </div>
 
       {/* Badges */}
@@ -129,13 +127,15 @@ export const WordOfTheDay = () => {
       )}
 
       {/* Language Direction */}
-      <p className="flex items-center gap-1.5 pt-2 text-xs text-foreground/40">
-        {sourceLanguage?.flag}
-        <span>{sourceLanguage?.label}</span>
-        <MoveRight size={11} />
-        <span>{targetLanguage?.label}</span>
-        {targetLanguage?.flag}
-      </p>
+      <div className="flex items-center gap-1.5 pt-2 text-xs">
+        <span>{sourceLanguage?.flag}</span>
+        <span className="text-foreground/50">{sourceLanguage?.label}</span>
+
+        <MoveRight size={12} className="text-foreground/50" />
+
+        <span className="text-foreground/50">{targetLanguage?.label}</span>
+        <span>{targetLanguage?.flag}</span>
+      </div>
     </div>
   );
 };

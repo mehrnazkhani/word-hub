@@ -46,7 +46,7 @@ export const UserAccountDropdown = ({ fullName }: UserAccountProps) => {
         <DropdownMenuSeparator />
 
         <DropdownMenuItem
-          className="cursor-pointer text-xs"
+          className="cursor-pointer"
           onSelect={() => setSettingsOpen(true)}
         >
           <Settings className="size-3" />
@@ -54,14 +54,14 @@ export const UserAccountDropdown = ({ fullName }: UserAccountProps) => {
         </DropdownMenuItem>
 
         <DropdownMenuSub>
-          <DropdownMenuSubTrigger className="cursor-pointer text-xs">
+          <DropdownMenuSubTrigger className="cursor-pointer">
             <Palette className="size-3" />
             Theme
           </DropdownMenuSubTrigger>
 
           <DropdownMenuSubContent className="p-2">
             <DropdownMenuItem
-              className="cursor-pointer text-xs"
+              className="cursor-pointer"
               onClick={() => setTheme("light")}
             >
               <Sun className="size-3" />
@@ -70,7 +70,7 @@ export const UserAccountDropdown = ({ fullName }: UserAccountProps) => {
             </DropdownMenuItem>
 
             <DropdownMenuItem
-              className="cursor-pointer text-xs"
+              className="cursor-pointer"
               onClick={() => setTheme("dark")}
             >
               <Moon className="size-3" />
@@ -79,7 +79,7 @@ export const UserAccountDropdown = ({ fullName }: UserAccountProps) => {
             </DropdownMenuItem>
 
             <DropdownMenuItem
-              className="cursor-pointer text-xs"
+              className="cursor-pointer"
               onClick={() => setTheme("system")}
             >
               <Monitor className="size-3" />
@@ -97,7 +97,7 @@ export const UserAccountDropdown = ({ fullName }: UserAccountProps) => {
             onSelect={(e) => {
               e.preventDefault();
             }}
-            className="cursor-pointer text-xs"
+            className="cursor-pointer"
           >
             <LogOut className="size-3" />
             Sign out

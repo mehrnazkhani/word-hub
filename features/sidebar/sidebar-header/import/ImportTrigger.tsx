@@ -121,7 +121,7 @@ export const ImportTrigger = () => {
 
       <Dialog open={open} onOpenChange={handleOpenChange}>
         <DialogContent
-          className="flex max-h-150! max-w-2xl! flex-col overflow-hidden"
+          className="flex max-h-150! flex-col overflow-hidden md:max-w-xl!"
           onInteractOutside={(e) => e.preventDefault()}
         >
           <DialogHeader>
@@ -138,7 +138,7 @@ export const ImportTrigger = () => {
 
           <DialogFooter>
             <ArrowButton
-              className="cursor-pointer"
+              className="w-fit self-end"
               onClick={handleImport}
               disabled={isPending}
             >

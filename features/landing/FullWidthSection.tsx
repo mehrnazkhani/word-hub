@@ -1,5 +1,8 @@
 "use client";
 
+import Link from "next/link";
+
+import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Questionnaire,
@@ -10,8 +13,6 @@ import {
   QuestionnaireTitle,
 } from "@/components/ui/questionnaire";
 import { PRACTICE_MODES } from "@/constants/practice-modes";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { ROUTES } from "@/constants/routes";
 
 const ITEM_WIDTHS = ["w-full", "w-1/3", "w-2/3"] as const;
@@ -39,7 +40,7 @@ export const FullWidthSection = () => {
               return (
                 <div
                   key={practice.label}
-                  className="group flex size-12 items-center justify-center rounded-lg border bg-accent-foreground/5"
+                  className="group flex size-12 items-center justify-center rounded-lg border bg-background"
                 >
                   <Icon className="size-5 text-accent-foreground/50 transition-colors group-hover:text-accent-foreground/70" />
                 </div>
@@ -52,7 +53,7 @@ export const FullWidthSection = () => {
           </Button>
         </div>
 
-        <Card className="h-full w-full bg-transparent" aria-hidden="true">
+        <Card className="h-full w-full bg-background" aria-hidden="true">
           <CardContent className="flex h-full items-center justify-center px-[clamp(1rem,5vw,3.75rem)]">
             <QuestionnaireAnimated />
           </CardContent>

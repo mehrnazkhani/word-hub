@@ -9,7 +9,12 @@ export const HeaderSection = () => {
     <header className="flex w-full items-center justify-between px-5">
       <div className="flex items-center px-2 pt-2">
         <Link href="/">
-          <Image src="/logo.png" alt="Word Hub Logo" width={50} height={50} />
+          <Image
+            src="/app_logo.png"
+            alt="Word Hub Logo"
+            width={50}
+            height={50}
+          />
         </Link>
         <span className="font-bold">Word Hub</span>
       </div>

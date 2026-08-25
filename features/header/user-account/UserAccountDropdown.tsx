@@ -1,5 +1,9 @@
 "use client";
 
+import dynamic from "next/dynamic";
+import { useState } from "react";
+
+import { useTheme } from "@wrksz/themes/client";
 import {
   Check,
   LogOut,
@@ -10,7 +14,6 @@ import {
   Sun,
   User,
 } from "lucide-react";
-
 import {
   DropdownMenuContent,
   DropdownMenuItem,
@@ -20,12 +23,9 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useTheme } from "@wrksz/themes/client";
 
-import type { UserAccountProps } from "./UserAccount";
 import { SignOutConfirm } from "./signout/SignOutConfirm";
-import dynamic from "next/dynamic";
-import { useState } from "react";
+import type { UserAccountProps } from "./UserAccount";
 
 const SettingsDialog = dynamic(() => import("../../settings/SettingsDialog"), {
   ssr: false,

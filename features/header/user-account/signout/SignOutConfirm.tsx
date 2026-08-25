@@ -1,5 +1,6 @@
 "use client";
-import { PropsWithChildren } from "react";
+
+import { useState } from "react";
 import { useFormStatus } from "react-dom";
 
 import { LogOut } from "lucide-react";
@@ -18,6 +19,10 @@ import {
 } from "@/components/ui/alert-dialog";
 import { signOutAction } from "./signOut.action";
 
+type SignOutConfirmProps =
+  | { children: React.ReactNode; open?: never; onOpenChange?: never }
+  | { children?: never; open: boolean; onOpenChange: (open: boolean) => void };
+
 function SubmitButton() {
   const { pending } = useFormStatus();
 
@@ -28,10 +33,20 @@ function SubmitButton() {
   );
 }
 
-export const SignOutConfirm = ({ children }: PropsWithChildren) => {
+export const SignOutConfirm = ({
+  open,
+  onOpenChange,
+  children,
+}: SignOutConfirmProps) => {
+  const [internalOpen, setInternalOpen] = useState(false);
+
+  const isControlled = open !== undefined;
+  const isOpen = isControlled ? open : internalOpen;
+  const setIsOpen = isControlled ? onOpenChange! : setInternalOpen;
+
   return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
+    <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
+      {children && <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>}
 
       <AlertDialogContent>
         <AlertDialogHeader>

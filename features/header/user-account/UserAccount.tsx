@@ -29,7 +29,7 @@ export function UserAccount({ fullName }: UserAccountProps) {
           onClick={() => setOpen(true)}
           className="cursor-pointer outline-none"
         >
-          <UserAvatar />
+          <UserAvatar size="sm" />
         </button>
 
         <UserAccountDrawer

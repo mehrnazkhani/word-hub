@@ -14,11 +14,12 @@ export const HeaderBreadcrumb = () => {
   return (
     <Breadcrumb>
       <BreadcrumbList>
-        <BreadcrumbItem>
-          <BreadcrumbPage className="line-clamp-1">
-            {name}
+        <BreadcrumbItem className="min-w-0">
+          <BreadcrumbPage className="flex min-w-0 items-center">
+            <span className="truncate">{name}</span>
+
             {wordCount !== undefined && (
-              <span className="ml-2 text-xs font-normal text-foreground/40 tabular-nums">
+              <span className="ml-2 shrink-0 text-xs font-normal text-foreground/40 tabular-nums">
                 {wordCount} words
               </span>
             )}

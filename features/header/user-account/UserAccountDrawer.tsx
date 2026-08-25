@@ -3,7 +3,8 @@
 import { useState } from "react";
 
 import { cn } from "@/lib/utils";
-import { ChevronRight, LogOut } from "lucide-react";
+import { ChevronLeft, ChevronRight, LogOut } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { IconBadge } from "@/components/ui/icon-badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -11,10 +12,12 @@ import {
   Drawer,
   DrawerContent,
   DrawerDescription,
+  DrawerFooter,
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer";
 import { Separator } from "@/components/ui/separator";
+
 import { UserAvatar } from "@/components/UserAvatar";
 import { ThemeToggleRow } from "@/features/settings/theme/ThemeToggleRow";
 
@@ -27,79 +30,132 @@ type UserAccountDrawerProps = UserAccountProps & {
   onOpenChange: (open: boolean) => void;
 };
 
+type SettingsView = "root" | (typeof settingsNav)[number]["name"];
+
 export function UserAccountDrawer({
   open,
   onOpenChange,
   fullName,
 }: UserAccountDrawerProps) {
   const [signOutOpen, setSignOutOpen] = useState(false);
+  const [view, setView] = useState<SettingsView>("root");
 
   const handleSignOutClick = () => {
     onOpenChange(false);
     setSignOutOpen(true);
   };
+
+  const handleOpenChange = (open: boolean) => {
+    onOpenChange(open);
+
+    if (!open) {
+      setView("root");
+    }
+  };
+
   return (
     <>
-      <Drawer open={open} onOpenChange={onOpenChange}>
-        <DrawerContent className="h-5/6">
-          <DrawerHeader className="flex items-center gap-3">
-            <DrawerTitle className="sr-only">Settings</DrawerTitle>
-            <DrawerDescription className="sr-only">
-              Customize your settings here.
-            </DrawerDescription>
-            <UserAvatar size="2xl" />
-            {fullName ?? "My Account"}
-          </DrawerHeader>
+      <Drawer open={open} onOpenChange={handleOpenChange}>
+        <DrawerContent className="flex h-[92vh] max-h-[92vh] flex-col">
+          {view === "root" ? (
+            <>
+              <div className="flex flex-1 flex-col gap-4 overflow-y-auto">
+                <DrawerHeader className="flex items-center gap-3">
+                  <DrawerTitle className="sr-only">Settings</DrawerTitle>
 
-          <div className="flex flex-col gap-4 overflow-y-auto px-5 py-1">
-            <SettingsContainer className="py-0">
-              {settingsNav.map((item, index) => (
-                <div key={item.name}>
-                  {index > 0 && (
-                    <div className="px-3">
-                      <Separator />
-                    </div>
-                  )}
+                  <DrawerDescription className="sr-only">
+                    Customize your settings here.
+                  </DrawerDescription>
 
-                  <Button
-                    variant="ghost"
-                    className="flex h-auto w-full items-center justify-between py-3"
-                  >
-                    <div className="flex items-center gap-3">
-                      <IconBadge
-                        icon={item.icon}
-                        badgeSize={10}
-                        variant="secondary"
-                      />
-                      <div className="flex flex-col text-start">
-                        <span>{item.name}</span>
-                        <span className="text-xs text-foreground/35">
-                          {item.description}
-                        </span>
+                  <UserAvatar size="2xl" />
+                  {fullName ?? "My Account"}
+                </DrawerHeader>
+
+                <div className="flex flex-col gap-4 px-5 py-1">
+                  <SettingsContainer className="py-0">
+                    {settingsNav.map((item, index) => (
+                      <div key={item.name}>
+                        {index > 0 && (
+                          <div className="px-3">
+                            <Separator />
+                          </div>
+                        )}
+
+                        <Button
+                          variant="ghost"
+                          className="flex h-auto w-full items-center justify-between py-3"
+                          onClick={() => setView(item.name)}
+                        >
+                          <div className="flex items-center gap-3">
+                            <IconBadge
+                              icon={item.icon}
+                              badgeSize={10}
+                              variant="secondary"
+                            />
+
+                            <div className="flex flex-col text-start">
+                              <span>{item.name}</span>
+
+                              <span className="text-xs text-foreground/35">
+                                {item.description}
+                              </span>
+                            </div>
+                          </div>
+
+                          <ChevronRight className="size-4 text-muted-foreground" />
+                        </Button>
                       </div>
-                    </div>
+                    ))}
+                  </SettingsContainer>
 
-                    <ChevronRight className="size-4 text-muted-foreground" />
-                  </Button>
+                  <SettingsContainer>
+                    <ThemeToggleRow />
+                  </SettingsContainer>
+
+                  <SettingsContainer className="bg-destructive/10">
+                    <Button
+                      variant="ghost"
+                      className="h-auto w-full justify-start gap-3 text-destructive"
+                      onClick={handleSignOutClick}
+                    >
+                      <IconBadge
+                        icon={LogOut}
+                        badgeSize={10}
+                        variant="destructive"
+                      />
+                      Sign out
+                    </Button>
+                  </SettingsContainer>
                 </div>
-              ))}
-            </SettingsContainer>
 
-            <SettingsContainer>
-              <ThemeToggleRow />
-            </SettingsContainer>
+                <DrawerFooter>
+                  <p className="text-center text-xs text-muted-foreground">
+                    WordHub v1.0.0
+                  </p>
+                </DrawerFooter>
+              </div>
+            </>
+          ) : (
+            <>
+              <DrawerHeader className="border-b">
+                <div className="flex items-center gap-2">
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    onClick={() => setView("root")}
+                  >
+                    <ChevronLeft className="size-5" />
+                  </Button>
 
-            <SettingsContainer className="bg-destructive/10">
-              <Button
-                variant="ghost"
-                className="h-auto w-full justify-start gap-3 text-destructive"
-                onClick={handleSignOutClick}
-              >
-                <IconBadge icon={LogOut} badgeSize={10} variant="destructive" />
-                Sign out
-              </Button>
-            </SettingsContainer>
-          </div>
+                  <DrawerTitle>{view}</DrawerTitle>
+                </div>
+              </DrawerHeader>
+
+              <div className="flex flex-1 items-center justify-center">
+                <h2 className="text-2xl font-semibold">{view}</h2>
+              </div>
+            </>
+          )}
         </DrawerContent>
       </Drawer>
 
@@ -115,7 +171,7 @@ type SettingsContainerProps = {
 
 const SettingsContainer = ({ className, children }: SettingsContainerProps) => {
   return (
-    <Card className={cn("bg-accent/20 py-2", className)}>
+    <Card className={cn("shrink-0 bg-accent/20 py-2", className)}>
       <CardContent className="px-2">{children}</CardContent>
     </Card>
   );

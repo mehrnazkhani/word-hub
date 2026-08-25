@@ -9,24 +9,26 @@ export default function DashboardPage() {
 
   return (
     <div className="mx-auto flex h-full max-w-3xl flex-col px-4">
-      <header className="space-y-1.5 pt-10 pb-7">
-        <h1 className="text-2xl font-medium tracking-tight">
-          Hello, {user?.user_metadata.full_name}
-        </h1>
-        <p className="text-sm text-secondary-foreground/60">
-          Ready to expand your vocabulary today?
-        </p>
-      </header>
+      <section className="flex flex-1 flex-col justify-center">
+        <header className="space-y-1.5 pb-7">
+          <h1 className="text-2xl font-medium tracking-tight">
+            Hello, {user?.user_metadata.full_name}
+          </h1>
+          <p className="text-sm text-secondary-foreground/60">
+            Ready to expand your vocabulary today?
+          </p>
+        </header>
+
+        <Separator />
+
+        <main className="py-10">
+          <WordOfTheDay />
+        </main>
+      </section>
 
       <Separator />
 
-      <main className="flex flex-1 items-start justify-center overflow-y-auto py-10">
-        <WordOfTheDay />
-      </main>
-
-      <Separator />
-
-      <footer className="py-6">
+      <footer className="py-5">
         <p className="text-center text-xs text-secondary-foreground/40">
           Every new word you learn is a new perspective you gain.
         </p>

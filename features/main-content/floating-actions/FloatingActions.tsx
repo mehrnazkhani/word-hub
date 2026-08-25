@@ -23,7 +23,7 @@ export const FloatingActions = () => {
 
   return (
     <>
-      <div className="fixed right-10 bottom-10 z-50">
+      <div className="fixed right-5 bottom-14 z-50 md:right-10 md:bottom-10">
         <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
           <DropdownMenuTrigger asChild>
             <Button

@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 
 export type SettingsSection =
-  "Profile" | "Word Form" | "Daily Word" | "Privacy" | "Data" | "Ai Fill";
+  "Profile" | "Word Form" | "Daily Word" | "Privacy" | "Data" | "AI Fill";
 
 export type SettingsNavItem = {
   name: SettingsSection;
@@ -44,7 +44,7 @@ export const settingsNav: SettingsNavItem[] = [
     icon: Database,
   },
   {
-    name: "Ai Fill",
+    name: "AI Fill",
     description: "Choose AI-filled fields.",
     icon: PencilSparkles,
   },

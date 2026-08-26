@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { FormDialog } from "@/components/FormDialog";
+import { FormDrawerDialog } from "../../../components/FormDrawerDialog";
 
 type FormProps = {
   onSuccess: () => void;
@@ -11,6 +11,7 @@ const AddWordForm = dynamic<FormProps>(
   () => import("../../word/form/AddWordForm"),
   {
     loading: () => <div className="py-8 text-center">Loading form...</div>,
+    ssr: false,
   },
 );
 
@@ -18,6 +19,7 @@ const CreateCategoryForm = dynamic<FormProps>(
   () => import("../../category/form/CreateCategoryForm"),
   {
     loading: () => <div className="py-8 text-center">Loading form...</div>,
+    ssr: false,
   },
 );
 
@@ -50,7 +52,7 @@ const modalConfig: Record<
   },
 };
 
-export const FloatingActionsDialog = ({
+export const FloatingActionsContent = ({
   activeModal,
   onClose,
 }: FloatingActionsDialogProps) => {
@@ -59,13 +61,13 @@ export const FloatingActionsDialog = ({
   const { title, description, Component } = modalConfig[activeModal];
 
   return (
-    <FormDialog
+    <FormDrawerDialog
       open
       onOpenChange={(open) => !open && onClose()}
       title={title}
       description={description}
     >
       <Component onSuccess={onClose} />
-    </FormDialog>
+    </FormDrawerDialog>
   );
 };

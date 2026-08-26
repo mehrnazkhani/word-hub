@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Plus, CaseSensitive, Folder } from "lucide-react";
+import { Plus } from "lucide-react";
 
 import {
   DropdownMenu,
@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { Button } from "@/components/ui/button";
-import { FloatingActionsDialog } from "./FloatingActionsDialog";
+import { FloatingActionsContent } from "./FloatingActionsContent";
 
 type ActiveModal = "add-word" | "create-category" | null;
 
@@ -40,19 +40,17 @@ export const FloatingActions = () => {
 
           <DropdownMenuContent align="end" side="top" className="w-40 p-2">
             <DropdownMenuItem onClick={() => setActiveModal("add-word")}>
-              {/* <CaseSensitive className="size-3" /> */}
               Add word
             </DropdownMenuItem>
 
             <DropdownMenuItem onClick={() => setActiveModal("create-category")}>
-              {/* <Folder className="size-3" /> */}
               Create category
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
 
-      <FloatingActionsDialog activeModal={activeModal} onClose={closeModal} />
+      <FloatingActionsContent activeModal={activeModal} onClose={closeModal} />
     </>
   );
 };

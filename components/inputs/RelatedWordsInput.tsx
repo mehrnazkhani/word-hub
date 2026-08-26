@@ -4,6 +4,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { InputGroupButton } from "@/components/ui/input-group";
 import { FormInput } from "./FormInput";
 
 type RelatedWordsInputProps = {
@@ -23,13 +24,15 @@ export const RelatedWordsInput = ({
       endAdornment={
         <Tooltip>
           <TooltipTrigger asChild>
-            <button
+            <InputGroupButton
               type="button"
+              size="icon-xs"
+              variant="ghost"
               tabIndex={-1}
-              className="text-muted-foreground transition-colors hover:text-foreground"
+              className="text-muted-foreground hover:text-foreground"
             >
               <CircleHelp className="size-4" />
-            </button>
+            </InputGroupButton>
           </TooltipTrigger>
 
           <TooltipContent>

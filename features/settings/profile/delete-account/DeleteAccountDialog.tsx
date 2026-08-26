@@ -4,7 +4,6 @@ import { useState } from "react";
 
 import { AlertTriangle } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { InputWrapper } from "@/components/inputs/InputWrapper";
 import { LoadingButton } from "@/components/LoadingButton";
 import {
   AlertDialog,
@@ -56,21 +55,19 @@ export const DeleteAccountDialog = ({
           </div>
         </AlertDialogHeader>
 
-        <div className="mb-5">
-          <label className="text-xs text-accent-foreground/50">
+        <div className="mb-5 space-y-3">
+          <label className="block text-xs text-accent-foreground/50">
             To confirm, type{" "}
             <span className="font-bold text-accent-foreground/70">DELETE</span>{" "}
             below
           </label>
-          <InputWrapper>
-            <Input
-              type="text"
-              value={confirmText}
-              onChange={(e) => setConfirmText(e.target.value)}
-              placeholder="DELETE"
-              disabled={isPending}
-            />
-          </InputWrapper>
+          <Input
+            type="text"
+            value={confirmText}
+            onChange={(e) => setConfirmText(e.target.value)}
+            placeholder="DELETE"
+            disabled={isPending}
+          />
         </div>
 
         <AlertDialogFooter>

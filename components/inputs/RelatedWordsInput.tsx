@@ -1,9 +1,9 @@
 import { CircleHelp } from "lucide-react";
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { InputGroupButton } from "@/components/ui/input-group";
 import { FormInput } from "./FormInput";
 
@@ -22,8 +22,8 @@ export const RelatedWordsInput = ({
       label={placeholder}
       placeholder={placeholder}
       endAdornment={
-        <Tooltip>
-          <TooltipTrigger asChild>
+        <Popover>
+          <PopoverTrigger asChild>
             <InputGroupButton
               type="button"
               size="icon-xs"
@@ -33,12 +33,12 @@ export const RelatedWordsInput = ({
             >
               <CircleHelp className="size-4" />
             </InputGroupButton>
-          </TooltipTrigger>
+          </PopoverTrigger>
 
-          <TooltipContent>
+          <PopoverContent className="w-auto px-2 py-1 text-xs" side="top">
             Separate multiple {placeholder.toLowerCase()} with commas.
-          </TooltipContent>
-        </Tooltip>
+          </PopoverContent>
+        </Popover>
       }
     />
   );

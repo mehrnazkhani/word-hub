@@ -39,7 +39,7 @@ export function FormDrawerDialog({
   if (isMobile) {
     return (
       <Drawer open={open} onOpenChange={onOpenChange} disablePointerDismissal>
-        <DrawerContent>
+        <DrawerContent className="h-2/3 max-h-2/3">
           <DrawerHeader className="text-left">
             <DrawerTitle>{title}</DrawerTitle>
             {description && (
@@ -52,7 +52,8 @@ export function FormDrawerDialog({
               <span className="sr-only">Close</span>
             </DrawerClose>
           </DrawerHeader>
-          <div className="p-4">{children}</div>
+
+          <div className="flex-1 overflow-y-auto p-4">{children}</div>
         </DrawerContent>
       </Drawer>
     );

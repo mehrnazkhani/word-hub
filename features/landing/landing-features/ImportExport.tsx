@@ -16,9 +16,10 @@ const RIGHT_ICONS = [
   { size: 44, iconSize: 18, top: 0, left: 90, bg: "bg-accent-foreground/10" },
 ];
 
-export default function ImportExport() {
+export const ImportExport = () => {
   return (
     <FeatureShowcaseContainer
+      index="06 / Import - export"
       title="Share & Import Categories"
       description="Export your word categories and share them with friends, or import categories others have created — learn together and grow your vocabulary as a team"
       position="left"
@@ -85,4 +86,4 @@ export default function ImportExport() {
       </CardContent>
     </FeatureShowcaseContainer>
   );
-}
+};

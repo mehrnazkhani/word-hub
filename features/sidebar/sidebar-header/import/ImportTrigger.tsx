@@ -121,7 +121,7 @@ export const ImportTrigger = () => {
 
       <Dialog open={open} onOpenChange={handleOpenChange}>
         <DialogContent
-          className="flex max-h-150! flex-col overflow-hidden md:max-w-xl!"
+          className="flex max-h-11/12 flex-col overflow-hidden md:max-h-150 md:max-w-xl!"
           onInteractOutside={(e) => e.preventDefault()}
         >
           <DialogHeader>

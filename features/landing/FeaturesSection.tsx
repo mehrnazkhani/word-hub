@@ -1,9 +1,9 @@
-import { WordDetail } from "./landing-features/WordDetail";
-import FolderList from "./landing-features/FolderList";
-import ImportExport from "./landing-features/ImportExport";
-import DonutLegend from "./landing-features/Statistics";
+import { WordDetailShowcase } from "./landing-features/WordDetailShowcase";
+import { CategoryListShowcase } from "./landing-features/CategoryListShowcase";
+import { DailyWordSuggestionShowcase } from "./landing-features/DailyWordSuggestionShowcase";
 import { ChartBarProgress } from "./landing-features/ChartBarProgress";
-import { PracticeList } from "./landing-features/PracticeList";
+import { VocabularyStatsShowcase } from "./landing-features/VocabularyStatsShowcase";
+import { ImportExport } from "./landing-features/ImportExport";
 
 export const FeaturesSection = () => {
   return (
@@ -17,11 +17,11 @@ export const FeaturesSection = () => {
       </h2>
 
       <div className="flex flex-col items-center gap-20 md:gap-35">
-        <WordDetail />
-        <FolderList />
-        <PracticeList />
+        <WordDetailShowcase />
+        <CategoryListShowcase />
+        <DailyWordSuggestionShowcase />
         <ChartBarProgress />
-        <DonutLegend />
+        <VocabularyStatsShowcase />
         <ImportExport />
       </div>
     </section>

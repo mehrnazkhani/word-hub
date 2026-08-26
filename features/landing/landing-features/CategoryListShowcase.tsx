@@ -8,9 +8,10 @@ const ROWS = [
   { colorClass: "bg-accent-foreground/20" },
 ];
 
-export default function FolderList() {
+export const CategoryListShowcase = () => {
   return (
     <FeatureShowcaseContainer
+      index="02 / Category"
       title="Organize with Categories"
       description="Group your words into categories to study smarter — practice by topic, focus on what matters most, and track progress for each group."
       position="left"
@@ -39,4 +40,4 @@ export default function FolderList() {
       </CardContent>
     </FeatureShowcaseContainer>
   );
-}
+};

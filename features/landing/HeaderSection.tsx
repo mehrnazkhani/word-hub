@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export const HeaderSection = () => {
   return (
-    <header className="flex w-full items-center justify-between px-5">
+    <header className="flex h-16 w-full items-center justify-between px-5">
       <div className="flex items-center px-2 pt-2">
         <Link href="/">
           <Image

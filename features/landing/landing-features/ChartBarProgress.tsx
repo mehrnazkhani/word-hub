@@ -15,6 +15,7 @@ const getBarColor = (i: number, total: number) => {
 export const ChartBarProgress = () => {
   return (
     <FeatureShowcaseContainer
+      index="04 / Chart bar"
       title="Your Progress at a Glance"
       description="See how consistent you've been — track your practice sessions over the last 7 days and keep your streak going."
       position="left"

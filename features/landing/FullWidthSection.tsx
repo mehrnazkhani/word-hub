@@ -23,7 +23,7 @@ export const FullWidthSection = () => {
   return (
     <section
       aria-labelledby="fullwidth-heading"
-      className="bg-accent-foreground/3 px-6 py-8 sm:px-10 sm:py-6 md:py-5"
+      className="bg-foreground/3 px-6 py-8 sm:px-10 sm:py-6 md:py-5"
     >
       <div className="mx-auto flex max-w-6xl flex-col gap-8 sm:grid sm:min-h-80 sm:grid-cols-[minmax(0,1fr)_360px] sm:items-center sm:gap-8 md:h-80 md:gap-10 lg:gap-16">
         <div className="flex flex-col items-center space-y-5 sm:items-start">

@@ -52,9 +52,12 @@ function DonutChart() {
   );
 }
 
-export default function DonutLegend() {
+import React from "react";
+
+export const VocabularyStatsShowcase = () => {
   return (
     <FeatureShowcaseContainer
+      index="05 / Vocabulary stats"
       title="Your Vocabulary at a Glance"
       description="Get a clear picture of your overall progress — see how many words you've mastered, how many are in progress, and how many are still waiting to be learned."
       position="right"
@@ -63,7 +66,7 @@ export default function DonutLegend() {
         className="flex h-full w-full items-center justify-center gap-10"
         aria-hidden="true"
       >
-        <DonutLegend.Donut />
+        <VocabularyStatsShowcase.Donut />
 
         <div className="flex flex-col gap-4">
           {SEGMENTS.map((segment, i) => (
@@ -78,8 +81,8 @@ export default function DonutLegend() {
       </div>
     </FeatureShowcaseContainer>
   );
-}
+};
 
-DonutLegend.Donut = function Donut() {
+VocabularyStatsShowcase.Donut = function Donut() {
   return <DonutChart />;
 };

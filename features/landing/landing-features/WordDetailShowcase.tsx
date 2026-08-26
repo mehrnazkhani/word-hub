@@ -4,7 +4,7 @@ import { Progress } from "@/components/ui/progress";
 import { ChevronDown, Percent, Volume2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-export const WordDetail = () => {
+export const WordDetailShowcase = () => {
   return (
     <FeatureShowcaseContainer
       index="01 / word"
@@ -12,7 +12,7 @@ export const WordDetail = () => {
       description="Store every word with its translation, description, synonyms, antonyms, examples, and more — everything you need to truly learn it, all in one place."
       position="right"
     >
-      <CardContent className="space-y-5 px-5 py-2" aria-hidden="true">
+      <CardContent className="w-full space-y-5 py-2" aria-hidden="true">
         {/* Header */}
         <div className="flex items-stretch justify-between">
           <div className="flex flex-col justify-between gap-3">

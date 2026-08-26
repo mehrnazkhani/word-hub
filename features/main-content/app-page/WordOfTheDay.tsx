@@ -1,13 +1,15 @@
 "use client";
 
+import { MoveRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { WordPronunciation } from "@/components/WordPronunciation";
 import { getLanguageById } from "@/constants/languages";
+
 import { useDailyWordSuggestion } from "@/queries/daily_suggestions/useDailyWordSuggestion";
 import { joinRelatedWords } from "@/schemas/word/word.shared";
-import { MoveRight } from "lucide-react";
 import { WordOfTheDayEmpty } from "./WordOfTheDayEmpty";
 import { SaveWordButton } from "./SaveWordButton";
+
 import type { Word } from "@/types/db-aliases";
 
 export const WordOfTheDay = () => {

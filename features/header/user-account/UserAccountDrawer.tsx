@@ -73,9 +73,9 @@ export function UserAccountDrawer({
   return (
     <>
       <Drawer open={open} onOpenChange={handleDrawerChange}>
-        <DrawerContent className="flex h-[92vh] max-h-[92vh] flex-col">
+        <DrawerContent className="flex h-2/3 max-h-2/3 flex-col">
           {view === "root" ? (
-            <div className="flex flex-1 flex-col overflow-y-auto">
+            <div className="flex flex-1 flex-col gap-4 overflow-y-auto">
               <DrawerHeader className="flex items-center gap-3">
                 <DrawerTitle className="sr-only">Settings</DrawerTitle>
 

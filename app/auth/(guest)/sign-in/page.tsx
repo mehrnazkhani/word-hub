@@ -1,6 +1,6 @@
 import { UserRoundKey } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
-import { Providers } from "@/features/authentication/Providers";
+import { GoogleOAuth } from "@/features/authentication/GoogleOAuth";
 import { AuthHeader } from "@/features/authentication/AuthHeader";
 import { SignInForm } from "@/features/authentication/forms/SignInForm";
 import { ROUTES } from "@/constants/routes";
@@ -16,7 +16,7 @@ export const SignInPage = () => {
         linkHref={ROUTES.SIGN_UP}
       />
 
-      <Providers />
+      <GoogleOAuth />
 
       <div className="flex items-center gap-2">
         <Separator className="flex-1" />

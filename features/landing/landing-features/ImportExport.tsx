@@ -11,9 +11,9 @@ const LEFT_ICONS = [
 ];
 
 const RIGHT_ICONS = [
-  { size: 26, iconSize: 11, top: 20, left: 32, bg: "bg-accent-foreground/20" },
-  { size: 36, iconSize: 15, top: 60, left: 60, bg: "bg-accent-foreground/15" },
-  { size: 44, iconSize: 18, top: 0, left: 90, bg: "bg-accent-foreground/10" },
+  { size: 26, iconSize: 11, top: 20, left: 20, bg: "bg-accent-foreground/20" },
+  { size: 36, iconSize: 15, top: 60, left: 45, bg: "bg-accent-foreground/15" },
+  { size: 44, iconSize: 18, top: 0, left: 70, bg: "bg-accent-foreground/10" },
 ];
 
 export const ImportExport = () => {
@@ -29,7 +29,7 @@ export const ImportExport = () => {
         aria-hidden="true"
       >
         {/* Left — Upload / Export */}
-        <div className="relative shrink-0" style={{ width: 130, height: 80 }}>
+        <div className="relative shrink-0" style={{ width: 120, height: 80 }}>
           {LEFT_ICONS.map((ic, i) => (
             <div
               key={i}
@@ -63,7 +63,7 @@ export const ImportExport = () => {
         </div>
 
         {/* Right — Download / Import */}
-        <div className="relative shrink-0" style={{ width: 130, height: 80 }}>
+        <div className="relative shrink-0" style={{ width: 120, height: 80 }}>
           {RIGHT_ICONS.map((ic, i) => (
             <div
               key={i}

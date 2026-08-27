@@ -72,68 +72,73 @@ const EditWordForm = ({ word, onSuccess }: EditWordFormProps) => {
     <FormProvider {...methods}>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="grid grid-cols-4 gap-4"
+        className="flex h-full flex-col gap-4"
       >
-        <div className="col-span-3 flex items-center">
-          <FormInput
-            name="word"
-            label="Word"
-            placeholder="Word"
-            endAdornment={
-              wordValue ? (
-                <WordPronunciation
-                  word={wordValue}
-                  lang={sourceLanguage?.value}
-                />
-              ) : undefined
-            }
-          />
+        <div className="grid grid-cols-4 gap-4">
+          <div className="col-span-3 flex items-center">
+            <FormInput
+              name="word"
+              label="Word"
+              placeholder="Word"
+              endAdornment={
+                wordValue ? (
+                  <WordPronunciation
+                    word={wordValue}
+                    lang={sourceLanguage?.value}
+                  />
+                ) : undefined
+              }
+            />
+          </div>
+
+          <div className="col-span-1">
+            <SelectLanguage name="sourceLanguageId" label="Source Language" />
+          </div>
+
+          <div className="col-span-3">
+            <FormInput
+              name="translation"
+              label="Translation"
+              placeholder="Translation"
+            />
+          </div>
+
+          <div className="col-span-1">
+            <SelectLanguage name="targetLanguageId" label="Target Language" />
+          </div>
+
+          <div className="col-span-4">
+            <SelectWordType />
+          </div>
+
+          <div className="col-span-4 space-y-4">
+            <RelatedWordsInput name="synonyms" placeholder="Synonyms" />
+            <RelatedWordsInput name="antonyms" placeholder="Antonyms" />
+
+            <FormTextarea
+              name="example"
+              label="Example"
+              placeholder="Example"
+              rows={2}
+            />
+
+            <FormTextarea
+              name="description"
+              label="Description"
+              placeholder="Description"
+              rows={2}
+            />
+          </div>
         </div>
 
-        <div className="col-span-1">
-          <SelectLanguage name="sourceLanguageId" label="Source Language" />
-        </div>
+        <div className="flex-1" />
 
-        <div className="col-span-3">
-          <FormInput
-            name="translation"
-            label="Translation"
-            placeholder="Translation"
-          />
-        </div>
-
-        <div className="col-span-1">
-          <SelectLanguage name="targetLanguageId" label="Target Language" />
-        </div>
-
-        <div className="col-span-4">
-          <SelectWordType />
-        </div>
-
-        <div className="col-span-4 space-y-4">
-          <RelatedWordsInput name="synonyms" placeholder="Synonyms" />
-          <RelatedWordsInput name="antonyms" placeholder="Antonyms" />
-
-          <FormTextarea
-            name="example"
-            label="Example"
-            placeholder="Example"
-            rows={2}
-          />
-
-          <FormTextarea
-            name="description"
-            label="Description"
-            placeholder="Description"
-            rows={2}
-          />
-        </div>
-
-        <div className="col-span-4 flex justify-end">
+        <div className="flex justify-end">
           <ArrowButton
             type="submit"
             isLoading={isSubmitting}
             disabled={!isDirty || isSubmitting}
+            isDirty={isDirty}
           >
             {isSubmitting ? "Saving..." : "Save"}
           </ArrowButton>

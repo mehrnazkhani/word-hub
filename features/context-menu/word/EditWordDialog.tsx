@@ -1,4 +1,4 @@
-import { FormDialog } from "@/components/FormDialog";
+import { FormDrawerDialog } from "@/components/FormDrawerDialog";
 import EditWordForm from "@/features/word/form/EditWordForm";
 import type { Word } from "@/types/db-aliases";
 
@@ -14,13 +14,13 @@ export const EditWordDialog = ({
   onOpenChange,
 }: EditWordDialogProps) => {
   return (
-    <FormDialog
+    <FormDrawerDialog
       open={open}
       onOpenChange={onOpenChange}
       title="Edit Word"
       description="Update the word and any of its details."
     >
       <EditWordForm word={word} onSuccess={() => onOpenChange(false)} />
-    </FormDialog>
+    </FormDrawerDialog>
   );
 };

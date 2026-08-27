@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/select";
 
 import { HELLO_TRANSLATION } from "@/constants/hello-translations";
-import { LANGUAGES } from "@/constants/languages";
+import { ACTIVE_LANGUAGES } from "@/constants/languages";
 
 type TranslationResult = (typeof HELLO_TRANSLATION)[number] | null;
 type Status = "idle" | "loading" | "done";
@@ -39,7 +39,7 @@ export const HeroWordCard = () => {
   }, []);
 
   const handleTranslate = () => {
-    const lang = LANGUAGES.find((l) => l.value === selectedLang);
+    const lang = ACTIVE_LANGUAGES.find((l) => l.value === selectedLang);
     if (!lang) return;
 
     setStatus("loading");
@@ -77,7 +77,7 @@ export const HeroWordCard = () => {
               </SelectTrigger>
 
               <SelectContent>
-                {LANGUAGES.map((language) => (
+                {ACTIVE_LANGUAGES.map((language) => (
                   <SelectItem key={language.id} value={language.value}>
                     {language.flag} {language.label}
                   </SelectItem>

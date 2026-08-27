@@ -1,5 +1,14 @@
 export const HELLO_TRANSLATION = [
   {
+    language: "English",
+    translation: "Hello",
+    description:
+      "A common greeting used to welcome someone or begin a conversation.",
+    synonyms: ["Hi", "Hey", "Greetings"],
+    antonyms: ["Goodbye", "Farewell", "See you"],
+    example: 'She smiled and said, "Hello" when I arrived.',
+  },
+  {
     language: "Spanish",
     translation: "Hola",
     description:

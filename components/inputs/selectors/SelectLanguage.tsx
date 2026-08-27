@@ -1,10 +1,10 @@
 "use client";
 
+import { useFormContext } from "react-hook-form";
 import { X } from "lucide-react";
 import { SelectItem } from "@/components/ui/select";
 import { FormSelect } from "@/components/inputs/FormSelect";
 import { ACTIVE_LANGUAGES, getLanguageById } from "@/constants/languages";
-import { useFormContext } from "react-hook-form";
 
 type SelectLanguageProps = {
   name: string;

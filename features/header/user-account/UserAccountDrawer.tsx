@@ -72,7 +72,11 @@ export function UserAccountDrawer({
 
   return (
     <>
-      <Drawer open={open} onOpenChange={handleDrawerChange}>
+      <Drawer
+        open={open}
+        onOpenChange={handleDrawerChange}
+        disablePointerDismissal={view !== "root"}
+      >
         <DrawerContent className="flex h-2/3 max-h-2/3 flex-col">
           {view === "root" ? (
             <div className="flex flex-1 flex-col gap-4 overflow-y-auto">

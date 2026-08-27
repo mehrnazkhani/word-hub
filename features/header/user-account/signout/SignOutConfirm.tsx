@@ -33,6 +33,20 @@ function SubmitButton() {
   );
 }
 
+function CancelButton() {
+  const { pending } = useFormStatus();
+
+  return (
+    <AlertDialogCancel
+      variant="outline"
+      className="cursor-pointer"
+      disabled={pending}
+    >
+      Cancel
+    </AlertDialogCancel>
+  );
+}
+
 export const SignOutConfirm = ({
   open,
   onOpenChange,
@@ -66,12 +80,10 @@ export const SignOutConfirm = ({
 
         <form action={signOutAction}>
           <AlertDialogFooter>
-            <AlertDialogCancel variant="outline" className="cursor-pointer">
-              Cancel
-            </AlertDialogCancel>
             <AlertDialogAction asChild className="cursor-pointer">
               <SubmitButton />
             </AlertDialogAction>
+            <CancelButton />
           </AlertDialogFooter>
         </form>
       </AlertDialogContent>

@@ -60,7 +60,7 @@ const AddWordForm = () => {
   const {
     handleSubmit,
     reset,
-    formState: { isSubmitting },
+    formState: { isSubmitting, isDirty },
   } = methods;
 
   const wordValue = useWatch({ control: methods.control, name: "word" });
@@ -98,61 +98,70 @@ const AddWordForm = () => {
     <FormProvider {...methods}>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="grid grid-cols-4 gap-4"
+        className="flex h-full flex-col gap-4"
       >
-        <div className="col-span-3 flex items-center">
-          <FormInput
-            name="word"
-            label="Word"
-            placeholder="Word"
-            endAdornment={
-              wordValue ? (
-                <WordPronunciation
-                  word={wordValue}
-                  lang={sourceLanguage?.value}
-                />
-              ) : undefined
-            }
-          />
+        <div className="grid grid-cols-4 gap-4">
+          <div className="col-span-3 flex items-center">
+            <FormInput
+              name="word"
+              label="Word"
+              placeholder="Word"
+              endAdornment={
+                wordValue ? (
+                  <WordPronunciation
+                    word={wordValue}
+                    lang={sourceLanguage?.value}
+                  />
+                ) : undefined
+              }
+            />
+          </div>
+
+          <div className="col-span-1">
+            <SelectLanguage name="sourceLanguageId" label="Source Language" />
+          </div>
+
+          <div className="col-span-3">
+            <FormInput
+              name="translation"
+              label="Translation"
+              placeholder="Translation"
+            />
+          </div>
+
+          <div className="col-span-1">
+            <SelectLanguage name="targetLanguageId" label="Target Language" />
+          </div>
+
+          <div className="col-span-2">
+            <SelectWordType />
+          </div>
+
+          <div className="col-span-2">
+            <SelectCategory
+              name="categoryId"
+              label="Select Category"
+              placeholder="Select Category"
+            />
+          </div>
+
+          <WordFormAdvanced />
         </div>
 
-        <div className="col-span-1">
-          <SelectLanguage name="sourceLanguageId" label="Source Language" />
-        </div>
+        <div className="flex-1" />
 
-        <div className="col-span-3">
-          <FormInput
-            name="translation"
-            label="Translation"
-            placeholder="Translation"
-          />
-        </div>
-
-        <div className="col-span-1">
-          <SelectLanguage name="targetLanguageId" label="Target Language" />
-        </div>
-
-        <div className="col-span-2">
-          <SelectWordType />
-        </div>
-
-        <div className="col-span-2">
-          <SelectCategory
-            name="categoryId"
-            label="Select Category"
-            placeholder="Select Category"
-          />
-        </div>
-
-        <WordFormAdvanced />
-
-        <div className="col-span-4 flex justify-between">
+        <div className="flex justify-between">
           <AiFillButton
             isLoading={isAiLoading}
             onFill={fillWithAI}
             onStop={stopAI}
           />
-          <ArrowButton type="submit" isLoading={isSubmitting}>
+          <ArrowButton
+            type="submit"
+            isDirty={isDirty}
+            isLoading={isSubmitting}
+            disabled={!isDirty}
+          >
             {isSubmitting ? "Saving..." : "Save"}
           </ArrowButton>
         </div>

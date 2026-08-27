@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { IconBadge } from "@/components/ui/icon-badge";
 import { SquareIcon, ArrowUp } from "lucide-react";
 
 type AiFillButtonProps = {
@@ -17,19 +18,19 @@ export const AiFillButton = ({
   return (
     <Button
       type="button"
-      variant="outline"
+      variant="ghost"
       onClick={isLoading ? onStop : onFill}
       className="cursor-pointer text-xs"
     >
       {isLoading ? (
         <>
-          <SquareIcon className="size-4" />
+          <IconBadge icon={SquareIcon} variant="secondary" badgeSize={7} />
           Stop
         </>
       ) : (
         <>
-          <ArrowUp className="size-4" />
-          Fill with AI
+          <IconBadge icon={ArrowUp} variant="secondary" badgeSize={7} />
+          Auto Fill
         </>
       )}
     </Button>

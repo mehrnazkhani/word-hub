@@ -35,7 +35,6 @@ export default async function Home() {
 
         <Separator />
         <FullWidthSection />
-        <Separator />
         <FooterSection />
       </div>
     </div>

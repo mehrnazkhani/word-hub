@@ -99,18 +99,18 @@ export const HeroWordCard = () => {
         <div className="space-y-5 px-2">
           {/* Translation */}
           {status === "loading" ? (
-            <div className="h-4 max-w-40 rounded-full bg-accent-foreground/20" />
+            <div className="h-4 w-2/5 rounded-full bg-accent-foreground/20" />
           ) : status === "done" ? (
             <p className="font-semibold">{result?.translation}</p>
           ) : (
-            <div className="h-4 max-w-40 rounded-full bg-accent-foreground/20" />
+            <div className="h-4 w-2/5 rounded-full bg-accent-foreground/20" />
           )}
 
           {/* Description */}
           {status === "loading" ? (
             <div className="space-y-2">
-              <Skeleton className="h-3 rounded-full" />
-              <Skeleton className="h-3 w-sm rounded-full" />
+              <Skeleton className="h-3 w-3/5 rounded-full" />
+              <Skeleton className="h-3 w-5/5 rounded-full" />
             </div>
           ) : status === "done" ? (
             <p className="text-sm text-accent-foreground/70">
@@ -118,8 +118,8 @@ export const HeroWordCard = () => {
             </p>
           ) : (
             <div className="space-y-2">
-              <div className="h-3 rounded-full bg-accent-foreground/10" />
-              <div className="h-3 w-sm rounded-full bg-accent-foreground/10" />
+              <div className="h-3 w-3/5 rounded-full bg-accent-foreground/10" />
+              <div className="h-3 w-5/5 rounded-full bg-accent-foreground/10" />
             </div>
           )}
 
@@ -127,20 +127,19 @@ export const HeroWordCard = () => {
           {status === "loading" ? (
             <div className="divide-y overflow-hidden rounded-lg border">
               <div className="flex items-center gap-4 px-4 py-3">
-                <Skeleton className="h-3 w-14 rounded-md" />
-                <Skeleton className="h-3 w-32 rounded-md" />
+                <Skeleton className="h-3 w-1/5 rounded-md" />
+                <Skeleton className="h-3 w-2/5 rounded-md" />
               </div>
 
               <div className="flex items-center gap-4 px-4 py-3">
-                <Skeleton className="h-3 w-14 rounded-md" />
-                <Skeleton className="h-3 w-20 rounded-md" />
-                <Skeleton className="h-3 w-20 rounded-md" />
-                <Skeleton className="h-3 w-20 rounded-md" />
+                <Skeleton className="h-3 w-1/5 rounded-md" />
+                <Skeleton className="h-3 w-2/5 rounded-md" />
+                <Skeleton className="h-3 w-1/5 rounded-md" />
               </div>
             </div>
           ) : status === "done" ? (
             <div className="divide-y overflow-hidden rounded-lg border">
-              <div className="flex items-center gap-4 px-4 py-3">
+              <div className="flex items-start gap-4 px-4 py-3">
                 <span className="w-14 shrink-0 text-xs font-medium text-accent-foreground/50">
                   Synonyms
                 </span>
@@ -148,7 +147,7 @@ export const HeroWordCard = () => {
                 <span className="text-sm">{result?.synonyms.join(", ")}</span>
               </div>
 
-              <div className="flex items-center gap-4 px-4 py-3">
+              <div className="flex items-start gap-4 px-4 py-3">
                 <span className="w-14 shrink-0 text-xs font-medium text-accent-foreground/50">
                   Antonyms
                 </span>
@@ -159,15 +158,14 @@ export const HeroWordCard = () => {
           ) : (
             <div className="divide-y overflow-hidden rounded-lg border">
               <div className="flex items-center gap-4 px-4 py-3">
-                <div className="h-3 w-14 rounded-full bg-accent-foreground/10" />
-                <div className="h-3 w-32 rounded-full bg-accent-foreground/10" />
+                <div className="h-3 w-1/5 rounded-full bg-accent-foreground/10" />
+                <div className="h-3 w-2/5 rounded-full bg-accent-foreground/10" />
               </div>
 
               <div className="flex items-center gap-4 px-4 py-3">
-                <div className="h-3 w-14 rounded-full bg-accent-foreground/10" />
-                <div className="h-3 w-20 rounded-full bg-accent-foreground/10" />
-                <div className="h-3 w-20 rounded-full bg-accent-foreground/10" />
-                <div className="h-3 w-20 rounded-full bg-accent-foreground/10" />
+                <div className="h-3 w-1/5 rounded-full bg-accent-foreground/10" />
+                <div className="h-3 w-2/5 rounded-full bg-accent-foreground/10" />
+                <div className="h-3 w-1/5 rounded-full bg-accent-foreground/10" />
               </div>
             </div>
           )}
@@ -175,8 +173,8 @@ export const HeroWordCard = () => {
           {/* Example */}
           {status === "loading" ? (
             <div className="flex items-center gap-4 rounded-lg bg-accent-foreground/3 px-4 py-3">
-              <Skeleton className="h-3 w-14 rounded-md" />
-              <Skeleton className="h-3 w-64 rounded-md" />
+              <Skeleton className="h-3 w-1/5 rounded-md" />
+              <Skeleton className="h-3 w-3/5 rounded-md" />
             </div>
           ) : status === "done" ? (
             <div className="flex items-center gap-4 rounded-lg bg-accent-foreground/3 px-4 py-3">
@@ -188,8 +186,8 @@ export const HeroWordCard = () => {
             </div>
           ) : (
             <div className="flex items-center gap-4 rounded-lg bg-accent-foreground/3 px-4 py-3">
-              <div className="h-3 w-14 rounded-full bg-accent-foreground/13" />
-              <div className="h-3 w-64 rounded-full bg-accent-foreground/13" />
+              <div className="h-3 w-1/5 rounded-full bg-accent-foreground/13" />
+              <div className="h-3 w-3/5 rounded-full bg-accent-foreground/13" />
             </div>
           )}
         </div>

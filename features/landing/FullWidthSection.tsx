@@ -22,13 +22,13 @@ const ITEM_WIDTHS = ["w-full", "w-1/3", "w-2/3"] as const;
 export const FullWidthSection = () => {
   return (
     <section
-      aria-labelledby="fullwidth-heading"
+      aria-labelledby="full-width-heading"
       className="bg-foreground/3 px-6 py-8 sm:px-10 sm:py-6 md:py-5"
     >
       <div className="mx-auto flex max-w-6xl flex-col gap-8 sm:grid sm:min-h-80 sm:grid-cols-[minmax(0,1fr)_360px] sm:items-center sm:gap-8 md:h-80 md:gap-10 lg:gap-16">
         <div className="flex flex-col items-center space-y-5 sm:items-start">
           <h2
-            id="fullwidth-heading"
+            id="full-width-heading"
             className="text-center text-2xl font-bold sm:text-left sm:text-3xl"
           >
             Practice in Different Ways
@@ -94,7 +94,7 @@ export function QuestionnaireAnimated() {
       <QuestionnaireProgress />
 
       <QuestionnaireItem name="task" required className="space-y-8!">
-        <QuestionnaireTitle className="h-2 w-3/4 rounded-full bg-accent-foreground/40" />
+        <QuestionnaireTitle className="h-2 w-3/4 rounded-full bg-foreground/50" />
 
         <QuestionnaireChoices>
           {ITEM_WIDTHS.map((width, i) => {

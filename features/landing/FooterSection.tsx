@@ -18,7 +18,7 @@ const socialMediaIcons = [
 
 export const FooterSection = () => {
   return (
-    <footer className="mx-auto flex w-full max-w-6xl flex-col items-center gap-10 px-6 pb-16 text-center sm:items-start sm:px-8 sm:pb-20 sm:text-left lg:flex-row lg:items-center lg:justify-between lg:gap-16">
+    <footer className="mx-auto flex w-full max-w-6xl flex-col items-center gap-10 border-t px-6 py-16 text-center sm:items-start sm:px-8 sm:pb-20 sm:text-left lg:flex-row lg:items-center lg:justify-between lg:gap-16">
       {/* Content */}
       <div className="flex flex-1 flex-col items-center gap-8 sm:items-start sm:gap-10">
         <div className="space-y-2">
@@ -43,7 +43,7 @@ export const FooterSection = () => {
       </div>
 
       {/* Social + mobile copyright */}
-      <div className="flex w-full flex-col items-center gap-8 border-t border-accent-foreground/10 pt-8 sm:items-start lg:w-auto lg:items-end lg:border-0 lg:pt-0">
+      <div className="flex w-full flex-col items-center gap-8 sm:items-start lg:w-auto lg:items-end lg:border-0 lg:pt-0">
         <nav aria-label="Social media links">
           <ul className="flex flex-wrap items-center justify-center gap-x-6 gap-y-5 sm:justify-start sm:gap-x-8 lg:justify-end">
             {socialMediaIcons.map(({ Icon, alt, href }) => (

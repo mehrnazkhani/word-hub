@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 
@@ -26,15 +26,16 @@ import { readSync } from "fs";
 export const SignupForm = () => {
   const router = useRouter();
 
-  const {
-    control,
-    handleSubmit,
-    setError,
-    formState: { isSubmitting },
-  } = useForm<SignUpFormValues>({
+  const methods = useForm<SignUpFormValues>({
     resolver: zodResolver(signUpSchema),
     defaultValues: signUpDefaultValues,
   });
+
+  const {
+    handleSubmit,
+    setError,
+    formState: { isSubmitting },
+  } = methods;
 
   const handleResult = (result: SignUpResult) => {
     switch (result.status) {
@@ -68,40 +69,38 @@ export const SignupForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-10">
-      <FieldGroup>
-        <FormInput
-          control={control}
-          name="name"
-          label="Name"
-          placeholder="Name"
-          icon={CircleUserRound}
-        />
-        <FormInput
-          control={control}
-          name="email"
-          label="Email"
-          placeholder="Email"
-          type="email"
-          icon={Mail}
-        />
-        <FormPasswordInput
-          control={control}
-          name="password"
-          label="Password"
-          placeholder="Password"
-        />
-        <FormPasswordInput
-          control={control}
-          name="confirmPassword"
-          label="Confirm Password"
-          placeholder="Confirm Password"
-        />
-      </FieldGroup>
+    <FormProvider {...methods}>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-10">
+        <FieldGroup>
+          <FormInput
+            name="name"
+            label="Name"
+            placeholder="Name"
+            icon={CircleUserRound}
+          />
+          <FormInput
+            name="email"
+            label="Email"
+            placeholder="Email"
+            type="email"
+            icon={Mail}
+          />
+          <FormPasswordInput
+            name="password"
+            label="Password"
+            placeholder="Password"
+          />
+          <FormPasswordInput
+            name="confirmPassword"
+            label="Confirm Password"
+            placeholder="Confirm Password"
+          />
+        </FieldGroup>
 
-      <LoadingButton className="w-full" isLoading={isSubmitting}>
-        Create account
-      </LoadingButton>
-    </form>
+        <LoadingButton className="w-full" isLoading={isSubmitting}>
+          Create account
+        </LoadingButton>
+      </form>
+    </FormProvider>
   );
 };

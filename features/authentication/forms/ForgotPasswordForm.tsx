@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Mail } from "lucide-react";
@@ -23,15 +23,16 @@ import { ForgotPasswordResult } from "../auth.type";
 export const ForgotPasswordForm = () => {
   const router = useRouter();
 
-  const {
-    control,
-    handleSubmit,
-    setError,
-    formState: { errors, isSubmitting },
-  } = useForm<ForgotPasswordFormValues>({
+  const methods = useForm<ForgotPasswordFormValues>({
     resolver: zodResolver(forgotPasswordSchema),
     defaultValues: forgotPasswordDefaultValues,
   });
+
+  const {
+    handleSubmit,
+    setError,
+    formState: { errors, isSubmitting },
+  } = methods;
 
   const handleResult = (
     data: ForgotPasswordFormValues,
@@ -66,11 +67,10 @@ export const ForgotPasswordForm = () => {
   };
 
   return (
-    <>
+    <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-10">
         <FieldGroup>
           <FormInput
-            control={control}
             name="email"
             label="Email"
             placeholder="Email"
@@ -89,6 +89,6 @@ export const ForgotPasswordForm = () => {
           Send reset link
         </LoadingButton>
       </form>
-    </>
+    </FormProvider>
   );
 };

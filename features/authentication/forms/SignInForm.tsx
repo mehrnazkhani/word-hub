@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 
@@ -26,15 +26,16 @@ import { SignInResult } from "../auth.type";
 export const SignInForm = () => {
   const router = useRouter();
 
-  const {
-    control,
-    handleSubmit,
-    setError,
-    formState: { errors, isSubmitting },
-  } = useForm<SignInFormValues>({
+  const methods = useForm<SignInFormValues>({
     resolver: zodResolver(signInSchema),
     defaultValues: signInDefaultValues,
   });
+
+  const {
+    handleSubmit,
+    setError,
+    formState: { errors, isSubmitting },
+  } = methods;
 
   const handleResult = (result: SignInResult) => {
     switch (result.status) {
@@ -71,42 +72,42 @@ export const SignInForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-10">
-      <FieldGroup>
-        <FormInput
-          control={control}
-          name="email"
-          label="Email"
-          placeholder="Email"
-          type="email"
-          icon={Mail}
-        />
-
-        <div className="space-y-2.5">
-          <FormPasswordInput
-            control={control}
-            name="password"
-            label="Password"
-            placeholder="Password"
+    <FormProvider {...methods}>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-10">
+        <FieldGroup>
+          <FormInput
+            name="email"
+            label="Email"
+            placeholder="Email"
+            type="email"
+            icon={Mail}
           />
-          <Link
-            href={ROUTES.FORGOT_PASSWORD}
-            className="text-app-secondary hover:text-app-primary text-xs transition-colors duration-300"
-          >
-            Forgot your password?
-          </Link>
-        </div>
 
-        {errors.root && (
-          <Field>
-            <FieldError>{errors.root.message}</FieldError>
-          </Field>
-        )}
-      </FieldGroup>
+          <div className="space-y-2.5">
+            <FormPasswordInput
+              name="password"
+              label="Password"
+              placeholder="Password"
+            />
+            <Link
+              href={ROUTES.FORGOT_PASSWORD}
+              className="text-app-secondary hover:text-app-primary text-xs transition-colors duration-300"
+            >
+              Forgot your password?
+            </Link>
+          </div>
 
-      <LoadingButton className="w-full" isLoading={isSubmitting}>
-        Sign in
-      </LoadingButton>
-    </form>
+          {errors.root && (
+            <Field>
+              <FieldError>{errors.root.message}</FieldError>
+            </Field>
+          )}
+        </FieldGroup>
+
+        <LoadingButton className="w-full" isLoading={isSubmitting}>
+          Sign in
+        </LoadingButton>
+      </form>
+    </FormProvider>
   );
 };

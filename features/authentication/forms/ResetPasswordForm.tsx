@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 
@@ -23,15 +23,16 @@ import { ResetPasswordResult } from "../auth.type";
 export const ResetPasswordForm = () => {
   const router = useRouter();
 
-  const {
-    control,
-    handleSubmit,
-    setError,
-    formState: { isSubmitting },
-  } = useForm<ResetPasswordFormValues>({
+  const methods = useForm<ResetPasswordFormValues>({
     resolver: zodResolver(resetPasswordSchema),
     defaultValues: resetPasswordDefaultValues,
   });
+
+  const {
+    handleSubmit,
+    setError,
+    formState: { isSubmitting },
+  } = methods;
 
   const handleResult = (result: ResetPasswordResult) => {
     switch (result.status) {
@@ -64,25 +65,25 @@ export const ResetPasswordForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-10">
-      <FieldGroup>
-        <FormPasswordInput
-          control={control}
-          name="password"
-          label="New Password"
-          placeholder="New Password"
-        />
-        <FormPasswordInput
-          control={control}
-          name="confirmPassword"
-          label="Confirm Password"
-          placeholder="Confirm Password"
-        />
-      </FieldGroup>
+    <FormProvider {...methods}>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-10">
+        <FieldGroup>
+          <FormPasswordInput
+            name="password"
+            label="New Password"
+            placeholder="New Password"
+          />
+          <FormPasswordInput
+            name="confirmPassword"
+            label="Confirm Password"
+            placeholder="Confirm Password"
+          />
+        </FieldGroup>
 
-      <LoadingButton className="w-full" isLoading={isSubmitting}>
-        Reset password
-      </LoadingButton>
-    </form>
+        <LoadingButton className="w-full" isLoading={isSubmitting}>
+          Reset password
+        </LoadingButton>
+      </form>
+    </FormProvider>
   );
 };

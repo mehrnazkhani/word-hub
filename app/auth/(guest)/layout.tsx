@@ -18,7 +18,7 @@ const AuthLayout = async ({ children }: Readonly<PropsWithChildren>) => {
       </div>
 
       <div className="flex min-h-screen items-center justify-center px-4">
-        <div className="w-full max-w-md rounded-md border p-10">
+        <div className="w-full max-w-md rounded-md p-10 md:border">
           <div className="space-y-5">{children}</div>
         </div>
       </div>

@@ -9,6 +9,7 @@ interface ArrowButtonProps extends React.ComponentPropsWithoutRef<
   typeof Button
 > {
   isLoading?: boolean;
+  isDirty?: boolean;
   direction?: "left" | "right";
 }
 
@@ -16,6 +17,7 @@ export const ArrowButton = forwardRef<HTMLButtonElement, ArrowButtonProps>(
   (
     {
       isLoading = false,
+      isDirty = false,
       direction = "right",
       disabled,
       className,
@@ -30,7 +32,7 @@ export const ArrowButton = forwardRef<HTMLButtonElement, ArrowButtonProps>(
       <Button
         ref={ref}
         type={props.type ?? "button"}
-        variant="ghost"
+        variant={isDirty ? "outline" : "ghost"}
         disabled={disabled || isLoading}
         className={cn("cursor-pointer", className)}
         {...props}

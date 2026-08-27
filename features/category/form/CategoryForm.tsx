@@ -7,7 +7,6 @@ import type { CategoryFormValues } from "../category.schema";
 type CategoryFormProps = {
   onSubmit: (data: CategoryFormValues) => Promise<void>;
   submitLabel: string;
-
   isPending: boolean;
   pendingLabel: string;
 };
@@ -18,10 +17,16 @@ export const CategoryForm = ({
   isPending,
   pendingLabel,
 }: CategoryFormProps) => {
-  const { handleSubmit } = useFormContext<CategoryFormValues>();
+  const {
+    handleSubmit,
+    formState: { isDirty },
+  } = useFormContext<CategoryFormValues>();
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex h-full flex-col gap-4"
+    >
       <FormInput
         icon={Folder}
         name="name"
@@ -29,7 +34,15 @@ export const CategoryForm = ({
         placeholder="Category Name"
       />
 
-      <ArrowButton type="submit" isLoading={isPending} className="self-end">
+      <div className="flex-1" />
+
+      <ArrowButton
+        type="submit"
+        isLoading={isPending}
+        isDirty={isDirty}
+        disabled={!isDirty}
+        className="self-end"
+      >
         {isPending ? pendingLabel : submitLabel}
       </ArrowButton>
     </form>

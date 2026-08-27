@@ -34,6 +34,10 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
+const EMPTY_CHART_DATA = [
+  { status: "empty", count: 1, fill: "var(--color-notLearned)" },
+];
+
 const FALLBACK_DATA = [
   { status: "notLearned", count: 0, fill: "var(--color-notLearned)" },
   { status: "learning", count: 0, fill: "var(--color-learning)" },
@@ -47,6 +51,7 @@ const FALLBACK_STATS = {
   masteredPercent: 0,
   learningPercent: 0,
   notLearnedPercent: 100,
+  isEmpty: false,
 };
 
 export function ChartPie() {
@@ -66,6 +71,13 @@ export function ChartPie() {
     });
 
     const total = result.mastered + result.learning + result.notLearned;
+
+    if (total === 0) {
+      return {
+        chartData: EMPTY_CHART_DATA,
+        stats: { ...FALLBACK_STATS, isEmpty: true },
+      };
+    }
 
     return {
       chartData: [
@@ -87,6 +99,7 @@ export function ChartPie() {
       ],
       stats: {
         ...result,
+        isEmpty: false,
         masteredPercent:
           total === 0 ? 0 : Math.round((result.mastered / total) * 100),
         learningPercent:
@@ -118,22 +131,28 @@ export function ChartPie() {
     },
   ];
 
+  const description = isPending
+    ? "Loading..."
+    : stats.isEmpty
+      ? "Add your first words to get started!"
+      : "Track how well you're retaining words";
+
   return (
     <Card className="bg-background">
       <CardHeader>
         <CardTitle className="text-xs">Words Progress</CardTitle>
-        <CardDescription className="text-xs">
-          {isPending ? "Loading..." : "Track how well you're retaining words"}
-        </CardDescription>
+        <CardDescription className="text-xs">{description}</CardDescription>
       </CardHeader>
 
       <CardContent className="flex items-center justify-center gap-5 py-5">
         <ChartContainer config={chartConfig} className="h-40 w-40 shrink-0">
           <PieChart width={160} height={160}>
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideLabel />}
-            />
+            {!stats.isEmpty && (
+              <ChartTooltip
+                cursor={false}
+                content={<ChartTooltipContent hideLabel />}
+              />
+            )}
             <Pie
               data={chartData}
               dataKey="count"
@@ -145,15 +164,21 @@ export function ChartPie() {
         </ChartContainer>
 
         <div className="flex flex-col gap-6">
-          {legendItems.map(({ key, color, label, percent, count }) => (
-            <LegendItem
-              key={key}
-              color={color}
-              label={label}
-              percent={percent}
-              count={count}
-            />
-          ))}
+          {stats.isEmpty ? (
+            <p className="max-w-30 text-xs text-accent-foreground/40">
+              No words yet. Start adding words to track your progress.
+            </p>
+          ) : (
+            legendItems.map(({ key, color, label, percent, count }) => (
+              <LegendItem
+                key={key}
+                color={color}
+                label={label}
+                percent={percent}
+                count={count}
+              />
+            ))
+          )}
         </div>
       </CardContent>
     </Card>

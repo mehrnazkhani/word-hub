@@ -80,10 +80,10 @@ export const SignOutConfirm = ({
 
         <form action={signOutAction}>
           <AlertDialogFooter>
+            <CancelButton />
             <AlertDialogAction asChild className="cursor-pointer">
               <SubmitButton />
             </AlertDialogAction>
-            <CancelButton />
           </AlertDialogFooter>
         </form>
       </AlertDialogContent>

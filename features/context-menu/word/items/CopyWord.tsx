@@ -42,7 +42,7 @@ export const CopyWord = () => {
   };
 
   return (
-    <ContextMenuItem onSelect={handleCopy} className="text-xs">
+    <ContextMenuItem onSelect={handleCopy}>
       <Copy className="size-3" />
       Copy
     </ContextMenuItem>

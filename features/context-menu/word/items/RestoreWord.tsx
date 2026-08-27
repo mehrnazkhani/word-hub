@@ -14,7 +14,7 @@ export const RestoreWord = () => {
   };
 
   return (
-    <ContextMenuItem onSelect={handleRestore} className="text-xs">
+    <ContextMenuItem onSelect={handleRestore}>
       <RotateCcw className="size-3" />
       Restore
     </ContextMenuItem>

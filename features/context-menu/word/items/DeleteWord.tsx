@@ -14,11 +14,7 @@ export const DeleteWord = () => {
   };
 
   return (
-    <ContextMenuItem
-      variant="destructive"
-      onSelect={handleDelete}
-      className="text-xs"
-    >
+    <ContextMenuItem variant="destructive" onSelect={handleDelete}>
       <Trash2 className="size-3" />
       Delete
     </ContextMenuItem>

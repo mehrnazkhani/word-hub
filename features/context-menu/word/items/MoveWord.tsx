@@ -18,10 +18,7 @@ export const MoveWord = () => {
 
   return (
     <ContextMenuSub>
-      <ContextMenuSubTrigger
-        disabled={isPending || !categories?.length}
-        className="text-xs"
-      >
+      <ContextMenuSubTrigger disabled={isPending || !categories?.length}>
         <FolderOutput className="size-3" />
         Move
       </ContextMenuSubTrigger>
@@ -39,7 +36,6 @@ export const MoveWord = () => {
                     toCategoryId: category.id,
                   })
                 }
-                className="text-xs"
               >
                 <span className="truncate">{category.name}</span>
                 {isCurrentCategory && <Check className="ml-auto" />}

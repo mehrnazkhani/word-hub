@@ -129,7 +129,7 @@ export function UserAccountDrawer({
                   <ThemeToggleRow />
                 </SettingsContainer>
 
-                <SettingsContainer className="bg-destructive/10">
+                <SettingsContainer className="border-none! bg-destructive/10">
                   <Button
                     variant="ghost"
                     className="h-auto w-full justify-start gap-3 text-destructive"
@@ -153,7 +153,7 @@ export function UserAccountDrawer({
             </div>
           ) : (
             <div className="flex flex-1 flex-col overflow-y-auto">
-              <DrawerHeader className="border-b">
+              <DrawerHeader>
                 <div className="flex items-center gap-2">
                   <Button
                     size="icon"

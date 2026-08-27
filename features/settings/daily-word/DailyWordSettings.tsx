@@ -139,7 +139,11 @@ const DailyWordSettings = () => {
         </fieldset>
 
         <div className="flex justify-end">
-          <ArrowButton type="submit" disabled={!isDirty || isPending}>
+          <ArrowButton
+            variant={isDirty ? "outline" : "ghost"}
+            type="submit"
+            disabled={!isDirty || isPending}
+          >
             {isPending ? "Saving..." : "Save Changes"}
           </ArrowButton>
         </div>

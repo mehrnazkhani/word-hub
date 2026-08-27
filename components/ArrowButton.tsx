@@ -32,7 +32,7 @@ export const ArrowButton = forwardRef<HTMLButtonElement, ArrowButtonProps>(
         type={props.type ?? "button"}
         variant="ghost"
         disabled={disabled || isLoading}
-        className={cn("cursor-pointer text-xs", className)}
+        className={cn("cursor-pointer", className)}
         {...props}
       >
         {direction === "left" &&

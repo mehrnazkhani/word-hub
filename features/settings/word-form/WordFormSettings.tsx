@@ -132,6 +132,7 @@ const WordFormSettings = () => {
 
         <div className="flex justify-end">
           <ArrowButton
+            variant={isDirty ? "outline" : "ghost"}
             type="submit"
             disabled={!isDirty || isPending}
             isLoading={isPending}

@@ -7,9 +7,12 @@ import { Separator } from "@/components/ui/separator";
 import { HeaderBreadcrumb } from "./HeaderBreadcrumb";
 import { UserAccount } from "./user-account/UserAccount";
 import { SearchWord } from "../search-word/SearchWord";
+import { PermanentDeleteAllButton } from "../word/word-list/deleted-word/PermanentDeleteAllButton";
+import { usePageTitle } from "./usePageTitle";
 
 export const AppHeader = () => {
   const { user } = useUser();
+  const { isTrash } = usePageTitle();
 
   return (
     <header className="flex h-16 shrink-0 items-center gap-2 bg-background px-5">
@@ -24,7 +27,11 @@ export const AppHeader = () => {
 
       <div className="ml-auto">
         <div className="flex items-center gap-2">
-          <SearchWord />
+          <div className="flex items-center">
+            {isTrash && <PermanentDeleteAllButton />}
+            <SearchWord />
+          </div>
+
           {user && <UserAccount fullName={user?.user_metadata.full_name} />}
         </div>
       </div>

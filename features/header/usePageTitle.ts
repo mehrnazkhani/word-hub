@@ -20,11 +20,12 @@ export const usePageTitle = () => {
   const { name, wordCount } = useCategoryTitle();
   const { data: deletedWords } = useDeletedWords();
 
-  if (pathname === ROUTES.PRACTICE) return { name: "Practice" };
-  if (pathname === ROUTES.RECENT) return { name: "Recent" };
+  if (pathname === ROUTES.PRACTICE) return { name: "Practice", isTrash: false };
+  if (pathname === ROUTES.RECENT) return { name: "Recent", isTrash: false };
   if (pathname === ROUTES.TRASH)
-    return { name: "Trash", wordCount: deletedWords?.length };
-  if (pathname.match(/^\/app\/(\d+)/)) return { name: name ?? "", wordCount };
+    return { name: "Trash", wordCount: deletedWords?.length, isTrash: true };
+  if (pathname.match(/^\/app\/(\d+)/))
+    return { name: name ?? "", wordCount, isTrash: false };
 
-  return { name: "" };
+  return { name: "", isTrash: false };
 };

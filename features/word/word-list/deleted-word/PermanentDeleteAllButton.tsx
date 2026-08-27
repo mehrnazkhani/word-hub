@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Trash, Trash2 } from "lucide-react";
-
+import { Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   AlertDialog,
@@ -16,6 +15,11 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { usePermanentDeleteAllWordsMutation } from "@/queries/words/delete/usePermanentDeleteAllWords.mutation";
 
 export const PermanentDeleteAllButton = () => {
@@ -31,17 +35,23 @@ export const PermanentDeleteAllButton = () => {
 
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
-      <AlertDialogTrigger asChild>
-        <Button variant="outline" className="w-full cursor-pointer">
-          <Trash />
-          Permanent Delete All
-        </Button>
-      </AlertDialogTrigger>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <AlertDialogTrigger asChild>
+            <Button variant="ghost" className="cursor-pointer">
+              <Trash />
+            </Button>
+          </AlertDialogTrigger>
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>Delete all permanently</p>
+        </TooltipContent>
+      </Tooltip>
 
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogMedia className="bg-destructive/10 ring-1 ring-destructive/20">
-            <Trash2 className="size-5 text-destructive" />
+            <Trash className="size-5 text-destructive" />
           </AlertDialogMedia>
 
           <div className="space-y-2">

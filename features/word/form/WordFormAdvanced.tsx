@@ -7,7 +7,7 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, CircleHelp } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { useFormContext } from "react-hook-form";
 
 export const WordFormAdvanced = () => {

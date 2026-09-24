@@ -19,6 +19,7 @@ export type PracticeMode = {
   desc: string;
   icon: LucideIcon;
   practiceMode: PracticeModeName;
+  disabled?: boolean;
 };
 
 export const PRACTICE_MODES: PracticeMode[] = [
@@ -33,30 +34,35 @@ export const PRACTICE_MODES: PracticeMode[] = [
     desc: "Choose the correct meaning",
     icon: HelpCircle,
     practiceMode: "guess",
+    disabled: true,
   },
   {
     label: "Fill in the Blank",
     desc: "Complete the missing word",
     icon: TextCursorInput,
     practiceMode: "fill",
+    disabled: true,
   },
   {
     label: "Writing",
     desc: "Type the translation from memory",
     icon: Pencil,
     practiceMode: "write",
+    disabled: true,
   },
   {
     label: "Synonyms",
     desc: "Practice similar words",
     icon: ArrowUpDown,
     practiceMode: "synonym",
+    disabled: true,
   },
   {
     label: "Antonyms",
     desc: "Practice opposite words",
     icon: ArrowLeftRight,
     practiceMode: "antonym",
+    disabled: true,
   },
 ];
 

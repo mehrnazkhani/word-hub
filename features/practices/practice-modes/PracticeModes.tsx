@@ -9,6 +9,7 @@ import { PracticeCategoryDialog } from "./PracticeCategoryDialog";
 import { ROUTES } from "@/constants/routes";
 import { PRACTICE_MODES, type PracticeMode } from "@/constants/practice-modes";
 import type { CategoryId } from "./PracticeCategoryList";
+import { toast } from "sonner";
 
 export function PracticeModes() {
   const router = useRouter();
@@ -16,6 +17,10 @@ export function PracticeModes() {
   const [selectedMode, setSelectedMode] = useState<PracticeMode | null>(null);
 
   const handleCardClick = (mode: PracticeMode) => {
+    if (mode.disabled) {
+      toast.info("This mode is not available yet");
+      return;
+    }
     setSelectedMode(mode);
     setDialogOpen(true);
   };

@@ -1,6 +1,5 @@
 import { Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { IconBadge } from "@/components/ui/icon-badge";
 import { SettingRow } from "../SettingRow";
 
 export const DeleteAllData = () => {

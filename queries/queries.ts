@@ -32,4 +32,8 @@ export const queryKeys = {
   language: {
     all: ["languages"] as const,
   },
+
+  telegram: {
+    status: (userId: string) => ["telegram", "status", userId] as const,
+  },
 };

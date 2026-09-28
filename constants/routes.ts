@@ -33,3 +33,12 @@ export const API_ROUTES = {
     `/api/search/word?q=${encodeURIComponent(query)}&limit=${limit}`,
   ai_FILL_WORD: "/api/ai/fill-word",
 } as const;
+
+export const EXTERNAL_ROUTES = {
+  TELEGRAM_BOT: (username: string, start?: string) =>
+    start
+      ? `https://t.me/${username}?start=${encodeURIComponent(start)}`
+      : `https://t.me/${username}`,
+  TELEGRAM_API: (botToken: string, method: string) =>
+    `https://api.telegram.org/bot${botToken}/${method}`,
+} as const;

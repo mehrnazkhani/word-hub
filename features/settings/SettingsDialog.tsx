@@ -11,6 +11,7 @@ import {
   Shield,
   PencilSparkles,
   CalendarClock,
+  Link,
 } from "lucide-react";
 import {
   Breadcrumb,
@@ -59,14 +60,21 @@ const DataManagementSettings = dynamic(
 const AIFillSettingsForm = dynamic(() => import("./ai-fill/AIFillSettings"), {
   ssr: false,
 });
+const LinkToTelegramBotSettings = dynamic(
+  () => import("./link-to-telegram-bot/LinkToTelegramBotSettings"),
+  {
+    ssr: false,
+  },
+);
 
 const settingsSections = {
   Profile: ProfileSettings,
-  "Word Form": WordFormSettings,
+  "Word form": WordFormSettings,
   "Daily word": DailyWordSuggestionSettings,
   Privacy: PrivacySettings,
   Data: DataManagementSettings,
-  "Ai Fill": AIFillSettingsForm,
+  "Ai fill": AIFillSettingsForm,
+  "Link to bot": LinkToTelegramBotSettings,
 } as const;
 
 type SettingsSection = keyof typeof settingsSections;
@@ -79,11 +87,12 @@ const data: {
 } = {
   nav: [
     { name: "Profile", icon: CircleUserRound },
-    { name: "Word Form", icon: Form },
+    { name: "Word form", icon: Form },
     { name: "Daily word", icon: CalendarClock },
     { name: "Privacy", icon: Shield },
     { name: "Data", icon: Database },
-    { name: "Ai Fill", icon: PencilSparkles },
+    { name: "Ai fill", icon: PencilSparkles },
+    { name: "Link to bot", icon: Link },
   ],
 };
 

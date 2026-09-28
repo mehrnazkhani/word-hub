@@ -54,6 +54,8 @@ export function useAiFillWord(form: UseFormReturn<AddWordFormValues>) {
         form.setValue("description", data.description);
       if (aiFillFields.example && data.example)
         form.setValue("example", data.example);
+
+      return data;
     } catch (err: any) {
       if (err.name === "AbortError") return;
       toast.error(err.message || "AI fill failed");

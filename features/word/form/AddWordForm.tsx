@@ -4,7 +4,6 @@ import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { Sparkles, PencilLine } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ArrowButton } from "@/components/ArrowButton";
 import { AiFillButton } from "./ai/AiFillButton";
@@ -38,7 +37,9 @@ const addWordFormDefaultValues: AddWordFormValues = {
 const AddWordForm = () => {
   const { data: userSettings } = useUserSettings();
   const [activeTab, setActiveTab] = useState<"ai" | "manual">("ai");
-  const [aiHasFilled, setAiHasFilled] = useState(false);
+  const [aiResult, setAiResult] = useState<Awaited<
+    ReturnType<typeof fillWithAI>
+  > | null>(null);
 
   const methods = useForm<AddWordFormValues>({
     resolver: zodResolver(addWordFormSchema),
@@ -68,9 +69,9 @@ const AddWordForm = () => {
   const { mutateAsync: creteWord } = useCreateWordMutation();
 
   const handleFillWithAI = async () => {
-    setAiHasFilled(false);
-    await fillWithAI();
-    setAiHasFilled(true);
+    setAiResult(null);
+    const result = await fillWithAI();
+    if (result) setAiResult(result);
   };
 
   const onSubmit = async (data: AddWordFormValues) => {
@@ -87,7 +88,7 @@ const AddWordForm = () => {
         {
           onSuccess: () => {
             reset();
-            setAiHasFilled(false);
+            setAiResult(null);
           },
         },
       );
@@ -120,7 +121,7 @@ const AddWordForm = () => {
             <AiWordFormTab
               methods={methods}
               isAiLoading={isAiLoading}
-              aiHasFilled={aiHasFilled}
+              aiResult={aiResult}
             />
           </TabsContent>
 

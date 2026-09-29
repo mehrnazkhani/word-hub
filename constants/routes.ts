@@ -32,6 +32,9 @@ export const API_ROUTES = {
   SEARCH_WORD: (query: string, limit = 15) =>
     `/api/search/word?q=${encodeURIComponent(query)}&limit=${limit}`,
   ai_FILL_WORD: "/api/ai/fill-word",
+  ai_SPELLING_CHECK: "/api/ai/spelling-check",
+  ai_BASE_FORM_CHECK: "/api/ai/base-form-check",
+  ai_POS_CHECK: "/api/ai/pos-check",
 } as const;
 
 export const EXTERNAL_ROUTES = {

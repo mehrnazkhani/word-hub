@@ -1,4 +1,4 @@
-import { useAiCheck } from "../useAiCheck";
+import { useAiCheck } from "../useAiCheckWord";
 import { aiPosCheck } from "@/lib/api/aiPosCheck.api";
 import type { PosCheckRequest, PosItem } from "./schema";
 

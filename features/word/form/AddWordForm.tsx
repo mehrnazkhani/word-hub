@@ -10,7 +10,7 @@ import { AiFillButton } from "./ai/AiFillButton";
 import { AiWordFormTab } from "./AiWordFormTab";
 import { ManualTab } from "./ManualTab";
 
-import { useAiFillWord } from "@/features/word/form/ai/useAiFillWord";
+import { useWordDetails } from "./ai/word-details/useWordDetails";
 import { useCreateWordMutation } from "@/queries/words/create/useCreateWord.mutation";
 import { useUserSettings } from "@/queries/user-settings/useUserSettings";
 import { useWordCount } from "@/queries/words/count/useWordCount";
@@ -20,9 +20,9 @@ import {
   addWordFormSchema,
   type AddWordFormValues,
 } from "@/schemas/word/word.schema";
-import type { aiFillWord } from "@/lib/api/aiFill.api";
+import type { aiWordDetails } from "@/lib/api/aiWordDetails.api";
 
-type AiResult = Awaited<ReturnType<typeof aiFillWord>>;
+type AiResult = Awaited<ReturnType<typeof aiWordDetails>>;
 
 const addWordFormDefaultValues: AddWordFormValues = {
   word: "",
@@ -66,7 +66,7 @@ const AddWordForm = () => {
   } = methods;
 
   const {
-    fillWithAI,
+    wordDetails,
     isLoading: isAiLoading,
     validationState,
     confirmWord,
@@ -74,14 +74,14 @@ const AddWordForm = () => {
     continueAnyway,
     dismissValidation,
     stopAI,
-  } = useAiFillWord(methods);
+  } = useWordDetails(methods);
 
   const { data: wordsCount } = useWordCount();
   const { mutateAsync: creteWord } = useCreateWordMutation();
 
   const handleFillWithAI = async () => {
     setAiResult(null);
-    const result = await fillWithAI();
+    const result = await wordDetails();
     if (result) setAiResult(result);
   };
 

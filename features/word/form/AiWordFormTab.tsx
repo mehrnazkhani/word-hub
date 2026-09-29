@@ -9,18 +9,18 @@ import { SelectCategory } from "@/components/inputs/selectors/SelectCategory";
 import { WordPronunciation } from "@/components/WordPronunciation";
 import { getLanguageById } from "@/constants/languages";
 
-import { ValidationResult } from "./ai/results-card/ValidationResult";
+import { ValidationResult } from "./ai/ValidationResult";
 import {
   AiFillResult,
   AiFillResultSkeleton,
-} from "./ai/results-card/AiFillResult";
+} from "./ai/word-details/WordDetailsResult";
 
 import type { AddWordFormValues } from "@/schemas/word/word.schema";
 import type { UseFormReturn } from "react-hook-form";
-import type { aiFillWord } from "@/lib/api/aiFill.api";
+import type { aiWordDetails } from "@/lib/api/aiWordDetails.api";
 import type { WordValidationState } from "@/features/word/form/ai/useWordValidation";
 
-type AiResult = Awaited<ReturnType<typeof aiFillWord>>;
+type AiResult = Awaited<ReturnType<typeof aiWordDetails>>;
 
 interface AiWordFormTabProps {
   methods: UseFormReturn<AddWordFormValues>;

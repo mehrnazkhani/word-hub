@@ -4,27 +4,27 @@ import { useRef, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { toast } from "sonner";
 
-import { AddWordFormValues } from "@/schemas/word/word.schema";
 import { getLanguageById } from "@/constants/languages";
 import { useUserSettings } from "@/queries/user-settings/useUserSettings";
-import { aiFillWord } from "@/lib/api/aiFill.api";
+import { aiWordDetails } from "@/lib/api/aiWordDetails.api";
+
 import {
   useWordValidation,
   stageOfState,
   type ValidationContext,
-} from "./useWordValidation";
+} from "../useWordValidation";
+import { AddWordFormValues } from "@/schemas/word/word.schema";
 import type { AiFillFields } from "@/types/db-aliases";
-import type { WordValidationState } from "./useWordValidation";
+import type { WordValidationState } from "../useWordValidation";
 
-export function useAiFillWord(form: UseFormReturn<AddWordFormValues>) {
+export function useWordDetails(form: UseFormReturn<AddWordFormValues>) {
   const [isLoading, setIsLoading] = useState(false);
   const [validationState, setValidationState] = useState<WordValidationState>({
     status: "idle",
   });
   const { data: userSettings } = useUserSettings();
   const abortControllerRef = useRef<AbortController | null>(null);
-  const busyRef = useRef(false); // جلوگیری از اجرای هم‌زمان دو زنجیره
-
+  const busyRef = useRef(false);
   const aiFillFields = (userSettings?.ai_fill_fields ?? {}) as AiFillFields;
   const {
     validate,
@@ -42,7 +42,7 @@ export function useAiFillWord(form: UseFormReturn<AddWordFormValues>) {
     setIsLoading(true);
 
     try {
-      const data = await aiFillWord(
+      const data = await aiWordDetails(
         { word, sourceLanguage, targetLanguage },
         abortControllerRef.current.signal,
       );
@@ -70,7 +70,6 @@ export function useAiFillWord(form: UseFormReturn<AddWordFormValues>) {
     }
   };
 
-  // زبان مقصد اجباری نیست؛ چک املا بدون آن هم کار می‌کند (توضیح‌ها انگلیسی می‌شوند)
   const getContext = () => {
     const word = form.getValues("word");
     const sourceLanguage = getLanguageById(form.getValues("sourceLanguageId"));
@@ -79,7 +78,6 @@ export function useAiFillWord(form: UseFormReturn<AddWordFormValues>) {
     return { word, sourceLanguage, targetLanguage };
   };
 
-  // ساخت ورودی اعتبارسنجی از context؛ pos را می‌شود override کرد
   const toValidationCtx = (
     ctx: NonNullable<ReturnType<typeof getContext>>,
     pos: string | null | undefined = form.getValues("partOfSpeech"),
@@ -95,7 +93,7 @@ export function useAiFillWord(form: UseFormReturn<AddWordFormValues>) {
     setValidationState({ status: "idle" });
   };
 
-  const fillWithAI = async () => {
+  const wordDetails = async () => {
     if (busyRef.current) return;
     busyRef.current = true;
 
@@ -107,7 +105,6 @@ export function useAiFillWord(form: UseFormReturn<AddWordFormValues>) {
       setValidationState(validation);
       if (validation.status !== "valid") return;
 
-      // پر کردن فیلدها به زبان مقصد نیاز دارد
       if (!ctx.targetLanguage) {
         toast.error("Select a target language to fill the word.");
         return;
@@ -126,7 +123,6 @@ export function useAiFillWord(form: UseFormReturn<AddWordFormValues>) {
     }
   };
 
-  // کاربر suggestion را قبول کرد (کلمه عوض می‌شود)
   const confirmWord = async (word: string) => {
     const stage = stageOfState(validationState);
     form.setValue("word", word);
@@ -135,10 +131,9 @@ export function useAiFillWord(form: UseFormReturn<AddWordFormValues>) {
     const ctx = getContext();
     if (!ctx) return;
     if (stage) markPassedUpTo(stage, toValidationCtx(ctx));
-    return fillWithAI();
+    return wordDetails();
   };
 
-  // کاربر گفت با همین کلمه ادامه بده (مثلاً books)
   const continueAnyway = async () => {
     const stage = stageOfState(validationState);
     clearValidationUI();
@@ -146,10 +141,9 @@ export function useAiFillWord(form: UseFormReturn<AddWordFormValues>) {
     const ctx = getContext();
     if (!ctx) return;
     if (stage) markPassedUpTo(stage, toValidationCtx(ctx));
-    return fillWithAI();
+    return wordDetails();
   };
 
-  // کاربر یک POS انتخاب کرد
   const confirmPos = async (pos: string) => {
     form.setValue("partOfSpeech", pos as AddWordFormValues["partOfSpeech"]);
     clearValidationUI();
@@ -157,7 +151,7 @@ export function useAiFillWord(form: UseFormReturn<AddWordFormValues>) {
     const ctx = getContext();
     if (!ctx) return;
     markPassedUpTo("pos", toValidationCtx(ctx, pos));
-    return fillWithAI();
+    return wordDetails();
   };
 
   const dismissValidation = () => {
@@ -169,7 +163,7 @@ export function useAiFillWord(form: UseFormReturn<AddWordFormValues>) {
   };
 
   return {
-    fillWithAI,
+    wordDetails,
     isLoading: isLoading || isValidating,
     validationState,
     confirmWord,

@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
-import { AiResultCard } from "./AiResultCard";
-import type { aiFillWord } from "@/lib/api/aiFill.api";
+import { AiResultCard } from "../AiResultCard";
+import type { aiFillWord } from "@/lib/api/aiWordDetails.api";
 
 type AiResult = Awaited<ReturnType<typeof aiFillWord>>;
 

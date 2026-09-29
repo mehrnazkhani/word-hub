@@ -1,6 +1,6 @@
 "use client";
 
-import { useAiCheck } from "../useAiCheck";
+import { useAiCheck } from "../useAiCheckWord";
 import { aiSpellingCheck } from "@/lib/api/aiSpellingCheck.api";
 import type {
   SpellingCheckRequest,

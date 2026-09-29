@@ -1,22 +1,14 @@
-import { z } from "zod";
 import { createAiRoute } from "@/lib/ai/createAiRoute";
 import { PARTS_OF_SPEECH, WORD_LIMITS } from "@/schemas/word/word.shared";
+import {
+  wordDetailsInput,
+  wordDetailsOutput,
+} from "@/features/word/form/ai/word-details/schema";
 
 export const POST = createAiRoute({
-  name: "ai-fill-word",
-  input: z.object({
-    word: z.string().min(1),
-    sourceLanguage: z.string().min(1),
-    targetLanguage: z.string().min(1),
-  }),
-  output: z.object({
-    translation: z.string(),
-    partOfSpeech: z.string(),
-    synonyms: z.string(),
-    antonyms: z.string(),
-    example: z.string(),
-    description: z.string(),
-  }),
+  name: "word-details",
+  input: wordDetailsInput,
+  output: wordDetailsOutput,
   buildPrompt: ({ word, sourceLanguage, targetLanguage }) => `
 You are a dictionary assistant.
 Given the word "${word}" in ${sourceLanguage}, fill in ALL fields:

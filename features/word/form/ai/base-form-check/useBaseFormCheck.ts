@@ -1,4 +1,4 @@
-import { useAiCheck } from "../useAiCheck";
+import { useAiCheck } from "../useAiCheckWord";
 import { aiBaseFormCheck } from "@/lib/api/aiBaseFormCheck.api";
 import type { BaseFormCheckRequest } from "./schema";
 

@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { AiResultCard } from "../results-card/AiResultCard";
+import { AiResultCard } from "../AiResultCard";
 import type { PosItem } from "./schema";
 
 type InvalidPosResultProps = {

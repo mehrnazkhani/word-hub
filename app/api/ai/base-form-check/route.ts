@@ -1,18 +1,14 @@
-import { z } from "zod";
-import { createAiRoute } from "@/lib/ai/CreateAiRoute";
+import { createAiRoute } from "@/lib/ai/createAiRoute";
+import {
+  baseFormCheckInput,
+  baseFormCheckOutput,
+} from "@/features/word/form/ai/base-form-check/schema";
 
 export const POST = createAiRoute({
   name: "base-form-check",
   timeoutMs: 10_000,
-  input: z.object({
-    word: z.string().min(1).max(100),
-    language: z.string().min(1),
-  }),
-  output: z.object({
-    isBaseForm: z.boolean(),
-    formDescription: z.string(),
-    baseForm: z.string(),
-  }),
+  input: baseFormCheckInput,
+  output: baseFormCheckOutput,
   buildPrompt: ({ word, language }) => `
 Check if this word is in its base form in ${language}.
 Word: "${word}"

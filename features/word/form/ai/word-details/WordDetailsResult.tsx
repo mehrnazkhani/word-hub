@@ -1,8 +1,8 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { AiResultCard } from "../AiResultCard";
-import type { aiFillWord } from "@/lib/api/aiWordDetails.api";
+import type { aiWordDetails } from "@/lib/api/aiWordDetails.api";
 
-type AiResult = Awaited<ReturnType<typeof aiFillWord>>;
+type AiResult = Awaited<ReturnType<typeof aiWordDetails>>;
 
 const ResultField = ({ label, value }: { label: string; value: string }) => (
   <div className="space-y-1">
@@ -11,7 +11,7 @@ const ResultField = ({ label, value }: { label: string; value: string }) => (
   </div>
 );
 
-export const AiFillResultSkeleton = () => (
+export const WordDetailsResultSkeleton = () => (
   <div className="space-y-3 rounded-lg border border-border bg-muted/30 p-4">
     <Skeleton className="h-3 w-1/4" />
     <Skeleton className="h-4 w-3/4" />
@@ -20,7 +20,7 @@ export const AiFillResultSkeleton = () => (
   </div>
 );
 
-export const AiFillResult = ({ result }: { result: AiResult }) => (
+export const WordDetailsResult = ({ result }: { result: AiResult }) => (
   <AiResultCard title="AI Generated">
     {result.translation && (
       <ResultField label="Translation" value={result.translation} />

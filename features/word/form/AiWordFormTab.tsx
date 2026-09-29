@@ -11,8 +11,8 @@ import { getLanguageById } from "@/constants/languages";
 
 import { ValidationResult } from "./ai/ValidationResult";
 import {
-  AiFillResult,
-  AiFillResultSkeleton,
+  WordDetailsResult,
+  WordDetailsResultSkeleton,
 } from "./ai/word-details/WordDetailsResult";
 
 import type { AddWordFormValues } from "@/schemas/word/word.schema";
@@ -105,8 +105,8 @@ export const AiWordFormTab = ({
         onContinueAnyway={onContinueAnyway}
       />
 
-      {isAiLoading && <AiFillResultSkeleton />}
-      {aiResult && <AiFillResult result={aiResult} />}
+      {isAiLoading && <WordDetailsResultSkeleton />}
+      {aiResult && <WordDetailsResult result={aiResult} />}
     </div>
   );
 };

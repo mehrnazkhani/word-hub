@@ -7,7 +7,7 @@ import {
   useBaseFormCheck,
   type BaseFormCheckState,
 } from "./base-form-check/useBaseFormCheck";
-import { usePosCheck, type PosCheckState } from "./usePosCheck";
+import { usePosCheck, type PosCheckState } from "./POS-check/usePOSCheck";
 
 export type WordValidationState =
   | { status: "idle" }
@@ -20,7 +20,6 @@ export type WordValidationState =
 
 export type ValidationStage = "spelling" | "baseForm" | "pos";
 
-// همه‌ی ورودی‌های اعتبارسنجی در یک آبجکت؛ فیلد جدید فقط اینجا اضافه می‌شود
 export type ValidationContext = {
   word: string;
   language: string;
@@ -28,7 +27,6 @@ export type ValidationContext = {
   explanationLanguage?: string;
 };
 
-// مرحله‌ای که state فعلی به آن تعلق دارد
 export const stageOfState = (
   s: WordValidationState,
 ): ValidationStage | null => {
@@ -112,10 +110,9 @@ export const useWordValidation = () => {
       passed.add("baseForm");
     }
 
-    // 3. POS (کلیدش به خود pos وابسته است)
     const posStage = posKey(pos);
     if (!passed.has(posStage)) {
-      const r = await checkPos(word, language, pos);
+      const r = await checkPos({ word, language, partOfSpeech: pos });
       if (pos && !r.isValid) return { status: "invalidPos" };
       if (!pos && !r.isValid) {
         return { status: "multiplePos", availablePos: r.availablePos };
@@ -126,7 +123,6 @@ export const useWordValidation = () => {
     return { status: "valid" };
   };
 
-  // فقط state هوک‌ها را پاک می‌کند، نه حافظه‌ی مرحله‌های پاس‌شده را
   const reset = () => {
     resetSpelling();
     resetBaseForm();

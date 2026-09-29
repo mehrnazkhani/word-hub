@@ -1,19 +1,15 @@
-import { z } from "zod";
-import { createAiRoute } from "@/lib/ai/CreateAiRoute";
+import { createAiRoute } from "@/lib/ai/createAiRoute";
 import { PARTS_OF_SPEECH } from "@/schemas/word/word.shared";
+import {
+  posCheckInput,
+  posCheckOutput,
+} from "@/features/word/form/ai/POS-check/schema";
 
 export const POST = createAiRoute({
   name: "pos-check",
   timeoutMs: 10_000,
-  input: z.object({
-    word: z.string().min(1),
-    language: z.string().min(1),
-    partOfSpeech: z.string().optional(),
-  }),
-  output: z.object({
-    isValid: z.boolean(),
-    availablePos: z.array(z.object({ pos: z.string(), meaning: z.string() })),
-  }),
+  input: posCheckInput,
+  output: posCheckOutput,
   buildPrompt: ({ word, language, partOfSpeech }) => `
   Given the word "${word}" in ${language}:
 

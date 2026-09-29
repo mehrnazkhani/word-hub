@@ -10,7 +10,7 @@ import { AiFillButton } from "./ai/AiFillButton";
 import { AiWordFormTab } from "./AiWordFormTab";
 import { ManualTab } from "./ManualTab";
 
-import { useAiFillWord } from "@/features/word/form/ai/use-ai-fill-word";
+import { useAiFillWord } from "@/features/word/form/ai/useAiFillWord";
 import { useCreateWordMutation } from "@/queries/words/create/useCreateWord.mutation";
 import { useUserSettings } from "@/queries/user-settings/useUserSettings";
 import { useWordCount } from "@/queries/words/count/useWordCount";
@@ -20,6 +20,9 @@ import {
   addWordFormSchema,
   type AddWordFormValues,
 } from "@/schemas/word/word.schema";
+import type { aiFillWord } from "@/lib/api/aiFill.api";
+
+type AiResult = Awaited<ReturnType<typeof aiFillWord>>;
 
 const addWordFormDefaultValues: AddWordFormValues = {
   word: "",
@@ -37,9 +40,7 @@ const addWordFormDefaultValues: AddWordFormValues = {
 const AddWordForm = () => {
   const { data: userSettings } = useUserSettings();
   const [activeTab, setActiveTab] = useState<"ai" | "manual">("ai");
-  const [aiResult, setAiResult] = useState<Awaited<
-    ReturnType<typeof fillWithAI>
-  > | null>(null);
+  const [aiResult, setAiResult] = useState<AiResult | null>(null);
 
   const methods = useForm<AddWordFormValues>({
     resolver: zodResolver(addWordFormSchema),
@@ -64,13 +65,41 @@ const AddWordForm = () => {
     formState: { isSubmitting, isDirty },
   } = methods;
 
-  const { fillWithAI, isLoading: isAiLoading, stopAI } = useAiFillWord(methods);
+  const {
+    fillWithAI,
+    isLoading: isAiLoading,
+    validationState,
+    confirmWord,
+    confirmPos,
+    continueAnyway,
+    dismissValidation,
+    stopAI,
+  } = useAiFillWord(methods);
+
   const { data: wordsCount } = useWordCount();
   const { mutateAsync: creteWord } = useCreateWordMutation();
 
   const handleFillWithAI = async () => {
     setAiResult(null);
     const result = await fillWithAI();
+    if (result) setAiResult(result);
+  };
+
+  const handleConfirmWord = async (word: string) => {
+    setAiResult(null);
+    const result = await confirmWord(word);
+    if (result) setAiResult(result);
+  };
+
+  const handleConfirmPos = async (pos: string) => {
+    setAiResult(null);
+    const result = await confirmPos(pos);
+    if (result) setAiResult(result);
+  };
+
+  const handleContinueAnyway = async () => {
+    setAiResult(null);
+    const result = await continueAnyway();
     if (result) setAiResult(result);
   };
 
@@ -122,6 +151,11 @@ const AddWordForm = () => {
               methods={methods}
               isAiLoading={isAiLoading}
               aiResult={aiResult}
+              validationState={validationState}
+              onConfirmWord={handleConfirmWord}
+              onConfirmPos={handleConfirmPos}
+              onContinueAnyway={handleContinueAnyway}
+              onDismissValidation={dismissValidation}
             />
           </TabsContent>
 

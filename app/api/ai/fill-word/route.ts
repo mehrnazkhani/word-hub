@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { createAiRoute } from "@/lib/ai/CreateAiRoute";
+import { createAiRoute } from "@/lib/ai/createAiRoute";
 import { PARTS_OF_SPEECH, WORD_LIMITS } from "@/schemas/word/word.shared";
 
 export const POST = createAiRoute({

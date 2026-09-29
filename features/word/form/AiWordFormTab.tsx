@@ -2,18 +2,23 @@
 
 import { useWatch } from "react-hook-form";
 
-import { Skeleton } from "@/components/ui/skeleton";
 import { FormInput } from "@/components/inputs/FormInput";
 import { SelectLanguage } from "@/components/inputs/selectors/SelectLanguage";
 import { SelectWordType } from "@/components/inputs/selectors/SelectWordType";
 import { SelectCategory } from "@/components/inputs/selectors/SelectCategory";
-
 import { WordPronunciation } from "@/components/WordPronunciation";
 import { getLanguageById } from "@/constants/languages";
+
+import { ValidationResult } from "./ai/results-card/ValidationResult";
+import {
+  AiFillResult,
+  AiFillResultSkeleton,
+} from "./ai/results-card/AiFillResult";
 
 import type { AddWordFormValues } from "@/schemas/word/word.schema";
 import type { UseFormReturn } from "react-hook-form";
 import type { aiFillWord } from "@/lib/api/aiFill.api";
+import type { WordValidationState } from "@/features/word/form/ai/useWordValidation";
 
 type AiResult = Awaited<ReturnType<typeof aiFillWord>>;
 
@@ -21,21 +26,27 @@ interface AiWordFormTabProps {
   methods: UseFormReturn<AddWordFormValues>;
   isAiLoading: boolean;
   aiResult: AiResult | null | undefined;
+  validationState: WordValidationState;
+  onConfirmWord: (word: string) => void;
+  onConfirmPos: (pos: string) => void;
+  onContinueAnyway: () => void;
+  onDismissValidation: () => void;
 }
-
-const ResultField = ({ label, value }: { label: string; value: string }) => (
-  <div className="space-y-1">
-    <p className="text-xs text-muted-foreground">{label}</p>
-    <p className="text-sm">{value}</p>
-  </div>
-);
 
 export const AiWordFormTab = ({
   methods,
   isAiLoading,
   aiResult,
+  validationState,
+  onConfirmWord,
+  onConfirmPos,
+  onContinueAnyway,
 }: AiWordFormTabProps) => {
   const wordValue = useWatch({ control: methods.control, name: "word" });
+  const partOfSpeech = useWatch({
+    control: methods.control,
+    name: "partOfSpeech",
+  });
   const sourceLanguageId = useWatch({
     control: methods.control,
     name: "sourceLanguageId",
@@ -85,45 +96,17 @@ export const AiWordFormTab = ({
         </div>
       </div>
 
-      {isAiLoading && (
-        <div className="space-y-3 rounded-lg border border-border bg-muted/30 p-4">
-          <Skeleton className="h-3 w-1/4" />
-          <Skeleton className="h-4 w-3/4" />
-          <Skeleton className="h-4 w-1/2" />
-          <Skeleton className="h-4 w-2/3" />
-        </div>
-      )}
+      <ValidationResult
+        state={validationState}
+        word={wordValue}
+        partOfSpeech={partOfSpeech ?? ""}
+        onConfirmWord={onConfirmWord}
+        onConfirmPos={onConfirmPos}
+        onContinueAnyway={onContinueAnyway}
+      />
 
-      {aiResult && (
-        <div className="animate-in space-y-3 rounded-lg border border-border bg-muted/30 p-4 duration-300 fade-in slide-in-from-bottom-2">
-          <p className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
-            AI Generated
-          </p>
-
-          {aiResult.translation && (
-            <ResultField label="Translation" value={aiResult.translation} />
-          )}
-
-          {(aiResult.synonyms || aiResult.antonyms) && (
-            <div className="flex gap-4">
-              {aiResult.synonyms && (
-                <ResultField label="Synonyms" value={aiResult.synonyms} />
-              )}
-              {aiResult.antonyms && (
-                <ResultField label="Antonyms" value={aiResult.antonyms} />
-              )}
-            </div>
-          )}
-
-          {aiResult.example && (
-            <ResultField label="Example" value={aiResult.example} />
-          )}
-
-          {aiResult.description && (
-            <ResultField label="Description" value={aiResult.description} />
-          )}
-        </div>
-      )}
+      {isAiLoading && <AiFillResultSkeleton />}
+      {aiResult && <AiFillResult result={aiResult} />}
     </div>
   );
 };

@@ -4,9 +4,9 @@ import { useQuery } from "@tanstack/react-query";
 import { useUser } from "@/components/providers/user-provider";
 import { useSupabase } from "@/lib/supabase/useSupabase";
 import { queryKeys } from "@/queries/queries";
-import { getTelegramLinkStatus } from "./getTelegramLinkStatus";
+import { getBotLinkStatus } from "./getBotLinkStatus";
 
-export function useTelegramLinkStatus() {
+export function useBotLinkStatus() {
   const { user, isPending } = useUser();
   const supabase = useSupabase();
 
@@ -14,7 +14,7 @@ export function useTelegramLinkStatus() {
     queryKey: queryKeys.telegram.status(user!.id),
     enabled: !!user && !isPending,
     queryFn: () =>
-      getTelegramLinkStatus({
+      getBotLinkStatus({
         client: supabase,
         userId: user!.id,
       }),

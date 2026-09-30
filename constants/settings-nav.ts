@@ -6,10 +6,17 @@ import {
   Shield,
   PencilSparkles,
   CalendarClock,
+  Link,
 } from "lucide-react";
 
 export type SettingsSection =
-  "Profile" | "Word Form" | "Daily Word" | "Privacy" | "Data" | "AI Fill";
+  | "Profile"
+  | "Word Form"
+  | "Daily Word"
+  | "Privacy"
+  | "Data"
+  | "AI Fill"
+  | "Link to bot";
 
 export type SettingsNavItem = {
   name: SettingsSection;
@@ -47,5 +54,10 @@ export const settingsNav: SettingsNavItem[] = [
     name: "AI Fill",
     description: "Choose AI-filled fields.",
     icon: PencilSparkles,
+  },
+  {
+    name: "Link to bot",
+    description: "Connect Telegram bot.",
+    icon: Link,
   },
 ];

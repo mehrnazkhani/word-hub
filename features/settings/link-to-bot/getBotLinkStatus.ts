@@ -3,7 +3,7 @@ import { Database } from "@/types/supabase";
 
 type Client = SupabaseClient<Database>;
 
-export type TelegramLinkStatus = {
+export type BotLinkStatus = {
   isConnected: boolean;
   verifiedAt: string | null;
 };
@@ -13,10 +13,10 @@ type Props = {
   userId: string;
 };
 
-export const getTelegramLinkStatus = async ({
+export const getBotLinkStatus = async ({
   client,
   userId,
-}: Props): Promise<TelegramLinkStatus> => {
+}: Props): Promise<BotLinkStatus> => {
   const { data, error } = await client
     .from("telegram_links")
     .select("verified_at")
@@ -24,7 +24,7 @@ export const getTelegramLinkStatus = async ({
     .maybeSingle();
 
   if (error) {
-    throw new Error("Could not fetch Telegram link status");
+    throw new Error("Could not fetch Bot link status");
   }
 
   return {

@@ -1,17 +1,16 @@
 "use client";
 
-import { cn } from "@/lib/utils";
 import { Link2Off } from "lucide-react";
 import { SettingRow } from "../../SettingRow";
 import { LoadingButton } from "@/components/LoadingButton";
 
-import { useDisconnectTelegramMutation } from "./useDisconnectTelegramMutation";
-import { useTelegramLinkStatus } from "../useTelegramLinkStatus";
+import { useDisconnectBotMutation } from "./useDisconnectBotMutation";
+import { useBotLinkStatus } from "../useBotLinkStatus";
 
-export const DisconnectTelegram = () => {
-  const { data, isPending: isStatusPending } = useTelegramLinkStatus();
-  const { mutate: disconnectTelegramMutation, isPending: isDisconnecting } =
-    useDisconnectTelegramMutation();
+export const DisconnectBot = () => {
+  const { data, isPending: isStatusPending } = useBotLinkStatus();
+  const { mutate: disconnectBotMutation, isPending: isDisconnecting } =
+    useDisconnectBotMutation();
 
   const isConnected = data?.isConnected;
   const isDisabled = isStatusPending || !isConnected;
@@ -22,22 +21,22 @@ export const DisconnectTelegram = () => {
         icon: Link2Off,
         variant: "destructive",
       }}
-      title="Disconnect Telegram"
-      description="Remove your Telegram account connection and stop receiving bot notifications."
+      title="Disconnect Bot"
+      description="Remove your Bot account connection and stop receiving bot notifications."
     >
       <LoadingButton
         type="button"
         variant="destructive"
         disabled={isDisabled}
         isLoading={isDisconnecting}
-        onClick={() => disconnectTelegramMutation()}
+        onClick={() => disconnectBotMutation()}
       >
         {isDisconnecting ? (
           "Disconnecting..."
         ) : (
           <>
             <Link2Off />
-            Disconnect Telegram
+            Disconnect Bot
           </>
         )}
       </LoadingButton>

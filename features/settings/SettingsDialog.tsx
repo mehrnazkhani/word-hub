@@ -60,8 +60,8 @@ const DataManagementSettings = dynamic(
 const AIFillSettingsForm = dynamic(() => import("./ai-fill/AIFillSettings"), {
   ssr: false,
 });
-const LinkToTelegramBotSettings = dynamic(
-  () => import("./link-to-telegram-bot/LinkToTelegramBotSettings"),
+const LinkToBotSettings = dynamic(
+  () => import("./link-to-bot/LinkToBotSettings"),
   {
     ssr: false,
   },
@@ -74,7 +74,7 @@ const settingsSections = {
   Privacy: PrivacySettings,
   Data: DataManagementSettings,
   "Ai fill": AIFillSettingsForm,
-  "Link to bot": LinkToTelegramBotSettings,
+  "Link to bot": LinkToBotSettings,
 } as const;
 
 type SettingsSection = keyof typeof settingsSections;

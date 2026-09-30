@@ -27,6 +27,7 @@ import DailyWordSettings from "@/features/settings/daily-word/DailyWordSettings"
 import PrivacySettings from "@/features/settings/privacy/PrivacySettings";
 import DataManagementSettings from "@/features/settings/data/DataManagementSettings";
 import AIFillSettingsForm from "@/features/settings/ai-fill/AIFillSettings";
+import LinkToBotSettings from "@/features/settings/link-to-bot/LinkToBotSettings";
 
 import { settingsNav } from "@/constants/settings-nav";
 
@@ -47,6 +48,7 @@ const settingsViews = {
   Privacy: <PrivacySettings />,
   Data: <DataManagementSettings />,
   "AI Fill": <AIFillSettingsForm />,
+  "Link to bot": <LinkToBotSettings />,
 } satisfies Record<Exclude<SettingsView, "root">, React.ReactNode>;
 
 export function UserAccountDrawer({
@@ -77,7 +79,7 @@ export function UserAccountDrawer({
         onOpenChange={handleDrawerChange}
         disablePointerDismissal={view !== "root"}
       >
-        <DrawerContent className="flex h-2/3 max-h-2/3 flex-col">
+        <DrawerContent className="flex h-[90dvh] max-h-[90dvh] flex-col">
           {view === "root" ? (
             <div className="flex flex-1 flex-col gap-4 overflow-y-auto">
               <DrawerHeader className="flex items-center gap-3">
@@ -133,7 +135,7 @@ export function UserAccountDrawer({
                   <ThemeToggleRow />
                 </SettingsContainer>
 
-                <SettingsContainer className="border-none! bg-destructive/10">
+                <SettingsContainer className="border-0 bg-destructive/10 ring-0">
                   <Button
                     variant="ghost"
                     className="h-auto w-full justify-start gap-3 text-destructive"

@@ -4,7 +4,7 @@ import { EXTERNAL_ROUTES } from "@/constants/routes";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 
-export const connectTelegramAction = async () => {
+export const connectBotAction = async () => {
   const supabase = await createClient();
 
   const {
@@ -21,7 +21,7 @@ export const connectTelegramAction = async () => {
     .maybeSingle();
 
   if (existing?.verified_at) {
-    throw new Error("Your Telegram account is already connected");
+    throw new Error("Your Bot account is already connected");
   }
 
   const { data: link, error } = await supabase

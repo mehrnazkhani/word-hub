@@ -2,11 +2,11 @@
 
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { connectTelegramAction } from "./connectTelegram.action";
+import { connectBotAction } from "./connectBot.action";
 
-export function useConnectTelegramMutation() {
+export function useConnectBotMutation() {
   return useMutation({
-    mutationFn: connectTelegramAction,
+    mutationFn: connectBotAction,
     onError: (error) => {
       toast.error(error.message);
     },

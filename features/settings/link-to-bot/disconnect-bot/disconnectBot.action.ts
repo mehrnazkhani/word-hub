@@ -3,7 +3,7 @@
 import { EXTERNAL_ROUTES } from "@/constants/routes";
 import { createClient } from "@/lib/supabase/server";
 
-export const disconnectTelegramAction = async () => {
+export const disconnectBotAction = async () => {
   const supabase = await createClient();
 
   const {
@@ -50,7 +50,7 @@ export const disconnectTelegramAction = async () => {
         },
       );
     } catch (err) {
-      console.error("Failed to send Telegram disconnect message:", err);
+      console.error("Failed to send Bot disconnect message:", err);
     }
   }
 

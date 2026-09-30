@@ -4,17 +4,17 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useUser } from "@/components/providers/user-provider";
 import { queryKeys } from "@/queries/queries";
-import { disconnectTelegramAction } from "./disconnectTelegram.action";
+import { disconnectBotAction } from "./disconnectBot.action";
 
-export function useDisconnectTelegramMutation() {
+export function useDisconnectBotMutation() {
   const queryClient = useQueryClient();
   const { user } = useUser();
 
   return useMutation({
-    mutationFn: disconnectTelegramAction,
+    mutationFn: disconnectBotAction,
     onSuccess: (data) => {
       queryClient.setQueryData(queryKeys.telegram.status(user!.id), data);
-      toast.success("Telegram disconnected successfully");
+      toast.success("Bot disconnected successfully");
     },
     onError: (error) => {
       toast.error(error.message);

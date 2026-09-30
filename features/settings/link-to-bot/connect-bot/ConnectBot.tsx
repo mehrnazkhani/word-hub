@@ -3,13 +3,13 @@
 import { Link } from "lucide-react";
 import { SettingRow } from "../../SettingRow";
 import { LoadingButton } from "@/components/LoadingButton";
-import { useConnectTelegramMutation } from "./useConnectTelegramMutation";
-import { useTelegramLinkStatus } from "../useTelegramLinkStatus";
+import { useConnectBotMutation } from "./useConnectBotMutation";
+import { useBotLinkStatus } from "../useBotLinkStatus";
 
-export const ConnectTelegram = () => {
-  const { data, isPending: isStatusPending } = useTelegramLinkStatus();
-  const { mutate: connectTelegramMutation, isPending: isConnecting } =
-    useConnectTelegramMutation();
+export const ConnectBot = () => {
+  const { data, isPending: isStatusPending } = useBotLinkStatus();
+  const { mutate: connectBotMutation, isPending: isConnecting } =
+    useConnectBotMutation();
 
   const isConnected = data?.isConnected;
   const isDisabled = isStatusPending || isConnected;
@@ -19,22 +19,22 @@ export const ConnectTelegram = () => {
       icon={{
         icon: Link,
       }}
-      title="Connect to Telegram"
-      description="Link your Telegram account with Word Keeper bot to start receiving notifications and manage users."
+      title="Connect to Bot"
+      description="Link your Bot account with Word Keeper bot to start receiving notifications and manage users."
     >
       <LoadingButton
         type="button"
         variant="outline"
         disabled={isDisabled}
         isLoading={isConnecting}
-        onClick={() => connectTelegramMutation()}
+        onClick={() => connectBotMutation()}
       >
         {isConnecting ? (
           "Connecting..."
         ) : (
           <>
             <Link />
-            Link To Telegram
+            Link To Bot
           </>
         )}
       </LoadingButton>

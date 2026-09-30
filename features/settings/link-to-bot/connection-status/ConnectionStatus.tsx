@@ -1,11 +1,11 @@
 "use client";
 
 import { CheckCheck } from "lucide-react";
-import { useTelegramLinkStatus } from "../useTelegramLinkStatus";
+import { useBotLinkStatus } from "../useBotLinkStatus";
 import { SettingRow } from "../../SettingRow";
 
 export const ConnectionStatus = () => {
-  const { data, isPending } = useTelegramLinkStatus();
+  const { data, isPending } = useBotLinkStatus();
   const verifiedAt = data?.verifiedAt;
 
   const description = isPending

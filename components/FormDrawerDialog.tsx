@@ -19,6 +19,10 @@ import {
 } from "@/components/ui/drawer";
 import { useIsMobile } from "@/hooks/use-mobile";
 
+const FooterSlotContext = React.createContext<HTMLElement | null>(null);
+
+export const useFooterSlot = () => React.useContext(FooterSlotContext);
+
 interface FormDrawerDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -36,10 +40,12 @@ export function FormDrawerDialog({
 }: FormDrawerDialogProps) {
   const isMobile = useIsMobile();
 
+  const [footerEl, setFooterEl] = React.useState<HTMLElement | null>(null);
+
   if (isMobile) {
     return (
       <Drawer open={open} onOpenChange={onOpenChange} disablePointerDismissal>
-        <DrawerContent className="h-2/3 max-h-2/3">
+        <DrawerContent className="h-[90dvh] max-h-[90dvh] data-[vaul-drawer-direction=bottom]:max-h-[90dvh]">
           <DrawerHeader className="text-left">
             <DrawerTitle>{title}</DrawerTitle>
             {description && (
@@ -53,7 +59,14 @@ export function FormDrawerDialog({
             </DrawerClose>
           </DrawerHeader>
 
-          <div className="flex-1 overflow-y-auto p-4">{children}</div>
+          <FooterSlotContext.Provider value={footerEl}>
+            <div className="min-h-0 flex-1 overflow-y-auto p-4">{children}</div>
+          </FooterSlotContext.Provider>
+
+          <div
+            ref={setFooterEl}
+            className="border-t bg-popover p-4 pb-[max(1rem,env(safe-area-inset-bottom))]"
+          />
         </DrawerContent>
       </Drawer>
     );
@@ -62,7 +75,7 @@ export function FormDrawerDialog({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
-        className="sm:max-w-106.25"
+        className="flex max-h-[90vh] flex-col sm:max-w-106.25"
         onInteractOutside={(e) => e.preventDefault()}
       >
         <DialogHeader>
@@ -73,7 +86,12 @@ export function FormDrawerDialog({
             </DialogDescription>
           )}
         </DialogHeader>
-        {children}
+
+        <FooterSlotContext.Provider value={footerEl}>
+          <div className="min-h-0 flex-1 overflow-y-auto">{children}</div>
+        </FooterSlotContext.Provider>
+
+        <div ref={setFooterEl} />
       </DialogContent>
     </Dialog>
   );

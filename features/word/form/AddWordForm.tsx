@@ -4,11 +4,13 @@ import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ArrowButton } from "@/components/ArrowButton";
 import { AiFillButton } from "./ai/AiFillButton";
 import { AiWordFormTab } from "./AiWordFormTab";
 import { ManualTab } from "./ManualTab";
+import { FormFooter } from "@/components/FormFooter";
 
 import { useWordDetails } from "./ai/word-details/useWordDetails";
 import { useCreateWordMutation } from "@/queries/words/create/useCreateWord.mutation";
@@ -21,8 +23,11 @@ import {
   type AddWordFormValues,
 } from "@/schemas/word/word.schema";
 import type { aiWordDetails } from "@/lib/api/aiWordDetails.api";
+import { LoadingButton } from "@/components/LoadingButton";
 
 type AiResult = Awaited<ReturnType<typeof aiWordDetails>>;
+
+const FORM_ID = "add-word-form";
 
 const addWordFormDefaultValues: AddWordFormValues = {
   word: "",
@@ -77,7 +82,7 @@ const AddWordForm = () => {
   } = useWordDetails(methods);
 
   const { data: wordsCount } = useWordCount();
-  const { mutateAsync: creteWord } = useCreateWordMutation();
+  const { mutateAsync: createWord } = useCreateWordMutation();
 
   const handleFillWithAI = async () => {
     setAiResult(null);
@@ -112,7 +117,7 @@ const AddWordForm = () => {
     }
 
     try {
-      await creteWord(
+      await createWord(
         { ...data, source: "manual" },
         {
           onSuccess: () => {
@@ -126,10 +131,7 @@ const AddWordForm = () => {
 
   return (
     <FormProvider {...methods}>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex h-full flex-col gap-4"
-      >
+      <form id={FORM_ID} onSubmit={handleSubmit(onSubmit)}>
         <Tabs
           value={activeTab}
           onValueChange={(v) => setActiveTab(v as "ai" | "manual")}
@@ -163,30 +165,38 @@ const AddWordForm = () => {
             <ManualTab control={control} />
           </TabsContent>
         </Tabs>
+      </form>
 
-        <div className="flex-1" />
-
-        <div className="flex justify-between">
-          {activeTab === "ai" ? (
+      <FormFooter>
+        <div
+          className={cn(
+            "grid gap-3 md:flex md:justify-between",
+            activeTab === "ai" ? "grid-cols-2" : "grid-cols-1",
+          )}
+        >
+          {activeTab === "ai" && (
             <AiFillButton
+              className="w-full md:w-auto"
               isLoading={isAiLoading}
               onFill={handleFillWithAI}
               onStop={stopAI}
             />
-          ) : (
-            <div />
           )}
 
-          <ArrowButton
+          <LoadingButton
+            className={cn(
+              "w-full md:w-auto",
+              activeTab === "manual" && "md:ml-auto",
+            )}
             type="submit"
-            isDirty={isDirty}
+            form={FORM_ID}
             isLoading={isSubmitting}
             disabled={!isDirty}
           >
             {isSubmitting ? "Saving..." : "Save"}
-          </ArrowButton>
+          </LoadingButton>
         </div>
-      </form>
+      </FormFooter>
     </FormProvider>
   );
 };

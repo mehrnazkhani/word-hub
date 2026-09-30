@@ -8,12 +8,14 @@ export const wordDetailsInput = z.object({
 });
 
 export const wordDetailsOutput = z.object({
-  translation: z.string(),
-  partOfSpeech: z.enum(PARTS_OF_SPEECH).or(z.literal("")),
-  synonyms: z.string(),
-  antonyms: z.string(),
-  example: z.string(),
-  description: z.string(),
+  translation: z.string().describe("Translation of the word"),
+  partOfSpeech: z
+    .enum([...PARTS_OF_SPEECH, ""])
+    .describe("One of the allowed parts of speech, or empty string if unknown"),
+  synonyms: z.string().describe("Comma-separated synonyms, or empty string"),
+  antonyms: z.string().describe("Comma-separated antonyms, or empty string"),
+  example: z.string().describe("One natural example sentence, or empty string"),
+  description: z.string().describe("Short explanation, or empty string"),
 });
 
 export type WordDetailsRequest = z.infer<typeof wordDetailsInput>;

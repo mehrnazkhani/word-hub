@@ -1,5 +1,6 @@
 import { createAiRoute } from "@/lib/ai/createAiRoute";
 import { PARTS_OF_SPEECH, WORD_LIMITS } from "@/schemas/word/word.shared";
+
 import {
   wordDetailsInput,
   wordDetailsOutput,
@@ -11,15 +12,22 @@ export const POST = createAiRoute({
   output: wordDetailsOutput,
   buildPrompt: ({ word, sourceLanguage, targetLanguage }) => `
 You are a dictionary assistant.
-Given the word "${word}" in ${sourceLanguage}, fill in ALL fields:
 
-- translation: translate to ${targetLanguage} (max ${WORD_LIMITS.translation} chars)
-- partOfSpeech: one of ${PARTS_OF_SPEECH.join(", ")}. If unknown, ""
-- synonyms: comma-separated in ${sourceLanguage} (max ${WORD_LIMITS.maxRelatedWords} words, each max ${WORD_LIMITS.relatedWord} chars). If none, ""
-- antonyms: same rules as synonyms
-- example: sentence using "${word}" in ${sourceLanguage} (max ${WORD_LIMITS.example} chars). If none, ""
-- description: brief usage notes in ${targetLanguage} (max ${WORD_LIMITS.description} chars). If none, ""
+Word: "${word}"
+Source language: ${sourceLanguage}
+Target language: ${targetLanguage}
 
-Always return every field. Use "" when there is no value.
-  `,
+Return all fields below. Use "" when unknown or none.
+
+- translation: translate "${word}" to ${targetLanguage}.
+- partOfSpeech: exactly one of: ${PARTS_OF_SPEECH.join(", ")}.
+  Use "" only if none fits.
+- synonyms: up to ${WORD_LIMITS.maxRelatedWords} comma-separated synonyms in ${sourceLanguage}.
+- antonyms: up to ${WORD_LIMITS.maxRelatedWords} comma-separated antonyms in ${sourceLanguage}.
+- example: one natural sentence using "${word}" in ${sourceLanguage}.
+- description: short explanation in ${targetLanguage}.
+
+Example shape:
+{"translation":"...","partOfSpeech":"noun","synonyms":"...","antonyms":"","example":"...","description":"..."}
+`,
 });

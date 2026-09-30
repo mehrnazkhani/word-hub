@@ -10,6 +10,7 @@ type AiFillButtonProps = {
   onFill: () => void;
   onStop: () => void;
   className?: string;
+  disabled?: boolean;
 };
 
 export const AiFillButton = ({
@@ -17,24 +18,23 @@ export const AiFillButton = ({
   onFill,
   onStop,
   className,
+  disabled = false,
 }: AiFillButtonProps) => {
   return (
     <Button
       type="button"
-      variant="ghost"
+      variant="default"
       onClick={isLoading ? onStop : onFill}
+      disabled={disabled && !isLoading}
       className={cn("cursor-pointer text-xs", className)}
     >
       {isLoading ? (
         <>
-          <IconBadge icon={SquareIcon} variant="secondary" badgeSize={7} />
+          <IconBadge icon={SquareIcon} variant="secondary" badgeSize={5} />
           Stop
         </>
       ) : (
-        <>
-          <IconBadge icon={ArrowUp} variant="secondary" badgeSize={7} />
-          Auto Fill
-        </>
+        "Use AI"
       )}
     </Button>
   );

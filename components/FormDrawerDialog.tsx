@@ -65,7 +65,7 @@ export function FormDrawerDialog({
 
           <div
             ref={setFooterEl}
-            className="border-t bg-popover p-4 pb-[max(1rem,env(safe-area-inset-bottom))]"
+            className="border-t bg-popover p-4 pb-[max(1rem,env(safe-area-inset-bottom))] empty:hidden"
           />
         </DrawerContent>
       </Drawer>
@@ -91,7 +91,10 @@ export function FormDrawerDialog({
           <div className="min-h-0 flex-1 overflow-y-auto">{children}</div>
         </FooterSlotContext.Provider>
 
-        <div ref={setFooterEl} />
+        <div
+          ref={setFooterEl}
+          className="-mx-4 -mb-4 rounded-b-xl border-t bg-popover p-4 empty:hidden"
+        />
       </DialogContent>
     </Dialog>
   );

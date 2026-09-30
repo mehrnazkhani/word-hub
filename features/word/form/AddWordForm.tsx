@@ -170,7 +170,7 @@ const AddWordForm = () => {
       <FormFooter>
         <div
           className={cn(
-            "grid gap-3 md:flex md:justify-between",
+            "grid gap-3",
             activeTab === "ai" ? "grid-cols-2" : "grid-cols-1",
           )}
         >
@@ -178,16 +178,14 @@ const AddWordForm = () => {
             <AiFillButton
               className="w-full md:w-auto"
               isLoading={isAiLoading}
+              disabled={!isDirty}
               onFill={handleFillWithAI}
               onStop={stopAI}
             />
           )}
 
           <LoadingButton
-            className={cn(
-              "w-full md:w-auto",
-              activeTab === "manual" && "md:ml-auto",
-            )}
+            className={cn("w-full", activeTab === "manual" && "md:ml-auto")}
             type="submit"
             form={FORM_ID}
             isLoading={isSubmitting}

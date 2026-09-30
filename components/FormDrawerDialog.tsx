@@ -79,7 +79,7 @@ export function FormDrawerDialog({
         onInteractOutside={(e) => e.preventDefault()}
       >
         <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
+          <DialogTitle className="text-center">{title}</DialogTitle>
           {description && (
             <DialogDescription className="sr-only">
               {description}

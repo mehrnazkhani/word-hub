@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
+import { Sparkles, PencilLine } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AiFillButton } from "./ai/AiFillButton";
 import { AiWordFormTab } from "./AiWordFormTab";
@@ -136,14 +137,16 @@ const AddWordForm = () => {
           value={activeTab}
           onValueChange={(v) => setActiveTab(v as "ai" | "manual")}
         >
-          <TabsList className="w-full">
+          <TabsList className="mx-auto w-2/3">
             <TabsTrigger value="ai" className="flex-1 cursor-pointer gap-1.5">
-              Fill with AI
+              <Sparkles className="size-4" />
+              AI
             </TabsTrigger>
             <TabsTrigger
               value="manual"
               className="flex-1 cursor-pointer gap-1.5"
             >
+              <PencilLine className="size-4" />
               Manual
             </TabsTrigger>
           </TabsList>

@@ -27,8 +27,8 @@ export const FloatingActions = () => {
         <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
           <DropdownMenuTrigger asChild>
             <Button
-              variant="outline"
-              className="size-14 cursor-pointer rounded-full bg-secondary! outline-none focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none"
+              variant="default"
+              className="size-14 cursor-pointer rounded-full outline-none focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none"
               aria-label="Open actions menu"
             >
               <Plus

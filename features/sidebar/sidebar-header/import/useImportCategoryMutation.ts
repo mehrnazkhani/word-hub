@@ -6,7 +6,7 @@ import { queryKeys } from "@/queries/queries";
 
 import { toast } from "sonner";
 import { createCategoryAction } from "@/queries/categories/create/createCategory.action";
-import { createWordsAction } from "@/queries/words/create/createWordsAction";
+import { createWordsAction } from "@/queries/words/create/createWords.action";
 import { deleteCategoryAction } from "@/queries/categories/delete/deleteCategory.action";
 
 import type { WordInsertPayload } from "@/schemas/word/word.schema";
@@ -53,10 +53,24 @@ export const useImportCategoryMutation = () => {
         throw new Error("Failed to import words. Category was not created.");
       }
 
-      return { category: categoryResult.data, total: words.length };
+      const imported = wordsResult.data.length;
+      const skipped = wordsResult.skipped;
+
+      // Every word already existed: don't leave an empty category behind
+      if (imported === 0) {
+        await deleteCategoryAction({ categoryId });
+        throw new Error(
+          "All of these words are already in your list, so nothing was imported.",
+        );
+      }
+
+      return { category: categoryResult.data, imported, skipped };
     },
 
-    onSuccess: ({ category, total }, { category: categoryName }) => {
+    onSuccess: (
+      { category, imported, skipped },
+      { category: categoryName },
+    ) => {
       const queryKey = queryKeys.category.user(user!.id);
       const wordCountKey = queryKeys.word.count(user!.id);
 
@@ -67,11 +81,13 @@ export const useImportCategoryMutation = () => {
       });
 
       queryClient.setQueryData<number | null>(wordCountKey, (old) => {
-        return (old ?? 0) + total;
+        return (old ?? 0) + imported;
       });
 
       toast.success(
-        `"${categoryName}" imported successfully — ${total} words.`,
+        skipped > 0
+          ? `"${categoryName}" imported — ${imported} words added, ${skipped} skipped as duplicates.`
+          : `"${categoryName}" imported successfully — ${imported} words.`,
       );
     },
 

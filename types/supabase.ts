@@ -414,6 +414,38 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      create_words_skip_duplicates: {
+        Args: { p_category_id: number; p_source: string; p_words: Json }
+        Returns: {
+          antonyms: string[] | null
+          category_id: number
+          created_at: string
+          deleted_at: string | null
+          description: string | null
+          example: string | null
+          id: number
+          part_of_speech:
+            | Database["public"]["Enums"]["part_of_speech_enum"]
+            | null
+          score: number
+          search_vector: unknown
+          source: string
+          source_language_id: number
+          synonyms: string[] | null
+          target_language_id: number
+          translation: string
+          translation_audio: string | null
+          updated_at: string | null
+          user_id: string
+          word: string
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "words"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
       get_random_practice_words:
         | {
             Args: {

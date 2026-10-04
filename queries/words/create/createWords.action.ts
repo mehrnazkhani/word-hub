@@ -21,14 +21,11 @@ export const createWordsAction = async ({
   const supabase = await createClient();
   const user = await getAuthenticatedUser(supabase);
 
-  const rows = words.map((word) => ({
-    ...word,
-    category_id: categoryId,
-    user_id: user.id,
-    source: source ?? "manual",
-  }));
-
-  const { data, error } = await supabase.from("words").insert(rows).select();
+  const { data, error } = await supabase.rpc("create_words_skip_duplicates", {
+    p_category_id: categoryId,
+    p_source: source ?? "manual",
+    p_words: words,
+  });
 
   if (error) {
     if (error.message.includes("WORD_LIMIT_REACHED")) {
@@ -44,8 +41,11 @@ export const createWordsAction = async ({
     };
   }
 
+  const created = data ?? [];
+
   return {
     status: "success" as const,
-    data,
+    data: created,
+    skipped: words.length - created.length,
   };
 };

@@ -58,6 +58,14 @@ export const createWordAction = async ({
       };
     }
 
+    // 23505 = unique violation, enforced by the DB index
+    if (error.code === "23505") {
+      return {
+        status: "duplicate" as const,
+        message: `"${parsed.data.word}" is already in your list with the same part of speech.`,
+      };
+    }
+
     return {
       status: "error" as const,
       message: error.message,

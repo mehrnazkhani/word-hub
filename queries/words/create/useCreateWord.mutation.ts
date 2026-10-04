@@ -100,27 +100,32 @@ export const useCreateWordMutation = () => {
     },
 
     onSuccess: (result, _formData, context) => {
-      if (result.status === "validation_error") {
-        toast.error("Invalid form data. Please check your inputs.", {
-          id: "create-word",
-        });
+      const rollback = () => {
         queryClient.setQueryData(context.queryKey, context.previousWords);
         queryClient.setQueryData(context.countQueryKey, context.previousCount);
         queryClient.setQueryData(
           context.categoriesQueryKey,
           context.previousCategories,
         );
+      };
+
+      if (result.status === "validation_error") {
+        toast.error("Invalid form data. Please check your inputs.", {
+          id: "create-word",
+        });
+        rollback();
         return;
       }
 
       if (result.status === "limit_reached") {
         toast.error(result.message, { id: "create-word" });
-        queryClient.setQueryData(context.queryKey, context.previousWords);
-        queryClient.setQueryData(context.countQueryKey, context.previousCount);
-        queryClient.setQueryData(
-          context.categoriesQueryKey,
-          context.previousCategories,
-        );
+        rollback();
+        return;
+      }
+
+      if (result.status === "duplicate") {
+        toast.warning(result.message, { id: "create-word" });
+        rollback();
         return;
       }
 

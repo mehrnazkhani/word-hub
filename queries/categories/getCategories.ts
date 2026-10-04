@@ -23,6 +23,7 @@ export const getSystemCategoryId = async (client: Client) => {
     .from("categories")
     .select("id")
     .eq("is_system", true)
+    .eq("name", "Uncategorized")
     .single();
 
   if (error || !data) {

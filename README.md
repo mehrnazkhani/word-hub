@@ -1,36 +1,82 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Word Hub
 
-## Getting Started
+**Your vocabulary, all in one place.**
 
-First, run the development server:
+Save translations, examples, and synonyms for every word you learn. Organize them by category, track your progress, and practice until it sticks.
+
+[Live demo](https://word-hub-roan.vercel.app/)
+
+![Word Hub](./docs/screenshots/hero.png)
+
+## Features
+
+- **Rich word entries**: translation, description, synonyms, antonyms, examples, and more
+- **Categories**: group words and practice by topic
+- **Word of the day**: a new word each day with meaning, example, and pronunciation
+- **Progress tracking**: practice activity over the last 7 days and a mastered / in progress / new breakdown
+- **Six practice modes**: match, guess, fill in the blank, write, synonym, antonym
+- **Share & import**: export a category and import ones made by others
+- **AI assist**: auto-fill word details and spelling suggestions
+
+<!-- Features screenshots: add one or more -->
+<!-- ![Practice](./docs/screenshots/practice.png) -->
+<!-- ![Dashboard](./docs/screenshots/dashboard.png) -->
+
+## Tech stack
+
+- [Next.js](https://nextjs.org) (App Router), React, TypeScript
+- Tailwind CSS, shadcn/ui, Radix UI, Motion
+- Supabase (auth and database)
+- TanStack Query, Zustand
+- React Hook Form, Zod
+- Vercel AI SDK with Google and Groq models
+- Recharts
+
+## Getting started
+
+**Requirements:** Node.js 20+, [pnpm](https://pnpm.io), and a [Supabase](https://supabase.com) project.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/mehrnazkhani/word-hub.git
+cd word-hub
+pnpm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Create a `.env.local` file in the project root:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```env
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+GOOGLE_GENERATIVE_AI_API_KEY=
+GROQ_API_KEY=
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Start the development server:
 
-## Learn More
+```bash
+pnpm dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+Open [http://localhost:3000](http://localhost:3000).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Scripts
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Command      | Description                  |
+| ------------ | ---------------------------- |
+| `pnpm dev`   | Start the development server |
+| `pnpm build` | Create a production build    |
+| `pnpm start` | Run the production build     |
+| `pnpm lint`  | Run ESLint                   |
 
-## Deploy on Vercel
+## Project structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+app/          Routes and layouts
+components/   Shared UI components
+features/     Feature modules (words, categories, practice, ...)
+hooks/        Custom hooks
+lib/          Clients and utilities
+queries/      Data fetching
+schemas/      Zod schemas
+types/        TypeScript types
+```

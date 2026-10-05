@@ -18,6 +18,7 @@ import {
   DrawerTitle,
 } from "@/components/ui/drawer";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { cn } from "@/lib/utils";
 import {
   FooterSlotProvider,
   useFooterSlot,
@@ -31,6 +32,7 @@ interface FormDrawerDialogProps {
   title: string;
   description?: string;
   children: React.ReactNode;
+  contentClassName?: string;
 }
 
 export function FormDrawerDialog({
@@ -39,6 +41,7 @@ export function FormDrawerDialog({
   title,
   description,
   children,
+  contentClassName,
 }: FormDrawerDialogProps) {
   const isMobile = useIsMobile();
 
@@ -62,7 +65,7 @@ export function FormDrawerDialog({
           </DrawerHeader>
 
           <FooterSlotProvider value={footerEl}>
-            <div className="min-h-0 flex-1 overflow-y-auto p-4">{children}</div>
+            <div className={cn("min-h-0 flex-1 overflow-y-auto p-4", contentClassName)}>{children}</div>
           </FooterSlotProvider>
 
           <div
@@ -90,7 +93,7 @@ export function FormDrawerDialog({
         </DialogHeader>
 
         <FooterSlotProvider value={footerEl}>
-          <div className="min-h-0 flex-1 overflow-y-auto">{children}</div>
+          <div className={cn("min-h-0 flex-1 overflow-y-auto", contentClassName)}>{children}</div>
         </FooterSlotProvider>
 
         <div

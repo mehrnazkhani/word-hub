@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { FormDialog } from "@/components/FormDialog";
 import { FormDrawerDialog } from "../../../components/FormDrawerDialog";
 
 type FormProps = {
@@ -59,6 +60,19 @@ export const FloatingActionsContent = ({
   if (!activeModal) return null;
 
   const { title, description, Component } = modalConfig[activeModal];
+
+  if (activeModal === "create-category") {
+    return (
+      <FormDialog
+        open
+        onOpenChange={(open) => !open && onClose()}
+        title={title}
+        description={description}
+      >
+        <Component onSuccess={onClose} />
+      </FormDialog>
+    );
+  }
 
   return (
     <FormDrawerDialog

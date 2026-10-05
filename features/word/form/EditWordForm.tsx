@@ -7,9 +7,10 @@ import { FormInput } from "@/components/inputs/FormInput";
 import { RelatedWordsInput } from "@/components/inputs/RelatedWordsInput";
 import { FormTextarea } from "@/components/inputs/FormTextarea";
 import { WordPronunciation } from "@/components/WordPronunciation";
+import { FormFooter } from "@/components/FormFooter";
+import { LoadingButton } from "@/components/LoadingButton";
 import { SelectLanguage } from "../../../components/inputs/selectors/SelectLanguage";
 import { SelectWordType } from "../../../components/inputs/selectors/SelectWordType";
-import { ArrowButton } from "@/components/ArrowButton";
 
 import { getLanguageById } from "@/constants/languages";
 import { useEditWordMutation } from "@/queries/words/edit/useEditWord.mutation";
@@ -25,6 +26,8 @@ type EditWordFormProps = {
   word: Word;
   onSuccess?: () => void;
 };
+
+const FORM_ID = "edit-word-form";
 
 const EditWordForm = ({ word, onSuccess }: EditWordFormProps) => {
   const methods = useForm<EditWordFormValues>({
@@ -70,10 +73,7 @@ const EditWordForm = ({ word, onSuccess }: EditWordFormProps) => {
 
   return (
     <FormProvider {...methods}>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex h-full flex-col gap-4"
-      >
+      <form id={FORM_ID} onSubmit={handleSubmit(onSubmit)}>
         <div className="grid grid-cols-4 gap-4">
           <div className="col-span-3 flex items-center">
             <FormInput
@@ -130,20 +130,19 @@ const EditWordForm = ({ word, onSuccess }: EditWordFormProps) => {
             />
           </div>
         </div>
-
-        <div className="flex-1" />
-
-        <div className="flex justify-end">
-          <ArrowButton
-            type="submit"
-            isLoading={isSubmitting}
-            disabled={!isDirty || isSubmitting}
-            isDirty={isDirty}
-          >
-            {isSubmitting ? "Saving..." : "Save"}
-          </ArrowButton>
-        </div>
       </form>
+
+      <FormFooter>
+        <LoadingButton
+          className="w-full"
+          type="submit"
+          form={FORM_ID}
+          isLoading={isSubmitting}
+          disabled={!isDirty}
+        >
+          {isSubmitting ? "Saving..." : "Save"}
+        </LoadingButton>
+      </FormFooter>
     </FormProvider>
   );
 };

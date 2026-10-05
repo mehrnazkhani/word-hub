@@ -1,3 +1,6 @@
+"use client";
+
+import * as React from "react";
 import {
   Dialog,
   DialogContent,
@@ -5,6 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { FooterSlotProvider } from "@/components/FormFooterSlot";
 
 type FormDialogProps = {
   open: boolean;
@@ -21,20 +25,30 @@ export const FormDialog = ({
   description,
   children,
 }: FormDialogProps) => {
+  const [footerEl, setFooterEl] = React.useState<HTMLElement | null>(null);
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
+        className="flex max-h-[90vh] flex-col sm:max-w-106.25"
         onPointerDownOutside={(e) => e.preventDefault()}
         onEscapeKeyDown={(e) => e.preventDefault()}
       >
         <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
+          <DialogTitle className="text-center">{title}</DialogTitle>
           <DialogDescription className="sr-only">
             {description}
           </DialogDescription>
         </DialogHeader>
 
-        {children}
+        <FooterSlotProvider value={footerEl}>
+          <div className="min-h-0 flex-1 overflow-y-auto">{children}</div>
+        </FooterSlotProvider>
+
+        <div
+          ref={setFooterEl}
+          className="-mx-4 -mb-4 rounded-b-xl border-t bg-popover p-4 empty:hidden"
+        />
       </DialogContent>
     </Dialog>
   );

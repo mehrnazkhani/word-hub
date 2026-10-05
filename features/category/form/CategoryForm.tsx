@@ -1,10 +1,12 @@
 import { useFormContext } from "react-hook-form";
 import { Folder } from "lucide-react";
 import { FormInput } from "@/components/inputs/FormInput";
-import { ArrowButton } from "@/components/ArrowButton";
+import { LoadingButton } from "@/components/LoadingButton";
+import { FormFooter } from "@/components/FormFooter";
 import type { CategoryFormValues } from "../category.schema";
 
 type CategoryFormProps = {
+  formId: string;
   onSubmit: (data: CategoryFormValues) => Promise<void>;
   submitLabel: string;
   isPending: boolean;
@@ -12,6 +14,7 @@ type CategoryFormProps = {
 };
 
 export const CategoryForm = ({
+  formId,
   onSubmit,
   submitLabel,
   isPending,
@@ -23,28 +26,27 @@ export const CategoryForm = ({
   } = useFormContext<CategoryFormValues>();
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="flex h-full flex-col gap-4"
-    >
-      <FormInput
-        icon={Folder}
-        name="name"
-        label="Category name"
-        placeholder="Category Name"
-      />
+    <>
+      <form id={formId} onSubmit={handleSubmit(onSubmit)}>
+        <FormInput
+          icon={Folder}
+          name="name"
+          label="Category name"
+          placeholder="Category Name"
+        />
+      </form>
 
-      <div className="flex-1" />
-
-      <ArrowButton
-        type="submit"
-        isLoading={isPending}
-        isDirty={isDirty}
-        disabled={!isDirty}
-        className="self-end"
-      >
-        {isPending ? pendingLabel : submitLabel}
-      </ArrowButton>
-    </form>
+      <FormFooter>
+        <LoadingButton
+          className="w-full"
+          type="submit"
+          form={formId}
+          isLoading={isPending}
+          disabled={!isDirty}
+        >
+          {isPending ? pendingLabel : submitLabel}
+        </LoadingButton>
+      </FormFooter>
+    </>
   );
 };

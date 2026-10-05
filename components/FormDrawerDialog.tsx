@@ -18,10 +18,12 @@ import {
   DrawerTitle,
 } from "@/components/ui/drawer";
 import { useIsMobile } from "@/hooks/use-mobile";
+import {
+  FooterSlotProvider,
+  useFooterSlot,
+} from "@/components/FormFooterSlot";
 
-const FooterSlotContext = React.createContext<HTMLElement | null>(null);
-
-export const useFooterSlot = () => React.useContext(FooterSlotContext);
+export { useFooterSlot };
 
 interface FormDrawerDialogProps {
   open: boolean;
@@ -59,9 +61,9 @@ export function FormDrawerDialog({
             </DrawerClose>
           </DrawerHeader>
 
-          <FooterSlotContext.Provider value={footerEl}>
+          <FooterSlotProvider value={footerEl}>
             <div className="min-h-0 flex-1 overflow-y-auto p-4">{children}</div>
-          </FooterSlotContext.Provider>
+          </FooterSlotProvider>
 
           <div
             ref={setFooterEl}
@@ -87,9 +89,9 @@ export function FormDrawerDialog({
           )}
         </DialogHeader>
 
-        <FooterSlotContext.Provider value={footerEl}>
+        <FooterSlotProvider value={footerEl}>
           <div className="min-h-0 flex-1 overflow-y-auto">{children}</div>
-        </FooterSlotContext.Provider>
+        </FooterSlotProvider>
 
         <div
           ref={setFooterEl}

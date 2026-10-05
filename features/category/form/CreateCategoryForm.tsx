@@ -28,7 +28,7 @@ const CreateCategoryForm = ({ onSuccess }: CreateCategoryFormProps) => {
     },
   });
 
-  const { handleSubmit, reset, setError } = methods;
+  const { reset, setError } = methods;
 
   const { mutateAsync: createCategory, isPending } =
     useCreateCategoryMutation();
@@ -69,6 +69,7 @@ const CreateCategoryForm = ({ onSuccess }: CreateCategoryFormProps) => {
   return (
     <FormProvider {...methods}>
       <CategoryForm
+        formId="create-category-form"
         onSubmit={onSubmit}
         isPending={isPending}
         submitLabel="Create"

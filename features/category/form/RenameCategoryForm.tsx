@@ -36,7 +36,7 @@ export const RenameCategoryForm = ({
     },
   });
 
-  const { handleSubmit, setError } = methods;
+  const { setError } = methods;
 
   const { mutateAsync: renameCategory, isPending } =
     useRenameCategoryMutation();
@@ -70,6 +70,7 @@ export const RenameCategoryForm = ({
   return (
     <FormProvider {...methods}>
       <CategoryForm
+        formId="rename-category-form"
         onSubmit={onSubmit}
         isPending={isPending}
         submitLabel="Rename"

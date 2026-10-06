@@ -41,6 +41,7 @@ export const CategoryForm = ({
           className="w-full"
           type="submit"
           form={formId}
+          size="lg"
           isLoading={isPending}
           disabled={!isDirty}
         >

@@ -111,6 +111,7 @@ export const ImportProvider = ({
           <LoadingButton
             className="w-full"
             onClick={handleImport}
+            size="lg"
             isLoading={isPending}
           >
             {isPending ? "Importing..." : "Import Category"}

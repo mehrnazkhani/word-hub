@@ -137,6 +137,7 @@ const EditWordForm = ({ word, onSuccess }: EditWordFormProps) => {
           className="w-full"
           type="submit"
           form={FORM_ID}
+          size="lg"
           isLoading={isSubmitting}
           disabled={!isDirty}
         >

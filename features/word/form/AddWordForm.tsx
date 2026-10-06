@@ -191,6 +191,7 @@ const AddWordForm = () => {
             className={cn("w-full", activeTab === "manual" && "md:ml-auto")}
             type="submit"
             form={FORM_ID}
+            size="lg"
             isLoading={isSubmitting}
             disabled={!isDirty}
           >

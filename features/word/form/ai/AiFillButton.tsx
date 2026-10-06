@@ -24,9 +24,10 @@ export const AiFillButton = ({
     <Button
       type="button"
       variant="default"
+      size="lg"
       onClick={isLoading ? onStop : onFill}
       disabled={disabled && !isLoading}
-      className={cn("cursor-pointer text-xs", className)}
+      className={cn("cursor-pointer", className)}
     >
       {isLoading ? (
         <>

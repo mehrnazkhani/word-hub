@@ -18,10 +18,12 @@ export function IconBadge({
   iconSize,
   className,
 }: IconBadgeProps) {
+  const finalSize = iconSize ?? badgeSize * 2;
+
   return (
     <div
       className={cn(
-        "flex items-center justify-center rounded-full",
+        "flex items-center justify-center rounded-md",
         {
           "border bg-accent": variant === "default",
           "bg-secondary": variant === "secondary",
@@ -36,8 +38,9 @@ export function IconBadge({
       }}
     >
       <Icon
-        width={iconSize ?? badgeSize * 2}
-        height={iconSize ?? badgeSize * 2}
+        width={finalSize}
+        height={finalSize}
+        style={{ width: finalSize, height: finalSize }}
         className={cn({
           "text-destructive": variant === "destructive",
         })}

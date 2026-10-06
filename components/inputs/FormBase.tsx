@@ -120,14 +120,19 @@ export function FormBase<
             {description && <FieldDescription>{description}</FieldDescription>}
           </>
         );
+
         const controlElement = children({
           ...field,
           id: field.name,
           "aria-invalid": fieldState.invalid,
         });
+
         const errorElem = fieldState.invalid && (
           <FieldError errors={[fieldState.error]} />
         );
+
+        // فقط وقتی description یا error هست wrapper لازمه
+        const needsWrapper = Boolean(description) || Boolean(errorElem);
 
         return (
           <Field
@@ -137,14 +142,22 @@ export function FormBase<
             {controlFirst ? (
               <>
                 {controlElement}
-                <FieldContent>
-                  {labelElement}
-                  {errorElem}
-                </FieldContent>
+                {needsWrapper ? (
+                  <FieldContent>
+                    {labelElement}
+                    {errorElem}
+                  </FieldContent>
+                ) : (
+                  labelElement
+                )}
               </>
             ) : (
               <>
-                <FieldContent>{labelElement}</FieldContent>
+                {description ? (
+                  <FieldContent>{labelElement}</FieldContent>
+                ) : (
+                  labelElement
+                )}
                 {controlElement}
                 {errorElem}
               </>

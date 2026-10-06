@@ -1,17 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import { Plus } from "lucide-react";
+import { Plus, ListPlus, FolderPlus } from "lucide-react";
 
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
-
 import { Button } from "@/components/ui/button";
 import { FloatingActionsContent } from "./FloatingActionsContent";
+import { IconBadge } from "@/components/ui/icon-badge";
 
 type ActiveModal = "add-word" | "create-category" | null;
 
@@ -38,13 +39,15 @@ export const FloatingActions = () => {
             </Button>
           </DropdownMenuTrigger>
 
-          <DropdownMenuContent align="end" side="top" className="w-40 p-2">
+          <DropdownMenuContent align="end" side="top" className="w-44 p-2">
             <DropdownMenuItem onClick={() => setActiveModal("add-word")}>
-              Add word
+              <IconBadge icon={ListPlus} /> Add word
             </DropdownMenuItem>
 
+            <DropdownMenuSeparator />
+
             <DropdownMenuItem onClick={() => setActiveModal("create-category")}>
-              Create category
+              <IconBadge icon={FolderPlus} /> Create category
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

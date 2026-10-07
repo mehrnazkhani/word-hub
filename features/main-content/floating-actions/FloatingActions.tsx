@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Plus, ListPlus, FolderPlus } from "lucide-react";
+import { DropdownMenu as DropdownMenuPrimitive } from "radix-ui";
 
 import {
   DropdownMenu,
@@ -24,15 +25,17 @@ export const FloatingActions = () => {
 
   return (
     <>
-      <div
-        aria-hidden
-        className={`pointer-events-none fixed inset-0 z-40 bg-black/10 supports-backdrop-filter:backdrop-blur-xs transition-opacity duration-200 ${
-          isOpen ? "opacity-100" : "opacity-0"
-        }`}
-      />
-
       <div className="fixed right-5 bottom-14 z-50 md:right-10 md:bottom-10">
         <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
+          <DropdownMenuPrimitive.Portal>
+            <div
+              aria-hidden
+              className={`pointer-events-none fixed inset-0 z-40 bg-black/10 transition-opacity duration-200 supports-backdrop-filter:backdrop-blur-xs ${
+                isOpen ? "opacity-100" : "opacity-0"
+              }`}
+            />
+          </DropdownMenuPrimitive.Portal>
+
           <DropdownMenuTrigger asChild>
             <Button
               variant="default"

@@ -13,7 +13,6 @@ import { SettingRow } from "../SettingRow";
 import { useUserSettings } from "@/queries/user-settings/useUserSettings";
 import { useCategoryById } from "@/queries/categories/useCategoryById";
 import { useUpdateDefaultWordFormSettingsMutation } from "./useUpdateDefaultWordFormSettings.mutation";
-import { ArrowButton } from "@/components/ArrowButton";
 import { getLanguageById } from "@/constants/languages";
 
 import {
@@ -134,10 +133,9 @@ const WordFormSettings = () => {
         <div className="flex justify-end">
           <LoadingButton
             type="submit"
-            size="lg"
             disabled={!isDirty || isPending}
             isLoading={isPending}
-            className="w-full sm:w-auto"
+            className="h-9 w-full md:h-8 md:w-auto"
           >
             Save Changes
           </LoadingButton>

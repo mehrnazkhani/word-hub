@@ -99,10 +99,9 @@ export const AIFillSettingsForm = () => {
         <div className="flex justify-end">
           <LoadingButton
             type="submit"
-            size="lg"
-            className="w-full sm:w-auto"
             disabled={!isDirty}
             isLoading={isPending}
+            className="h-9 w-full md:h-8 md:w-auto"
           >
             {isPending ? "Saving..." : "Save"}
           </LoadingButton>

@@ -29,14 +29,7 @@ export const ConnectBot = () => {
         isLoading={isConnecting}
         onClick={() => connectBotMutation()}
       >
-        {isConnecting ? (
-          "Connecting..."
-        ) : (
-          <>
-            <Link />
-            Link To Bot
-          </>
-        )}
+        {isConnecting ? "Connecting..." : <>Link To Bot</>}
       </LoadingButton>
     </SettingRow>
   );

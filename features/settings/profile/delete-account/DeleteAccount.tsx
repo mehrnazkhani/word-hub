@@ -50,7 +50,6 @@ export const DeleteAccount = () => {
         className="cursor-pointer"
         onClick={() => setOpen(true)}
       >
-        <Trash />
         Delete Account
       </Button>
 

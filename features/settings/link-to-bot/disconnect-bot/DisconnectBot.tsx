@@ -31,14 +31,7 @@ export const DisconnectBot = () => {
         isLoading={isDisconnecting}
         onClick={() => disconnectBotMutation()}
       >
-        {isDisconnecting ? (
-          "Disconnecting..."
-        ) : (
-          <>
-            <Link2Off />
-            Disconnect Bot
-          </>
-        )}
+        {isDisconnecting ? "Disconnecting..." : <>Disconnect Bot</>}
       </LoadingButton>
     </SettingRow>
   );

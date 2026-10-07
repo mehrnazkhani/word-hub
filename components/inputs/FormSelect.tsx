@@ -36,7 +36,7 @@ export const FormSelect = createFormField<FormSelectProps>(
         id={field.id}
         onBlur={onBlur}
         aria-invalid={field["aria-invalid"]}
-        className="w-full cursor-pointer text-xs aria-invalid:border-destructive"
+        className="w-full cursor-pointer aria-invalid:border-destructive"
       >
         <SelectValue placeholder={placeholder}>
           {field.value && renderValue ? renderValue(field.value) : undefined}

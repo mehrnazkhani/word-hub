@@ -46,15 +46,17 @@ export const WordOfTheDay = () => {
 
   return (
     <div className="flex w-full max-w-4xl flex-col gap-4">
-      <div className="flex items-center justify-between">
-        <span className="text-xs font-medium tracking-widest text-secondary-foreground/50 uppercase">
+      <div className="flex items-center justify-between gap-2">
+        <span className="w-1/2 truncate text-xs font-medium tracking-widest text-secondary-foreground/50 uppercase">
           Today's Word
         </span>
 
-        <SaveWordButton
-          savedSuggestion={savedSuggestion}
-          word={wordData as Word}
-        />
+        <div className="flex w-1/2 min-w-0 justify-end">
+          <SaveWordButton
+            savedSuggestion={savedSuggestion}
+            word={wordData as Word}
+          />
+        </div>
       </div>
 
       <div className="flex flex-col gap-1">

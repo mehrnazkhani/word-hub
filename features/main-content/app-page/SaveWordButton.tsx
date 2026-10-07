@@ -46,15 +46,23 @@ export const SaveWordButton = ({
         <Button
           variant="ghost"
           size="sm"
-          className={cn("cursor-pointer", isSaved && "text-primary")}
+          className={cn(
+            "min-w-0 max-w-full shrink cursor-pointer overflow-hidden",
+            isSaved && "text-primary",
+          )}
           aria-label={isSaved ? "Saved" : "Save this word"}
         >
           <Bookmark
             size={16}
-            className={cn("transition-all", isSaved && "fill-current")}
+            className={cn(
+              "shrink-0 transition-all",
+              isSaved && "fill-current",
+            )}
           />
-          <span>{isSaved && savedCategory ? savedCategory.name : "Save"}</span>
-          <ChevronDown size={13} className="opacity-50" />
+          <span className="min-w-0 truncate">
+            {isSaved && savedCategory ? savedCategory.name : "Save"}
+          </span>
+          <ChevronDown size={13} className="shrink-0 opacity-50" />
         </Button>
       </DropdownMenuTrigger>
 

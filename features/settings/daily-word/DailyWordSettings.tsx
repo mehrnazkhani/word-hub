@@ -7,7 +7,7 @@ import { Calendar, Dumbbell, Languages } from "lucide-react";
 import { FormProvider, useForm } from "react-hook-form";
 import { IconBadge } from "@/components/ui/icon-badge";
 import { Separator } from "@/components/ui/separator";
-import { ArrowButton } from "@/components/ArrowButton";
+import { LoadingButton } from "@/components/LoadingButton";
 import { SettingRow } from "../SettingRow";
 import { FormSwitch } from "@/components/inputs/FormSwitch";
 import { SelectLanguage } from "@/components/inputs/selectors/SelectLanguage";
@@ -139,13 +139,15 @@ const DailyWordSettings = () => {
         </fieldset>
 
         <div className="flex justify-end">
-          <ArrowButton
-            variant={isDirty ? "outline" : "ghost"}
+          <LoadingButton
             type="submit"
+            size="lg"
             disabled={!isDirty || isPending}
+            isLoading={isPending}
+            className="w-full sm:w-auto"
           >
             {isPending ? "Saving..." : "Save Changes"}
-          </ArrowButton>
+          </LoadingButton>
         </div>
       </form>
     </FormProvider>

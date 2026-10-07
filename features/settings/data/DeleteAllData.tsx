@@ -13,7 +13,7 @@ export const DeleteAllData = () => {
       description="Permanently remove all categories, saved words and progress."
     >
       <Button variant="destructive" className="cursor-pointer">
-        <Trash /> Delete All Data
+        Delete All Data
       </Button>
     </SettingRow>
   );

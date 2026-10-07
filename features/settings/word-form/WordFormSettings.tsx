@@ -20,6 +20,7 @@ import {
   wordFormSettingsSchema,
   type WordFormSettingsValues,
 } from "@/schemas/word/word.schema";
+import { LoadingButton } from "@/components/LoadingButton";
 
 const WordFormSettings = () => {
   const { data: userSettings } = useUserSettings();
@@ -131,14 +132,15 @@ const WordFormSettings = () => {
         </fieldset>
 
         <div className="flex justify-end">
-          <ArrowButton
-            variant={isDirty ? "outline" : "ghost"}
+          <LoadingButton
             type="submit"
+            size="lg"
             disabled={!isDirty || isPending}
             isLoading={isPending}
+            className="w-full sm:w-auto"
           >
             Save Changes
-          </ArrowButton>
+          </LoadingButton>
         </div>
       </form>
     </FormProvider>

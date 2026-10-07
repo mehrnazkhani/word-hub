@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { LockKeyhole } from "lucide-react";
 import { SettingRow } from "../../SettingRow";
-import { ArrowButton } from "@/components/ArrowButton";
+import { LoadingButton } from "@/components/LoadingButton";
 import { ROUTES } from "@/constants/routes";
 
 export const ChangePassword = () => {
@@ -16,9 +16,12 @@ export const ChangePassword = () => {
       title="Change Password"
       description="********"
     >
-      <ArrowButton onClick={() => router.push(ROUTES.CHANGE_PASSWORD)}>
+      <LoadingButton
+        variant="outline"
+        onClick={() => router.push(ROUTES.CHANGE_PASSWORD)}
+      >
         Change Password
-      </ArrowButton>
+      </LoadingButton>
     </SettingRow>
   );
 };

@@ -9,7 +9,7 @@ import { categoriesQuery } from "@/queries/categories/useCategories";
 import { toast } from "sonner";
 import { Download } from "lucide-react";
 import { SettingRow } from "../SettingRow";
-import { ArrowButton } from "@/components/ArrowButton";
+import { LoadingButton } from "@/components/LoadingButton";
 import { mapWordToExportShape } from "@/lib/utils/mapWordToExportShape";
 import { downloadJson } from "@/lib/utils/downloadJson";
 
@@ -75,7 +75,9 @@ export const ExportData = () => {
       title="Export Data"
       description="Download all your categories and words as a JSON file."
     >
-      <ArrowButton onClick={handleExportAll}>Export Data</ArrowButton>
+      <LoadingButton variant="outline" onClick={handleExportAll}>
+        Export Data
+      </LoadingButton>
     </SettingRow>
   );
 };

@@ -8,7 +8,7 @@ import { useUserSettings } from "@/queries/user-settings/useUserSettings";
 import { FormCheckbox } from "@/components/inputs/FormCheckbox";
 import { aiFillFieldsSchema, type AiFillFields } from "./aiFillFields.schema";
 import { useUpdateAiFillSettingsMutation } from "./useUpdateAiFillSettings.mutation";
-import { ArrowButton } from "@/components/ArrowButton";
+import { LoadingButton } from "@/components/LoadingButton";
 
 export const AIFillSettingsForm = () => {
   const { data: userSettings } = useUserSettings();
@@ -97,14 +97,15 @@ export const AIFillSettingsForm = () => {
         </fieldset>
 
         <div className="flex justify-end">
-          <ArrowButton
-            variant={isDirty ? "outline" : "ghost"}
+          <LoadingButton
             type="submit"
+            size="lg"
+            className="w-full sm:w-auto"
             disabled={!isDirty}
             isLoading={isPending}
           >
             {isPending ? "Saving..." : "Save"}
-          </ArrowButton>
+          </LoadingButton>
         </div>
       </form>
     </FormProvider>

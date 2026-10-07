@@ -12,11 +12,11 @@ export const HeaderBreadcrumb = () => {
   const { name, wordCount } = usePageTitle();
 
   return (
-    <Breadcrumb>
-      <BreadcrumbList>
-        <BreadcrumbItem className="min-w-0">
-          <BreadcrumbPage className="flex min-w-0 items-center">
-            <span className="truncate">{name}</span>
+    <Breadcrumb className="min-w-0 flex-1 overflow-hidden">
+      <BreadcrumbList className="flex-nowrap overflow-hidden">
+        <BreadcrumbItem className="min-w-0 flex-1 overflow-hidden">
+          <BreadcrumbPage className="flex min-w-0 flex-1 items-center overflow-hidden">
+            <span className="min-w-0 flex-1 truncate">{name}</span>
 
             {wordCount !== undefined && (
               <span className="ml-2 shrink-0 text-xs font-normal text-foreground/40 tabular-nums">

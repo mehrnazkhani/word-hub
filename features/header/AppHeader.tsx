@@ -15,17 +15,17 @@ export const AppHeader = () => {
   const { isTrash } = usePageTitle();
 
   return (
-    <header className="flex h-16 shrink-0 items-center gap-2 bg-background px-5">
-      <div className="flex flex-1 items-center gap-2">
-        <SidebarTrigger />
+    <header className="flex h-16 shrink-0 items-center gap-2 overflow-hidden bg-background px-5">
+      <div className="flex min-w-0 flex-1 items-center gap-2">
+        <SidebarTrigger className="shrink-0" />
         <Separator
           orientation="vertical"
-          className="mr-2 data-[orientation=vertical]:h-4"
+          className="mr-2 shrink-0 data-[orientation=vertical]:h-4"
         />
         <HeaderBreadcrumb />
       </div>
 
-      <div className="ml-auto">
+      <div className="ml-auto shrink-0">
         <div className="flex items-center gap-2">
           <div className="flex items-center">
             {isTrash && <PermanentDeleteAllButton />}

@@ -16,7 +16,7 @@ export const SidebarFooter = () => {
   const closeSidebar = useCloseSidebarOnClick();
 
   return (
-    <Footer>
+    <Footer className="pb-4">
       <SidebarMenu>
         <SidebarMenuItem>
           <SidebarMenuButton asChild className="cursor-pointer">

@@ -18,7 +18,7 @@ export const NavMain = () => {
   const closeSidebar = useCloseSidebarOnClick();
 
   return (
-    <SidebarMenu>
+    <SidebarMenu className="space-y-1.5">
       {SIDEBAR_HEADER_ITEMS &&
         SIDEBAR_HEADER_ITEMS.map((item) => {
           const isActive = pathname === item.href;

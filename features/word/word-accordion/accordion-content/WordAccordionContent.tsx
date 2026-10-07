@@ -17,9 +17,9 @@ export const WordAccordionContent = () => {
 
   return (
     <AccordionContent className="overflow-hidden">
-      <div className="mx-2.5 space-y-2 border-l py-1.5 pl-4 text-sm">
+      <div className="mx-2.5 space-y-2 border-l py-1.5 pl-4">
         {hasDescription && (
-          <p className="text-xs leading-relaxed text-foreground/60 italic">
+          <p className="text-sm leading-relaxed text-foreground/90">
             {word.description}
           </p>
         )}
@@ -31,10 +31,10 @@ export const WordAccordionContent = () => {
                 key={item.label}
                 className="flex items-baseline gap-3 px-3 py-2"
               >
-                <span className="w-16 shrink-0 text-xs text-foreground/40">
+                <span className="w-24 shrink-0 text-[13px] text-muted-foreground">
                   {item.label}
                 </span>
-                <p className="text-xs text-foreground/70">
+                <p className="text-sm text-foreground/80">
                   {Array.isArray(item.value)
                     ? item.value.join(", ")
                     : item.value}
@@ -45,11 +45,11 @@ export const WordAccordionContent = () => {
         )}
 
         {hasExample && (
-          <div className="flex items-baseline gap-3 rounded-md bg-secondary/40 px-3 py-2">
-            <span className="w-16 shrink-0 text-xs text-foreground/40">
+          <div className="flex items-baseline gap-3 rounded-md border border-transparent bg-secondary/40 px-3 py-2">
+            <span className="w-24 shrink-0 text-[13px] text-muted-foreground">
               example
             </span>
-            <p className="text-xs text-foreground/70 italic">
+            <p className="text-sm text-foreground/80 italic">
               "{word.example}"
             </p>
           </div>

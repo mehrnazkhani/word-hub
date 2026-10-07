@@ -16,10 +16,10 @@ export const HeaderBreadcrumb = () => {
       <BreadcrumbList className="flex-nowrap overflow-hidden">
         <BreadcrumbItem className="min-w-0 flex-1 overflow-hidden">
           <BreadcrumbPage className="flex min-w-0 flex-1 items-center overflow-hidden">
-            <span className="min-w-0 flex-1 truncate">{name}</span>
+            <span className="min-w-0 truncate">{name}</span>
 
             {wordCount !== undefined && (
-              <span className="ml-2 shrink-0 text-xs font-normal text-foreground/40 tabular-nums">
+              <span className="ml-2 shrink-0 text-xs font-normal text-foreground/60 tabular-nums">
                 {wordCount} words
               </span>
             )}

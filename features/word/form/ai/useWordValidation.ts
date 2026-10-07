@@ -84,13 +84,17 @@ export const useWordValidation = () => {
 
   const validate = async (
     ctx: ValidationContext,
+    signal?: AbortSignal,
   ): Promise<WordValidationState> => {
     const { word, language, pos, explanationLanguage } = ctx;
     const passed = getPassed(word, language);
 
     // 1. spelling
     if (!passed.has("spelling")) {
-      const r = await checkSpelling({ word, language, explanationLanguage });
+      const r = await checkSpelling(
+        { word, language, explanationLanguage },
+        signal,
+      );
       if (!r.isCorrect) {
         return { status: "incorrect", suggestions: r.suggestions ?? [] };
       }
@@ -99,7 +103,7 @@ export const useWordValidation = () => {
 
     // 2. base form
     if (!passed.has("baseForm")) {
-      const r = await checkBaseForm({ word, language });
+      const r = await checkBaseForm({ word, language }, signal);
       if (!r.isBaseForm) {
         return {
           status: "notBaseForm",
@@ -112,7 +116,10 @@ export const useWordValidation = () => {
 
     const posStage = posKey(pos);
     if (!passed.has(posStage)) {
-      const r = await checkPos({ word, language, partOfSpeech: pos });
+      const r = await checkPos(
+        { word, language, partOfSpeech: pos },
+        signal,
+      );
       if (pos && !r.isValid) return { status: "invalidPos" };
       if (!pos && !r.isValid) {
         return { status: "multiplePos", availablePos: r.availablePos };

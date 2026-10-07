@@ -43,7 +43,7 @@ const addWordFormDefaultValues: AddWordFormValues = {
   example: "",
 };
 
-const AddWordForm = () => {
+const AddWordForm = ({ onSuccess }: { onSuccess?: () => void }) => {
   const { data: userSettings } = useUserSettings();
   const [activeTab, setActiveTab] = useState<"ai" | "manual">("ai");
   const [aiResult, setAiResult] = useState<AiResult | null>(null);
@@ -74,6 +74,7 @@ const AddWordForm = () => {
   const {
     wordDetails,
     isLoading: isAiLoading,
+    isAiProcessing,
     validationState,
     confirmWord,
     confirmPos,
@@ -124,6 +125,7 @@ const AddWordForm = () => {
           onSuccess: () => {
             reset();
             setAiResult(null);
+            onSuccess?.();
           },
         },
       );
@@ -181,6 +183,8 @@ const AddWordForm = () => {
             <AiFillButton
               className="w-full md:w-auto"
               isLoading={isAiLoading}
+              isProcessing={isAiProcessing}
+              isCompleted={!!aiResult}
               disabled={!isDirty}
               onFill={handleFillWithAI}
               onStop={stopAI}

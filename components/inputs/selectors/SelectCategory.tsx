@@ -1,6 +1,68 @@
-import { SelectItem } from "@/components/ui/select";
-import { FormSelect } from "@/components/inputs/FormSelect";
+"use client";
+
+import { ChevronDown } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { createFormField } from "@/components/inputs/FormBase";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { CategoryDropdownContent } from "@/components/category/CategoryDropdownContent";
 import { useUserCategories } from "@/queries/categories/useCategories";
+
+type SelectCategoryExtraProps = {
+  placeholder?: string;
+  disabled?: boolean;
+};
+
+const BaseSelectCategory = createFormField<SelectCategoryExtraProps>(
+  ({ onChange, onBlur, value, ...field }, { placeholder, disabled }) => {
+    const { data: categories } = useUserCategories();
+
+    const normalizedValue =
+      value && value !== "null" ? String(value) : "";
+    const selectedId = normalizedValue ? Number(normalizedValue) : null;
+    const selectedCategory = categories?.find((c) => c.id === selectedId);
+
+    const isDisabled = field.disabled || disabled;
+
+    return (
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button
+            type="button"
+            variant="outline"
+            id={field.id}
+            disabled={isDisabled}
+            onBlur={onBlur}
+            aria-invalid={field["aria-invalid"]}
+            className="w-full cursor-pointer justify-between font-normal aria-invalid:border-destructive"
+          >
+            <span
+              className={cn(
+                "min-w-0 flex-1 truncate text-left",
+                !selectedCategory && "text-muted-foreground",
+              )}
+            >
+              {selectedCategory ? selectedCategory.name : placeholder}
+            </span>
+            <ChevronDown
+              size={13}
+              className="shrink-0 opacity-50"
+            />
+          </Button>
+        </DropdownMenuTrigger>
+
+        <CategoryDropdownContent
+          align="end"
+          selectedId={selectedId}
+          onSelect={(categoryId) => onChange(String(categoryId))}
+        />
+      </DropdownMenu>
+    );
+  },
+);
 
 type SelectCategoryProps = {
   name: string;
@@ -10,20 +72,13 @@ type SelectCategoryProps = {
 };
 
 export const SelectCategory = ({
-  name,
   label,
-  disabled = false,
   placeholder = "Select Category",
-}: SelectCategoryProps) => {
-  const { data: categories } = useUserCategories();
-
-  return (
-    <FormSelect name={name} label={label} placeholder={placeholder}>
-      {categories?.map((item) => (
-        <SelectItem key={item.id} value={String(item.id)}>
-          {item.name}
-        </SelectItem>
-      ))}
-    </FormSelect>
-  );
-};
+  ...rest
+}: SelectCategoryProps) => (
+  <BaseSelectCategory
+    label={label ?? placeholder}
+    placeholder={placeholder}
+    {...rest}
+  />
+);

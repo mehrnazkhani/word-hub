@@ -3,14 +3,13 @@
 import { useState } from "react";
 
 import { cn } from "@/lib/utils";
-import { Bookmark, Check, ChevronDown } from "lucide-react";
+import { Bookmark, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { CategoryDropdownContent } from "@/components/category/CategoryDropdownContent";
 
 import { useUserCategories } from "@/queries/categories/useCategories";
 import { useSaveDailyWordSuggestion } from "./useSaveDailyWordSuggestion";
@@ -47,17 +46,14 @@ export const SaveWordButton = ({
           variant="ghost"
           size="sm"
           className={cn(
-            "min-w-0 max-w-full shrink cursor-pointer overflow-hidden",
+            "max-w-full min-w-0 shrink cursor-pointer overflow-hidden",
             isSaved && "text-primary",
           )}
           aria-label={isSaved ? "Saved" : "Save this word"}
         >
           <Bookmark
             size={16}
-            className={cn(
-              "shrink-0 transition-all",
-              isSaved && "fill-current",
-            )}
+            className={cn("shrink-0 transition-all", isSaved && "fill-current")}
           />
           <span className="min-w-0 truncate">
             {isSaved && savedCategory ? savedCategory.name : "Save"}
@@ -66,26 +62,11 @@ export const SaveWordButton = ({
         </Button>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent align="end" className="h-80! w-48">
-        {!categories || categories.length === 0 ? (
-          <DropdownMenuItem disabled className="text-xs text-muted-foreground">
-            No categories yet
-          </DropdownMenuItem>
-        ) : (
-          categories.map((category) => (
-            <DropdownMenuItem
-              key={category.id}
-              onClick={() => saveToCategory(category.id)}
-              className="flex items-center justify-between gap-2 truncate"
-            >
-              <span>{category.name}</span>
-              {savedCategoryId === category.id && (
-                <Check size={13} className="text-primary" />
-              )}
-            </DropdownMenuItem>
-          ))
-        )}
-      </DropdownMenuContent>
+      <CategoryDropdownContent
+        align="end"
+        selectedId={savedCategoryId}
+        onSelect={saveToCategory}
+      />
     </DropdownMenu>
   );
 };

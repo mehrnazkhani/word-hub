@@ -10,7 +10,7 @@ import { WordPronunciation } from "@/components/WordPronunciation";
 import { FormFooter } from "@/components/FormFooter";
 import { LoadingButton } from "@/components/LoadingButton";
 import { SelectLanguage } from "../../../components/inputs/selectors/SelectLanguage";
-import { SelectWordType } from "../../../components/inputs/selectors/SelectWordType";
+import { SelectPartOfSpeech } from "../../../components/inputs/selectors/SelectPartOfSpeech";
 
 import { getLanguageById } from "@/constants/languages";
 import { useEditWordMutation } from "@/queries/words/edit/useEditWord.mutation";
@@ -73,13 +73,17 @@ const EditWordForm = ({ word, onSuccess }: EditWordFormProps) => {
 
   return (
     <FormProvider {...methods}>
-      <form id={FORM_ID} onSubmit={handleSubmit(onSubmit)}>
+      <form
+        id={FORM_ID}
+        onSubmit={handleSubmit(onSubmit)}
+        className="[&_input::placeholder]:text-xs [&_textarea::placeholder]:text-xs [&_[data-placeholder]]:text-xs"
+      >
         <div className="grid grid-cols-4 gap-4">
           <div className="col-span-3 flex items-center">
             <FormInput
               name="word"
               label="Word"
-              placeholder="Word"
+              placeholder="e.g. hello"
               endAdornment={
                 wordValue ? (
                   <WordPronunciation
@@ -92,40 +96,50 @@ const EditWordForm = ({ word, onSuccess }: EditWordFormProps) => {
           </div>
 
           <div className="col-span-1">
-            <SelectLanguage name="sourceLanguageId" label="Source Language" />
+            <SelectLanguage name="sourceLanguageId" label="From" />
           </div>
 
           <div className="col-span-3">
             <FormInput
               name="translation"
               label="Translation"
-              placeholder="Translation"
+              placeholder="Enter the translation"
             />
           </div>
 
           <div className="col-span-1">
-            <SelectLanguage name="targetLanguageId" label="Target Language" />
+            <SelectLanguage name="targetLanguageId" label="To" />
           </div>
 
           <div className="col-span-4">
-            <SelectWordType />
+            <SelectPartOfSpeech />
           </div>
 
           <div className="col-span-4 space-y-4">
-            <RelatedWordsInput name="synonyms" placeholder="Synonyms" />
-            <RelatedWordsInput name="antonyms" placeholder="Antonyms" />
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <RelatedWordsInput
+                name="synonyms"
+                label="Synonyms"
+                placeholder="e.g. hi, greetings"
+              />
+              <RelatedWordsInput
+                name="antonyms"
+                label="Antonyms"
+                placeholder="e.g. goodbye"
+              />
+            </div>
 
             <FormTextarea
               name="example"
               label="Example"
-              placeholder="Example"
+              placeholder="e.g. She waved and said hello."
               rows={2}
             />
 
             <FormTextarea
               name="description"
               label="Description"
-              placeholder="Description"
+              placeholder="e.g. A greeting when meeting someone."
               rows={2}
             />
           </div>

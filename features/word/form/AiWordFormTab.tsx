@@ -4,7 +4,7 @@ import { useWatch } from "react-hook-form";
 
 import { FormInput } from "@/components/inputs/FormInput";
 import { SelectLanguage } from "@/components/inputs/selectors/SelectLanguage";
-import { SelectWordType } from "@/components/inputs/selectors/SelectWordType";
+import { SelectPartOfSpeech } from "@/components/inputs/selectors/SelectPartOfSpeech";
 import { SelectCategory } from "@/components/inputs/selectors/SelectCategory";
 import { WordPronunciation } from "@/components/WordPronunciation";
 import { getLanguageById } from "@/constants/languages";
@@ -63,7 +63,7 @@ export const AiWordFormTab = ({
           <FormInput
             name="word"
             label="Word"
-            placeholder="Word"
+            placeholder="e.g. hello"
             endAdornment={
               wordValue ? (
                 <WordPronunciation
@@ -76,22 +76,22 @@ export const AiWordFormTab = ({
         </div>
 
         <div className="col-span-2">
-          <SelectLanguage name="sourceLanguageId" label="Source Language" />
+          <SelectLanguage name="sourceLanguageId" label="From" />
         </div>
 
         <div className="col-span-2">
-          <SelectLanguage name="targetLanguageId" label="Target Language" />
+          <SelectLanguage name="targetLanguageId" label="To" />
         </div>
 
         <div className="col-span-2">
-          <SelectWordType />
+          <SelectPartOfSpeech />
         </div>
 
         <div className="col-span-2">
           <SelectCategory
             name="categoryId"
-            label="Select Category"
-            placeholder="Select Category"
+            label="Category"
+            placeholder="Select category"
           />
         </div>
       </div>

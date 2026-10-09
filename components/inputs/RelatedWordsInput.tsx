@@ -9,17 +9,19 @@ import { FormInput } from "./FormInput";
 
 type RelatedWordsInputProps = {
   name: "synonyms" | "antonyms";
+  label: string;
   placeholder: string;
 };
 
 export const RelatedWordsInput = ({
   name,
+  label,
   placeholder,
 }: RelatedWordsInputProps) => {
   return (
     <FormInput
       name={name}
-      label={placeholder}
+      label={label}
       placeholder={placeholder}
       endAdornment={
         <Popover>
@@ -36,7 +38,7 @@ export const RelatedWordsInput = ({
           </PopoverTrigger>
 
           <PopoverContent className="w-auto px-2 py-1 text-xs" side="top">
-            Separate multiple {placeholder.toLowerCase()} with commas.
+            Separate multiple {label.toLowerCase()} with commas.
           </PopoverContent>
         </Popover>
       }

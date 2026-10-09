@@ -134,24 +134,30 @@ const AddWordForm = ({ onSuccess }: { onSuccess?: () => void }) => {
 
   return (
     <FormProvider {...methods}>
-      <form id={FORM_ID} onSubmit={handleSubmit(onSubmit)}>
+      <form
+        id={FORM_ID}
+        onSubmit={handleSubmit(onSubmit)}
+        className="**:data-placeholder:text-xs [&_input::placeholder]:text-xs [&_textarea::placeholder]:text-xs"
+      >
         <Tabs
           value={activeTab}
           onValueChange={(v) => setActiveTab(v as "ai" | "manual")}
         >
-          <TabsList className="mx-auto w-2/3">
-            <TabsTrigger value="ai" className="flex-1 cursor-pointer gap-1.5">
-              <Sparkles className="size-4" />
-              AI
-            </TabsTrigger>
-            <TabsTrigger
-              value="manual"
-              className="flex-1 cursor-pointer gap-1.5"
-            >
-              <PencilLine className="size-4" />
-              Manual
-            </TabsTrigger>
-          </TabsList>
+          <div className="sticky top-0 z-10 flex justify-center bg-popover pt-1 pb-3">
+            <TabsList className="w-2/3">
+              <TabsTrigger value="ai" className="flex-1 cursor-pointer gap-1.5">
+                <Sparkles className="size-4" />
+                AI
+              </TabsTrigger>
+              <TabsTrigger
+                value="manual"
+                className="flex-1 cursor-pointer gap-1.5"
+              >
+                <PencilLine className="size-4" />
+                Manual
+              </TabsTrigger>
+            </TabsList>
+          </div>
 
           <TabsContent value="ai" className="mt-4">
             <AiWordFormTab

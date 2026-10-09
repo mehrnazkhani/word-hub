@@ -114,7 +114,10 @@ export function FormBase<
       render={({ field, fieldState }) => {
         const labelElement = (
           <>
-            <FieldLabel htmlFor={field.name} className="sr-only">
+            <FieldLabel
+              htmlFor={field.name}
+              className="text-xs text-foreground/80"
+            >
               {label}
             </FieldLabel>
             {description && <FieldDescription>{description}</FieldDescription>}

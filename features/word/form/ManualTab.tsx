@@ -4,7 +4,7 @@ import { useWatch } from "react-hook-form";
 import { FormInput } from "@/components/inputs/FormInput";
 import { WordPronunciation } from "@/components/WordPronunciation";
 import { SelectLanguage } from "@/components/inputs/selectors/SelectLanguage";
-import { SelectWordType } from "@/components/inputs/selectors/SelectWordType";
+import { SelectPartOfSpeech } from "@/components/inputs/selectors/SelectPartOfSpeech";
 import { SelectCategory } from "@/components/inputs/selectors/SelectCategory";
 import { WordFormAdvanced } from "./WordFormAdvanced";
 import { getLanguageById } from "@/constants/languages";
@@ -23,12 +23,12 @@ export const ManualTab = ({ control }: ManualTabProps) => {
     : undefined;
 
   return (
-    <div className="grid grid-cols-4 gap-4">
-      <div className="col-span-3 flex items-center">
+    <div className="grid w-full min-w-0 grid-cols-4 gap-4">
+      <div className="col-span-3 flex min-w-0 items-center">
         <FormInput
           name="word"
           label="Word"
-          placeholder="Word"
+          placeholder="e.g. hello"
           endAdornment={
             wordValue ? (
               <WordPronunciation
@@ -40,31 +40,31 @@ export const ManualTab = ({ control }: ManualTabProps) => {
         />
       </div>
 
-      <div className="col-span-1">
-        <SelectLanguage name="sourceLanguageId" label="Source Language" />
+      <div className="col-span-1 min-w-0">
+        <SelectLanguage name="sourceLanguageId" label="From" />
       </div>
 
-      <div className="col-span-3">
+      <div className="col-span-3 min-w-0">
         <FormInput
           name="translation"
           label="Translation"
-          placeholder="Translation"
+          placeholder="Enter the translation"
         />
       </div>
 
-      <div className="col-span-1">
-        <SelectLanguage name="targetLanguageId" label="Target Language" />
+      <div className="col-span-1 min-w-0">
+        <SelectLanguage name="targetLanguageId" label="To" />
       </div>
 
-      <div className="col-span-2">
-        <SelectWordType />
+      <div className="col-span-2 min-w-0">
+        <SelectPartOfSpeech />
       </div>
 
-      <div className="col-span-2">
+      <div className="col-span-2 min-w-0">
         <SelectCategory
           name="categoryId"
-          label="Select Category"
-          placeholder="Select Category"
+          label="Category"
+          placeholder="Select category"
         />
       </div>
 

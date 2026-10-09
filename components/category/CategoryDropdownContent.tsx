@@ -24,7 +24,7 @@ export const CategoryDropdownContent = ({
   const { data: categories } = useUserCategories();
 
   return (
-    <DropdownMenuContent align={align} className={cn("h-80! w-48", className)}>
+    <DropdownMenuContent align={align} className={cn("h-80!", className)}>
       {!categories || categories.length === 0 ? (
         <DropdownMenuItem disabled className="text-xs text-muted-foreground">
           No categories yet

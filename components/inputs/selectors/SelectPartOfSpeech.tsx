@@ -7,14 +7,14 @@ import { SelectItem } from "@/components/ui/select";
 import { FormSelect } from "@/components/inputs/FormSelect";
 import { PARTS_OF_SPEECH } from "@/schemas/word/word.shared";
 
-export const SelectWordType = () => {
+export const SelectPartOfSpeech = () => {
   const { setValue } = useFormContext();
 
   return (
     <FormSelect
       name="partOfSpeech"
-      label="Word type"
-      placeholder="Select type"
+      label="Part of Speech"
+      placeholder="Noun, verb..."
       onValueChange={(value) => {
         if (value === "__clear__") {
           setValue("partOfSpeech", null, { shouldDirty: true });

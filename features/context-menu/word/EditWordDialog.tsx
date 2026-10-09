@@ -19,6 +19,7 @@ export const EditWordDialog = ({
       onOpenChange={onOpenChange}
       title="Edit Word"
       description="Update the word and any of its details."
+      dialogClassName="sm:max-w-lg"
     >
       <EditWordForm word={word} onSuccess={() => onOpenChange(false)} />
     </FormDrawerDialog>

@@ -33,6 +33,7 @@ interface FormDrawerDialogProps {
   description?: string;
   children: React.ReactNode;
   contentClassName?: string;
+  dialogClassName?: string;
 }
 
 export function FormDrawerDialog({
@@ -42,6 +43,7 @@ export function FormDrawerDialog({
   description,
   children,
   contentClassName,
+  dialogClassName,
 }: FormDrawerDialogProps) {
   const isMobile = useIsMobile();
 
@@ -65,7 +67,7 @@ export function FormDrawerDialog({
           </DrawerHeader>
 
           <FooterSlotProvider value={footerEl}>
-            <div className={cn("min-h-0 flex-1 overflow-y-auto p-4", contentClassName)}>{children}</div>
+            <div className={cn("min-h-0 min-w-0 flex-1 overflow-x-clip overflow-y-auto p-4", contentClassName)}>{children}</div>
           </FooterSlotProvider>
 
           <div
@@ -80,7 +82,10 @@ export function FormDrawerDialog({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
-        className="flex max-h-[90vh] flex-col sm:max-w-106.25"
+        className={cn(
+          "flex max-h-[90vh] flex-col sm:max-w-106.25",
+          dialogClassName,
+        )}
         onInteractOutside={(e) => e.preventDefault()}
       >
         <DialogHeader>
@@ -93,7 +98,7 @@ export function FormDrawerDialog({
         </DialogHeader>
 
         <FooterSlotProvider value={footerEl}>
-          <div className={cn("min-h-0 flex-1 overflow-y-auto", contentClassName)}>{children}</div>
+          <div className={cn("min-h-0 min-w-0 flex-1 overflow-x-clip overflow-y-auto", contentClassName)}>{children}</div>
         </FooterSlotProvider>
 
         <div

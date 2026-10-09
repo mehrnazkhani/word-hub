@@ -80,6 +80,7 @@ export const FloatingActionsContent = ({
       onOpenChange={(open) => !open && onClose()}
       title={title}
       description={description}
+      dialogClassName="sm:max-w-lg"
     >
       <Component onSuccess={onClose} />
     </FormDrawerDialog>

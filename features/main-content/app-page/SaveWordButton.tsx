@@ -64,6 +64,7 @@ export const SaveWordButton = ({
 
       <CategoryDropdownContent
         align="end"
+        className="w-48"
         selectedId={savedCategoryId}
         onSelect={saveToCategory}
       />

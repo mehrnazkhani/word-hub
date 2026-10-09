@@ -6,11 +6,21 @@ import { WordAccordion } from "../../word-accordion/WordAccordion";
 import { RecentWordContextMenu } from "./RecentWordContextMenu";
 import { WordItem } from "../WordItem";
 import { WordsLoading } from "@/components/WordsLoading";
+import { EmptyUI } from "@/components/EmptyUI";
 
 export const RecentWordList = () => {
   const { data: recentWords, isPending } = useRecentWords({ limit: 20 });
 
   if (isPending) return <WordsLoading />;
+
+  if (!recentWords || recentWords.length === 0) {
+    return (
+      <EmptyUI
+        title="No words yet"
+        description="Recently added words will appear here."
+      />
+    );
+  }
 
   return (
     <WordListContainer>

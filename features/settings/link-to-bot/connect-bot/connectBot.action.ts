@@ -2,7 +2,6 @@
 
 import { EXTERNAL_ROUTES } from "@/constants/routes";
 import { createClient } from "@/lib/supabase/server";
-import { redirect } from "next/navigation";
 
 export const connectBotAction = async () => {
   const supabase = await createClient();
@@ -42,10 +41,10 @@ export const connectBotAction = async () => {
     throw new Error("Something went wrong, please try again");
   }
 
-  redirect(
-    EXTERNAL_ROUTES.TELEGRAM_BOT(
+  return {
+    url: EXTERNAL_ROUTES.TELEGRAM_BOT(
       process.env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME!,
       link.link_token,
     ),
-  );
+  };
 };

@@ -68,12 +68,15 @@ export const ForgotPasswordForm = () => {
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-10">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="space-y-10 [&_input::placeholder]:text-xs"
+      >
         <FieldGroup>
           <FormInput
             name="email"
             label="Email"
-            placeholder="Email"
+            placeholder="e.g. jane@example.com"
             type="email"
             icon={Mail}
           />

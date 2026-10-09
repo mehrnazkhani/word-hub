@@ -92,6 +92,7 @@ const DailyWordSettings = () => {
                   <FormSwitch
                     name="daily_word_enabled"
                     label="Daily word enabled"
+                    labelClassName="sr-only"
                   />
                 </div>
               </div>

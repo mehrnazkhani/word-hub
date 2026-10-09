@@ -124,6 +124,7 @@ const WordFormSettings = () => {
               <SelectCategory
                 name="categoryId"
                 placeholder="Select Category"
+                labelClassName="sr-only"
                 disabled={isPending}
               />
             </div>

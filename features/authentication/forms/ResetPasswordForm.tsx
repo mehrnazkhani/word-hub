@@ -66,17 +66,20 @@ export const ResetPasswordForm = () => {
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-10">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="space-y-10 [&_input::placeholder]:text-xs"
+      >
         <FieldGroup>
           <FormPasswordInput
             name="password"
             label="New Password"
-            placeholder="New Password"
+            placeholder="Enter a new password"
           />
           <FormPasswordInput
             name="confirmPassword"
             label="Confirm Password"
-            placeholder="Confirm Password"
+            placeholder="Confirm your new password"
           />
         </FieldGroup>
 

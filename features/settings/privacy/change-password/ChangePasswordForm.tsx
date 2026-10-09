@@ -67,27 +67,30 @@ export const ChangePasswordForm = () => {
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-10">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="space-y-10 [&_input::placeholder]:text-xs"
+      >
         <div className="space-y-5">
           <FormPasswordInput
             icon={Lock}
             name="currentPassword"
             label="Current Password"
-            placeholder="Current password"
+            placeholder="Enter your current password"
             type="password"
           />
           <FormPasswordInput
             icon={Lock}
             name="newPassword"
             label="New Password"
-            placeholder="New password"
+            placeholder="Enter a new password"
             type="password"
           />
           <FormPasswordInput
             icon={Lock}
             name="confirmPassword"
             label="Confirm Password"
-            placeholder="Confirm new password"
+            placeholder="Confirm your new password"
             type="password"
           />
         </div>

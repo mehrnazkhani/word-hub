@@ -21,7 +21,6 @@ import {
   type SignUpFormValues,
 } from "@/features/authentication/schemas/auth.schema";
 import { SignUpResult } from "../auth.type";
-import { readSync } from "fs";
 
 export const SignupForm = () => {
   const router = useRouter();
@@ -70,30 +69,33 @@ export const SignupForm = () => {
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-10">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="space-y-10 [&_input::placeholder]:text-xs"
+      >
         <FieldGroup>
           <FormInput
             name="name"
             label="Name"
-            placeholder="Name"
+            placeholder="e.g. Jane Doe"
             icon={CircleUserRound}
           />
           <FormInput
             name="email"
             label="Email"
-            placeholder="Email"
+            placeholder="e.g. jane@example.com"
             type="email"
             icon={Mail}
           />
           <FormPasswordInput
             name="password"
             label="Password"
-            placeholder="Password"
+            placeholder="Enter your password"
           />
           <FormPasswordInput
             name="confirmPassword"
             label="Confirm Password"
-            placeholder="Confirm Password"
+            placeholder="Confirm your password"
           />
         </FieldGroup>
 

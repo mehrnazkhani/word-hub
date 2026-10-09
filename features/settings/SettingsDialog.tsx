@@ -112,7 +112,7 @@ const SettingsDialog = ({ open, onOpenChange }: SettingsDialogProps) => {
       <DialogContent
         onPointerDownOutside={(event) => event.preventDefault()}
         onEscapeKeyDown={(event) => event.preventDefault()}
-        className="max-h-110 overflow-hidden p-0 md:max-w-2xl"
+        className="max-h-114 overflow-hidden p-0 md:max-w-2xl"
       >
         <DialogTitle className="sr-only">Settings</DialogTitle>
         <DialogDescription className="sr-only">
@@ -145,7 +145,7 @@ const SettingsDialog = ({ open, onOpenChange }: SettingsDialogProps) => {
             </SidebarContent>
           </Sidebar>
 
-          <main className="flex h-106 flex-1 flex-col overflow-hidden">
+          <main className="flex h-110 flex-1 flex-col overflow-hidden">
             <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
               <div className="flex items-center gap-2 px-4">
                 <Breadcrumb>

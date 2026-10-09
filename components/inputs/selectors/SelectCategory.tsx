@@ -67,17 +67,20 @@ const BaseSelectCategory = createFormField<SelectCategoryExtraProps>(
 type SelectCategoryProps = {
   name: string;
   label?: string;
+  labelClassName?: string;
   placeholder?: string;
   disabled?: boolean;
 };
 
 export const SelectCategory = ({
   label,
+  labelClassName,
   placeholder = "Select Category",
   ...rest
 }: SelectCategoryProps) => (
   <BaseSelectCategory
     label={label ?? placeholder}
+    labelClassName={labelClassName}
     placeholder={placeholder}
     {...rest}
   />

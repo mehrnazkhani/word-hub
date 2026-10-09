@@ -9,6 +9,7 @@ import {
 } from "react-hook-form";
 
 import { Input } from "../ui/input";
+import { cn } from "@/lib/utils";
 import {
   Field,
   FieldContent,
@@ -26,6 +27,7 @@ export type FormControlProps<
 > = {
   name: TName;
   label: ReactNode;
+  labelClassName?: string;
   description?: ReactNode;
   control?: ControllerProps<TFieldValues, TName, TTransformedValues>["control"];
 };
@@ -68,13 +70,14 @@ export function createFormField<ExtraProps extends object = {}>(
   options?: { horizontal?: boolean; controlFirst?: boolean },
 ): FormControlFunc<ExtraProps> {
   return function FormField(props) {
-    const { control, name, label, description, ...rest } = props;
+    const { control, name, label, labelClassName, description, ...rest } = props;
 
     return (
       <FormBase
         control={control}
         name={name}
         label={label}
+        labelClassName={labelClassName}
         description={description}
         horizontal={options?.horizontal}
         controlFirst={options?.controlFirst}
@@ -93,6 +96,7 @@ export function FormBase<
   children,
   control: controlProp,
   label,
+  labelClassName,
   name,
   description,
   controlFirst,
@@ -116,7 +120,7 @@ export function FormBase<
           <>
             <FieldLabel
               htmlFor={field.name}
-              className="text-xs text-foreground/80"
+              className={cn("text-xs text-foreground/80", labelClassName)}
             >
               {label}
             </FieldLabel>

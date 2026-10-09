@@ -61,36 +61,42 @@ export const AIFillSettingsForm = () => {
             <FormCheckbox
               name="translation"
               label="Translation"
+              labelClassName="sr-only"
               description="Automatically generate the translation."
             />
 
             <FormCheckbox
               name="synonyms"
               label="Synonyms"
+              labelClassName="sr-only"
               description="Generate related words with similar meanings."
             />
 
             <FormCheckbox
               name="antonyms"
               label="Antonyms"
+              labelClassName="sr-only"
               description="Generate words with opposite meanings."
             />
 
             <FormCheckbox
               name="part_of_speech"
               label="Word Type"
+              labelClassName="sr-only"
               description="Detect the part of speech automatically."
             />
 
             <FormCheckbox
               name="example"
               label="Example"
+              labelClassName="sr-only"
               description="Generate an example sentence."
             />
 
             <FormCheckbox
               name="description"
               label="Description"
+              labelClassName="sr-only"
               description="Generate a short explanation of the word."
             />
           </div>

@@ -28,7 +28,7 @@ export default async function Home() {
         id="landing-scroll"
         className="scrollbar-hide relative w-full flex-1 scroll-fade space-y-20 overflow-y-auto scroll-smooth pt-20"
       >
-        <main className="mx-auto max-w-6xl space-y-50 px-8">
+        <main className="mx-auto max-w-6xl space-y-24 px-5 sm:px-8 md:space-y-50">
           <HeroSection />
           <FeaturesSection />
         </main>

@@ -17,7 +17,7 @@ export const FeatureShowcaseContainer = ({
   children,
 }: FeatureShowcaseContainerProps) => {
   return (
-    <article className="flex w-full gap-10 px-1 max-md:flex-col md:items-start lg:gap-15">
+    <article className="flex w-full gap-6 px-1 max-md:flex-col md:items-start md:gap-10 lg:gap-15">
       <div
         className={cn(
           "w-full min-w-0 space-y-2 max-md:order-1 max-md:text-center md:basis-1/2 lg:basis-2/3",

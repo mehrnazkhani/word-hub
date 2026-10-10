@@ -1,9 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { HeroWordCard } from "./HeroWordCard";
-import Link from "next/link";
 import { ROUTES } from "@/constants/routes";
 
 export const HeroSection = () => {
@@ -30,7 +30,8 @@ export const HeroSection = () => {
           id="hero-heading"
           className="text-2xl font-bold md:text-4xl lg:text-6xl"
         >
-          Your Vocabulary, All in One Place
+          Your Vocabulary,
+          <br className="sm:hidden" /> All in One Place
         </h1>
 
         <p className="mx-auto max-w-2xl text-accent-foreground/60 md:text-lg">
@@ -42,12 +43,13 @@ export const HeroSection = () => {
 
       <HeroWordCard />
 
-      <div className="flex items-center gap-5">
-        <Button className="cursor-pointer" asChild>
+      <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-5">
+        <Button size="lg" className="cursor-pointer" asChild>
           <Link href={ROUTES.SIGN_IN}>Get Started</Link>
         </Button>
 
         <Button
+          size="lg"
           variant="outline"
           className="cursor-pointer"
           onClick={scrollToFeatures}

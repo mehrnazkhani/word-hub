@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-import { ArrowUp } from "lucide-react";
+import { PencilSparkles } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -57,7 +57,7 @@ export const HeroWordCard = () => {
 
   return (
     <Card className="mx-auto w-full max-w-2xl bg-foreground/3">
-      <CardContent className="space-y-3 px-8">
+      <CardContent className="space-y-3 px-3 md:px-8">
         <div className="flex items-center">
           <Input
             ref={inputRef}
@@ -70,7 +70,7 @@ export const HeroWordCard = () => {
             className="cursor-default border-none bg-transparent! p-0 text-lg!"
           />
 
-          <div className="flex items-center gap-3">
+          <div className="flex shrink-0 items-center gap-1 sm:gap-3">
             <Select value={selectedLang} onValueChange={setSelectedLang}>
               <SelectTrigger className="cursor-pointer border-none bg-transparent! shadow-none ring-0 outline-none hover:bg-transparent focus:bg-transparent focus:ring-0 focus-visible:ring-0 data-[state=open]:bg-transparent">
                 <SelectValue />
@@ -91,7 +91,7 @@ export const HeroWordCard = () => {
               onClick={handleTranslate}
               disabled={status === "loading"}
             >
-              <ArrowUp />
+              <PencilSparkles />
             </Button>
           </div>
         </div>

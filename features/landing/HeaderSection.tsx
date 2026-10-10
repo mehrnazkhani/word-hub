@@ -21,7 +21,7 @@ export const HeaderSection = () => {
 
       <nav className="flex items-center gap-3" aria-label="Main navigation">
         <ModeToggle />
-        <Button className="cursor-pointer" asChild>
+        <Button size="lg" className="cursor-pointer" asChild>
           <Link href={ROUTES.SIGN_IN}>Get Started</Link>
         </Button>
       </nav>

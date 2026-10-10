@@ -23,9 +23,9 @@ export const FullWidthSection = () => {
   return (
     <section
       aria-labelledby="full-width-heading"
-      className="bg-foreground/3 px-8 py-8 md:py-5"
+      className="bg-foreground/3 px-5 py-12 sm:px-8 lg:py-16"
     >
-      <div className="mx-auto flex max-w-6xl flex-col gap-8 sm:grid sm:min-h-80 sm:grid-cols-[minmax(0,1fr)_360px] sm:items-center sm:gap-8 md:h-80 md:gap-10 lg:gap-16">
+      <div className="mx-auto flex max-w-6xl flex-col gap-8 lg:grid lg:min-h-80 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-center lg:gap-16">
         <div className="flex flex-col items-center space-y-5 sm:items-start">
           <h2
             id="full-width-heading"
@@ -59,7 +59,8 @@ export const FullWidthSection = () => {
           </div>
 
           <Button
-            className="mt-auto hidden w-fit cursor-pointer sm:flex"
+            size="lg"
+            className="mt-auto hidden w-fit cursor-pointer lg:flex"
             asChild
           >
             <Link href={ROUTES.SIGN_IN}>
@@ -70,12 +71,12 @@ export const FullWidthSection = () => {
         </div>
 
         <Card className="h-full bg-background" aria-hidden="true">
-          <CardContent className="flex h-full items-center justify-center px-[clamp(1rem,5vw,3.75rem)] py-8 sm:py-0">
+          <CardContent className="flex h-full items-center justify-center px-[clamp(1rem,5vw,3.75rem)] py-8 lg:py-0">
             <QuestionnaireAnimated />
           </CardContent>
         </Card>
 
-        <Button className="w-full cursor-pointer sm:hidden" asChild>
+        <Button size="lg" className="w-full cursor-pointer lg:hidden" asChild>
           <Link href={ROUTES.SIGN_IN}>
             Get Started Now
             <ArrowRight />

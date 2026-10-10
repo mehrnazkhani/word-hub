@@ -64,7 +64,7 @@ export const FooterSection = () => {
 
         {/* Copyright - tablet/mobile */}
         <p className="text-xs text-accent-foreground/40 lg:hidden">
-          © 2025 Word Hub. All rights reserved.
+          © 2026 Word Hub. All rights reserved.
         </p>
       </div>
     </footer>

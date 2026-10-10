@@ -258,6 +258,7 @@ export type Database = {
           default_source_lang_id: number | null
           default_target_lang_id: number | null
           id: number
+          is_premium: boolean
           user_id: string
         }
         Insert: {
@@ -270,6 +271,7 @@ export type Database = {
           default_source_lang_id?: number | null
           default_target_lang_id?: number | null
           id?: number
+          is_premium?: boolean
           user_id: string
         }
         Update: {
@@ -282,6 +284,7 @@ export type Database = {
           default_source_lang_id?: number | null
           default_target_lang_id?: number | null
           id?: number
+          is_premium?: boolean
           user_id?: string
         }
         Relationships: [

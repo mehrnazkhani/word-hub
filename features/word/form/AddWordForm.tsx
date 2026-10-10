@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
-import { Sparkles, PencilLine } from "lucide-react";
+import { PencilSparkles, PencilLine } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AiFillButton } from "./ai/AiFillButton";
 import { AiWordFormTab } from "./AiWordFormTab";
@@ -146,7 +146,7 @@ const AddWordForm = ({ onSuccess }: { onSuccess?: () => void }) => {
           <div className="sticky top-0 z-10 flex justify-center bg-popover pt-1 pb-3">
             <TabsList className="w-2/3">
               <TabsTrigger value="ai" className="flex-1 cursor-pointer gap-1.5">
-                <Sparkles className="size-4" />
+                <PencilSparkles className="size-4" />
                 AI
               </TabsTrigger>
               <TabsTrigger

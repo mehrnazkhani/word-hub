@@ -63,12 +63,7 @@ export const MultiplePosResult = ({
           </span>
         </Button>
       ))}
-      <Button
-        type="button"
-        variant="ghost"
-        size="sm"
-        onClick={onContinueAnyway}
-      >
+      <Button type="button" size="sm" onClick={onContinueAnyway}>
         Continue with &ldquo;{word}&rdquo;
       </Button>
     </div>

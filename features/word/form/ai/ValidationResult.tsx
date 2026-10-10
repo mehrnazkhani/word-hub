@@ -1,12 +1,10 @@
-import type { WordValidationState } from "@/features/word/form/ai/useWordValidation";
 import { SpellingCheckResult } from "./spelling-check/SpellingCheckResult";
 import { BaseFormCheckResult } from "./base-form-check/BaseFormCheckResult";
-
 import {
   InvalidPosResult,
   MultiplePosResult,
 } from "./POS-check/POSCheckResult";
-
+import type { WordValidationState } from "@/features/word/form/ai/useWordValidation";
 interface ValidationResultProps {
   state: WordValidationState;
   word: string;

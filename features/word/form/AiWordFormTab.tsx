@@ -10,10 +10,8 @@ import { WordPronunciation } from "@/components/WordPronunciation";
 import { getLanguageById } from "@/constants/languages";
 
 import { ValidationResult } from "./ai/ValidationResult";
-import {
-  WordDetailsResult,
-  WordDetailsResultSkeleton,
-} from "./ai/word-details/WordDetailsResult";
+import { WordDetailsResult } from "./ai/word-details/WordDetailsResult";
+import { AiResultSkeleton } from "./ai/AiResultSkeleton";
 
 import type { AddWordFormValues } from "@/schemas/word/word.schema";
 import type { UseFormReturn } from "react-hook-form";
@@ -105,8 +103,10 @@ export const AiWordFormTab = ({
         onContinueAnyway={onContinueAnyway}
       />
 
-      {isAiLoading && <WordDetailsResultSkeleton />}
-      {aiResult && <WordDetailsResult result={aiResult} />}
+      <div className="px-2">
+        {isAiLoading && <AiResultSkeleton />}
+        {aiResult && <WordDetailsResult result={aiResult} />}
+      </div>
     </div>
   );
 };

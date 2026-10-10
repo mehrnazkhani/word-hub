@@ -13,7 +13,7 @@ export const AiResultCard = ({
 }: AiResultCardProps) => (
   <div
     className={cn(
-      "animate-in space-y-3 rounded-lg border border-border bg-muted/30 p-4 duration-300 fade-in slide-in-from-bottom-2",
+      "animate-in space-y-3 rounded-lg duration-300 fade-in slide-in-from-bottom-2",
       className,
     )}
   >

@@ -37,10 +37,12 @@ export const UserAccountDropdown = ({ fullName }: UserAccountProps) => {
 
   return (
     <>
-      <DropdownMenuContent align="end" className="p-2">
-        <DropdownMenuLabel className="flex items-center truncate">
-          <User className="mr-1.5 size-3" />
-          {fullName ?? "My Account"}
+      <DropdownMenuContent align="end" className="max-w-56 p-2">
+        <DropdownMenuLabel className="flex items-center">
+          <User className="mr-1.5 size-3 shrink-0" />
+          <span className="min-w-0 flex-1 truncate">
+            {fullName ?? "My Account"}
+          </span>
         </DropdownMenuLabel>
 
         <DropdownMenuSeparator />

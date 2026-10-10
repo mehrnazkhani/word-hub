@@ -57,7 +57,7 @@ export const HeroWordCard = () => {
 
   return (
     <Card className="mx-auto w-full max-w-2xl bg-foreground/3">
-      <CardContent className="space-y-3 px-3 md:px-8">
+      <CardContent className="space-y-2 px-3 md:px-8">
         <div className="flex items-center">
           <Input
             ref={inputRef}
@@ -96,7 +96,7 @@ export const HeroWordCard = () => {
           </div>
         </div>
 
-        <div className="space-y-5 px-2">
+        <div className="space-y-2">
           {/* Translation */}
           {status === "loading" ? (
             <div className="h-4 w-2/5 rounded-full bg-accent-foreground/20" />

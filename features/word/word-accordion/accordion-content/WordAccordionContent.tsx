@@ -27,11 +27,8 @@ export const WordAccordionContent = () => {
         {hasTable && (
           <div className="flex flex-col divide-y divide-border rounded-md border">
             {tableDetails.map((item) => (
-              <div
-                key={item.label}
-                className="flex items-baseline gap-3 px-3 py-2"
-              >
-                <span className="w-24 shrink-0 text-[13px] text-muted-foreground">
+              <div key={item.label} className="flex items-baseline px-3 py-2">
+                <span className="w-20 shrink-0 text-[13px] text-muted-foreground">
                   {item.label}
                 </span>
                 <p className="text-sm text-foreground/80">
@@ -45,8 +42,8 @@ export const WordAccordionContent = () => {
         )}
 
         {hasExample && (
-          <div className="flex items-baseline gap-3 rounded-md border border-transparent bg-secondary/40 px-3 py-2">
-            <span className="w-24 shrink-0 text-[13px] text-muted-foreground">
+          <div className="flex items-baseline rounded-md border border-transparent bg-secondary/40 px-3 py-2">
+            <span className="w-20 shrink-0 text-[13px] text-muted-foreground">
               example
             </span>
             <p className="text-sm text-foreground/80 italic">

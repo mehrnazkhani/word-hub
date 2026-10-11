@@ -88,7 +88,7 @@ export const ForgotPasswordForm = () => {
           )}
         </FieldGroup>
 
-        <LoadingButton className="w-full" isLoading={isSubmitting}>
+        <LoadingButton className="w-full" size="lg" isLoading={isSubmitting}>
           Send reset link
         </LoadingButton>
       </form>

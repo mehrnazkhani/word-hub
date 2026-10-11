@@ -97,6 +97,7 @@ export const ChangePasswordForm = () => {
 
         <div className="space-y-5">
           <LoadingButton
+            size="lg"
             className="w-full"
             isLoading={isSubmitting}
             disabled={isSubmitting}

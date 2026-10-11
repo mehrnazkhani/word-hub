@@ -83,7 +83,7 @@ export const ResetPasswordForm = () => {
           />
         </FieldGroup>
 
-        <LoadingButton className="w-full" isLoading={isSubmitting}>
+        <LoadingButton className="w-full" size="lg" isLoading={isSubmitting}>
           Reset password
         </LoadingButton>
       </form>

@@ -107,7 +107,7 @@ export const SignInForm = () => {
           )}
         </FieldGroup>
 
-        <LoadingButton className="w-full" isLoading={isSubmitting}>
+        <LoadingButton className="w-full" size="lg" isLoading={isSubmitting}>
           Sign in
         </LoadingButton>
       </form>

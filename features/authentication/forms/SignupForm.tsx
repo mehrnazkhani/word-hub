@@ -99,7 +99,7 @@ export const SignupForm = () => {
           />
         </FieldGroup>
 
-        <LoadingButton className="w-full" isLoading={isSubmitting}>
+        <LoadingButton className="w-full" size="lg" isLoading={isSubmitting}>
           Create account
         </LoadingButton>
       </form>

@@ -11,7 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { ArrowButton } from "@/components/ArrowButton";
+import { LoadingButton } from "@/components/LoadingButton";
 import {
   PracticeCategoryList,
   type SelectedCategory,
@@ -35,18 +35,16 @@ export const PracticeCategoryDialog = ({
   const handleContinue = () => {
     if (selected === null) return;
 
-    if (selected.id !== "mixed") {
-      if (selected.wordCount === 0 || selected.wordCount === null) {
-        toast.error("This category has no words yet. Add some words first.");
-        return;
-      }
+    if (selected.wordCount === 0 || selected.wordCount === null) {
+      toast.error("This category has no words yet. Add some words first.");
+      return;
+    }
 
-      if (selected.wordCount < MIN_WORDS_REQUIRED) {
-        toast.warning(
-          `This category only has ${selected.wordCount} word${selected.wordCount === 1 ? "" : "s"}. Add at least ${MIN_WORDS_REQUIRED} to start practicing.`,
-        );
-        return;
-      }
+    if (selected.wordCount < MIN_WORDS_REQUIRED) {
+      toast.warning(
+        `This category only has ${selected.wordCount} word${selected.wordCount === 1 ? "" : "s"}. Add at least ${MIN_WORDS_REQUIRED} to start practicing.`,
+      );
+      return;
     }
 
     onContinue(selected.id);
@@ -76,13 +74,15 @@ export const PracticeCategoryDialog = ({
         </div>
 
         <DialogFooter>
-          <ArrowButton
+          <LoadingButton
+            type="button"
             onClick={handleContinue}
             disabled={selected === null}
-            className="w-fit self-end"
+            className="w-full"
+            size="lg"
           >
             Continue
-          </ArrowButton>
+          </LoadingButton>
         </DialogFooter>
       </DialogContent>
     </Dialog>

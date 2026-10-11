@@ -29,11 +29,17 @@ const MIXED_CATEGORY: MixedCategory = {
 
 type CategoryRowProps = {
   item: CategoryItem;
+  mixedWordCount: number | null;
   isSelected: boolean;
   onSelect: (selected: SelectedCategory) => void;
 };
 
-const CategoryRow = ({ item, isSelected, onSelect }: CategoryRowProps) => {
+const CategoryRow = ({
+  item,
+  mixedWordCount,
+  isSelected,
+  onSelect,
+}: CategoryRowProps) => {
   const isMixed = item.id === "mixed";
 
   return (
@@ -41,7 +47,10 @@ const CategoryRow = ({ item, isSelected, onSelect }: CategoryRowProps) => {
       type="button"
       variant={isSelected ? "secondary" : "ghost"}
       onClick={() =>
-        onSelect({ id: item.id as CategoryId, wordCount: item.wordCount })
+        onSelect({
+          id: item.id as CategoryId,
+          wordCount: isMixed ? mixedWordCount : item.wordCount,
+        })
       }
       className="w-full cursor-pointer justify-between"
     >
@@ -70,6 +79,9 @@ export const PracticeCategoryList = ({
 }: PracticeCategoryListProps) => {
   const { data: categories, isPending } = useUserCategories();
 
+  const mixedWordCount =
+    categories?.reduce((total, category) => total + category.wordCount, 0) ?? null;
+
   const allItems: CategoryItem[] = [MIXED_CATEGORY, ...(categories ?? [])];
 
   if (isPending) {
@@ -97,6 +109,7 @@ export const PracticeCategoryList = ({
         <CategoryRow
           key={item.id}
           item={item}
+          mixedWordCount={mixedWordCount}
           isSelected={selectedId === item.id}
           onSelect={onSelect}
         />

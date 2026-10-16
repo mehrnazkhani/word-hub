@@ -6,11 +6,20 @@ import { Badge } from "@/components/ui/badge";
 
 import { SettingRow } from "../SettingRow";
 import { useUser } from "@/components/providers/user-provider";
+import { isDemoUser } from "@/lib/utils/isDemoUser";
+import { DEMO_USER_LABEL } from "@/constants/demo";
 import { ChangePassword } from "./change-password/ChangePassword";
 
 export default function PrivacySettings() {
   const { user } = useUser();
+  const isDemo = isDemoUser(user);
   const isVerified = !!user?.email_confirmed_at;
+
+  const verificationLabel = isDemo
+    ? "Not applicable"
+    : isVerified
+      ? "Verified"
+      : "";
 
   return (
     <div className="space-y-5">
@@ -48,9 +57,9 @@ export default function PrivacySettings() {
           icon: CircleCheck,
         }}
         title="Email Verified"
-        description={user?.email ?? ""}
+        description={isDemo ? DEMO_USER_LABEL : (user?.email ?? "")}
       >
-        <Badge variant="outline">{isVerified ? "Verified" : ""}</Badge>
+        <Badge variant="outline">{verificationLabel}</Badge>
       </SettingRow>
 
       <Separator />

@@ -28,10 +28,13 @@ const textSizeClasses = {
 export function UserAvatar({ size = "default", className }: UserAvatarProps) {
   const { user } = useUser();
 
-  const initial = (user?.user_metadata?.full_name ??
+  const source =
+    user?.user_metadata?.full_name ??
     user?.user_metadata?.name ??
     user?.email ??
-    "?")[0].toUpperCase();
+    "";
+
+  const initial = source.trim().charAt(0).toUpperCase() || "?";
 
   return (
     <Avatar className={cn(sizeClasses[size], className)}>

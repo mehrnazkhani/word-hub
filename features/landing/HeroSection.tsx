@@ -1,23 +1,25 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+// import { ArrowRight } from "lucide-react"; // unused while "See how it works" is commented out
 import { Button } from "@/components/ui/button";
+import { TryDemoButton } from "@/components/TryDemoButton";
 import { HeroWordCard } from "./HeroWordCard";
 import { ROUTES } from "@/constants/routes";
 
 export const HeroSection = () => {
-  const scrollToFeatures = () => {
-    const container = document.getElementById("landing-scroll");
-    const features = document.getElementById("features");
+  // TODO: "See how it works" button temporarily disabled in favor of Try Demo. Uncomment to restore.
+  // const scrollToFeatures = () => {
+  //   const container = document.getElementById("landing-scroll");
+  //   const features = document.getElementById("features");
 
-    if (!container || !features) return;
+  //   if (!container || !features) return;
 
-    container.scrollTo({
-      top: features.offsetTop - 20,
-      behavior: "smooth",
-    });
-  };
+  //   container.scrollTo({
+  //     top: features.offsetTop - 20,
+  //     behavior: "smooth",
+  //   });
+  // };
 
   return (
     <section
@@ -43,21 +45,30 @@ export const HeroSection = () => {
 
       <HeroWordCard />
 
-      <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-5">
-        <Button size="lg" className="cursor-pointer" asChild>
-          <Link href={ROUTES.SIGN_IN}>Get Started</Link>
-        </Button>
+      <div className="flex flex-col items-center gap-3">
+        <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-5">
+          <Button size="lg" className="cursor-pointer" asChild>
+            <Link href={ROUTES.SIGN_IN}>Get Started</Link>
+          </Button>
 
-        <Button
-          size="lg"
-          variant="outline"
-          className="cursor-pointer"
-          onClick={scrollToFeatures}
-          aria-label="Scroll to features section"
-        >
-          See how it works
-          <ArrowRight aria-hidden="true" />
-        </Button>
+          {/* TODO: "See how it works" button temporarily disabled in favor of Try Demo. Uncomment to restore. */}
+          {/* <Button
+            size="lg"
+            variant="outline"
+            className="cursor-pointer"
+            onClick={scrollToFeatures}
+            aria-label="Scroll to features section"
+          >
+            See how it works
+            <ArrowRight aria-hidden="true" />
+          </Button> */}
+
+          <TryDemoButton />
+        </div>
+
+        <p className="text-xs text-accent-foreground/60 sm:text-sm">
+          No signup needed. Explore with sample data.
+        </p>
       </div>
     </section>
   );

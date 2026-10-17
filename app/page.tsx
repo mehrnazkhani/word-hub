@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 
 import { Separator } from "@/components/ui/separator";
 import { HeaderSection } from "@/features/landing/HeaderSection";
-import { HeroSection } from "@/features/landing/HeroSection";
+import { HeroSection } from "@/features/landing/hero/HeroSection";
 import { FeaturesSection } from "@/features/landing/FeaturesSection";
 import { FullWidthSection } from "@/features/landing/FullWidthSection";
 import { FooterSection } from "@/features/landing/FooterSection";

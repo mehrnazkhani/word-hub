@@ -1,5 +1,6 @@
 import { SupabaseClient } from "@supabase/supabase-js";
 import { Database } from "@/types/supabase";
+import { UNCATEGORIZED_CATEGORY_NAME } from "@/constants/categories";
 import type { CategoryWithWordCount } from "@/types/db-aliases";
 
 type Client = SupabaseClient<Database>;
@@ -23,7 +24,7 @@ export const getSystemCategoryId = async (client: Client) => {
     .from("categories")
     .select("id")
     .eq("is_system", true)
-    .eq("name", "Uncategorized")
+    .eq("name", UNCATEGORIZED_CATEGORY_NAME)
     .single();
 
   if (error || !data) {

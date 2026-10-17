@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { forwardRef, useEffect, useState } from "react";
+import { Pin } from "lucide-react";
 
 import {
   SidebarMenu,
@@ -90,7 +91,13 @@ const CategoryMenuItem = forwardRef<
           onClick={onNavigate}
           className="text-accent-foreground/60"
         >
-          <span className="truncate">{category.name}</span>
+          <span className="min-w-0 truncate">{category.name}</span>
+          {category.is_system && (
+            <Pin
+              aria-hidden="true"
+              className="ml-auto text-accent-foreground/40"
+            />
+          )}
         </Link>
       </SidebarMenuButton>
     </SidebarMenuItem>

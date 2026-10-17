@@ -4,7 +4,13 @@ import { createClient } from "@/lib/supabase/server";
 
 const DEMO_USER_NAME = "Demo User";
 
-export const startDemoAction = async () => {
+/**
+ * Starts the demo for the current visitor.
+ *
+ * @param captchaToken Cloudflare Turnstile token. Required by Supabase Auth as
+ * soon as CAPTCHA is enabled, because anonymous sign-in is a signup request.
+ */
+export const startDemoAction = async (captchaToken?: string) => {
   const supabase = await createClient();
 
   const {
@@ -13,7 +19,10 @@ export const startDemoAction = async () => {
 
   if (!user) {
     const { data, error } = await supabase.auth.signInAnonymously({
-      options: { data: { full_name: DEMO_USER_NAME } },
+      options: {
+        data: { full_name: DEMO_USER_NAME },
+        ...(captchaToken && { captchaToken }),
+      },
     });
 
     if (error) throw new Error(error.message);

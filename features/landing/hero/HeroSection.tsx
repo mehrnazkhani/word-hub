@@ -4,13 +4,10 @@ import Link from "next/link";
 // import { ArrowRight } from "lucide-react"; // unused while "See how it works" is commented out
 import { Button } from "@/components/ui/button";
 import { TryDemoButton } from "@/features/landing/hero/TryDemoButton";
-import { useStartDemoMutation } from "@/queries/demo/useStartDemo.mutation";
 import { HeroWordCard } from "./HeroWordCard";
 import { ROUTES } from "@/constants/routes";
 
 export const HeroSection = () => {
-  const { mutate: startDemo, isPending: isStartingDemo } =
-    useStartDemoMutation();
   // TODO: "See how it works" button temporarily disabled in favor of Try Demo. Uncomment to restore.
   // const scrollToFeatures = () => {
   //   const container = document.getElementById("landing-scroll");
@@ -66,10 +63,7 @@ export const HeroSection = () => {
             <ArrowRight aria-hidden="true" />
           </Button> */}
 
-          <TryDemoButton
-            isLoading={isStartingDemo}
-            onClick={() => startDemo()}
-          />
+          <TryDemoButton />
         </div>
       </div>
     </section>

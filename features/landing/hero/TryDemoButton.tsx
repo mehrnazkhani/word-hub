@@ -60,21 +60,6 @@ export const TryDemoButton = ({
     toast.error(DEMO_ERROR_MESSAGE, { id: DEMO_ERROR_TOAST_ID });
   }, []);
 
-  // Widget level failures (error, timeout, unsupported browser, blocked
-  // script). They only interrupt the user when a demo start is in flight,
-  // otherwise the widget simply solves again on its own.
-  const handleChallengeFailure = React.useCallback(
-    (reason: unknown) => {
-      console.error("[TryDemoButton] Turnstile widget failed:", reason);
-
-      if (!isPreparing) return;
-
-      stopLoading();
-      showDemoError();
-    },
-    [isPreparing, showDemoError, stopLoading],
-  );
-
   const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     onClick?.(event);
     if (event.defaultPrevented || isBusy) return;
@@ -91,14 +76,18 @@ export const TryDemoButton = ({
     setIsPreparing(true);
 
     try {
+      // The challenge state is shared by every button on the page, so this
+      // handle always drives the one widget and the one dialog.
       const challenge = challengeRef.current;
       if (!challenge) {
         throw new Error("Cloudflare Turnstile is not mounted.");
       }
 
-      // Resolves as soon as Cloudflare hands over a token, whether it solved
-      // silently or the visitor completed the challenge in the dialog.
+      // Resolves as soon as Cloudflare hands over a token: the one it already
+      // solved, the one it happens to be solving right now, or the one the
+      // visitor produces in the dialog.
       const captchaToken = await challenge.requestToken();
+      setIsPreparing(false);
 
       startDemo(
         { captchaToken },
@@ -122,6 +111,8 @@ export const TryDemoButton = ({
         return;
       }
 
+      // Only reached when the visitor actually asked for the demo: a widget
+      // that fails while idle never gets here.
       console.error("[TryDemoButton] Failed to start demo:", error);
       showDemoError();
     }
@@ -139,15 +130,15 @@ export const TryDemoButton = ({
         onClick={handleClick}
         {...props}
       >
-        {isBusy ? "Starting demo…" : "Try Demo"}
+        {isPreparing
+          ? "Preparing demo…"
+          : isBusy
+            ? "Starting demo…"
+            : "Try Demo"}
       </LoadingButton>
 
       {TURNSTILE_SITE_KEY ? (
-        <TurnstileChallenge
-          ref={challengeRef}
-          siteKey={TURNSTILE_SITE_KEY}
-          onFailure={handleChallengeFailure}
-        />
+        <TurnstileChallenge ref={challengeRef} siteKey={TURNSTILE_SITE_KEY} />
       ) : null}
     </div>
   );

@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 
 import { Separator } from "@/components/ui/separator";
+import { LandingContainer } from "@/features/landing/LandingContainer";
 import { HeaderSection } from "@/features/landing/HeaderSection";
 import { HeroSection } from "@/features/landing/hero/HeroSection";
 import { FeaturesSection } from "@/features/landing/FeaturesSection";
@@ -28,10 +29,12 @@ export default async function Home() {
         id="landing-scroll"
         className="scrollbar-hide relative w-full flex-1 scroll-fade space-y-20 overflow-y-auto scroll-smooth pt-20"
       >
-        <main className="mx-auto max-w-6xl space-y-24 px-5 sm:px-8 md:space-y-50">
-          <HeroSection />
-          <FeaturesSection />
-        </main>
+        <LandingContainer asChild className="space-y-24 md:space-y-50">
+          <main>
+            <HeroSection />
+            <FeaturesSection />
+          </main>
+        </LandingContainer>
 
         <Separator />
         <FullWidthSection />

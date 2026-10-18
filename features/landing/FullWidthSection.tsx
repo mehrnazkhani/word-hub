@@ -14,6 +14,7 @@ import {
   QuestionnaireProgress,
   QuestionnaireTitle,
 } from "@/components/ui/questionnaire";
+import { LandingContainer } from "@/features/landing/LandingContainer";
 import { PRACTICE_MODES } from "@/constants/practice-modes";
 import { ROUTES } from "@/constants/routes";
 
@@ -23,9 +24,9 @@ export const FullWidthSection = () => {
   return (
     <section
       aria-labelledby="full-width-heading"
-      className="bg-foreground/3 px-5 py-12 sm:px-8 lg:py-16"
+      className="bg-foreground/3 py-12 lg:py-16"
     >
-      <div className="mx-auto flex max-w-6xl flex-col gap-8 lg:grid lg:min-h-80 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-center lg:gap-16">
+      <LandingContainer className="flex flex-col gap-8 lg:grid lg:min-h-80 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-center lg:gap-16">
         <div className="flex flex-col items-center space-y-5 sm:items-start">
           <h2
             id="full-width-heading"
@@ -82,7 +83,7 @@ export const FullWidthSection = () => {
             <ArrowRight />
           </Link>
         </Button>
-      </div>
+      </LandingContainer>
     </section>
   );
 };

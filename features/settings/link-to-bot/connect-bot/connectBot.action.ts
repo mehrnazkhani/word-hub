@@ -1,7 +1,9 @@
 "use server";
 
 import { EXTERNAL_ROUTES } from "@/constants/routes";
+import { DEMO_TELEGRAM_UNAVAILABLE_LABEL } from "@/constants/demo";
 import { createClient } from "@/lib/supabase/server";
+import { isDemoUser } from "@/lib/utils/isDemoUser";
 
 export const connectBotAction = async () => {
   const supabase = await createClient();
@@ -11,6 +13,10 @@ export const connectBotAction = async () => {
   } = await supabase.auth.getUser();
   if (!user) {
     throw new Error("Please sign in first");
+  }
+
+  if (isDemoUser(user)) {
+    throw new Error(DEMO_TELEGRAM_UNAVAILABLE_LABEL);
   }
 
   const { data: existing } = await supabase

@@ -7,10 +7,15 @@ import { Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 import { SettingRow } from "../../SettingRow";
+import { useUser } from "@/components/providers/user-provider";
+import { isDemoUser } from "@/lib/utils/isDemoUser";
+import { DEMO_UNAVAILABLE_LABEL } from "@/constants/demo";
 import { DeleteAccountDialog } from "./DeleteAccountDialog";
 import { deleteAccountAction } from "./deleteAccount.action";
 
 export const DeleteAccount = () => {
+  const { user } = useUser();
+  const isDemo = isDemoUser(user);
   const [isPending, startTransition] = useTransition();
   const [open, setOpen] = useState(false);
 
@@ -43,22 +48,29 @@ export const DeleteAccount = () => {
         variant: "destructive",
       }}
       title="Delete Account"
-      description="Permanently remove your account and all associated data."
+      description={
+        isDemo
+          ? DEMO_UNAVAILABLE_LABEL
+          : "Permanently remove your account and all associated data."
+      }
     >
       <Button
         variant="destructive"
         className="cursor-pointer"
+        disabled={isDemo}
         onClick={() => setOpen(true)}
       >
         Delete Account
       </Button>
 
-      <DeleteAccountDialog
-        open={open}
-        isPending={isPending}
-        onOpenChange={handleOpenChange}
-        onConfirm={handleDelete}
-      />
+      {!isDemo && (
+        <DeleteAccountDialog
+          open={open}
+          isPending={isPending}
+          onOpenChange={handleOpenChange}
+          onConfirm={handleDelete}
+        />
+      )}
     </SettingRow>
   );
 };

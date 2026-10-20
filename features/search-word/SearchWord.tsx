@@ -27,7 +27,7 @@ export const SearchWord = () => {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
 
-  const { results, loading, error, reset } = useWordSearch(query, open);
+  const { results, loading, error } = useWordSearch(query, open);
   const { data: categories } = useUserCategories();
   const router = useRouter();
 
@@ -43,7 +43,6 @@ export const SearchWord = () => {
 
     if (!next) {
       setQuery("");
-      reset();
     }
   };
 

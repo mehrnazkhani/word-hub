@@ -1,62 +1,45 @@
-import { useEffect, useState } from "react";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { useDebounce } from "@/hooks/useDebounce";
 import { fetchSearchedWords } from "@/lib/api/words.api";
 import type { Word } from "@/types/db-aliases";
+
+const SEARCH_DEBOUNCE_MS = 300;
+const SEARCH_LIMIT = 15;
+const SEARCH_ERROR_MESSAGE = "Search failed. Please try again.";
 
 interface UseWordSearchReturn {
   results: Word[];
   loading: boolean;
   error: string | null;
-  reset: () => void;
 }
 
 export const useWordSearch = (
   query: string,
   open: boolean,
 ): UseWordSearchReturn => {
-  const [results, setResults] = useState<Word[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const debouncedQuery = useDebounce(query, SEARCH_DEBOUNCE_MS).trim();
+  const isActive = open && debouncedQuery.length > 0;
 
-  const debouncedQuery = useDebounce(query, 300);
+  const { data, isFetching, isError } = useQuery({
+    queryKey: ["words", "search", debouncedQuery],
+    queryFn: ({ signal }) =>
+      fetchSearchedWords({
+        query: debouncedQuery,
+        signal,
+        limit: SEARCH_LIMIT,
+      }),
+    enabled: isActive,
+    // Keep showing the previous results while the next query is loading,
+    // so the list doesn't flash empty on every keystroke.
+    placeholderData: keepPreviousData,
+    staleTime: 30_000,
+    retry: false,
+  });
 
-  useEffect(() => {
-    if (!open || !debouncedQuery.trim()) {
-      setResults([]);
-      setError(null);
-      setLoading(false);
-      return;
-    }
-
-    const controller = new AbortController();
-    setLoading(true);
-    setError(null);
-
-    fetchSearchedWords({
-      query: debouncedQuery,
-      signal: controller.signal,
-      limit: 15,
-    })
-      .then(setResults)
-      .catch((err) => {
-        if (err.name !== "AbortError") {
-          setError("Search failed. Please try again.");
-        }
-      })
-      .finally(() => {
-        if (!controller.signal.aborted) {
-          setLoading(false);
-        }
-      });
-
-    return () => controller.abort();
-  }, [debouncedQuery, open]);
-
-  const reset = () => {
-    setResults([]);
-    setError(null);
-    setLoading(false);
+  return {
+    // When the search is inactive (closed or empty query), always show nothing.
+    results: isActive ? (data ?? []) : [],
+    loading: isActive && isFetching,
+    error: isActive && isError ? SEARCH_ERROR_MESSAGE : null,
   };
-
-  return { results, loading, error, reset };
 };

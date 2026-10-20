@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useParams } from "next/navigation";
-import { forwardRef, useEffect, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { forwardRef, useTransition, useOptimistic } from "react";
 import { Pin } from "lucide-react";
 
 import {
@@ -22,19 +22,25 @@ export const CategoriesList = () => {
   const { data: categories, isPending } = useUserCategories();
   const { categoryId } = useParams<{ categoryId?: string }>();
   const closeSidebar = useCloseSidebarOnClick();
+  const router = useRouter();
 
-  // Only used while navigation is in progress.
-  const [optimisticActiveId, setOptimisticActiveId] = useState<string | null>(
-    null,
-  );
+  const [activeId, setOptimisticId] = useOptimistic(categoryId ?? null);
+  const [, startTransition] = useTransition();
 
-  const activeId = optimisticActiveId ?? categoryId ?? null;
+  const handleNavigate = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    id: CategoryWithWordCount["id"],
+  ) => {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0)
+      return;
 
-  useEffect(() => {
-    if (optimisticActiveId === categoryId) {
-      setOptimisticActiveId(null);
-    }
-  }, [categoryId, optimisticActiveId]);
+    e.preventDefault();
+    closeSidebar();
+    startTransition(() => {
+      setOptimisticId(String(id));
+      router.push(ROUTES.CATEGORY(id));
+    });
+  };
 
   if (isPending) {
     return <CategorySkeleton />;
@@ -47,10 +53,7 @@ export const CategoriesList = () => {
           <CategoryMenuItem
             category={category}
             activeId={activeId}
-            onNavigate={() => {
-              setOptimisticActiveId(String(category.id));
-              closeSidebar();
-            }}
+            onNavigate={(e) => handleNavigate(e, category.id)}
           />
         );
 
@@ -71,7 +74,7 @@ export const CategoriesList = () => {
 type CategoryMenuItemProps = {
   category: CategoryWithWordCount;
   activeId: string | null;
-  onNavigate: () => void;
+  onNavigate: (e: React.MouseEvent<HTMLAnchorElement>) => void;
 };
 
 const CategoryMenuItem = forwardRef<

@@ -1,6 +1,7 @@
 "use client";
 
-import * as React from "react";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
 import { X } from "lucide-react";
 import {
   Dialog,
@@ -18,11 +19,7 @@ import {
   DrawerTitle,
 } from "@/components/ui/drawer";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { cn } from "@/lib/utils";
-import {
-  FooterSlotProvider,
-  useFooterSlot,
-} from "@/components/FormFooterSlot";
+import { FooterSlotProvider, useFooterSlot } from "@/components/FormFooterSlot";
 
 export { useFooterSlot };
 
@@ -47,7 +44,7 @@ export function FormDrawerDialog({
 }: FormDrawerDialogProps) {
   const isMobile = useIsMobile();
 
-  const [footerEl, setFooterEl] = React.useState<HTMLElement | null>(null);
+  const [footerEl, setFooterEl] = useState<HTMLElement | null>(null);
 
   if (isMobile) {
     return (
@@ -67,7 +64,14 @@ export function FormDrawerDialog({
           </DrawerHeader>
 
           <FooterSlotProvider value={footerEl}>
-            <div className={cn("min-h-0 min-w-0 flex-1 overflow-x-clip overflow-y-auto p-4", contentClassName)}>{children}</div>
+            <div
+              className={cn(
+                "min-h-0 min-w-0 flex-1 overflow-x-clip overflow-y-auto p-4",
+                contentClassName,
+              )}
+            >
+              {children}
+            </div>
           </FooterSlotProvider>
 
           <div
@@ -98,7 +102,14 @@ export function FormDrawerDialog({
         </DialogHeader>
 
         <FooterSlotProvider value={footerEl}>
-          <div className={cn("min-h-0 min-w-0 flex-1 overflow-x-clip overflow-y-auto", contentClassName)}>{children}</div>
+          <div
+            className={cn(
+              "min-h-0 min-w-0 flex-1 overflow-x-clip overflow-y-auto",
+              contentClassName,
+            )}
+          >
+            {children}
+          </div>
         </FooterSlotProvider>
 
         <div

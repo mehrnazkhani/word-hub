@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -25,7 +25,7 @@ export const FormDialog = ({
   description,
   children,
 }: FormDialogProps) => {
-  const [footerEl, setFooterEl] = React.useState<HTMLElement | null>(null);
+  const [footerEl, setFooterEl] = useState<HTMLElement | null>(null);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>

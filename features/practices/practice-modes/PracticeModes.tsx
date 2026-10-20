@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+
+import { toast } from "sonner";
 import { Card, CardContent } from "@/components/ui/card";
 import { IconBadge } from "@/components/ui/icon-badge";
 
@@ -9,11 +11,9 @@ import { PracticeCategoryDialog } from "./PracticeCategoryDialog";
 import { ROUTES } from "@/constants/routes";
 import { PRACTICE_MODES, type PracticeMode } from "@/constants/practice-modes";
 import type { CategoryId } from "./PracticeCategoryList";
-import { toast } from "sonner";
 
 export function PracticeModes() {
   const router = useRouter();
-  const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedMode, setSelectedMode] = useState<PracticeMode | null>(null);
 
   const handleCardClick = (mode: PracticeMode) => {
@@ -22,13 +22,17 @@ export function PracticeModes() {
       return;
     }
     setSelectedMode(mode);
-    setDialogOpen(true);
   };
 
   const handleContinue = (categoryId: CategoryId) => {
     if (!selectedMode) return;
-    setDialogOpen(false);
-    router.push(ROUTES.PRACTICE_Mode(selectedMode.practiceMode, categoryId));
+    const { practiceMode } = selectedMode;
+    setSelectedMode(null);
+    router.push(ROUTES.PRACTICE_Mode(practiceMode, categoryId));
+  };
+
+  const handleDialogOpenChange = (open: boolean) => {
+    if (!open) setSelectedMode(null);
   };
 
   return (
@@ -41,7 +45,7 @@ export function PracticeModes() {
           return (
             <Card
               key={mode.practiceMode}
-              className="hovertext-accent-foreground cursor-pointer border-0 bg-background hover:bg-accent"
+              className="cursor-pointer border-0 bg-background hover:bg-accent hover:text-accent-foreground"
               onClick={() => handleCardClick(mode)}
             >
               <CardContent className="flex flex-col gap-3">
@@ -59,8 +63,8 @@ export function PracticeModes() {
       </div>
 
       <PracticeCategoryDialog
-        open={dialogOpen}
-        onOpenChange={setDialogOpen}
+        open={selectedMode !== null}
+        onOpenChange={handleDialogOpenChange}
         onContinue={handleContinue}
       />
     </section>

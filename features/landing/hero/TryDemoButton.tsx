@@ -1,6 +1,7 @@
 "use client";
 
-import * as React from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+
 import { toast } from "sonner";
 import { LoadingButton } from "@/components/LoadingButton";
 import { useStartDemoMutation } from "@/queries/demo/useStartDemo.mutation";
@@ -32,31 +33,31 @@ export const TryDemoButton = ({
   ...props
 }: TryDemoButtonProps) => {
   const { mutate: startDemo, isPending } = useStartDemoMutation();
-  const challengeRef = React.useRef<TurnstileChallengeHandle>(null);
-  const ownsBusyRef = React.useRef(false);
-  const [isPreparing, setIsPreparing] = React.useState(false);
+  const challengeRef = useRef<TurnstileChallengeHandle>(null);
+  const ownsBusyRef = useRef(false);
+  const [isPreparing, setIsPreparing] = useState(false);
   const isDemoBusy = useIsDemoBusy();
 
   // Any instance running a demo disables all of them, so the security check
   // dialog is never opened twice.
   const isBusy = isLoading || isPending || isPreparing || isDemoBusy;
 
-  const setBusy = React.useCallback((busy: boolean) => {
+  const setBusy = useCallback((busy: boolean) => {
     if (!busy && !ownsBusyRef.current) return;
 
     ownsBusyRef.current = busy;
     setIsDemoBusy(busy);
   }, []);
 
-  const stopLoading = React.useCallback(() => {
+  const stopLoading = useCallback(() => {
     setIsPreparing(false);
     setBusy(false);
   }, [setBusy]);
 
   // Never leave the other buttons disabled if this one goes away mid flow.
-  React.useEffect(() => () => setBusy(false), [setBusy]);
+  useEffect(() => () => setBusy(false), [setBusy]);
 
-  const showDemoError = React.useCallback(() => {
+  const showDemoError = useCallback(() => {
     toast.error(DEMO_ERROR_MESSAGE, { id: DEMO_ERROR_TOAST_ID });
   }, []);
 

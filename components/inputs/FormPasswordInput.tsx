@@ -2,14 +2,12 @@
 
 import { useState } from "react";
 import { Lock, Eye, EyeOff } from "lucide-react";
-
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupButton,
   InputGroupInput,
 } from "../ui/input-group";
-
 import { FormBase, type FormControlFunc, type InputProps } from "./FormBase";
 
 export const FormPasswordInput: FormControlFunc<InputProps> = (props) => {

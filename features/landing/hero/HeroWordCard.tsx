@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useReducer } from "react";
 
 import { PencilSparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -19,14 +19,37 @@ import { HELLO_TRANSLATION } from "@/constants/hello-translations";
 import { ACTIVE_LANGUAGES } from "@/constants/languages";
 
 type TranslationResult = (typeof HELLO_TRANSLATION)[number] | null;
-type Status = "idle" | "loading" | "done";
+
+type State =
+  | { status: "idle"; result: null }
+  | { status: "loading"; result: null }
+  | { status: "done"; result: TranslationResult };
+
+type Action =
+  | { type: "translate_start" }
+  | { type: "translate_success"; result: TranslationResult };
+
+function reducer(state: State, action: Action): State {
+  switch (action.type) {
+    case "translate_start":
+      return { status: "loading", result: null };
+    case "translate_success":
+      return { status: "done", result: action.result };
+    default:
+      return state;
+  }
+}
 
 export const HeroWordCard = () => {
   const [selectedLang, setSelectedLang] = useState("es");
-  const [status, setStatus] = useState<Status>("idle");
-  const [result, setResult] = useState<TranslationResult>(null);
+  const [state, dispatch] = useReducer(reducer, {
+    status: "idle",
+    result: null,
+  });
+  const { status, result } = state;
 
   const inputRef = useRef<HTMLInputElement>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     const input = inputRef.current;
@@ -37,20 +60,27 @@ export const HeroWordCard = () => {
     }
   }, []);
 
+  // Cleanup: clear a pending timeout when the component unmounts
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, []);
+
   const handleTranslate = () => {
     const lang = ACTIVE_LANGUAGES.find((l) => l.value === selectedLang);
     if (!lang) return;
 
-    setStatus("loading");
-    setResult(null);
+    // Clear any previous pending timeout before starting a new one
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+
+    dispatch({ type: "translate_start" });
 
     setTimeout(() => {
       const translation = HELLO_TRANSLATION.find(
         (t) => t.language === lang.label,
       );
-
-      setResult(translation ?? null);
-      setStatus("done");
+      dispatch({ type: "translate_success", result: translation ?? null });
     }, 2500);
   };
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { FolderDown } from "lucide-react";
 import { toast } from "sonner";
 
@@ -12,7 +12,6 @@ import { useCloseSidebarOnClick } from "@/hooks/useCloseSidebarOnClick";
 
 export const ImportTrigger = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [key, setKey] = useState(0);
   const { openImport } = useImportDialog();
   const closeSidebar = useCloseSidebarOnClick();
 
@@ -29,8 +28,6 @@ export const ImportTrigger = () => {
       openImport(parsed);
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Failed to read file.");
-    } finally {
-      setKey((k) => k + 1);
     }
   };
 
@@ -45,7 +42,6 @@ export const ImportTrigger = () => {
       </SidebarMenuButton>
 
       <input
-        key={key}
         ref={fileInputRef}
         type="file"
         accept="application/json"

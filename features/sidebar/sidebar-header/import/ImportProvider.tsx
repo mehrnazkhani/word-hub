@@ -1,6 +1,12 @@
 "use client";
 
-import { createContext, useCallback, useContext, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from "react";
 import { toast } from "sonner";
 
 import { FormDrawerDialog } from "@/components/FormDrawerDialog";
@@ -28,13 +34,10 @@ export const useImportDialog = () => {
   return ctx;
 };
 
-export const ImportProvider = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
-  const [open, setOpen] = useState(false);
+export const ImportProvider = ({ children }: { children: React.ReactNode }) => {
+  // Single source of truth: the dialog is open exactly when there is data.
   const [importData, setImportData] = useState<ImportFileShape | null>(null);
+  const open = importData !== null;
 
   const { data: wordCount } = useWordCount();
   const categoryCount = useCategoryCount();
@@ -44,19 +47,19 @@ export const ImportProvider = ({
 
   const openImport = useCallback((data: ImportFileShape) => {
     setImportData(data);
-    setOpen(true);
   }, []);
 
-  const getImportLimitError = (): string | null => {
-    if (!importData) return null;
+  const value = useMemo(() => ({ openImport }), [openImport]);
+
+  const getImportLimitError = (data: ImportFileShape): string | null => {
     if (categoryCount >= APP_LIMITS.category_limit_per_user) {
       return `You've reached the category limit (${APP_LIMITS.category_limit_per_user}). Delete a category before importing.`;
     }
 
-    const totalWords = (wordCount ?? 0) + importData.words.length;
+    const totalWords = (wordCount ?? 0) + data.words.length;
     if (totalWords > APP_LIMITS.word_limit_per_user) {
       const available = APP_LIMITS.word_limit_per_user - (wordCount ?? 0);
-      return `This import adds ${importData.words.length} words but you only have room for ${available} more (limit: ${APP_LIMITS.word_limit_per_user}).`;
+      return `This import adds ${data.words.length} words but you only have room for ${available} more (limit: ${APP_LIMITS.word_limit_per_user}).`;
     }
 
     return null;
@@ -65,7 +68,7 @@ export const ImportProvider = ({
   const handleImport = () => {
     if (!importData) return;
 
-    const error = getImportLimitError();
+    const error = getImportLimitError(importData);
     if (error) {
       toast.error(error);
       return;
@@ -79,23 +82,19 @@ export const ImportProvider = ({
         ),
       },
       {
-        onSuccess: () => {
-          setOpen(false);
-          setImportData(null);
-        },
+        onSuccess: () => setImportData(null),
       },
     );
   };
 
   const handleOpenChange = (next: boolean) => {
-    setOpen(next);
-    if (!next) {
-      setImportData(null);
-    }
+    // Don't allow closing while the import request is in flight.
+    if (!next && isPending) return;
+    if (!next) setImportData(null);
   };
 
   return (
-    <ImportContext.Provider value={{ openImport }}>
+    <ImportContext.Provider value={value}>
       {children}
 
       <FormDrawerDialog

@@ -1,17 +1,15 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect, useMemo } from "react";
 import type { AuthChangeEvent, User } from "@supabase/supabase-js";
 import { createClient } from "@/lib/supabase/client";
 
 type UserContextValue = {
   user: User | null;
-  isPending: boolean;
 };
 
 const UserContext = createContext<UserContextValue>({
   user: null,
-  isPending: true,
 });
 
 export const UserProvider = ({
@@ -22,7 +20,7 @@ export const UserProvider = ({
   children: React.ReactNode;
 }) => {
   const [user, setUser] = useState<User | null>(initialUser);
-  const [isPending, setIsPending] = useState(false);
+  const value = useMemo(() => ({ user }), [user]);
 
   useEffect(() => {
     const supabase = createClient();
@@ -36,7 +34,7 @@ export const UserProvider = ({
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, isPending }}>
+    <UserContext.Provider value={value}>
       {children}
     </UserContext.Provider>
   );

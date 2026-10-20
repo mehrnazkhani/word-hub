@@ -11,11 +11,10 @@ import { dailyWordSuggestionsQuery } from "./dailyWordSuggestionsQuery";
 export const useDailyWordSuggestion = () => {
   const supabase = useSupabase();
   const { data: settings } = useUserSettings();
-  const { user, isPending } = useUser();
+  const { user } = useUser();
 
   const enabled =
     !!user &&
-    !isPending &&
     !!settings?.daily_word_enabled &&
     !!settings?.daily_word_source_lang_id &&
     !!settings?.daily_word_level;

@@ -12,11 +12,11 @@ type RecentWordsProps = {
 
 export const useRecentWords = ({ limit }: RecentWordsProps) => {
   const supabase = useSupabase();
-  const { user, isPending } = useUser();
+  const { user } = useUser();
 
   return useQuery({
     queryKey: queryKeys.word.recent(user!.id),
-    enabled: !!user && !isPending,
+    enabled: !!user,
 
     queryFn: async () => {
       const { data, error } = await getRecentWords({

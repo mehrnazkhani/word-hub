@@ -7,10 +7,10 @@ import { wordCountQuery } from "./wordCountQuery";
 
 export const useWordCount = () => {
   const supabase = useSupabase();
-  const { user, isPending } = useUser();
+  const { user } = useUser();
 
   return useQuery({
-    ...wordCountQuery(supabase, user!.id),
-    enabled: !!user && !isPending,
+    ...wordCountQuery(supabase, user?.id ?? ""),
+    enabled: !!user,
   });
 };

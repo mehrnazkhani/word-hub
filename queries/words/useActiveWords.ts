@@ -33,10 +33,10 @@ export const activeWordsQuery = ({
 
 export const useActiveWords = (categoryId: number) => {
   const supabase = useSupabase();
-  const { user, isPending } = useUser();
+  const { user } = useUser();
 
   return useQuery({
     ...activeWordsQuery({ supabase, userId: user!.id, categoryId }),
-    enabled: !!user && !isPending,
+    enabled: !!user,
   });
 };

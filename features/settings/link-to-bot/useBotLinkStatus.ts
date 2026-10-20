@@ -7,12 +7,12 @@ import { queryKeys } from "@/queries/queries";
 import { getBotLinkStatus } from "./getBotLinkStatus";
 
 export function useBotLinkStatus() {
-  const { user, isPending } = useUser();
+  const { user } = useUser();
   const supabase = useSupabase();
 
   return useQuery({
     queryKey: queryKeys.telegram.status(user!.id),
-    enabled: !!user && !isPending,
+    enabled: !!user,
     queryFn: () =>
       getBotLinkStatus({
         client: supabase,

@@ -34,13 +34,13 @@ export const recentPracticesQuery = ({
 
 export const useRecentPractices = () => {
   const supabase = useSupabase();
-  const { user, isPending } = useUser();
+  const { user } = useUser();
 
   return useQuery({
     ...recentPracticesQuery({
       supabase,
       userId: user!.id,
     }),
-    enabled: !!user && !isPending,
+    enabled: !!user,
   });
 };

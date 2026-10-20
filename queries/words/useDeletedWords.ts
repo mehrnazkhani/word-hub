@@ -8,11 +8,11 @@ import { queryKeys } from "@/queries/queries";
 
 export const useDeletedWords = () => {
   const supabase = useSupabase();
-  const { user, isPending } = useUser();
+  const { user } = useUser();
 
   return useQuery({
     queryKey: queryKeys.word.deleted(user!.id),
-    enabled: !!user && !isPending,
+    enabled: !!user,
 
     queryFn: async () => {
       const { data, error } = await getDeletedWords({

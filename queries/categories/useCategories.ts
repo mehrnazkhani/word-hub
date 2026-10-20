@@ -21,11 +21,11 @@ export const categoriesQuery = ({ supabase, userId }: CategoriesQueryProps) =>
 
 export const useUserCategories = () => {
   const supabase = useSupabase();
-  const { user, isPending } = useUser();
+  const { user } = useUser();
 
   return useQuery({
     ...categoriesQuery({ supabase, userId: user!.id }),
-    enabled: !!user && !isPending,
+    enabled: !!user,
     select: (data) => {
       if (!data) return data;
 

@@ -17,10 +17,10 @@ export const userWordsScoreQuery = (supabase: SupabaseClient, userId: string) =>
 
 export const useUserWordsScore = () => {
   const supabase = useSupabase();
-  const { user, isPending } = useUser();
+  const { user } = useUser();
 
   return useQuery({
     ...userWordsScoreQuery(supabase, user!.id),
-    enabled: !!user && !isPending,
+    enabled: !!user,
   });
 };

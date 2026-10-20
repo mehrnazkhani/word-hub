@@ -20,10 +20,10 @@ export const weeklyPracticesQuery = (
 
 export const useWeeklyPractices = () => {
   const supabase = useSupabase();
-  const { user, isPending } = useUser();
+  const { user } = useUser();
 
   return useQuery({
     ...weeklyPracticesQuery(supabase, user!.id),
-    enabled: !!user && !isPending,
+    enabled: !!user,
   });
 };

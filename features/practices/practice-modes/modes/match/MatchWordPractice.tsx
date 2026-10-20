@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 import { cn } from "@/lib/utils";
+import { shuffle } from "@/lib/utils/shuffle";
 import { Button } from "@/components/ui/button";
 import { PracticeResultDialog } from "../../PracticeResultDialog";
 
@@ -28,18 +29,18 @@ export const MatchWordPractice = ({
   words,
   practiceMode,
 }: MatchWordPracticeProps) => {
-  const [shuffledWords, setShuffledWords] = useState(words);
+  // Shuffled once on mount. The lazy initializer runs only on the first
+  // render, so the order stays stable for the whole practice session.
+  const [shuffledWords] = useState(() => shuffle(words));
   const [showResults, setShowResults] = useState(false);
   const totalQuestions = words.length;
-
-  useEffect(() => {
-    setShuffledWords([...words].sort(() => Math.random() - 0.5));
-  }, [words]);
 
   const {
     selectedWord,
     selectedTranslation,
     matchStatuses,
+    incorrectWordId,
+    incorrectTranslationId,
     incorrectCount,
     matchedCount,
     isPracticeCompleted,
@@ -89,12 +90,14 @@ export const MatchWordPractice = ({
             label: w.translation!,
           }))}
           selectedId={selectedTranslation}
+          incorrectId={incorrectTranslationId}
           onSelect={handleTranslationSelect}
           matchStatuses={matchStatuses}
         />
         <MatchColumn
           items={visibleWords.map((w) => ({ id: w.id, label: w.word }))}
           selectedId={selectedWord}
+          incorrectId={incorrectWordId}
           onSelect={handleWordSelect}
           matchStatuses={matchStatuses}
         />

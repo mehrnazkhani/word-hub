@@ -7,6 +7,7 @@ const FONT_SIZE_THRESHOLD = 30;
 type Props = {
   items: MatchingColumnItem[];
   selectedId: number | null;
+  incorrectId: number | null;
   onSelect: (id: number) => void;
   matchStatuses: Record<number, MatchStatus>;
 };
@@ -14,6 +15,7 @@ type Props = {
 export const MatchColumn = ({
   items,
   selectedId,
+  incorrectId,
   onSelect,
   matchStatuses,
 }: Props) => (
@@ -28,9 +30,9 @@ export const MatchColumn = ({
             ? "text-[11px] sm:text-xs"
             : "text-xs sm:text-sm",
           matchStatuses[item.id] === "correct" &&
-            "cursor-default bg-muted hover:bg-muted",
-          matchStatuses[item.id] === "incorrect" &&
-            "bg-destructive/20 hover:bg-destructive/20",
+            "cursor-default bg-muted hover:bg-muted dark:bg-muted dark:hover:bg-muted",
+          item.id === incorrectId &&
+            "bg-destructive/20 hover:bg-destructive/20 dark:bg-destructive/30 dark:hover:bg-destructive/30",
         )}
         disabled={matchStatuses[item.id] === "correct"}
         onClick={() => onSelect(item.id)}

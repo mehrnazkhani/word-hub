@@ -86,29 +86,16 @@ const AddWordForm = ({ onSuccess }: { onSuccess?: () => void }) => {
   const { data: wordsCount } = useWordCount();
   const { mutateAsync: createWord } = useCreateWordMutation();
 
-  const handleFillWithAI = async () => {
+  const runAi = async (action: () => Promise<AiResult | null | undefined>) => {
     setAiResult(null);
-    const result = await wordDetails();
+    const result = await action();
     if (result) setAiResult(result);
   };
 
-  const handleConfirmWord = async (word: string) => {
-    setAiResult(null);
-    const result = await confirmWord(word);
-    if (result) setAiResult(result);
-  };
-
-  const handleConfirmPos = async (pos: string) => {
-    setAiResult(null);
-    const result = await confirmPos(pos);
-    if (result) setAiResult(result);
-  };
-
-  const handleContinueAnyway = async () => {
-    setAiResult(null);
-    const result = await continueAnyway();
-    if (result) setAiResult(result);
-  };
+  const handleFillWithAI = () => runAi(() => wordDetails());
+  const handleConfirmWord = (word: string) => runAi(() => confirmWord(word));
+  const handleConfirmPos = (pos: string) => runAi(() => confirmPos(pos));
+  const handleContinueAnyway = () => runAi(() => continueAnyway());
 
   const onSubmit = async (data: AddWordFormValues) => {
     if ((wordsCount ?? 0) >= APP_LIMITS.word_limit_per_user) {

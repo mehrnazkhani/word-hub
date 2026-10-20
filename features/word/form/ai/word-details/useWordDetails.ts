@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useReducer, useRef } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -17,12 +17,41 @@ import { AddWordFormValues } from "@/schemas/word/word.schema";
 import type { AiFillFields } from "@/types/db-aliases";
 import type { WordValidationState } from "../useWordValidation";
 
+type State =
+  | { phase: "idle" }
+  | { phase: "validating" }
+  | { phase: "awaiting_user"; validation: WordValidationState }
+  | { phase: "filling"; validation: WordValidationState };
+
+type Action =
+  | { type: "start" }
+  | { type: "needs_user"; validation: WordValidationState }
+  | { type: "validated"; validation: WordValidationState }
+  | { type: "finish" } // success, error, or abort
+  | { type: "reset" }; // dismiss / stop / confirm (clear the UI)
+
+const initialState: State = { phase: "idle" };
+const IDLE_VALIDATION: WordValidationState = { status: "idle" };
+
+export function reducer(state: State, action: Action): State {
+  switch (action.type) {
+    case "start":
+      return { phase: "validating" };
+    case "needs_user":
+      return { phase: "awaiting_user", validation: action.validation };
+    case "validated":
+      return { phase: "filling", validation: action.validation };
+    case "finish":
+    case "reset":
+      return initialState;
+    default:
+      return state;
+  }
+}
+
 export function useWordDetails(form: UseFormReturn<AddWordFormValues>) {
-  const [isLoading, setIsLoading] = useState(false);
-  const [isAiProcessing, setIsAiProcessing] = useState(false);
-  const [validationState, setValidationState] = useState<WordValidationState>({
-    status: "idle",
-  });
+  const [state, dispatch] = useReducer(reducer, initialState);
+
   const { data: userSettings } = useUserSettings();
   const abortControllerRef = useRef<AbortController | null>(null);
   const busyRef = useRef(false);
@@ -34,14 +63,20 @@ export function useWordDetails(form: UseFormReturn<AddWordFormValues>) {
     reset: resetValidation,
   } = useWordValidation();
 
+  // Derived values: all computed from one source of truth (state.phase).
+  const isAiProcessing = state.phase !== "idle";
+  const isFilling = state.phase === "filling";
+  const validationState: WordValidationState =
+    state.phase === "awaiting_user" || state.phase === "filling"
+      ? state.validation
+      : IDLE_VALIDATION;
+
   const fill = async (
     word: string,
     sourceLanguage: string,
     targetLanguage: string,
     signal?: AbortSignal,
   ) => {
-    setIsLoading(true);
-
     try {
       const data = await aiWordDetails(
         { word, sourceLanguage, targetLanguage },
@@ -66,7 +101,6 @@ export function useWordDetails(form: UseFormReturn<AddWordFormValues>) {
       if (err.name === "AbortError") return;
       toast.error(err.message || "AI fill failed");
     } finally {
-      setIsLoading(false);
       abortControllerRef.current = null;
     }
   };
@@ -91,13 +125,13 @@ export function useWordDetails(form: UseFormReturn<AddWordFormValues>) {
 
   const clearValidationUI = () => {
     resetValidation();
-    setValidationState({ status: "idle" });
+    dispatch({ type: "reset" });
   };
 
   const wordDetails = async () => {
     if (busyRef.current) return;
     busyRef.current = true;
-    setIsAiProcessing(true);
+    dispatch({ type: "start" });
     abortControllerRef.current?.abort();
     abortControllerRef.current = new AbortController();
     const signal = abortControllerRef.current.signal;
@@ -105,36 +139,38 @@ export function useWordDetails(form: UseFormReturn<AddWordFormValues>) {
     try {
       const ctx = getContext();
       if (!ctx) {
-        setIsAiProcessing(false);
+        dispatch({ type: "finish" });
         return;
       }
 
       const validation = await validate(toValidationCtx(ctx), signal);
-      setValidationState(validation);
-      // Keep isAiProcessing true while waiting for user decision.
-      if (validation.status !== "valid") return;
 
-      if (!ctx.targetLanguage) {
-        toast.error("Select a target language to fill the word.");
-        setIsAiProcessing(false);
+      // Not valid: stay busy and wait for the user's decision.
+      if (validation.status !== "valid") {
+        dispatch({ type: "needs_user", validation });
         return;
       }
 
+      if (!ctx.targetLanguage) {
+        toast.error("Select a target language to fill the word.");
+        dispatch({ type: "finish" });
+        return;
+      }
+
+      dispatch({ type: "validated", validation });
       const result = await fill(
         ctx.word,
         ctx.sourceLanguage.value,
         ctx.targetLanguage.value,
         signal,
       );
-      setIsAiProcessing(false);
+      dispatch({ type: "finish" });
       return result;
     } catch (err: any) {
-      if (err?.name === "AbortError") {
-        setIsAiProcessing(false);
-        return;
+      if (err?.name !== "AbortError") {
+        toast.error(err?.message || "Validation failed. Please try again.");
       }
-      toast.error(err?.message || "Validation failed. Please try again.");
-      setIsAiProcessing(false);
+      dispatch({ type: "finish" });
     } finally {
       busyRef.current = false;
     }
@@ -147,7 +183,7 @@ export function useWordDetails(form: UseFormReturn<AddWordFormValues>) {
 
     const ctx = getContext();
     if (!ctx) {
-      setIsAiProcessing(false);
+      dispatch({ type: "finish" });
       return;
     }
     if (stage) markPassedUpTo(stage, toValidationCtx(ctx));
@@ -160,7 +196,7 @@ export function useWordDetails(form: UseFormReturn<AddWordFormValues>) {
 
     const ctx = getContext();
     if (!ctx) {
-      setIsAiProcessing(false);
+      dispatch({ type: "finish" });
       return;
     }
     if (stage) markPassedUpTo(stage, toValidationCtx(ctx));
@@ -173,7 +209,7 @@ export function useWordDetails(form: UseFormReturn<AddWordFormValues>) {
 
     const ctx = getContext();
     if (!ctx) {
-      setIsAiProcessing(false);
+      dispatch({ type: "finish" });
       return;
     }
     markPassedUpTo("pos", toValidationCtx(ctx, pos));
@@ -184,20 +220,17 @@ export function useWordDetails(form: UseFormReturn<AddWordFormValues>) {
     abortControllerRef.current?.abort();
     abortControllerRef.current = null;
     clearValidationUI();
-    setIsAiProcessing(false);
   };
 
   const stopAI = () => {
     abortControllerRef.current?.abort();
     abortControllerRef.current = null;
     clearValidationUI();
-    setIsLoading(false);
-    setIsAiProcessing(false);
   };
 
   return {
     wordDetails,
-    isLoading: isLoading || isValidating,
+    isLoading: isFilling || isValidating,
     isAiProcessing,
     validationState,
     confirmWord,

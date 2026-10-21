@@ -36,7 +36,10 @@ export const SearchWord = () => {
     [categories],
   );
 
-  useSearchShortcut({ key: "k", onToggle: () => setOpen((prev) => !prev) });
+  useSearchShortcut({
+    shortcutKey: "k",
+    onToggle: () => setOpen((prev) => !prev),
+  });
 
   const handleOpenChange = (next: boolean) => {
     setOpen(next);

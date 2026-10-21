@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Calendar, Dumbbell, Languages } from "lucide-react";
@@ -23,6 +22,12 @@ import {
   type DailyWordSettingsValues,
 } from "./dailyWordSettings.schema";
 
+const DEFAULT_DAILY_WORD_SETTINGS: DailyWordSettingsValues = {
+  daily_word_enabled: true,
+  daily_word_level: "B1",
+  daily_word_source_lang_id: null,
+};
+
 const DailyWordSettings = () => {
   const { data: userSettings } = useUserSettings();
 
@@ -33,32 +38,28 @@ const DailyWordSettings = () => {
     (l) => l.value === userSettings?.daily_word_level,
   );
 
-  const defaultValues = useMemo<DailyWordSettingsValues>(
-    () => ({
-      daily_word_enabled: userSettings?.daily_word_enabled ?? true,
-      daily_word_level: userSettings?.daily_word_level ?? "B1",
-      daily_word_source_lang_id: userSettings?.daily_word_source_lang_id
-        ? String(userSettings.daily_word_source_lang_id)
-        : null,
-    }),
-    [userSettings],
-  );
+  const values: DailyWordSettingsValues | undefined = userSettings
+    ? {
+        daily_word_enabled: userSettings.daily_word_enabled ?? true,
+        daily_word_level: userSettings.daily_word_level ?? "B1",
+        daily_word_source_lang_id: userSettings.daily_word_source_lang_id
+          ? String(userSettings.daily_word_source_lang_id)
+          : null,
+      }
+    : undefined;
 
   const methods = useForm<DailyWordSettingsValues>({
     resolver: zodResolver(dailyWordSettingsSchema),
-    defaultValues,
+    defaultValues: DEFAULT_DAILY_WORD_SETTINGS,
+    values,
+    resetOptions: { keepDirtyValues: true },
   });
 
   const {
     handleSubmit,
-    reset,
     watch,
     formState: { isDirty },
   } = methods;
-
-  useEffect(() => {
-    reset(defaultValues, { keepDefaultValues: false });
-  }, [defaultValues, reset]);
 
   const { mutate: updateDailyWordSettingsMutation, isPending } =
     useUpdateDailyWordSettingsMutation();

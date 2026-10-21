@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -10,6 +9,15 @@ import { aiFillFieldsSchema, type AiFillFields } from "./aiFillFields.schema";
 import { useUpdateAiFillSettingsMutation } from "./useUpdateAiFillSettings.mutation";
 import { LoadingButton } from "@/components/LoadingButton";
 
+const DEFAULT_AI_FILL_FIELDS: AiFillFields = {
+  antonyms: false,
+  synonyms: false,
+  description: false,
+  example: false,
+  part_of_speech: false,
+  translation: false,
+};
+
 export const AIFillSettingsForm = () => {
   const { data: userSettings } = useUserSettings();
   const aiFillFields = userSettings?.ai_fill_fields as AiFillFields | undefined;
@@ -18,26 +26,15 @@ export const AIFillSettingsForm = () => {
 
   const methods = useForm<AiFillFields>({
     resolver: zodResolver(aiFillFieldsSchema),
-    defaultValues: {
-      antonyms: false,
-      synonyms: false,
-      description: false,
-      example: false,
-      part_of_speech: false,
-      translation: false,
-    },
+    defaultValues: DEFAULT_AI_FILL_FIELDS,
+    values: aiFillFields,
+    resetOptions: { keepDirtyValues: true },
   });
 
   const {
     handleSubmit,
     formState: { isDirty },
   } = methods;
-
-  useEffect(() => {
-    if (aiFillFields) {
-      methods.reset(aiFillFields);
-    }
-  }, [aiFillFields]);
 
   const onSubmit = (data: AiFillFields) => {
     updateAiFillSettings(data, {

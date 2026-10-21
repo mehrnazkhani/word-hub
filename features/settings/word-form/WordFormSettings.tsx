@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
 import { Languages, Folder } from "lucide-react";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,24 +20,31 @@ import {
 } from "@/schemas/word/word.schema";
 import { LoadingButton } from "@/components/LoadingButton";
 
+const DEFAULT_WORD_FORM_SETTINGS: WordFormSettingsValues = {
+  sourceLanguageId: "",
+  targetLanguageId: "",
+  categoryId: null,
+};
+
 const WordFormSettings = () => {
   const { data: userSettings } = useUserSettings();
   const sourceLanguage = getLanguageById(userSettings?.default_source_lang_id);
   const targetLanguage = getLanguageById(userSettings?.default_target_lang_id);
   const { category } = useCategoryById(userSettings?.default_category_id);
 
-  const defaultValues = useMemo<WordFormSettingsValues>(
-    () => ({
-      sourceLanguageId: userSettings?.default_source_lang_id?.toString() ?? "",
-      targetLanguageId: userSettings?.default_target_lang_id?.toString() ?? "",
-      categoryId: userSettings?.default_category_id?.toString() ?? null,
-    }),
-    [userSettings],
-  );
+  const values: WordFormSettingsValues | undefined = userSettings
+    ? {
+        sourceLanguageId: userSettings.default_source_lang_id?.toString() ?? "",
+        targetLanguageId: userSettings.default_target_lang_id?.toString() ?? "",
+        categoryId: userSettings.default_category_id?.toString() ?? null,
+      }
+    : undefined;
 
   const methods = useForm<WordFormSettingsValues>({
     resolver: zodResolver(wordFormSettingsSchema),
-    defaultValues,
+    defaultValues: DEFAULT_WORD_FORM_SETTINGS,
+    values,
+    resetOptions: { keepDirtyValues: true },
   });
 
   const {
@@ -46,10 +52,6 @@ const WordFormSettings = () => {
     reset,
     formState: { isDirty },
   } = methods;
-
-  useEffect(() => {
-    reset(defaultValues, { keepDefaultValues: false });
-  }, [defaultValues, reset]);
 
   const { mutate: updateWordFormSettings, isPending } =
     useUpdateDefaultWordFormSettingsMutation();

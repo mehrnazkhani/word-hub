@@ -57,6 +57,16 @@ export const usePracticeSession = ({
     if (wordsToUpdate.length > 0) {
       updateWordsScore(wordsToUpdate);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isCompleted]);
+  }, [
+    isCompleted,
+    categoryId,
+    practiceLabel,
+    correctCount,
+    incorrectCount,
+    elapsedSeconds,
+    totalQuestions,
+    wordsToUpdate,
+    savePracticeSession,
+    updateWordsScore,
+  ]);
 };

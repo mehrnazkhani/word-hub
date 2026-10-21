@@ -55,7 +55,9 @@ export const TryDemoButton = ({
   }, [setBusy]);
 
   // Never leave the other buttons disabled if this one goes away mid flow.
-  useEffect(() => () => setBusy(false), [setBusy]);
+  useEffect(() => {
+    return () => setBusy(false);
+  }, [setBusy]);
 
   const showDemoError = useCallback(() => {
     toast.error(DEMO_ERROR_MESSAGE, { id: DEMO_ERROR_TOAST_ID });

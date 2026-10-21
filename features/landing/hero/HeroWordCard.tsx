@@ -76,7 +76,7 @@ export const HeroWordCard = () => {
 
     dispatch({ type: "translate_start" });
 
-    setTimeout(() => {
+    timeoutRef.current = setTimeout(() => {
       const translation = HELLO_TRANSLATION.find(
         (t) => t.language === lang.label,
       );

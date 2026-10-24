@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Trash } from "lucide-react";
+import { BroomSparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   AlertDialog,
@@ -39,7 +39,7 @@ export const PermanentDeleteAllButton = () => {
         <TooltipTrigger asChild>
           <AlertDialogTrigger asChild>
             <Button variant="ghost" className="cursor-pointer">
-              <Trash />
+              <BroomSparkles />
             </Button>
           </AlertDialogTrigger>
         </TooltipTrigger>
@@ -51,7 +51,7 @@ export const PermanentDeleteAllButton = () => {
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogMedia className="bg-destructive/10 ring-1 ring-destructive/20">
-            <Trash className="size-5 text-destructive" />
+            <BroomSparkles className="size-5 text-destructive" />
           </AlertDialogMedia>
 
           <div className="space-y-2">

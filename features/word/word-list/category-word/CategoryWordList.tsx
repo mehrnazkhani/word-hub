@@ -1,35 +1,47 @@
 "use client";
 
 import { notFound } from "next/navigation";
+import { useSuspenseQueries } from "@tanstack/react-query";
 
 import { WordListContainer } from "../WordListContainer";
 import { WordAccordion } from "@/features/word/word-accordion/WordAccordion";
 import { WordItem } from "../WordItem";
 import { CategoryWordContextMenu } from "./CategoryWordContextMenu";
-import { WordsLoading } from "@/components/WordsLoading";
 import { EmptyUI } from "@/components/EmptyUI";
 
-import { useActiveWords } from "@/queries/words/useActiveWords";
-import { useCategoryById } from "@/queries/categories/useCategoryById";
+import { useSupabase } from "@/lib/supabase/useSupabase";
+import { useUser } from "@/components/providers/user-provider";
+import { categoryByIdQueryOptions } from "@/queries/categories/categoryQueryOptions";
+import { activeWordsQueryOptions } from "@/queries/words/activeWordsQueryOptions";
 
 type CategoryWordListProps = {
-  categoryId: string;
+  categoryId: number;
 };
 
 export const CategoryWordList = ({ categoryId }: CategoryWordListProps) => {
-  const id = Number(categoryId);
-  validateCategoryId(id);
+  const supabase = useSupabase();
+  const { user } = useUser();
 
-  const { category, isPending: categoryPending } = useCategoryById(id);
-  if (categoryPending) return <WordsLoading />;
+  const [{ data: category }, { data: words }] = useSuspenseQueries({
+    queries: [
+      categoryByIdQueryOptions({
+        supabase,
+        userId: user!.id,
+        categoryId,
+      }),
+      activeWordsQueryOptions({
+        supabase,
+        userId: user!.id,
+        categoryId,
+      }),
+    ],
+  });
+
   if (!category) {
     notFound();
   }
 
-  const { data: words, isPending: wordsLoading } = useActiveWords(id);
-  if (wordsLoading) return <WordsLoading />;
-
-  if (!words || words.length === 0) {
+  if (words.length === 0) {
     return (
       <EmptyUI
         title="No words yet"
@@ -57,9 +69,3 @@ export const CategoryWordList = ({ categoryId }: CategoryWordListProps) => {
     </WordListContainer>
   );
 };
-
-function validateCategoryId(id: number): asserts id is number {
-  if (isNaN(id) || id <= 0 || !Number.isInteger(id)) {
-    notFound();
-  }
-}

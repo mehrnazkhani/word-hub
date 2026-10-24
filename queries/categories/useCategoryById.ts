@@ -1,10 +1,22 @@
-import { useUserCategories } from "./useCategories";
+import { useQuery } from "@tanstack/react-query";
+
+import { useSupabase } from "@/lib/supabase/useSupabase";
+import { useUser } from "@/components/providers/user-provider";
+
+import { categoryByIdQueryOptions } from "./categoryQueryOptions";
 
 export const useCategoryById = (id: number | string | null | undefined) => {
-  const { data: categories, isPending } = useUserCategories();
+  const supabase = useSupabase();
+  const { user } = useUser();
 
-  const category =
-    id != null ? (categories?.find((c) => c.id === Number(id)) ?? null) : null;
+  const { data: category, isPending } = useQuery({
+    ...categoryByIdQueryOptions({
+      supabase,
+      userId: user!.id,
+      categoryId: Number(id),
+    }),
+    enabled: !!user,
+  });
 
-  return { category, isPending };
+  return { category: category ?? null, isPending };
 };

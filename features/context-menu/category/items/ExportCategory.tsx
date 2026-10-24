@@ -4,7 +4,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useSupabase } from "@/lib/supabase/useSupabase";
 import { useUser } from "@/components/providers/user-provider";
 import { useCategoryContextMenu } from "../CategoryContextMenuContext";
-import { activeWordsQuery } from "@/queries/words/useActiveWords";
+import { activeWordsQueryOptions } from "@/queries/words/activeWordsQueryOptions";
 import { mapWordToExportShape } from "@/lib/utils/mapWordToExportShape";
 import { downloadJson } from "@/lib/utils/downloadJson";
 
@@ -25,7 +25,7 @@ export const ExportCategory = () => {
 
     try {
       const words = await queryClient.fetchQuery(
-        activeWordsQuery({
+        activeWordsQueryOptions({
           supabase,
           userId: user.id,
           categoryId: category.id,

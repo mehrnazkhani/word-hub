@@ -417,6 +417,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      cleanup_anonymous_users: {
+        Args: { p_older_than?: string }
+        Returns: number
+      }
       create_words_skip_duplicates: {
         Args: { p_category_id: number; p_source: string; p_words: Json }
         Returns: {
@@ -489,6 +493,19 @@ export type Database = {
           }
       get_user_categories: {
         Args: { p_user_id: string }
+        Returns: {
+          created_at: string
+          deleted_at: string
+          id: number
+          is_system: boolean
+          name: string
+          updated_at: string
+          user_id: string
+          word_count: number
+        }[]
+      }
+      get_user_category_by_id: {
+        Args: { p_category_id: number; p_user_id: string }
         Returns: {
           created_at: string
           deleted_at: string

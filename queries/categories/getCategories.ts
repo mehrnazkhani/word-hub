@@ -46,10 +46,9 @@ export const getUserCategoryById = ({
   categoryId,
 }: GetUserCategoryByIdProps) => {
   return client
-    .from("categories")
-    .select("id, is_system, created_at, name, updated_at")
-    .eq("id", categoryId)
-    .eq("user_id", userId)
-    .is("deleted_at", null)
+    .rpc("get_user_category_by_id", {
+      p_user_id: userId,
+      p_category_id: categoryId,
+    })
     .maybeSingle();
 };

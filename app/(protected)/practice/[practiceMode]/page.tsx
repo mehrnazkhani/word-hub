@@ -4,7 +4,6 @@ import { MatchWordPractice } from "@/features/practices/practice-modes/modes/mat
 import { getUserCategoryById } from "@/queries/categories/getCategories";
 import { createClient } from "@/lib/supabase/server";
 import { getAuthenticatedUser } from "@/lib/supabase/getAuthenticatedUser";
-import { getCategoryWordCount } from "@/queries/words/getWords";
 import {
   validatePracticeMode,
   type PracticeModeWords,
@@ -65,26 +64,18 @@ const PracticeModePage = async ({
 
   // فقط برای category عددی این چک‌ها لازمه
   if (categoryId !== "mixed") {
-    const existingCategory = await getUserCategoryById({
+    const { data: existingCategory, error } = await getUserCategoryById({
       client: supabase,
       userId,
       categoryId,
     });
+
+    if (error) throw error;
 
     if (!existingCategory) notFound();
 
-    const { count: categoryWordCount } = await getCategoryWordCount({
-      client: supabase,
-      userId,
-      categoryId,
-    });
-
-    if ((categoryWordCount ?? 0) < MIN_WORDS_REQUIRED) {
-      return (
-        <NotEnoughWordsMessage
-          categoryName={existingCategory.data?.name ?? "This category"}
-        />
-      );
+    if (Number(existingCategory.word_count) < MIN_WORDS_REQUIRED) {
+      return <NotEnoughWordsMessage categoryName={existingCategory.name} />;
     }
   }
 

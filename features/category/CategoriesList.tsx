@@ -14,14 +14,14 @@ import {
 import { useUserCategories } from "@/queries/categories/useCategories";
 import { CategorySkeleton } from "./CategorySkeleton";
 import { CategoryContextMenu } from "@/features/context-menu/category/CategoryContextMenu";
-import { useCloseSidebarOnClick } from "@/hooks/useCloseSidebarOnClick";
+import { useCloseMobileSidebar } from "@/hooks/useCloseMobileSidebar";
 import { ROUTES } from "@/constants/routes";
 import type { CategoryWithWordCount } from "@/types/db-aliases";
 
 export const CategoriesList = () => {
   const { data: categories, isPending } = useUserCategories();
   const { categoryId } = useParams<{ categoryId?: string }>();
-  const closeSidebar = useCloseSidebarOnClick();
+  const closeSidebar = useCloseMobileSidebar();
   const router = useRouter();
 
   const [activeId, setOptimisticId] = useOptimistic(categoryId ?? null);

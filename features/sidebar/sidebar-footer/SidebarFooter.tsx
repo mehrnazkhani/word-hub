@@ -10,10 +10,10 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { ROUTES } from "@/constants/routes";
-import { useCloseSidebarOnClick } from "@/hooks/useCloseSidebarOnClick";
+import { useCloseMobileSidebar } from "@/hooks/useCloseMobileSidebar";
 
 export const SidebarFooter = () => {
-  const closeSidebar = useCloseSidebarOnClick();
+  const closeSidebar = useCloseMobileSidebar();
 
   return (
     <Footer className="pb-4">

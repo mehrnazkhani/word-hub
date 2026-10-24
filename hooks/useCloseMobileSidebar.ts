@@ -1,6 +1,6 @@
 import { useSidebar } from "@/components/ui/sidebar";
 
-export const useCloseSidebarOnClick = () => {
+export const useCloseMobileSidebar = () => {
   const { isMobile, setOpenMobile } = useSidebar();
 
   return () => {

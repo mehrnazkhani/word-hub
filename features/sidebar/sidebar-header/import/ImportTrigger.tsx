@@ -8,12 +8,12 @@ import { SidebarMenuItem, SidebarMenuButton } from "@/components/ui/sidebar";
 import { parseImportFile } from "./parseImportFile";
 import { useImportDialog } from "./ImportProvider";
 import { readJson } from "@/lib/utils/readJson";
-import { useCloseSidebarOnClick } from "@/hooks/useCloseSidebarOnClick";
+import { useCloseMobileSidebar } from "@/hooks/useCloseMobileSidebar";
 
 export const ImportTrigger = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { openImport } = useImportDialog();
-  const closeSidebar = useCloseSidebarOnClick();
+  const closeSidebar = useCloseMobileSidebar();
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];

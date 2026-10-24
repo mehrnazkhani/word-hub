@@ -11,11 +11,11 @@ import {
 
 import { SIDEBAR_HEADER_ITEMS } from "./sidebarHeaderItems";
 import { ImportTrigger } from "@/features/sidebar/sidebar-header/import/ImportTrigger";
-import { useCloseSidebarOnClick } from "@/hooks/useCloseSidebarOnClick";
+import { useCloseMobileSidebar } from "@/hooks/useCloseMobileSidebar";
 
 export const NavMain = () => {
   const pathname = usePathname();
-  const closeSidebar = useCloseSidebarOnClick();
+  const closeSidebar = useCloseMobileSidebar();
 
   return (
     <SidebarMenu className="space-y-1.5">

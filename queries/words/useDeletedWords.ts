@@ -3,24 +3,17 @@
 import { useQuery } from "@tanstack/react-query";
 import { useSupabase } from "@/lib/supabase/useSupabase";
 import { useUser } from "@/components/providers/user-provider";
-import { getDeletedWords } from "./getWords";
-import { queryKeys } from "@/queries/queries";
+import { deletedWordsQueryOptions } from "./deletedWordsQueryOptions";
 
 export const useDeletedWords = () => {
   const supabase = useSupabase();
   const { user } = useUser();
 
   return useQuery({
-    queryKey: queryKeys.word.deleted(user!.id),
+    ...deletedWordsQueryOptions({
+      supabase,
+      userId: user!.id,
+    }),
     enabled: !!user,
-
-    queryFn: async () => {
-      const { data, error } = await getDeletedWords({
-        client: supabase,
-        userId: user!.id,
-      });
-      if (error) throw error;
-      return data;
-    },
   });
 };

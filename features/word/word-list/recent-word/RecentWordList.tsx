@@ -1,19 +1,30 @@
 "use client";
 
-import { useRecentWords } from "@/queries/words/resent/useRecentWords";
+import { useSuspenseQuery } from "@tanstack/react-query";
+
 import { WordListContainer } from "@/features/word/word-list/WordListContainer";
 import { WordAccordion } from "../../word-accordion/WordAccordion";
 import { RecentWordContextMenu } from "./RecentWordContextMenu";
 import { WordItem } from "../WordItem";
-import { WordsLoading } from "@/components/WordsLoading";
 import { EmptyUI } from "@/components/EmptyUI";
 
+import { useSupabase } from "@/lib/supabase/useSupabase";
+import { useUser } from "@/components/providers/user-provider";
+import { recentWordsQueryOptions } from "@/queries/words/resent/recentWordsQueryOptions";
+
 export const RecentWordList = () => {
-  const { data: recentWords, isPending } = useRecentWords({ limit: 20 });
+  const supabase = useSupabase();
+  const { user } = useUser();
 
-  if (isPending) return <WordsLoading />;
+  const { data: recentWords } = useSuspenseQuery(
+    recentWordsQueryOptions({
+      supabase,
+      userId: user!.id,
+      limit: 20,
+    }),
+  );
 
-  if (!recentWords || recentWords.length === 0) {
+  if (recentWords.length === 0) {
     return (
       <EmptyUI
         title="No words yet"
@@ -25,18 +36,17 @@ export const RecentWordList = () => {
   return (
     <WordListContainer>
       <WordAccordion>
-        {recentWords &&
-          recentWords.map((word) => (
-            <WordItem
-              key={word.id}
-              word={word}
-              renderContextMenu={(children) => (
-                <RecentWordContextMenu word={word}>
-                  {children}
-                </RecentWordContextMenu>
-              )}
-            />
-          ))}
+        {recentWords.map((word) => (
+          <WordItem
+            key={word.id}
+            word={word}
+            renderContextMenu={(children) => (
+              <RecentWordContextMenu word={word}>
+                {children}
+              </RecentWordContextMenu>
+            )}
+          />
+        ))}
       </WordAccordion>
     </WordListContainer>
   );

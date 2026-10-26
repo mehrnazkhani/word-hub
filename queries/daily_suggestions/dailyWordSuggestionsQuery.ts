@@ -32,6 +32,7 @@ export const dailyWordSuggestionsQuery = ({
     const { data: savedSuggestion } = await getSavedWordSuggestionAction({
       client: supabase,
       word: data.word,
+      userId,
     });
 
     return {

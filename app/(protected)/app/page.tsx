@@ -1,38 +1,46 @@
-"use client";
+import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
+import { redirect } from "next/navigation";
 
-import { useUser } from "@/components/providers/user-provider";
-import { Separator } from "@/components/ui/separator";
-import { WordOfTheDay } from "@/features/main-content/app-page/WordOfTheDay";
+import { ROUTES } from "@/constants/routes";
+import { createClient } from "@/lib/supabase/server";
+import { queryKeys } from "@/queries/queries";
+import { prefetchDailyWordSuggestion } from "@/queries/daily_suggestions/dailyWordSuggestionsQuery";
+import { prefetchUserSettings } from "@/queries/user-settings/prefetchUserSettings";
+import type { UserSettings } from "@/types/db-aliases";
 
-export default function DashboardPage() {
-  const { user } = useUser();
+import { DashboardClient } from "./DashboardClient";
+
+export default async function DashboardPage() {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect(ROUTES.SIGN_IN);
+  }
+
+  const queryClient = new QueryClient();
+
+  await prefetchUserSettings(queryClient, supabase, user.id);
+
+  const settings = queryClient.getQueryData<UserSettings>(
+    queryKeys.settings.user(user.id),
+  );
+
+  if (settings?.daily_word_enabled) {
+    await prefetchDailyWordSuggestion({
+      queryClient,
+      supabase,
+      settings,
+      userId: user.id,
+    });
+  }
 
   return (
-    <div className="mx-auto flex h-full max-w-3xl flex-col px-4">
-      <section className="flex flex-1 flex-col justify-center">
-        <header className="space-y-1.5 pb-7">
-          <h1 className="text-2xl font-medium tracking-tight">
-            Hello, {user?.user_metadata.full_name}
-          </h1>
-          <p className="text-sm text-secondary-foreground/60">
-            Ready to expand your vocabulary today?
-          </p>
-        </header>
-
-        <Separator />
-
-        <main className="py-10">
-          <WordOfTheDay />
-        </main>
-      </section>
-
-      <Separator />
-
-      <footer className="py-5">
-        <p className="text-center text-xs text-secondary-foreground/40">
-          Every new word you learn is a new perspective you gain.
-        </p>
-      </footer>
-    </div>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <DashboardClient />
+    </HydrationBoundary>
   );
 }

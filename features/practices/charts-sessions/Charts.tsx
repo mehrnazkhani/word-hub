@@ -1,7 +1,16 @@
 "use client";
 
-import { ChartBar } from "./ChartBar";
-import { ChartPie } from "./ChartPie";
+import dynamic from "next/dynamic";
+
+import { ChartsSkeleton } from "./ChartsSkeleton";
+
+const ChartsContent = dynamic(
+  () => import("./ChartsContent").then((mod) => mod.ChartsContent),
+  {
+    ssr: false,
+    loading: () => <ChartsSkeleton />,
+  },
+);
 
 export function Charts() {
   return (
@@ -9,8 +18,7 @@ export function Charts() {
       <h2 className="font-semibold">Charts</h2>
 
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-        <ChartBar />
-        <ChartPie />
+        <ChartsContent />
       </div>
     </section>
   );

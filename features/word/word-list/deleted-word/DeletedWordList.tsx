@@ -16,11 +16,7 @@ export const DeletedWordList = ({ words }: DeletedWordListProps) => {
             key={word.id}
             word={word}
             dateType="deleted"
-            renderContextMenu={(children) => (
-              <DeletedWordContextMenu word={word}>
-                {children}
-              </DeletedWordContextMenu>
-            )}
+            menu={DeletedWordContextMenu}
           />
         ))}
     </WordAccordion>

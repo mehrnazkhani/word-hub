@@ -79,11 +79,7 @@ const CategoryWords = ({ categoryId }: CategoryWordsProps) => {
             key={word.id}
             id={`word-${word.id}`}
             word={word}
-            renderContextMenu={(children) => (
-              <CategoryWordContextMenu word={word}>
-                {children}
-              </CategoryWordContextMenu>
-            )}
+            menu={CategoryWordContextMenu}
           />
         ))}
       </WordAccordion>

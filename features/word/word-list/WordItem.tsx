@@ -1,19 +1,26 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { memo, ReactNode, useEffect, useRef, useState } from "react";
+import {
+  memo,
+  type ComponentType,
+  type ReactNode,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { WordAccordion } from "../word-accordion/WordAccordion";
 import type { Word } from "@/types/db-aliases";
 
 type WordItemProps = {
   word: Word;
   dateType?: "deleted" | "created";
-  renderContextMenu: (children: ReactNode) => ReactNode;
+  menu: ComponentType<{ word: Word; children: ReactNode }>;
   id?: string;
 };
 
 export const WordItem = memo(
-  ({ word, dateType = "created", renderContextMenu, id }: WordItemProps) => {
+  ({ word, dateType = "created", menu: Menu, id }: WordItemProps) => {
     const ref = useRef<HTMLDivElement>(null);
     const [highlighted, setHighlighted] = useState(false);
 
@@ -32,7 +39,7 @@ export const WordItem = memo(
       };
     }, [id]);
 
-    return renderContextMenu(
+    const content = (
       <div
         ref={ref}
         id={id}
@@ -62,7 +69,9 @@ export const WordItem = memo(
             <WordAccordion.Footer.Date type={dateType} />
           </WordAccordion.Footer>
         </WordAccordion.Item>
-      </div>,
+      </div>
     );
+
+    return <Menu word={word}>{content}</Menu>;
   },
 );

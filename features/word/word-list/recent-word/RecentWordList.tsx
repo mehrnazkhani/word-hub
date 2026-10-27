@@ -40,11 +40,7 @@ export const RecentWordList = () => {
           <WordItem
             key={word.id}
             word={word}
-            renderContextMenu={(children) => (
-              <RecentWordContextMenu word={word}>
-                {children}
-              </RecentWordContextMenu>
-            )}
+            menu={RecentWordContextMenu}
           />
         ))}
       </WordAccordion>

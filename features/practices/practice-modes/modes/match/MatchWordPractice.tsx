@@ -9,7 +9,7 @@ import { PracticeResultDialog } from "../../PracticeResultDialog";
 
 import { MatchColumn } from "./MatchColumn";
 import { useMatchWord } from "./useMatchWord";
-import { PracticeProgressbar } from "@/features/practices/practice-modes/PracticeProgressbar";
+import { PracticeContainer } from "@/features/practices/practice-modes/PracticeContainer";
 import { usePracticeTimer } from "@/features/practices/practice-modes/usePracticeTimer";
 import { usePracticeSession } from "../../usePracticeSession";
 import { MAX_WORD_SCORE } from "@/constants/practice-modes";
@@ -75,14 +75,7 @@ export const MatchWordPractice = ({
   });
 
   return (
-    <div className="mx-auto flex min-h-dvh max-w-4xl flex-col px-5">
-      <header className="py-[clamp(24px,6vh,64px)]">
-        <PracticeProgressbar
-          current={matchedCount}
-          total={shuffledWords.length}
-        />
-      </header>
-
+    <PracticeContainer current={matchedCount} total={shuffledWords.length}>
       <main className="grid flex-1 grid-cols-2 items-center gap-6">
         <MatchColumn
           items={visibleTranslations.map((w) => ({
@@ -125,6 +118,6 @@ export const MatchWordPractice = ({
         elapsedSeconds={elapsedSeconds}
         totalWords={totalQuestions}
       />
-    </div>
+    </PracticeContainer>
   );
 };

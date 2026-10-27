@@ -34,7 +34,7 @@ export const PRACTICE_MODES: PracticeMode[] = [
     desc: "Choose the correct meaning",
     icon: HelpCircle,
     practiceMode: "guess",
-    disabled: true,
+    disabled: false,
   },
   {
     label: "Fill in the Blank",

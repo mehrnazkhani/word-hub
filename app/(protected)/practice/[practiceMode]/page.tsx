@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 
 import { MatchWordPractice } from "@/features/practices/practice-modes/modes/match/MatchWordPractice";
+import { GuessWordPractice } from "@/features/practices/practice-modes/modes/guess/GuessWordPractice";
 import { getUserCategoryById } from "@/queries/categories/getCategories";
 import { createClient } from "@/lib/supabase/server";
 import { getAuthenticatedUser } from "@/lib/supabase/getAuthenticatedUser";
@@ -25,7 +26,7 @@ const practiceComponents: Record<
   }>
 > = {
   match: MatchWordPractice,
-  guess: MatchWordPractice, // TODO
+  guess: GuessWordPractice,
   fill: MatchWordPractice, // TODO
   write: MatchWordPractice, // TODO
   synonym: MatchWordPractice, // TODO
@@ -62,7 +63,6 @@ const PracticeModePage = async ({
   const supabase = await createClient();
   const { id: userId } = await getAuthenticatedUser(supabase);
 
-  // فقط برای category عددی این چک‌ها لازمه
   if (categoryId !== "mixed") {
     const { data: existingCategory, error } = await getUserCategoryById({
       client: supabase,

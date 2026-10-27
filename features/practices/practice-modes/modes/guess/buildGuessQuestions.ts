@@ -1,9 +1,10 @@
-import { MIN_WORDS_REQUIRED } from "@/constants/practice-modes";
+import {
+  MIN_WORDS_REQUIRED,
+  OPTIONS_PER_QUESTION,
+} from "@/constants/practice-modes";
 import { shuffle } from "@/lib/utils/shuffle";
 import type { PracticeModeWords } from "../../validatePracticeMode";
 import type { GuessQuestion, GuessQuestionOption } from "./types";
-
-export const OPTIONS_PER_QUESTION = 4;
 
 type Shuffle = <T>(items: readonly T[]) => T[];
 

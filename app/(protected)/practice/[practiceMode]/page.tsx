@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 
 import { MatchWordPractice } from "@/features/practices/practice-modes/modes/match/MatchWordPractice";
 import { GuessWordPractice } from "@/features/practices/practice-modes/modes/guess/GuessWordPractice";
+import { FillBlankPractice } from "@/features/practices/practice-modes/modes/fill/FillBlankPractice";
 import { getUserCategoryById } from "@/queries/categories/getCategories";
 import { createClient } from "@/lib/supabase/server";
 import { getAuthenticatedUser } from "@/lib/supabase/getAuthenticatedUser";
@@ -27,7 +28,7 @@ const practiceComponents: Record<
 > = {
   match: MatchWordPractice,
   guess: GuessWordPractice,
-  fill: MatchWordPractice, // TODO
+  fill: FillBlankPractice,
   write: MatchWordPractice, // TODO
   synonym: MatchWordPractice, // TODO
   antonym: MatchWordPractice, // TODO

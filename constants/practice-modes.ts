@@ -10,6 +10,7 @@ import {
 
 export const MIN_WORDS_REQUIRED = 5;
 export const MAX_WORD_SCORE = 10;
+export const OPTIONS_PER_QUESTION = 4;
 
 export type PracticeModeName =
   "match" | "guess" | "fill" | "write" | "synonym" | "antonym";
@@ -41,7 +42,7 @@ export const PRACTICE_MODES: PracticeMode[] = [
     desc: "Complete the missing word",
     icon: TextCursorInput,
     practiceMode: "fill",
-    disabled: true,
+    disabled: false,
   },
   {
     label: "Writing",

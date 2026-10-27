@@ -13,22 +13,18 @@ import {
   QuestionnaireSubmit,
 } from "@/components/ui/questionnaire";
 import { MAX_WORD_SCORE, MIN_WORDS_REQUIRED } from "@/constants/practice-modes";
+import { getTextDirection } from "@/lib/utils/getTextDirection";
 
+import { usePracticeAnswers } from "../../usePracticeAnswers";
 import { PracticeContainer } from "../../PracticeContainer";
 import { PracticeResultDialog } from "../../PracticeResultDialog";
 import { usePracticeSession } from "../../usePracticeSession";
 import { usePracticeTimer } from "../../usePracticeTimer";
-import { useGuessPractice } from "./useGuessPractice";
 import { useGuessQuestions } from "./useGuessQuestions";
 
 import type { CategoryId } from "../../PracticeCategoryList";
 import type { PracticeModeWords } from "../../validatePracticeMode";
 import type { PracticeModeName } from "@/constants/practice-modes";
-
-const PERSIAN_SCRIPT_PATTERN = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]/;
-
-const getTextDirection = (text: string) =>
-  PERSIAN_SCRIPT_PATTERN.test(text) ? "rtl" : "ltr";
 
 type GuessWordPracticeProps = {
   categoryId: CategoryId;
@@ -49,7 +45,7 @@ export const GuessWordPractice = ({
     correctCount,
     selectOption,
     complete,
-  } = useGuessPractice(questions ?? []);
+  } = usePracticeAnswers(questions ?? []);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showResults, setShowResults] = useState(false);
 

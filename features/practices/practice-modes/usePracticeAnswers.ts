@@ -2,8 +2,6 @@
 
 import { useMemo, useReducer } from "react";
 
-import type { GuessQuestion } from "./types";
-
 type State = {
   answers: Record<number, number>;
   incorrectCount: number;
@@ -19,13 +17,18 @@ type Action =
     }
   | { type: "complete" };
 
-export const initialState: State = {
+type AnswerQuestion = {
+  id: number;
+  correctOptionId: number;
+};
+
+const initialState: State = {
   answers: {},
   incorrectCount: 0,
   isCompleted: false,
 };
 
-export function reducer(state: State, action: Action): State {
+function reducer(state: State, action: Action): State {
   switch (action.type) {
     case "answer": {
       // The first answer is final for each question.
@@ -52,7 +55,14 @@ export function reducer(state: State, action: Action): State {
   }
 }
 
-export const useGuessPractice = (questions: GuessQuestion[]) => {
+/**
+ * Tracks the selected option per question for multiple-choice practice
+ * modes: the first answer is final, incorrect answers are counted once,
+ * and completion is explicit.
+ */
+export const usePracticeAnswers = <T extends AnswerQuestion>(
+  questions: T[],
+) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { answers, incorrectCount, isCompleted } = state;
 
@@ -70,7 +80,7 @@ export const useGuessPractice = (questions: GuessQuestion[]) => {
     [questions, answers],
   );
 
-  const selectOption = (question: GuessQuestion, optionId: number) =>
+  const selectOption = (question: T, optionId: number) =>
     dispatch({
       type: "answer",
       questionId: question.id,

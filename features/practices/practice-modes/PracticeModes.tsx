@@ -15,24 +15,34 @@ import type { CategoryId } from "./PracticeCategoryList";
 export function PracticeModes() {
   const router = useRouter();
   const [selectedMode, setSelectedMode] = useState<PracticeMode | null>(null);
+  const [isNavigating, setIsNavigating] = useState(false);
 
   const handleCardClick = (mode: PracticeMode) => {
     if (mode.disabled) {
       toast.info("This mode is not available yet");
       return;
     }
+    setIsNavigating(false);
     setSelectedMode(mode);
   };
 
   const handleContinue = (categoryId: CategoryId) => {
     if (!selectedMode) return;
-    const { practiceMode } = selectedMode;
-    setSelectedMode(null);
-    router.push(ROUTES.PRACTICE_Mode(practiceMode, categoryId));
+
+    // Keep the dialog open while the practice page renders so the user does
+    // not see the list page without the dialog. It unmounts with this page
+    // once the navigation commits.
+    setIsNavigating(true);
+    router.push(ROUTES.PRACTICE_Mode(selectedMode.practiceMode, categoryId));
   };
 
   const handleDialogOpenChange = (open: boolean) => {
-    if (!open) setSelectedMode(null);
+    // Closing is blocked until the practice page is ready.
+    if (!open && isNavigating) return;
+    if (!open) {
+      setIsNavigating(false);
+      setSelectedMode(null);
+    }
   };
 
   return (
@@ -66,6 +76,7 @@ export function PracticeModes() {
         open={selectedMode !== null}
         onOpenChange={handleDialogOpenChange}
         onContinue={handleContinue}
+        isNavigating={isNavigating}
       />
     </section>
   );

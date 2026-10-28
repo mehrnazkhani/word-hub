@@ -23,12 +23,14 @@ type PracticeCategoryDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onContinue: (categoryId: CategoryId) => void;
+  isNavigating?: boolean;
 };
 
 export const PracticeCategoryDialog = ({
   open,
   onOpenChange,
   onContinue,
+  isNavigating = false,
 }: PracticeCategoryDialogProps) => {
   const [selected, setSelected] = useState<SelectedCategory | null>(null);
 
@@ -54,6 +56,7 @@ export const PracticeCategoryDialog = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         onOpenAutoFocus={(e) => e.preventDefault()}
+        showCloseButton={!isNavigating}
         className="flex max-h-120 flex-col"
       >
         <DialogHeader>
@@ -64,7 +67,7 @@ export const PracticeCategoryDialog = ({
           </DialogDescription>
         </DialogHeader>
 
-        <div className="overflow-y-auto">
+        <div className="overflow-y-auto" inert={isNavigating}>
           {open && (
             <PracticeCategoryList
               selectedId={selected?.id ?? "mixed"}
@@ -77,6 +80,7 @@ export const PracticeCategoryDialog = ({
           <LoadingButton
             type="button"
             onClick={handleContinue}
+            isLoading={isNavigating}
             disabled={selected === null}
             className="w-full"
             size="lg"

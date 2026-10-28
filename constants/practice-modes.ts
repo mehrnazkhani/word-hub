@@ -11,6 +11,8 @@ import {
 export const MIN_WORDS_REQUIRED = 5;
 export const MAX_WORD_SCORE = 10;
 export const OPTIONS_PER_QUESTION = 4;
+export const SYNONYMS_PER_WORD = 3;
+export const MAX_SYNONYM_OPTIONS = 8;
 
 export type PracticeModeName =
   "match" | "guess" | "fill" | "write" | "synonym" | "antonym";
@@ -56,7 +58,7 @@ export const PRACTICE_MODES: PracticeMode[] = [
     desc: "Practice similar words",
     icon: ArrowUpDown,
     practiceMode: "synonym",
-    disabled: true,
+    disabled: false,
   },
   {
     label: "Antonyms",

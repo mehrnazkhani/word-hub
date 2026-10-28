@@ -13,6 +13,8 @@ export const MAX_WORD_SCORE = 10;
 export const OPTIONS_PER_QUESTION = 4;
 export const SYNONYMS_PER_WORD = 3;
 export const MAX_SYNONYM_OPTIONS = 8;
+export const ANTONYMS_PER_WORD = 3;
+export const MAX_ANTONYM_OPTIONS = 8;
 
 export type PracticeModeName =
   "match" | "guess" | "fill" | "write" | "synonym" | "antonym";
@@ -65,7 +67,7 @@ export const PRACTICE_MODES: PracticeMode[] = [
     desc: "Practice opposite words",
     icon: ArrowLeftRight,
     practiceMode: "antonym",
-    disabled: true,
+    disabled: false,
   },
 ];
 

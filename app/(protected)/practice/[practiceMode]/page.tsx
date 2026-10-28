@@ -4,6 +4,7 @@ import { MatchWordPractice } from "@/features/practices/practice-modes/modes/mat
 import { GuessWordPractice } from "@/features/practices/practice-modes/modes/guess/GuessWordPractice";
 import { FillBlankPractice } from "@/features/practices/practice-modes/modes/fill/FillBlankPractice";
 import { SynonymPractice } from "@/features/practices/practice-modes/modes/synonym/SynonymPractice";
+import { AntonymPractice } from "@/features/practices/practice-modes/modes/antonym/AntonymPractice";
 import { getUserCategoryById } from "@/queries/categories/getCategories";
 import { createClient } from "@/lib/supabase/server";
 import { getAuthenticatedUser } from "@/lib/supabase/getAuthenticatedUser";
@@ -32,7 +33,7 @@ const practiceComponents: Record<
   fill: FillBlankPractice,
   write: MatchWordPractice, // TODO
   synonym: SynonymPractice,
-  antonym: MatchWordPractice, // TODO
+  antonym: AntonymPractice,
 };
 
 const VALID_PRACTICE_MODES = new Set<PracticeModeName>(

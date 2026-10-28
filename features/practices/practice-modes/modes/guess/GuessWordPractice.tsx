@@ -1,25 +1,24 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 
-import { cn } from "@/lib/utils";
+import { getTextDirection } from "@/lib/utils/getTextDirection";
 import {
   Questionnaire,
-  QuestionnaireChoice,
-  QuestionnaireChoices,
   QuestionnaireItem,
   QuestionnaireNext,
   QuestionnaireProgress,
   QuestionnaireSubmit,
 } from "@/components/ui/questionnaire";
-import { MAX_WORD_SCORE, MIN_WORDS_REQUIRED } from "@/constants/practice-modes";
-import { getTextDirection } from "@/lib/utils/getTextDirection";
+import { MIN_WORDS_REQUIRED } from "@/constants/practice-modes";
 
-import { usePracticeAnswers } from "../../usePracticeAnswers";
+import { PracticeChoices } from "../../PracticeChoices";
+import { PracticeComplete } from "../../PracticeComplete";
 import { PracticeContainer } from "../../PracticeContainer";
-import { PracticeResultDialog } from "../../PracticeResultDialog";
-import { usePracticeSession } from "../../usePracticeSession";
-import { usePracticeTimer } from "../../usePracticeTimer";
+import { PracticeEmptyState } from "../../PracticeEmptyState";
+import { PracticeLoading } from "../../PracticeLoading";
+import { getAnswerResults, usePracticeAnswers } from "../../usePracticeAnswers";
+import { getPracticeItemId, usePracticeFlow } from "../../usePracticeFlow";
 import { useGuessQuestions } from "./useGuessQuestions";
 
 import type { CategoryId } from "../../PracticeCategoryList";
@@ -46,107 +45,57 @@ export const GuessWordPractice = ({
     selectOption,
     complete,
   } = usePracticeAnswers(questions ?? []);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [showResults, setShowResults] = useState(false);
+  const results = useMemo(
+    () => getAnswerResults(questions, answers),
+    [answers, questions],
+  );
 
-  const { elapsedSeconds } = usePracticeTimer({ stopWhen: isCompleted });
-
-  const wordsToUpdate = useMemo(() => {
-    if (!questions) return [];
-
-    const wordsById = new Map(words.map((word) => [word.id, word]));
-
-    return questions.flatMap((question) => {
-      const word = wordsById.get(question.id);
-      const selectedOptionId = answers[question.id];
-
-      if (!word || selectedOptionId === undefined) return [];
-
-      const score =
-        selectedOptionId === question.correctOptionId
-          ? word.score + 1
-          : word.score - 1;
-
-      return [
-        {
-          id: word.id,
-          score: Math.min(Math.max(score, 0), MAX_WORD_SCORE),
-        },
-      ];
-    });
-  }, [answers, questions, words]);
-
-  usePracticeSession({
-    isCompleted,
+  const {
+    currentIndex,
+    currentQuestion,
+    isLastQuestion,
+    navigateToItem,
+    goToNextQuestion,
+    showResults,
+    setShowResults,
     elapsedSeconds,
+  } = usePracticeFlow({
+    questions,
+    results,
+    words,
     categoryId,
     practiceMode,
     correctCount,
     incorrectCount,
-    totalQuestions: questions?.length ?? 0,
-    wordsToUpdate,
+    isCompleted,
+    onComplete: complete,
   });
 
-  const currentQuestion = questions?.[currentIndex] ?? null;
-  const selectedOptionId = currentQuestion
-    ? (answers[currentQuestion.id] ?? null)
-    : null;
-
-  const handleItemChange = (item: string) => {
-    const nextIndex =
-      questions?.findIndex((question) => `guess-${question.id}` === item) ?? -1;
-
-    if (nextIndex !== -1) setCurrentIndex(nextIndex);
-  };
-
-  if (!questions) {
-    return (
-      <PracticeContainer current={0} total={0}>
-        <main className="flex flex-1 items-center justify-center">
-          <p className="text-sm text-muted-foreground">Loading…</p>
-        </main>
-      </PracticeContainer>
-    );
-  }
+  if (!questions) return <PracticeLoading />;
 
   if (questions.length === 0) {
     return (
-      <PracticeContainer current={0} total={0}>
-        <main className="flex flex-1 items-center justify-center">
-          <div className="max-w-sm space-y-2 text-center">
-            <h1 className="font-medium">Not enough words</h1>
-            <p className="text-sm text-muted-foreground">
-              Guess Meaning needs at least {MIN_WORDS_REQUIRED} words with
-              descriptions.
-            </p>
-          </div>
-        </main>
-      </PracticeContainer>
+      <PracticeEmptyState
+        description={`Guess Meaning needs at least ${MIN_WORDS_REQUIRED} words with descriptions.`}
+      />
     );
   }
 
   if (!currentQuestion) {
     return (
-      <PracticeContainer current={questions.length} total={questions.length}>
-        <main className="flex flex-1 items-center justify-center">
-          <p className="text-sm text-muted-foreground">Practice complete</p>
-        </main>
-
-        <PracticeResultDialog
-          open={showResults}
-          onOpenChange={setShowResults}
-          correctCount={correctCount}
-          incorrectCount={incorrectCount}
-          elapsedSeconds={elapsedSeconds}
-          totalWords={questions.length}
-        />
-      </PracticeContainer>
+      <PracticeComplete
+        open={showResults}
+        onOpenChange={setShowResults}
+        correctCount={correctCount}
+        incorrectCount={incorrectCount}
+        elapsedSeconds={elapsedSeconds}
+        totalWords={questions.length}
+      />
     );
   }
 
+  const selectedOptionId = answers[currentQuestion.id] ?? null;
   const hasAnswered = selectedOptionId !== null;
-  const isLastQuestion = currentIndex === questions.length - 1;
-
   const ContinueButton = isLastQuestion
     ? QuestionnaireSubmit
     : QuestionnaireNext;
@@ -155,16 +104,14 @@ export const GuessWordPractice = ({
     <PracticeContainer current={currentIndex} total={questions.length}>
       <main className="flex flex-1 flex-col justify-center pb-[clamp(24px,6vh,64px)]">
         <Questionnaire
-          item={`guess-${currentQuestion.id}`}
-          onItemChange={handleItemChange}
+          item={getPracticeItemId(practiceMode, currentQuestion.id)}
+          onItemChange={navigateToItem}
           className="gap-16"
           onSubmit={(event) => {
             event.preventDefault();
             if (!isLastQuestion) return;
 
-            setCurrentIndex((index) => index + 1);
-            complete();
-            setShowResults(true);
+            goToNextQuestion();
           }}
         >
           <div className="mx-auto w-full max-w-xl space-y-1 text-start">
@@ -182,7 +129,7 @@ export const GuessWordPractice = ({
             return (
               <QuestionnaireItem
                 key={question.id}
-                name={`guess-${question.id}`}
+                name={getPracticeItemId(practiceMode, question.id)}
                 required
                 aria-labelledby={`guess-description-${question.id}`}
                 className="gap-16"
@@ -196,44 +143,16 @@ export const GuessWordPractice = ({
                   {question.description}
                 </p>
 
-                <QuestionnaireChoices
-                  inert={answered}
-                  aria-disabled={answered}
-                  className={cn(
-                    "mx-auto grid w-full max-w-xl gap-3",
-                    answered && "pointer-events-none",
-                  )}
-                >
-                  {question.options.map((option) => {
-                    const isSelected = selected === option.id;
-                    const isCorrectOption =
-                      option.id === question.correctOptionId;
-
-                    return (
-                      <QuestionnaireChoice
-                        key={option.id}
-                        value={String(option.id)}
-                        checked={isSelected}
-                        onChange={() => selectOption(question, option.id)}
-                        className={cn(
-                          answered &&
-                            isCorrectOption &&
-                            "border-emerald-500/60 bg-emerald-500/10 text-emerald-700 dark:text-emerald-400",
-                          answered &&
-                            isSelected &&
-                            !isCorrectOption &&
-                            "border-destructive/60 bg-destructive/10 text-destructive",
-                          answered &&
-                            !isSelected &&
-                            !isCorrectOption &&
-                            "opacity-50",
-                        )}
-                      >
-                        {option.word}
-                      </QuestionnaireChoice>
-                    );
-                  })}
-                </QuestionnaireChoices>
+                <PracticeChoices
+                  options={question.options.map((option) => ({
+                    value: String(option.id),
+                    label: option.word,
+                    onSelect: () => selectOption(question, option.id),
+                  }))}
+                  selected={selected !== null ? [String(selected)] : []}
+                  correct={[String(question.correctOptionId)]}
+                  revealed={answered}
+                />
               </QuestionnaireItem>
             );
           })}

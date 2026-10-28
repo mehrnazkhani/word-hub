@@ -2,13 +2,14 @@
 
 import { useMemo, useReducer } from "react";
 
-import type { AntonymQuestion } from "./types";
+import type { RelatedQuestion } from "./types";
 
 // Any incorrect pick makes the question incorrect; otherwise the selection
-// only contains correct antonyms and the question is correct, even when not
-// every antonym was picked. `reveal` guarantees at least one selection.
-const hasOnlyCorrectSelections = (selected: string[], antonyms: string[]) =>
-  selected.every((value) => antonyms.includes(value));
+// only contains correct related words and the question is correct, even when
+// not every related word was picked. `reveal` guarantees at least one
+// selection.
+const hasOnlyCorrectSelections = (selected: string[], related: string[]) =>
+  selected.every((value) => related.includes(value));
 
 type State = {
   selections: Record<number, string[]>;
@@ -19,7 +20,7 @@ type State = {
 
 type Action =
   | { type: "pick"; questionId: number; value: string }
-  | { type: "reveal"; questionId: number; antonyms: string[] }
+  | { type: "reveal"; questionId: number; related: string[] }
   | { type: "complete" };
 
 const initialState: State = {
@@ -65,7 +66,7 @@ function reducer(state: State, action: Action): State {
           ...state.results,
           [action.questionId]: hasOnlyCorrectSelections(
             selected,
-            action.antonyms,
+            action.related,
           ),
         },
       };
@@ -80,14 +81,14 @@ function reducer(state: State, action: Action): State {
 }
 
 /**
- * Tracks multi-select answers for the antonym practice. Each pick is stored
- * as-is (options are graded visually in the component), and `reveal` settles
- * a question with its final result: only correct antonyms picked means
- * correct, while any incorrect pick means incorrect. A question is settled
- * only on reveal or when it is left unfinished, so the questionnaire's own
- * navigation can never skip scoring.
+ * Tracks multi-select answers for the synonym and antonym practices. Each
+ * pick is stored as-is (options are graded visually in the component), and
+ * `reveal` settles a question with its final result: only correct related
+ * words picked means correct, while any incorrect pick means incorrect. A
+ * question is settled only on reveal or when it is left unfinished, so the
+ * questionnaire's own navigation can never skip scoring.
  */
-export const useAntonymPractice = (questions: AntonymQuestion[]) => {
+export const useRelatedPractice = (questions: RelatedQuestion[]) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { selections, revealed, results, isCompleted } = state;
 
@@ -101,14 +102,14 @@ export const useAntonymPractice = (questions: AntonymQuestion[]) => {
     [questions, results],
   );
 
-  const pickOption = (question: AntonymQuestion, value: string) =>
+  const pickOption = (question: RelatedQuestion, value: string) =>
     dispatch({ type: "pick", questionId: question.id, value });
 
-  const reveal = (question: AntonymQuestion) =>
+  const reveal = (question: RelatedQuestion) =>
     dispatch({
       type: "reveal",
       questionId: question.id,
-      antonyms: question.antonyms,
+      related: question.related,
     });
 
   const complete = () => dispatch({ type: "complete" });

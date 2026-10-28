@@ -55,6 +55,25 @@ function reducer(state: State, action: Action): State {
   }
 }
 
+/** Maps each answered question to whether its selected option was correct. */
+export const getAnswerResults = <T extends AnswerQuestion>(
+  questions: T[] | null,
+  answers: Record<number, number>,
+): Record<number, boolean> => {
+  if (!questions) return {};
+
+  const results: Record<number, boolean> = {};
+
+  for (const question of questions) {
+    const answer = answers[question.id];
+    if (answer === undefined) continue;
+
+    results[question.id] = answer === question.correctOptionId;
+  }
+
+  return results;
+};
+
 /**
  * Tracks the selected option per question for multiple-choice practice
  * modes: the first answer is final, incorrect answers are counted once,
